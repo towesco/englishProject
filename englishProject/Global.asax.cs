@@ -13,6 +13,7 @@ namespace englishProject
     {
         protected void Application_Start()
         {
+            BundleTable.EnableOptimizations = true;
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

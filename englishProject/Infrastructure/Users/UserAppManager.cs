@@ -4,7 +4,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 
-namespace englishProject.Infrastructure
+namespace englishProject.Infrastructure.Users
 {
     public class UserAppManager : UserManager<UserApp>
     {
@@ -21,7 +21,15 @@ namespace englishProject.Infrastructure
         public static UserAppManager Create(IdentityFactoryOptions<UserAppManager> identityFactoryOptions, IOwinContext owinContext)
         {
             UserAppManager manager = new UserAppManager(new UserStore<UserApp>(new UserAppDbContext()));
-
+            manager.UserValidator = new UserValidator<UserApp>(manager) { AllowOnlyAlphanumericUserNames = false, RequireUniqueEmail = true };
+            manager.PasswordValidator = new PasswordValidator()
+            {
+                RequiredLength = 6,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireNonLetterOrDigit = false,
+                RequireUppercase = false
+            };
             return manager;
         }
     }

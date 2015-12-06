@@ -1,0 +1,59 @@
+﻿@using englishProject.Infrastructure.ViewModel
+@model englishProject.Infrastructure.ViewModel.UserSignInVM
+<div id="signInWrapper" data-bind="visible:showlogin()">
+
+    <div class="text-center" data-bind="visible:loading()">
+        <h2><i class="fa fa-cog fa-spin"></i></h2>
+        <p class="text-muted">  giriş yapılıyor</p>
+    </div>
+
+    <div>
+        <div class="col-md-12" data-bind="visible:!loading()">
+            <div class="help-block text-center">
+                <h5> Facebook / Google ile giriş yap</h5>
+            </div>
+
+            @using (Html.BeginForm("FacebookLogin", "User", FormMethod.Post, new { @style = "display:inline", @id = "FacebookLoginForm", @data_bind = "submit:loginSocialForm" }))
+            {
+                <button type="submit" class="btn btn-block btn-fb"><i class="fa fa-facebook"></i> Facebook</button>
+            }
+
+            @using (Html.BeginForm("GoogleLogin", "User", FormMethod.Post, new { @style = "display:inline", @data_bind = "submit:loginSocialForm" }))
+            {
+                <button style="margin-top: 5px" type="submit" class="btn btn-block btn-gg"><i class="fa fa-google"></i> Google</button>
+            }
+
+            <div class="help-block text-center">
+                <h5> Veya</h5>
+                <small class="text-danger" data-bind="visible:noUser"><strong><i class="fa fa-exclamation-triangle"></i> Email adresiniz veya şifreniz yanlış</strong></small>
+            </div>
+
+            <form id="loginForm" name="loginForm" data-bind="submit:validate">
+                <div class="form-group">
+
+                    @Html.TextBoxFor(x => x.Email, new { @data_bind = "value:UserSignInVM.email", @class = "form-control", @placeholder = "Email adresiniz" })
+                    @Html.ValidationMessageFor(x => x.Email)
+                </div>
+                <div class="form-group">
+
+                    @Html.PasswordFor(x => x.Password, new { @data_bind = "value:UserSignInVM.password", @class = "form-control", @placeholder = "şifreniz" })
+                    @Html.ValidationMessageFor(x => x.Password)
+                    <div class="help-block text-right"><a href="">Şifremi unuttun ?</a></div>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input name="meRemember" id="meRemember" data-bind="value:UserSignInVM.meRemember" type="checkbox"><span class="text-muted"> Beni hatırla</span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <button id="btn" type="submit" class="btn btn-primary btn-block">Giriş yap</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="bottom text-center">
+
+            <strong class="text-success"> Hala üye değilmisin ?</strong> <a class="" data-bind="click:changes" href="#"><b>Üye ol</b></a>
+        </div>
+    </div>
+</div>

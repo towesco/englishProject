@@ -178,3 +178,11 @@ C:\Users\fatih\Desktop\englishProject - Kopya\englishProject\bin\EntityFramework
 C:\Users\fatih\Desktop\englishProject - Kopya\englishProject\obj\Debug\englishProject.csprojResolveAssemblyReference.cache
 C:\Users\fatih\Desktop\englishProject - Kopya\englishProject\obj\Debug\englishProject.dll
 C:\Users\fatih\Desktop\englishProject - Kopya\englishProject\obj\Debug\englishProject.pdb
+C:\Users\fatih\Desktop\englishProject\englishProject\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\fatih\Desktop\englishProject\englishProject\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\fatih\Desktop\englishProject\englishProject\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\fatih\Desktop\englishProject\englishProject\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\fatih\Desktop\englishProject\englishProject\bin\Facebook.dll
+C:\Users\fatih\Desktop\englishProject\englishProject\bin\Facebook.xml
+C:\Users\fatih\Desktop\englishProject\englishProject\bin\AutoMapper.dll
+C:\Users\fatih\Desktop\englishProject\englishProject\bin\AutoMapper.xml

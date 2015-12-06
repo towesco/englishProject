@@ -43,12 +43,20 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
@@ -78,6 +86,14 @@
     </Reference>
     <Reference Include="Microsoft.Owin.Security.Cookies">
       <HintPath>..\packages\Microsoft.Owin.Security.Cookies.3.0.1\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Facebook.3.0.1\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=3.0.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.Google.3.0.1\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Owin.Security.OAuth">
@@ -184,15 +200,20 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AjaxController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Helper.cs" />
     <Compile Include="Infrastructure\Users\RoleApp.cs" />
     <Compile Include="Infrastructure\Users\RoleAppManager.cs" />
     <Compile Include="Infrastructure\Users\UserApp.cs" />
     <Compile Include="Infrastructure\Users\UserAppDbContext.cs" />
     <Compile Include="Infrastructure\Users\UserAppManager.cs" />
+    <Compile Include="Infrastructure\ViewModel\UserSignUpVM.cs" />
+    <Compile Include="Infrastructure\ViewModel\UserSignInVM.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -202,10 +223,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome-4.5.0\css\font-awesome.css" />
     <Content Include="Content\font-awesome-4.5.0\css\font-awesome.min.css" />
-    <Content Include="Content\font-awesome-4.5.0\fonts\fontawesome-webfont.svg" />
-    <Content Include="Content\font-awesome-4.5.0\HELP-US-OUT.txt" />
     <Content Include="Content\navbar.css" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -218,12 +238,14 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Content\font-awesome-4.5.0\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\font-awesome-4.5.0\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\font-awesome-4.5.0\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\font-awesome-4.5.0\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\font-awesome-4.5.0\fonts\FontAwesome.otf" />
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\jquery.validation.bootstrap.js" />
+    <Content Include="Scripts\login.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
@@ -274,10 +296,14 @@
     <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Color.cshtml" />
+    <Content Include="Views\Shared\MenuTemplate\TopMenu.cshtml" />
+    <Content Include="Views\Shared\MenuTemplate\SignInPW.cshtml" />
+    <Content Include="Views\Shared\MenuTemplate\SignUpPW.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -175,3 +175,9 @@ C:\Users\fatih\Desktop\englishProject - Kopya\englishProject.Tests\bin\Debug\Sys
 C:\Users\fatih\Desktop\englishProject - Kopya\englishProject.Tests\obj\Debug\englishProject.Tests.csprojResolveAssemblyReference.cache
 C:\Users\fatih\Desktop\englishProject - Kopya\englishProject.Tests\obj\Debug\englishProject.Tests.dll
 C:\Users\fatih\Desktop\englishProject - Kopya\englishProject.Tests\obj\Debug\englishProject.Tests.pdb
+C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\Microsoft.Owin.Security.Facebook.dll
+C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\Microsoft.Owin.Security.Google.dll
+C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\Microsoft.Owin.Security.Facebook.xml
+C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\Microsoft.Owin.Security.Google.xml
+C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\Facebook.dll
+C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\Facebook.xml
