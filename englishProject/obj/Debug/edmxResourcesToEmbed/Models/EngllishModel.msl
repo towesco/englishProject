@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EnglishProjectDBModelStoreContainer" CdmEntityContainer="Entities">
+    <EntitySetMapping Name="Level">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.Level">
+        <MappingFragment StoreEntitySet="Level">
+          <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+          <ScalarProperty Name="kind" ColumnName="kind" />
+          <ScalarProperty Name="levelName" ColumnName="levelName" />
+          <ScalarProperty Name="levelPicture" ColumnName="levelPicture" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="levelUserProgress">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
+        <MappingFragment StoreEntitySet="levelUserProgress">
+          <ScalarProperty Name="progressId" ColumnName="progressId" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="completeRate" ColumnName="completeRate" />
+          <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+          <ScalarProperty Name="kind" ColumnName="kind" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Word">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.Word">
+        <MappingFragment StoreEntitySet="Word">
+          <ScalarProperty Name="languageId" ColumnName="languageId" />
+          <ScalarProperty Name="languateTurkish" ColumnName="languateTurkish" />
+          <ScalarProperty Name="languateTranslate" ColumnName="languateTranslate" />
+          <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+          <ScalarProperty Name="kind" ColumnName="kind" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

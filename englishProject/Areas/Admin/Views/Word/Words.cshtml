@@ -1,0 +1,71 @@
+﻿@using englishProject.Infrastructure
+@model IEnumerable<englishProject.Models.Word>
+
+@{
+    ViewBag.Title = "Words";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Words</h2>
+
+@using (Html.BeginForm("Words", "Word", FormMethod.Get, new { @class = "form-inline" }))
+{
+    <div class="form-group">
+        @Html.DropDownList("selectLevel", null, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.DropDownList("SelectKind", null, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary">Seç</button>
+
+}
+
+<p class="text-right">
+    @Html.ActionLink("Yeni kelime oluştur", "AddWord", "Word", new { @class = "btn btn-success" })
+</p>
+<table class="table table-bordered table-striped table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.wordTurkish)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.wordTranslate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.levelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.kind)
+        </th>
+        <th>İşlemler</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.wordTurkish)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.wordTranslate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Level.levelName)
+            </td>
+            <td>
+                @Enum.GetName(typeof(LanguageEnum), item.kind)
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-md-3"><a class="btn btn-primary btn-xs " href="@Url.Action("UpdateWord","Word",new{wordId=item.wordId})">güncelle</a></div>
+                    <div class="col-md-3">
+                        @using (Html.BeginForm("DeleteWord2", "Word", new { wordId = item.wordId }, FormMethod.Post))
+                        {
+                            <input class="btn btn-danger btn-xs" type="submit" value="sil" />
+                        }
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+</table>

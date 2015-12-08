@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EnglishProjectDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Level">
+    <Key>
+      <PropertyRef Name="levelNumber" />
+      <PropertyRef Name="kind" />
+    </Key>
+    <Property Name="levelNumber" Type="Int32" Nullable="false" />
+    <Property Name="kind" Type="Int32" Nullable="false" />
+    <Property Name="levelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="levelPicture" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Word" Relationship="Self.FK_Language_Level" FromRole="Level" ToRole="Word" />
+  </EntityType>
+  <EntityType Name="levelUserProgress">
+    <Key>
+      <PropertyRef Name="progressId" />
+    </Key>
+    <Property Name="progressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="completeRate" Type="Int32" Nullable="false" />
+    <Property Name="levelNumber" Type="Int32" Nullable="false" />
+    <Property Name="kind" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Word">
+    <Key>
+      <PropertyRef Name="languageId" />
+    </Key>
+    <Property Name="languageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="languateTurkish" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="languateTranslate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="levelNumber" Type="Int32" Nullable="false" />
+    <Property Name="kind" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Level" Relationship="Self.FK_Language_Level" FromRole="Word" ToRole="Level" />
+  </EntityType>
+  <Association Name="FK_Language_Level">
+    <End Role="Level" Type="Self.Level" Multiplicity="1" />
+    <End Role="Word" Type="Self.Word" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Level">
+        <PropertyRef Name="levelNumber" />
+        <PropertyRef Name="kind" />
+      </Principal>
+      <Dependent Role="Word">
+        <PropertyRef Name="levelNumber" />
+        <PropertyRef Name="kind" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Level" EntityType="Self.Level" />
+    <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" />
+    <EntitySet Name="Word" EntityType="Self.Word" />
+    <AssociationSet Name="FK_Language_Level" Association="Self.FK_Language_Level">
+      <End Role="Level" EntitySet="Level" />
+      <End Role="Word" EntitySet="Word" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

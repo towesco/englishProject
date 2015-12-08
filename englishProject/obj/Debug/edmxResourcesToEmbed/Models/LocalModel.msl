@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EnglishProjectDBModelStoreContainer" CdmEntityContainer="EnglishProjectDBEntities">
+    <EntitySetMapping Name="Level">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.Level">
+        <MappingFragment StoreEntitySet="Level">
+          <ScalarProperty Name="levelPicture" ColumnName="levelPicture" />
+          <ScalarProperty Name="levelName" ColumnName="levelName" />
+          <ScalarProperty Name="kind" ColumnName="kind" />
+          <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="levelUserProgress">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
+        <MappingFragment StoreEntitySet="levelUserProgress">
+          <ScalarProperty Name="kind" ColumnName="kind" />
+          <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+          <ScalarProperty Name="completeRate" ColumnName="completeRate" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="progressId" ColumnName="progressId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Word">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.Word">
+        <MappingFragment StoreEntitySet="Word">
+          <ScalarProperty Name="kind" ColumnName="kind" />
+          <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+          <ScalarProperty Name="languateTranslate" ColumnName="languateTranslate" />
+          <ScalarProperty Name="languateTurkish" ColumnName="languateTurkish" />
+          <ScalarProperty Name="languageId" ColumnName="languageId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

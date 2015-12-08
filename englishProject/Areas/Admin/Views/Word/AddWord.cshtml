@@ -1,0 +1,77 @@
+﻿@model englishProject.Models.Word
+
+@{
+    ViewBag.Title = "AddWord";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div id="aa">
+    @using (Html.BeginForm("CreateWord", "Word", FormMethod.Get, new { @data_bind = "submit:createWord,with:Word" }))
+    {
+
+        <div class="form-horizontal">
+            <h4>Word</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.wordTurkish, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.wordTurkish, new { htmlAttributes = new { @class = "form-control", @data_bind = "value:wordTurkish" } })
+                    @Html.ValidationMessageFor(model => model.wordTurkish, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.wordTranslate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.wordTranslate, new { htmlAttributes = new { @class = "form-control", @data_bind = "value:wordTranslate" } })
+                    @Html.ValidationMessageFor(model => model.wordTranslate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.levelNumber, "levelNumber", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("levelNumber", Enumerable.Range(1, 20).ToList().Select(a => new SelectListItem() { Text = a.ToString(), Value = a.ToString() }), htmlAttributes: new { @class = "form-control", @data_bind = "value:levelNumber" })
+                    @Html.ValidationMessageFor(model => model.levelNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.kind, "kind", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("kind", null, htmlAttributes: new { @class = "form-control", @data_bind = "value:kind" })
+                    @Html.ValidationMessageFor(model => model.kind, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button data-bind="disable:$root.loading()" id="btnCreateWord" type="submit" class="btn btn-primary "><i data-bind="visible:$root.loading()" class="fa fa-refresh fa-spin"></i> Create</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<h3>Listeye Eklenenler(<span data-bind="text:total()"></span>)</h3>
+<table id="tablo" class="table table-striped table-bordered table-responsive">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Türkçe</th>
+            <th>Çeviri Kelime</th>
+            <th>Seviye</th>
+            <th>Çeviri Tür</th>
+            <th>Sil</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: words">
+        <tr>
+            <td data-bind="text: id"></td>
+            <td data-bind="text: a"></td>
+            <td data-bind="text: b"></td>
+            <td data-bind="text:  c"></td>
+            <td data-bind="text: d"></td>
+            <td><a href="#" data-bind="click:$root.deleteWord">sil</a></td>
+        </tr>
+    </tbody>
+</table>

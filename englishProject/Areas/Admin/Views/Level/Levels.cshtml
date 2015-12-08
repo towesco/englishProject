@@ -1,0 +1,68 @@
+﻿@using englishProject.Areas.Admin.Infrastructure
+@using englishProject.Infrastructure
+@model IEnumerable<englishProject.Models.Level>
+
+@{
+    ViewBag.Title = "Levels";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Levels</h2>
+
+<p>
+    @Html.ActionLink("Create Level", "AddLevel", "Level")
+</p>
+<table class="table table-bordered table-striped table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.levelNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.levelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.levelPicture)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.kind)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+            <td>
+
+                @Html.DisplayFor(modelItem => item.levelNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.levelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.levelPicture)
+            </td>
+
+            <td>
+
+                @Enum.GetName(typeof(LanguageEnum), item.kind)
+            </td>
+
+            <td>
+                <div class="row">
+                    <div class="col-md-3">
+                        @Html.ActionLink("Güncelle", "UpdateLevel", new { levelNumber = item.levelNumber, kind = item.kind }, new { @class = "btn btn-primary btn-xs" })
+                    </div>
+                    <div class="col-md-3">
+                        @using (Html.BeginForm("DeleteLevel", "Level", new { levelNumber = item.levelNumber, kind = item.kind }, FormMethod.Post, new { @style = "" }))
+                        {
+                            <input type="submit" value="Sil" class="btn btn-danger btn-xs" />
+                        }
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+</table>

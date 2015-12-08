@@ -123,6 +123,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -200,13 +202,23 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
+    <Compile Include="Areas\Admin\Controllers\LevelController.cs" />
+    <Compile Include="Areas\Admin\Controllers\WordController.cs" />
+    <Compile Include="Infrastructure\Enums.cs" />
+    <Compile Include="Infrastructure\HelperMethod.cs" />
+    <Compile Include="Areas\Admin\Infrastructure\IWord.cs" />
+    <Compile Include="Areas\Admin\Infrastructure\ILevel.cs" />
+    <Compile Include="Areas\Admin\Infrastructure\LevelAction.cs" />
+    <Compile Include="Areas\Admin\Infrastructure\NinjectLanguageResolver.cs" />
+    <Compile Include="Areas\Admin\Infrastructure\WordAction.cs" />
     <Compile Include="Controllers\AjaxController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Helper.cs" />
     <Compile Include="Infrastructure\Users\RoleApp.cs" />
     <Compile Include="Infrastructure\Users\RoleAppManager.cs" />
     <Compile Include="Infrastructure\Users\UserApp.cs" />
@@ -214,11 +226,44 @@
     <Compile Include="Infrastructure\Users\UserAppManager.cs" />
     <Compile Include="Infrastructure\ViewModel\UserSignUpVM.cs" />
     <Compile Include="Infrastructure\ViewModel\UserSignInVM.cs" />
+    <Compile Include="Models\EnglishModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnglishModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnglishModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EnglishModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EnglishModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Level.cs">
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\levelUserProgress.cs">
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Word.cs">
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\css\metisMenu.css" />
+    <Content Include="Areas\Admin\css\sb-admin-2.css" />
+    <Content Include="Areas\Admin\css\font-awesome.css" />
+    <Content Include="Areas\Admin\fonts\fontawesome-webfont.svg" />
+    <Content Include="Areas\Admin\js\adminEnglish.js" />
+    <Content Include="Areas\Admin\js\bootstrap.js" />
+    <Content Include="Areas\Admin\js\metisMenu.js" />
+    <Content Include="Areas\Admin\js\sb-admin-2.js" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Areas\Admin\css\bootstrap.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome-4.5.0\css\font-awesome.css" />
@@ -243,6 +288,36 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="Areas\Admin\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\fonts\fontawesome-webfont.eot" />
+    <Content Include="Areas\Admin\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Areas\Admin\fonts\fontawesome-webfont.woff" />
+    <Content Include="Areas\Admin\fonts\FontAwesome.otf" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Level\AddLevel.cshtml" />
+    <Content Include="Areas\Admin\Views\Level\Levels.cshtml" />
+    <Content Include="Areas\Admin\Views\Level\UpdateLevel.cshtml" />
+    <EntityDeploy Include="Models\EnglishModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EnglishModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\EnglishModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EnglishModel.edmx</DependentUpon>
+      <LastGenOutput>EnglishModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\EnglishModel.edmx.diagram">
+      <DependentUpon>EnglishModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\EnglishModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EnglishModel.edmx</DependentUpon>
+      <LastGenOutput>EnglishModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Areas\Admin\Views\Word\Words.cshtml" />
+    <Content Include="Areas\Admin\Views\Word\AddWord.cshtml" />
+    <Content Include="Areas\Admin\Views\Word\UpdateWord.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery.validation.bootstrap.js" />
     <Content Include="Scripts\login.js" />
@@ -280,34 +355,23 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Week.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Url.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Time.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Text.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\String.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Search.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\PhoneNumber.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Password.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Number.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\MultilineText.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Month.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\EmailAddress.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\DateTime-Local.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\DateTime.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Date.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\Color.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\TopMenu.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\SignInPW.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\SignUpPW.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
+    <Folder Include="Areas\Admin\font-awesome\" />
+    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Views\Shared\EditorTemplates\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

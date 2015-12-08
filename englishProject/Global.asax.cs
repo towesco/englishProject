@@ -1,4 +1,5 @@
-﻿using System;
+﻿using englishProject.Areas.Admin.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,6 +20,8 @@ namespace englishProject
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            DependencyResolver.SetResolver((IDependencyResolver)new NinjectLanguageResolver());
         }
     }
 }

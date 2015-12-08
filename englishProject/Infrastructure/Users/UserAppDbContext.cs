@@ -12,5 +12,7 @@ namespace englishProject.Infrastructure.Users
             : base("EnglishProjectUserDB")
         {
         }
+
+        public System.Data.Entity.DbSet<englishProject.Infrastructure.Users.UserApp> UserApps { get; set; }
     }
 }

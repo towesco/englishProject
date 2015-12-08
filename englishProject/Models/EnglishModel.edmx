@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EnglishProjectDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Level">
+          <Key>
+            <PropertyRef Name="levelNumber" />
+            <PropertyRef Name="kind" />
+          </Key>
+          <Property Name="levelNumber" Type="int" Nullable="false" />
+          <Property Name="kind" Type="int" Nullable="false" />
+          <Property Name="levelName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="levelPicture" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="levelUserProgress">
+          <Key>
+            <PropertyRef Name="progressId" />
+          </Key>
+          <Property Name="progressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="completeRate" Type="int" Nullable="false" />
+          <Property Name="levelNumber" Type="int" Nullable="false" />
+          <Property Name="kind" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Word">
+          <Key>
+            <PropertyRef Name="wordId" />
+          </Key>
+          <Property Name="wordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="wordTurkish" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="wordTranslate" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="levelNumber" Type="int" Nullable="false" />
+          <Property Name="kind" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Language_Level">
+          <End Role="Level" Type="Self.Level" Multiplicity="1" />
+          <End Role="Word" Type="Self.Word" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="levelNumber" />
+              <PropertyRef Name="kind" />
+            </Principal>
+            <Dependent Role="Word">
+              <PropertyRef Name="levelNumber" />
+              <PropertyRef Name="kind" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EnglishProjectDBModelStoreContainer">
+          <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Word" EntityType="Self.Word" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Language_Level" Association="Self.FK_Language_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="Word" EntitySet="Word" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EnglishProjectDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="levelUserProgress">
+          <Key>
+            <PropertyRef Name="progressId" />
+          </Key>
+          <Property Name="progressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="completeRate" Type="Int32" Nullable="false" />
+          <Property Name="levelNumber" Type="Int32" Nullable="false" />
+          <Property Name="kind" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="EnglishProjectDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" />
+          <EntitySet Name="Level" EntityType="EnglishProjectDBModel.Level" />
+          <EntitySet Name="Word" EntityType="EnglishProjectDBModel.Word" />
+          <AssociationSet Name="FK_Language_Level" Association="EnglishProjectDBModel.FK_Language_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="Word" EntitySet="Word" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Level">
+          <Key>
+            <PropertyRef Name="levelNumber" />
+            <PropertyRef Name="kind" />
+          </Key>
+          <Property Name="levelNumber" Type="Int32" Nullable="false" />
+          <Property Name="kind" Type="Int32" Nullable="false" />
+          <Property Name="levelName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="levelPicture" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Word" Relationship="EnglishProjectDBModel.FK_Language_Level" FromRole="Level" ToRole="Word" />
+        </EntityType>
+        <EntityType Name="Word">
+          <Key>
+            <PropertyRef Name="wordId" />
+          </Key>
+          <Property Name="wordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="wordTurkish" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="wordTranslate" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="levelNumber" Type="Int32" Nullable="false" />
+          <Property Name="kind" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Level" Relationship="EnglishProjectDBModel.FK_Language_Level" FromRole="Word" ToRole="Level" />
+        </EntityType>
+        <Association Name="FK_Language_Level">
+          <End Type="EnglishProjectDBModel.Level" Role="Level" Multiplicity="1" />
+          <End Type="EnglishProjectDBModel.Word" Role="Word" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="levelNumber" />
+              <PropertyRef Name="kind" />
+            </Principal>
+            <Dependent Role="Word">
+              <PropertyRef Name="levelNumber" />
+              <PropertyRef Name="kind" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EnglishProjectDBModelStoreContainer" CdmEntityContainer="EnglishProjectDBEntities">
+          <EntitySetMapping Name="levelUserProgress">
+            <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
+              <MappingFragment StoreEntitySet="levelUserProgress">
+                <ScalarProperty Name="progressId" ColumnName="progressId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="completeRate" ColumnName="completeRate" />
+                <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+                <ScalarProperty Name="kind" ColumnName="kind" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Level">
+            <EntityTypeMapping TypeName="EnglishProjectDBModel.Level">
+              <MappingFragment StoreEntitySet="Level">
+                <ScalarProperty Name="levelPicture" ColumnName="levelPicture" />
+                <ScalarProperty Name="levelName" ColumnName="levelName" />
+                <ScalarProperty Name="kind" ColumnName="kind" />
+                <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Word">
+            <EntityTypeMapping TypeName="EnglishProjectDBModel.Word">
+              <MappingFragment StoreEntitySet="Word">
+                <ScalarProperty Name="kind" ColumnName="kind" />
+                <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+                <ScalarProperty Name="wordTranslate" ColumnName="wordTranslate" />
+                <ScalarProperty Name="wordTurkish" ColumnName="wordTurkish" />
+                <ScalarProperty Name="wordId" ColumnName="wordId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -13,7 +13,9 @@ namespace englishProject
                         "~/Scripts/knockout-{version}.js",
                          "~/Scripts/knockout-3.4.0.debug.js",
                          "~/Scripts/login.js",
-                          "~/Scripts/jquery.validation.bootstrap.js"
+                          "~/Scripts/jquery.validation.bootstrap.js",
+                          "~/Script/bootstrapladda/ladda.min.js",
+                          "~/Script/bootstrapladda/spin.min.js"
 
                         ));
 
@@ -37,7 +39,8 @@ namespace englishProject
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/navbar.css",
-                      "~/Content/font-awesome-4.5.0/css/font-awesome.min.css"
+                      "~/Content/font-awesome-4.5.0/css/font-awesome.min.css",
+                      "~/Script/bootstrapladda/ladda-themeless.css"
                       ));
 
             ////////////////////////////CSS//////////////////////////////////////////////////////////////
