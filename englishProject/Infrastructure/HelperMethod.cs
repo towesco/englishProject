@@ -17,7 +17,7 @@ namespace englishProject.Infrastructure
 
         public static List<SelectListItem> getListKind(int value = 0)
         {
-            return (from object item in Enum.GetValues(typeof(LanguageEnum))
+            return (from object item in Enum.GetValues(typeof(Kind))
                     select new System.Web.Mvc.SelectListItem()
                     {
                         Text = item.ToString(),

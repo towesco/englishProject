@@ -14,8 +14,7 @@ namespace englishProject
                          "~/Scripts/knockout-3.4.0.debug.js",
                          "~/Scripts/login.js",
                           "~/Scripts/jquery.validation.bootstrap.js",
-                          "~/Script/bootstrapladda/ladda.min.js",
-                          "~/Script/bootstrapladda/spin.min.js"
+                          "~/Scripts/star-rating/star-rating.js"
 
                         ));
 
@@ -40,7 +39,8 @@ namespace englishProject
                       "~/Content/bootstrap.css",
                       "~/Content/navbar.css",
                       "~/Content/font-awesome-4.5.0/css/font-awesome.min.css",
-                      "~/Script/bootstrapladda/ladda-themeless.css"
+                      "~/Content/style.css",
+                         "~/Scripts/star-rating/star-rating.css"
                       ));
 
             ////////////////////////////CSS//////////////////////////////////////////////////////////////

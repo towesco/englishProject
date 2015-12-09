@@ -1,0 +1,101 @@
+﻿@using englishProject.Models
+@model List<Box>
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("#boxCarausel").carousel('pause');
+
+        });
+    </script>
+
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="row">
+            <div class="col-xs-10 col-md-10">
+                icerik
+            </div>
+            <div class="col-xs-2 col-md-2 text-right">
+                <a href="#boxCarausel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a href="#boxCarausel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="panel-body">
+
+        <div id="boxCarausel" class="carousel slide">
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+
+                @foreach (Box item in Model)
+                {
+
+                    <div class="item @(item.boxNumber==1 ? "active" : null)">
+                        <ul class="list-unstyled list-inline">
+
+                            @foreach (Level level in item.Level)
+                            {
+                                <li>
+                                    <a href="#" class="btn btn-primary btn-lg btn-level">
+                                        <div>
+
+                                            <span class="badge badge-level"><strong> @level.levelNumber</strong></span>
+                                            <br />
+                                            <small>Seviye</small>
+                                        </div>
+
+                                        <div style="border-top: 1px solid #214E72;margin-top: 4px;">
+                                            <small>@level.levelName</small>
+                                        </div>
+                                        <div>
+                                            <input id="input-1" value="1" class="rating" data-min="0" data-max="3" data-step="1" data-stars="3" data-show-caption="false" data-disabled="true" data-size="xs" data-show-clear="false">
+                                        </div>
+                                        <div>
+                                            <div>
+                                                <i class="fa fa-lock"></i>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            }
+
+                            @*biten level*@
+                            <li>
+                                <a href="#" class="btn btn-success btn-lg btn-level">
+                                    <div>
+
+                                        <span class="badge"><strong>33</strong></span>
+                                        <br />
+                                        <strong class="label label-success">Seviye</strong>
+                                    </div>
+
+                                    <div style="border-top: 1px solid #3A7C3A;margin-top: 4px;">
+                                        <small>hayanlar</small>
+                                    </div>
+                                    <div>
+                                        <input id="input-1" value="1" class="rating" data-min="0" data-max="3" data-step="1" data-stars="3" data-show-caption="false" data-disabled="true" data-size="xs" data-show-clear="false">
+                                    </div>
+                                    <div>
+                                        <div>
+                                            <i class="fa fa-unlock"></i>
+                                        </div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

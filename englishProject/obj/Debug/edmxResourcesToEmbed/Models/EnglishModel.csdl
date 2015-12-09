@@ -12,13 +12,28 @@
   </EntityType>
   <EntityContainer Name="EnglishProjectDBEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" />
+    <EntitySet Name="Box" EntityType="EnglishProjectDBModel.Box" />
     <EntitySet Name="Level" EntityType="EnglishProjectDBModel.Level" />
     <EntitySet Name="Word" EntityType="EnglishProjectDBModel.Word" />
-    <AssociationSet Name="FK_Language_Level" Association="EnglishProjectDBModel.FK_Language_Level">
+    <AssociationSet Name="FK_Level_Box" Association="EnglishProjectDBModel.FK_Level_Box">
+      <End Role="Box" EntitySet="Box" />
+      <End Role="Level" EntitySet="Level" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Word_Level" Association="EnglishProjectDBModel.FK_Word_Level">
       <End Role="Level" EntitySet="Level" />
       <End Role="Word" EntitySet="Word" />
     </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Box">
+    <Key>
+      <PropertyRef Name="boxNumber" />
+      <PropertyRef Name="kind" />
+    </Key>
+    <Property Name="boxName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="boxNumber" Type="Int32" Nullable="false" />
+    <Property Name="kind" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Level" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Box" ToRole="Level" />
+  </EntityType>
   <EntityType Name="Level">
     <Key>
       <PropertyRef Name="levelNumber" />
@@ -27,8 +42,10 @@
     <Property Name="levelNumber" Type="Int32" Nullable="false" />
     <Property Name="kind" Type="Int32" Nullable="false" />
     <Property Name="levelName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="boxNumber" Type="Int32" Nullable="false" />
     <Property Name="levelPicture" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-    <NavigationProperty Name="Word" Relationship="EnglishProjectDBModel.FK_Language_Level" FromRole="Level" ToRole="Word" />
+    <NavigationProperty Name="Box" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Level" ToRole="Box" />
+    <NavigationProperty Name="Word" Relationship="EnglishProjectDBModel.FK_Word_Level" FromRole="Level" ToRole="Word" />
   </EntityType>
   <EntityType Name="Word">
     <Key>
@@ -39,9 +56,23 @@
     <Property Name="wordTranslate" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="levelNumber" Type="Int32" Nullable="false" />
     <Property Name="kind" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="Level" Relationship="EnglishProjectDBModel.FK_Language_Level" FromRole="Word" ToRole="Level" />
+    <NavigationProperty Name="Level" Relationship="EnglishProjectDBModel.FK_Word_Level" FromRole="Word" ToRole="Level" />
   </EntityType>
-  <Association Name="FK_Language_Level">
+  <Association Name="FK_Level_Box">
+    <End Type="EnglishProjectDBModel.Box" Role="Box" Multiplicity="1" />
+    <End Type="EnglishProjectDBModel.Level" Role="Level" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Box">
+        <PropertyRef Name="boxNumber" />
+        <PropertyRef Name="kind" />
+      </Principal>
+      <Dependent Role="Level">
+        <PropertyRef Name="boxNumber" />
+        <PropertyRef Name="kind" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Word_Level">
     <End Type="EnglishProjectDBModel.Level" Role="Level" Multiplicity="1" />
     <End Type="EnglishProjectDBModel.Word" Role="Word" Multiplicity="*" />
     <ReferentialConstraint>

@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="EnglishProjectDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Box">
+    <Key>
+      <PropertyRef Name="boxNumber" />
+      <PropertyRef Name="kind" />
+    </Key>
+    <Property Name="boxName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="boxNumber" Type="int" Nullable="false" />
+    <Property Name="kind" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Level">
     <Key>
       <PropertyRef Name="levelNumber" />
@@ -8,6 +17,7 @@
     <Property Name="levelNumber" Type="int" Nullable="false" />
     <Property Name="kind" Type="int" Nullable="false" />
     <Property Name="levelName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="boxNumber" Type="int" Nullable="false" />
     <Property Name="levelPicture" Type="nvarchar" MaxLength="100" Nullable="false" />
   </EntityType>
   <EntityType Name="levelUserProgress">
@@ -30,7 +40,21 @@
     <Property Name="levelNumber" Type="int" Nullable="false" />
     <Property Name="kind" Type="int" Nullable="false" />
   </EntityType>
-  <Association Name="FK_Language_Level">
+  <Association Name="FK_Level_Box">
+    <End Role="Box" Type="Self.Box" Multiplicity="1" />
+    <End Role="Level" Type="Self.Level" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Box">
+        <PropertyRef Name="boxNumber" />
+        <PropertyRef Name="kind" />
+      </Principal>
+      <Dependent Role="Level">
+        <PropertyRef Name="boxNumber" />
+        <PropertyRef Name="kind" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Word_Level">
     <End Role="Level" Type="Self.Level" Multiplicity="1" />
     <End Role="Word" Type="Self.Word" Multiplicity="*" />
     <ReferentialConstraint>
@@ -45,10 +69,15 @@
     </ReferentialConstraint>
   </Association>
   <EntityContainer Name="EnglishProjectDBModelStoreContainer">
+    <EntitySet Name="Box" EntityType="Self.Box" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Word" EntityType="Self.Word" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_Language_Level" Association="Self.FK_Language_Level">
+    <AssociationSet Name="FK_Level_Box" Association="Self.FK_Level_Box">
+      <End Role="Box" EntitySet="Box" />
+      <End Role="Level" EntitySet="Level" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Word_Level" Association="Self.FK_Word_Level">
       <End Role="Level" EntitySet="Level" />
       <End Role="Word" EntitySet="Word" />
     </AssociationSet>

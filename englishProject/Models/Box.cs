@@ -12,22 +12,19 @@ namespace englishProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Level
+    public partial class Box
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Level()
+        public Box()
         {
-            this.Word = new HashSet<Word>();
+            this.Level = new HashSet<Level>();
         }
     
-        public int levelNumber { get; set; }
-        public int kind { get; set; }
-        public string levelName { get; set; }
+        public string boxName { get; set; }
         public int boxNumber { get; set; }
-        public string levelPicture { get; set; }
+        public int kind { get; set; }
     
-        public virtual Box Box { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Word> Word { get; set; }
+        public virtual ICollection<Level> Level { get; set; }
     }
 }

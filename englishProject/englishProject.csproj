@@ -219,6 +219,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Operations.cs" />
     <Compile Include="Infrastructure\Users\RoleApp.cs" />
     <Compile Include="Infrastructure\Users\RoleAppManager.cs" />
     <Compile Include="Infrastructure\Users\UserApp.cs" />
@@ -226,6 +227,9 @@
     <Compile Include="Infrastructure\Users\UserAppManager.cs" />
     <Compile Include="Infrastructure\ViewModel\UserSignUpVM.cs" />
     <Compile Include="Infrastructure\ViewModel\UserSignInVM.cs" />
+    <Compile Include="Models\Box.cs">
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\EnglishModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -269,6 +273,7 @@
     <Content Include="Content\font-awesome-4.5.0\css\font-awesome.css" />
     <Content Include="Content\font-awesome-4.5.0\css\font-awesome.min.css" />
     <Content Include="Content\navbar.css" />
+    <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -338,6 +343,8 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\star-rating\star-rating.css" />
+    <Content Include="Scripts\star-rating\star-rating.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -358,6 +365,7 @@
     <Content Include="Views\Shared\MenuTemplate\TopMenu.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\SignInPW.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\SignUpPW.cshtml" />
+    <Content Include="Views\Shared\Templates\BoxsPV.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

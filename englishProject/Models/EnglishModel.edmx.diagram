@@ -6,9 +6,11 @@
     <edmx:Diagrams>
       <Diagram DiagramId="80b42bc403b14ae7b2a488cadf89c3a1" Name="Diagram1">
         <EntityTypeShape EntityType="EnglishProjectDBModel.levelUserProgress" Width="1.5" PointX="7.625" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="EnglishProjectDBModel.Level" Width="1.5" PointX="3.375" PointY="1" />
-        <EntityTypeShape EntityType="EnglishProjectDBModel.Word" Width="1.5" PointX="5.625" PointY="0.875" />
-        <AssociationConnector Association="EnglishProjectDBModel.FK_Language_Level" />
+        <EntityTypeShape EntityType="EnglishProjectDBModel.Box" Width="1.5" PointX="0.625" PointY="1" />
+        <EntityTypeShape EntityType="EnglishProjectDBModel.Level" Width="1.5" PointX="2.875" PointY="0.75" />
+        <EntityTypeShape EntityType="EnglishProjectDBModel.Word" Width="1.5" PointX="5.125" PointY="0.75" />
+        <AssociationConnector Association="EnglishProjectDBModel.FK_Level_Box" />
+        <AssociationConnector Association="EnglishProjectDBModel.FK_Word_Level" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

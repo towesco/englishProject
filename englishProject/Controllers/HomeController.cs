@@ -28,6 +28,8 @@ namespace englishProject.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.boxs = Operations.GetBoxs(Kind.English);
+
             return View();
         }
 

@@ -12,10 +12,20 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Box">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.Box">
+        <MappingFragment StoreEntitySet="Box">
+          <ScalarProperty Name="kind" ColumnName="kind" />
+          <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
+          <ScalarProperty Name="boxName" ColumnName="boxName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Level">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.Level">
         <MappingFragment StoreEntitySet="Level">
           <ScalarProperty Name="levelPicture" ColumnName="levelPicture" />
+          <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
           <ScalarProperty Name="levelName" ColumnName="levelName" />
           <ScalarProperty Name="kind" ColumnName="kind" />
           <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />

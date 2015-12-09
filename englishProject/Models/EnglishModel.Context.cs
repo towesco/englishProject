@@ -26,6 +26,7 @@ namespace englishProject.Models
         }
     
         public virtual DbSet<levelUserProgress> levelUserProgress { get; set; }
+        public virtual DbSet<Box> Box { get; set; }
         public virtual DbSet<Level> Level { get; set; }
         public virtual DbSet<Word> Word { get; set; }
     }
