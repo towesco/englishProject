@@ -1,4 +1,5 @@
-﻿using englishProject.Models;
+﻿using englishProject.Infrastructure;
+using englishProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -9,7 +10,7 @@ namespace englishProject.Areas.Admin.Infrastructure
 {
     public interface ILevel
     {
-        IEnumerable<Level> Levels();
+        IEnumerable<Level> Levels(int boxNumber, Kind kind);
 
         bool AddLevel(Level level);
 

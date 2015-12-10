@@ -1,8 +1,10 @@
-﻿using englishProject.Infrastructure.Users;
+﻿using englishProject.Infrastructure;
+using englishProject.Infrastructure.Users;
 using Facebook;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -33,7 +35,16 @@ namespace englishProject.Controllers
         // GET: User
         public ActionResult Index()
         {
+            ViewBag.boxs = Operations.GetBoxs(Kind.English);
+            ViewBag.user = Operations.getProfil();
             return View();
+        }
+
+        public ActionResult deneme()
+        {
+            ClaimsIdentity ident = HttpContext.User.Identity as ClaimsIdentity;
+
+            return View(ident.Claims.ToList());
         }
 
         [HttpPost]
@@ -64,7 +75,14 @@ namespace englishProject.Controllers
 
                 dynamic infoEmail = fb.Get("/me?fields=email");
 
-                user = new UserApp() { Email = infoEmail.email, UserName = info.DefaultUserName };
+                var me = fb.Get("me") as JsonObject;
+                var userId = me["id"];
+
+                ////user picture:  http://graph.facebook.com/10206530076964065/picture?type=large
+
+                string profilImage = "http://graph.facebook.com/" + userId.ToString() + "/picture?type=large";
+
+                user = new UserApp() { Email = infoEmail.email, UserName = info.DefaultUserName, PicturePath = profilImage };
 
                 var result = await usermanager.CreateAsync(user);
                 if (result.Succeeded)

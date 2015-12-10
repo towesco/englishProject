@@ -18,17 +18,17 @@ namespace englishProject.Areas.Admin.Controllers
             entities = word;
         }
 
-        public ActionResult Words(int selectLevel = 1, int selectKind = 1)
+        public ActionResult Words(int levelNumber = 1, int kind = 1, int boxNumber = 1)
         {
-            ViewBag.selectLevel = new SelectList(HelperMethod.GetLevelSelectListItems(), "Value", "Text");
-            ViewBag.selectKind = new SelectList(HelperMethod.getListKind(), "Value", "Text");
-            return View(entities.Words(selectLevel, selectKind));
+            ViewBag.boxNumber = new SelectList(HelperMethod.GetBoxSelectListItems(), "Value", "Text");
+            ViewBag.levelNumber = new SelectList(HelperMethod.GetLevelSelectListItems(), "Value", "Text");
+            ViewBag.kind = new SelectList(HelperMethod.getListKind(), "Value", "Text");
+            return View(entities.Words(levelNumber, kind, boxNumber));
         }
 
         public ActionResult AddWord()
         {
             ViewBag.kind = HelperMethod.getListKind();
-
             return View(new Word());
         }
 
@@ -37,7 +37,7 @@ namespace englishProject.Areas.Admin.Controllers
             var w = entities.GetWord(wordId);
 
             ViewBag.levelNumber = new SelectList(HelperMethod.GetLevelSelectListItems(), "Value", "Text", w.levelNumber);
-            ViewBag.kind = new SelectList(HelperMethod.getListKind(w.kind), "Value", "Text", w.kind);
+            ViewBag.kind = new SelectList(HelperMethod.getListKind(), "Value", "Text", w.kind);
             return View(w);
         }
 

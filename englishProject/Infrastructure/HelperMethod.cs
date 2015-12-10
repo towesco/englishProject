@@ -15,14 +15,14 @@ namespace englishProject.Infrastructure
     {
         private static readonly EnglishProjectDBEntities entities = new EnglishProjectDBEntities();
 
-        public static List<SelectListItem> getListKind(int value = 0)
+        public static List<SelectListItem> getListKind()
         {
             return (from object item in Enum.GetValues(typeof(Kind))
                     select new System.Web.Mvc.SelectListItem()
                     {
                         Text = item.ToString(),
                         Value = ((int)item).ToString(),
-                        Selected = ((int)item) == value ? true : false
+                        Selected = false
                     }).ToList();
         }
 
@@ -34,11 +34,34 @@ namespace englishProject.Infrastructure
                          a =>
                              new SelectListItem()
                              {
-                                 Text = a.levelName,
+                                 Text = string.Format("{0}--------------->{1} kutusu", a.levelName, a.Box.boxName),
                                  Value = a.levelNumber.ToString(),
                                  Selected = false
                              })
                      .ToList();
+        }
+
+        public static List<SelectListItem> GetBoxSelectListItems()
+        {
+            return entities.Box.ToList().Select(a => new SelectListItem()
+            {
+                Text = a.boxName,
+                Value = a.boxNumber.ToString(),
+                Selected = false
+            }).ToList();
+        }
+
+        public static List<SelectListItem> GetLevelNumberListItems()
+        {
+            List<int> ListOne = Enumerable.Range(1, 50).ToList();
+
+            List<int> ListTwo = entities.Level.Select(a => a.levelNumber).ToList();
+
+            List<int> remainingList = ListOne.Except(ListTwo).ToList();
+
+            return
+                remainingList.Select(
+                    a => new SelectListItem() { Text = a.ToString(), Value = a.ToString(), Selected = false }).ToList();
         }
     }
 }

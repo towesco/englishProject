@@ -10,11 +10,19 @@
 
 @using (Html.BeginForm("Words", "Word", FormMethod.Get, new { @class = "form-inline" }))
 {
+
     <div class="form-group">
-        @Html.DropDownList("selectLevel", null, new { @class = "form-control" })
+        <label for="boxNumber">Kutu ismi:</label>
+        @Html.DropDownList("boxNumber", null, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        <label for="levelNumber">Level ismi:</label>
+        @Html.DropDownList("levelNumber", null, new { @class = "form-control" })
     </div>
     <div class="form-group">
-        @Html.DropDownList("SelectKind", null, new { @class = "form-control" })
+        <label for="levelNumber">Dil:</label>
+        @Html.DropDownList("kind", null, new { @class = "form-control" })
     </div>
     <button type="submit" class="btn btn-primary">Seç</button>
 
@@ -26,14 +34,19 @@
 <table class="table table-bordered table-striped table-hover">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.Level.Box.boxName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.levelName)
+        </th>
+
+        <th>
             @Html.DisplayNameFor(model => model.wordTurkish)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.wordTranslate)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Level.levelName)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.kind)
         </th>
@@ -44,16 +57,21 @@
     {
         <tr>
             <td>
+                @Html.DisplayFor(model => item.Level.Box.boxName)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Level.levelName)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.wordTurkish)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.wordTranslate)
             </td>
+
             <td>
-                @Html.DisplayFor(modelItem => item.Level.levelName)
-            </td>
-            <td>
-                @Enum.GetName(typeof(LanguageEnum), item.kind)
+                @Enum.GetName(typeof(Kind), item.kind)
             </td>
             <td>
                 <div class="row">

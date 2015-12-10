@@ -10,7 +10,7 @@ namespace englishProject.Areas.Admin.Infrastructure
     {
         bool AddWord(Word word);
 
-        IEnumerable<Word> Words(int levelNumber, int kind);
+        IEnumerable<Word> Words(int levelNumber, int kind, int boxNumber);
 
         bool UpdateWord(Word word);
 

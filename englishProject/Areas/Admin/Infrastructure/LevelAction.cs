@@ -1,4 +1,5 @@
-﻿using englishProject.Models;
+﻿using englishProject.Infrastructure;
+using englishProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -19,9 +20,9 @@ namespace englishProject.Areas.Admin.Infrastructure
             entities = new EnglishProjectDBEntities();
         }
 
-        public IEnumerable<Level> Levels()
+        public IEnumerable<Level> Levels(int boxNumber, Kind kind)
         {
-            return entities.Level.ToList();
+            return entities.Level.Where(a => a.boxNumber == boxNumber & a.kind == (int)kind).ToList();
         }
 
         public bool AddLevel(Level level)

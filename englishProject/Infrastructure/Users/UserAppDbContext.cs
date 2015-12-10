@@ -13,6 +13,6 @@ namespace englishProject.Infrastructure.Users
         {
         }
 
-        public System.Data.Entity.DbSet<englishProject.Infrastructure.Users.UserApp> UserApps { get; set; }
+        //public System.Data.Entity.DbSet<englishProject.Infrastructure.Users.UserApp> UserApps { get; set; }
     }
 }

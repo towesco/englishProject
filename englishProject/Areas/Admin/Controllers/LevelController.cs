@@ -23,14 +23,18 @@ namespace englishProject.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult Levels()
+        public ActionResult Levels(int boxNumber = 1, int selectKind = 1)
         {
-            return View(entities.Levels());
+            ViewBag.selectKind = new SelectList(HelperMethod.getListKind(), "Value", "Text");
+            ViewBag.boxNumber = new SelectList(HelperMethod.GetBoxSelectListItems(), "Value", "Text");
+
+            return View(entities.Levels(boxNumber, (Kind)selectKind));
         }
 
         public ActionResult AddLevel()
         {
-            ViewBag.list = HelperMethod.getListKind();
+            ViewBag.boxNumber = new SelectList(HelperMethod.GetBoxSelectListItems(), "Value", "Text");
+            ViewBag.kind = HelperMethod.getListKind();
 
             return View(new Level());
         }
@@ -44,14 +48,19 @@ namespace englishProject.Areas.Admin.Controllers
 
         public ActionResult UpdateLevel(int levelNumber, int kind)
         {
-            return View(entities.GetLevel(levelNumber, kind));
+            Level level = entities.GetLevel(levelNumber, kind);
+
+            ViewBag.kind = new SelectList(HelperMethod.getListKind(), "Value", "Text", level.kind.ToString());
+            ViewBag.boxNumber = new SelectList(HelperMethod.GetBoxSelectListItems(), "Value", "Text", level.boxNumber.ToString());
+
+            return View(level);
         }
 
         [HttpPost]
         public ActionResult UpdateLevel(Level level)
         {
             entities.UpdateLevel(level);
-            return RedirectToAction("Levels");
+            return RedirectToAction("Levels", new { boxNumber = level.boxNumber, kind = level.kind });
         }
 
         [HttpPost]

@@ -272,6 +272,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome-4.5.0\css\font-awesome.css" />
     <Content Include="Content\font-awesome-4.5.0\css\font-awesome.min.css" />
+    <Content Include="Content\images\userbackground.png" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\style.css" />
     <Content Include="favicon.ico" />
@@ -366,13 +367,16 @@
     <Content Include="Views\Shared\MenuTemplate\SignInPW.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\SignUpPW.cshtml" />
     <Content Include="Views\Shared\Templates\BoxsPV.cshtml" />
+    <Content Include="Views\Shared\Templates\UserProfileLeft.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\User\deneme.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\font-awesome\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Pictures\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

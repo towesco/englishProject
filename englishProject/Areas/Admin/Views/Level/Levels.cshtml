@@ -9,11 +9,29 @@
 
 <h2>Levels</h2>
 
-<p>
-    @Html.ActionLink("Create Level", "AddLevel", "Level")
+@using (Html.BeginForm("Levels", "Level", FormMethod.Get, new { @class = "form-inline" }))
+{
+    <div class="form-group">
+        <label for="boxNumber">Kutu ismi:</label>
+        @Html.DropDownList("boxNumber", null, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label for="SelectKind">Dil:</label>
+        @Html.DropDownList("SelectKind", null, new { @class = "form-control" })
+    </div>
+    <button type="submit" class="btn btn-primary">Seç</button>
+
+}
+
+<p class="text-right">
+    @Html.ActionLink("Yeni seviye oluştur", "AddLevel", "Level", new { @class = "btn btn-success" })
 </p>
+
 <table class="table table-bordered table-striped table-hover">
     <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Box.boxName)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.levelNumber)
         </th>
@@ -35,6 +53,9 @@
 
         <tr>
             <td>
+                @Html.DisplayFor(modelItem => item.Box.boxName)
+            </td>
+            <td>
 
                 @Html.DisplayFor(modelItem => item.levelNumber)
             </td>
@@ -47,7 +68,7 @@
 
             <td>
 
-                @Enum.GetName(typeof(LanguageEnum), item.kind)
+                @Enum.GetName(typeof(Kind), item.kind)
             </td>
 
             <td>

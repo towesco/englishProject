@@ -23,10 +23,10 @@ namespace englishProject.Areas.Admin.Infrastructure
             return true;
         }
 
-        public IEnumerable<Word> Words(int levelNumber, int kind)
+        public IEnumerable<Word> Words(int levelNumber, int kind, int boxNumber)
         {
             return entities.Level.Include("Word")
-                .First(a => a.levelNumber == levelNumber && a.kind == kind)
+                .First(a => a.levelNumber == levelNumber && a.kind == kind && a.boxNumber == boxNumber)
                 .Word.OrderByDescending(a => a.wordId);
         }
 
