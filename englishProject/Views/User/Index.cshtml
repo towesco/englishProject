@@ -10,5 +10,48 @@
 {
     @Html.Partial("Templates/UserProfileLeft", boxs)
 }
+@section scripts
+{
+    <script type="text/javascript">
 
+        $(document).ready(function () {
+
+            $(".subLevelSelect").click(function () {
+                $("#mySubLevelSelect").modal();
+                var levelNumber = $(this).attr("data-levelNumber");
+                var kind = $(this).attr("data-kind");
+                var jsonData = { levelNumber: 1, kind: 1 };
+
+                $.ajax("/User/LevelExamStartAjax", {
+                    type: "GET",
+                    data: jsonData,
+                    contentType: "html",
+                    success: function (data) {
+
+                        $("#mySubLevelSelect .modal-body").html(data);
+
+                    }
+                });
+
+            });
+
+        })
+    </script>
+
+}
 @Html.Partial("Templates/BoxsPV", boxs)
+
+<!-- Modal -->
+<div class="modal fade" id="mySubLevelSelect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Alt seviye seç</h4>
+            </div>
+            <div class="modal-body text-center">
+                <h2><i class="fa fa-cog fa-spin"></i></h2>
+            </div>
+        </div>
+    </div>
+</div>

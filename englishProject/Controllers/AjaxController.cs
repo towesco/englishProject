@@ -1,6 +1,11 @@
 ﻿using AutoMapper;
+using englishProject.Infrastructure;
 using englishProject.Infrastructure.Users;
 using englishProject.Infrastructure.ViewModel;
+using englishProject.Models;
+
+using englishProject.Models;
+
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -13,8 +18,10 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Http;
 using System.Web.Http.Results;
+using System.Web.Mvc;
 
 namespace englishProject.Controllers
 {
@@ -35,7 +42,7 @@ namespace englishProject.Controllers
         /// </summary>
         /// <param name="UserSignInVM"></param>
         /// <returns></returns>
-        [ActionName("SignIn")]
+        [System.Web.Http.ActionName("SignIn")]
         public async Task<IHttpActionResult> POSTUserLogin(UserSignInVM UserSignInVM)
         {
             bool result = false;
@@ -64,7 +71,7 @@ namespace englishProject.Controllers
         /// </summary>
         /// <param name="UserSignUpVM"></param>
         /// <returns></returns>
-        [ActionName("SignUp")]
+        [System.Web.Http.ActionName("SignUp")]
         public async Task<IHttpActionResult> POSTUserSignUp(UserSignUpVM UserSignUpVM)
         {
             int result = 0;
@@ -90,6 +97,20 @@ namespace englishProject.Controllers
             }
 
             return Content(HttpStatusCode.OK, result);
+        }
+
+        [System.Web.Http.ActionName("SubLevelQuestions")]
+        public IHttpActionResult GetSubLevelQuestions(int subLevel, int level, int kind)
+        {
+            SubLevel s = (SubLevel)Enum.Parse(typeof(SubLevel), subLevel.ToString());
+
+            return Content(HttpStatusCode.OK, new Operations().GetExam(s, level, kind).Item1);
+        }
+
+        [System.Web.Http.ActionName("UpdateUserProgress")]
+        public IHttpActionResult POSTUpdateUserProgress(levelUserProgress userProgress)
+        {
+            return Content(HttpStatusCode.OK, new Operations().UpdateUserProggress(userProgress));
         }
     }
 }

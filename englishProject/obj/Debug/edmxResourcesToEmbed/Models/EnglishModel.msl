@@ -1,17 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="EnglishProjectDBModelStoreContainer" CdmEntityContainer="EnglishProjectDBEntities">
-    <EntitySetMapping Name="levelUserProgress">
-      <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
-        <MappingFragment StoreEntitySet="levelUserProgress">
-          <ScalarProperty Name="progressId" ColumnName="progressId" />
-          <ScalarProperty Name="userId" ColumnName="userId" />
-          <ScalarProperty Name="completeRate" ColumnName="completeRate" />
-          <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
-          <ScalarProperty Name="kind" ColumnName="kind" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Box">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.Box">
         <MappingFragment StoreEntitySet="Box">
@@ -24,6 +13,7 @@
     <EntitySetMapping Name="Level">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.Level">
         <MappingFragment StoreEntitySet="Level">
+          <ScalarProperty Name="levelPuan" ColumnName="levelPuan" />
           <ScalarProperty Name="levelPicture" ColumnName="levelPicture" />
           <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
           <ScalarProperty Name="levelName" ColumnName="levelName" />
@@ -40,6 +30,18 @@
           <ScalarProperty Name="wordTranslate" ColumnName="wordTranslate" />
           <ScalarProperty Name="wordTurkish" ColumnName="wordTurkish" />
           <ScalarProperty Name="wordId" ColumnName="wordId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="levelUserProgress">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
+        <MappingFragment StoreEntitySet="levelUserProgress">
+          <ScalarProperty Name="puan" ColumnName="puan" />
+          <ScalarProperty Name="star" ColumnName="star" />
+          <ScalarProperty Name="kind" ColumnName="kind" />
+          <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="progressId" ColumnName="progressId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

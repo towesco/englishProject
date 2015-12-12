@@ -64,3 +64,48 @@
     width: 100px;
     margin-top: -55px;
 }
+
+.examheader {
+    background-color: #57B3E5;
+}
+
+    .examheader > .active {
+        color: white;
+    }
+
+.examHeaderSubLevel > li + li::before {
+    content: none;
+}
+
+.examHeaderSubLevel {
+    padding: 6px 15px;
+}
+
+    .examHeaderSubLevel .subLevelActive {
+        background-color: #57b3e5;
+        border-radius: 5px;
+        color: white;
+        padding: 2px 5px;
+    }
+
+.heart-color {
+    color: #3097d1;
+}
+
+.examInCorrectAlert {
+    -ms-border-radius: 0px;
+    border-radius: 0px;
+    border: medium none;
+    margin: -1px;
+}
+
+.updateAlert {
+    -ms-border-radius: 0px;
+    border-radius: 0px;
+    border: medium none;
+    margin: 30px -16px;
+}
+
+.starColor {
+    color: #3097d1;
+}

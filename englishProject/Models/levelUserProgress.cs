@@ -16,8 +16,9 @@ namespace englishProject.Models
     {
         public int progressId { get; set; }
         public string userId { get; set; }
-        public int completeRate { get; set; }
         public int levelNumber { get; set; }
         public int kind { get; set; }
+        public int star { get; set; }
+        public int puan { get; set; }
     }
 }

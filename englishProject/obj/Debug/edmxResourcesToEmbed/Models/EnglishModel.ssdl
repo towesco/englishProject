@@ -19,6 +19,7 @@
     <Property Name="levelName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="boxNumber" Type="int" Nullable="false" />
     <Property Name="levelPicture" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="levelPuan" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="levelUserProgress">
     <Key>
@@ -26,9 +27,10 @@
     </Key>
     <Property Name="progressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="completeRate" Type="int" Nullable="false" />
     <Property Name="levelNumber" Type="int" Nullable="false" />
     <Property Name="kind" Type="int" Nullable="false" />
+    <Property Name="star" Type="int" Nullable="false" />
+    <Property Name="puan" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Word">
     <Key>

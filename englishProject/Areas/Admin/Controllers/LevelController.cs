@@ -3,6 +3,7 @@ using englishProject.Infrastructure;
 using englishProject.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,11 +12,14 @@ namespace englishProject.Areas.Admin.Controllers
 {
     public class LevelController : Controller
     {
-        private ILevel entities;
+        private readonly ILevel entities;
+
+        private readonly HelperMethod helperMethod;
 
         public LevelController(ILevel entities)
         {
             this.entities = entities;
+            helperMethod = new HelperMethod();
         }
 
         public ActionResult Index()
@@ -25,16 +29,16 @@ namespace englishProject.Areas.Admin.Controllers
 
         public ActionResult Levels(int boxNumber = 1, int selectKind = 1)
         {
-            ViewBag.selectKind = new SelectList(HelperMethod.getListKind(), "Value", "Text");
-            ViewBag.boxNumber = new SelectList(HelperMethod.GetBoxSelectListItems(), "Value", "Text");
+            ViewBag.selectKind = new SelectList(helperMethod.getListKind(), "Value", "Text");
+            ViewBag.boxNumber = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
 
             return View(entities.Levels(boxNumber, (Kind)selectKind));
         }
 
         public ActionResult AddLevel()
         {
-            ViewBag.boxNumber = new SelectList(HelperMethod.GetBoxSelectListItems(), "Value", "Text");
-            ViewBag.kind = HelperMethod.getListKind();
+            ViewBag.boxNumber = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
+            ViewBag.kind = helperMethod.getListKind();
 
             return View(new Level());
         }
@@ -50,8 +54,8 @@ namespace englishProject.Areas.Admin.Controllers
         {
             Level level = entities.GetLevel(levelNumber, kind);
 
-            ViewBag.kind = new SelectList(HelperMethod.getListKind(), "Value", "Text", level.kind.ToString());
-            ViewBag.boxNumber = new SelectList(HelperMethod.GetBoxSelectListItems(), "Value", "Text", level.boxNumber.ToString());
+            ViewBag.kind = new SelectList(helperMethod.getListKind(), "Value", "Text", level.kind.ToString(CultureInfo.InvariantCulture));
+            ViewBag.boxNumber = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text", level.boxNumber.ToString(CultureInfo.InvariantCulture));
 
             return View(level);
         }

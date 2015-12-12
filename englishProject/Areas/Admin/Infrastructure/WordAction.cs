@@ -9,7 +9,8 @@ namespace englishProject.Areas.Admin.Infrastructure
 {
     public class WordAction : IWord
     {
-        private readonly EnglishProjectDBEntities entities;
+        // ReSharper disable once FieldCanBeMadeReadOnly.Local
+        private EnglishProjectDBEntities entities;
 
         public WordAction()
         {
@@ -25,9 +26,16 @@ namespace englishProject.Areas.Admin.Infrastructure
 
         public IEnumerable<Word> Words(int levelNumber, int kind, int boxNumber)
         {
-            return entities.Level.Include("Word")
-                .First(a => a.levelNumber == levelNumber && a.kind == kind && a.boxNumber == boxNumber)
-                .Word.OrderByDescending(a => a.wordId);
+            try
+            {
+                return entities.Level.Include("Word")
+                          .First(a => a.levelNumber == levelNumber && a.kind == kind && a.boxNumber == boxNumber)
+                          .Word.OrderByDescending(a => a.wordId).ToList();
+            }
+            catch (Exception)
+            {
+                return new List<Word>();
+            }
         }
 
         public bool UpdateWord(Word word)

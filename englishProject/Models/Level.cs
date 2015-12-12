@@ -25,6 +25,7 @@ namespace englishProject.Models
         public string levelName { get; set; }
         public int boxNumber { get; set; }
         public string levelPicture { get; set; }
+        public int levelPuan { get; set; }
     
         public virtual Box Box { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

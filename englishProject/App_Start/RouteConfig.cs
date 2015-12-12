@@ -16,6 +16,14 @@ namespace englishProject
                 name: "signin-google",
                 url: "signin-google",
                 defaults: new { controller = "User", action = "GoogleLogin" });
+
+            routes.MapRoute(
+      name: "levelQuiz",
+      url: "{controller}/{action}/{levelNumber}/{kind}/{subLevel}",
+      defaults: new { controller = "User", action = "levelQuiz" }, namespaces: new[] { "englishProject.Controllers" }
+
+  );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

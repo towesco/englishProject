@@ -11,24 +11,28 @@ namespace englishProject.Areas.Admin.Controllers
 {
     public class WordController : Controller
     {
-        private readonly IWord entities;
+        // ReSharper disable once FieldCanBeMadeReadOnly.Local
+        private IWord entities;
+
+        private HelperMethod helperMethod;
 
         public WordController(IWord word)
         {
             entities = word;
+            helperMethod = new HelperMethod();
         }
 
         public ActionResult Words(int levelNumber = 1, int kind = 1, int boxNumber = 1)
         {
-            ViewBag.boxNumber = new SelectList(HelperMethod.GetBoxSelectListItems(), "Value", "Text");
-            ViewBag.levelNumber = new SelectList(HelperMethod.GetLevelSelectListItems(), "Value", "Text");
-            ViewBag.kind = new SelectList(HelperMethod.getListKind(), "Value", "Text");
+            ViewBag.boxNumber = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
+            ViewBag.levelNumber = new SelectList(helperMethod.GetLevelSelectListItems(), "Value", "Text");
+            ViewBag.kind = new SelectList(helperMethod.getListKind(), "Value", "Text");
             return View(entities.Words(levelNumber, kind, boxNumber));
         }
 
         public ActionResult AddWord()
         {
-            ViewBag.kind = HelperMethod.getListKind();
+            ViewBag.kind = helperMethod.getListKind();
             return View(new Word());
         }
 
@@ -36,8 +40,8 @@ namespace englishProject.Areas.Admin.Controllers
         {
             var w = entities.GetWord(wordId);
 
-            ViewBag.levelNumber = new SelectList(HelperMethod.GetLevelSelectListItems(), "Value", "Text", w.levelNumber);
-            ViewBag.kind = new SelectList(HelperMethod.getListKind(), "Value", "Text", w.kind);
+            ViewBag.levelNumber = new SelectList(helperMethod.GetLevelSelectListItems(), "Value", "Text", w.levelNumber);
+            ViewBag.kind = new SelectList(helperMethod.getListKind(), "Value", "Text", w.kind);
             return View(w);
         }
 

@@ -16,14 +16,8 @@
 <body>
     @Html.Partial("MenuTemplate/TopMenu")
     <div class="container">
-        <div class="row">
-            <div class="col-md-3" id="leftMenu">
-                @RenderSection("Left", false)
-            </div>
-            <div class="col-md-9">
-                @RenderBody()
-            </div>
-        </div>
+
+        @RenderBody()
 
         <hr />
         <footer>

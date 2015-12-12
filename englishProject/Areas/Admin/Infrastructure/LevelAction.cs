@@ -13,7 +13,8 @@ namespace englishProject.Areas.Admin.Infrastructure
         /// <summary>
         /// Change entities
         /// </summary>
-        private readonly EnglishProjectDBEntities entities;
+        // ReSharper disable once FieldCanBeMadeReadOnly.Local
+        private EnglishProjectDBEntities entities;
 
         public LevelAction()
         {

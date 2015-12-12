@@ -4,6 +4,8 @@ using Facebook;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System;
+using System.Data;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -14,6 +16,13 @@ namespace englishProject.Controllers
 {
     public class UserController : Controller
     {
+        private Operations operations;
+
+        public UserController()
+        {
+            operations = new Operations();
+        }
+
         public UserAppManager usermanager
         {
             get { return HttpContext.GetOwinContext().GetUserManager<UserAppManager>(); }
@@ -35,8 +44,25 @@ namespace englishProject.Controllers
         // GET: User
         public ActionResult Index()
         {
-            ViewBag.boxs = Operations.GetBoxs(Kind.English);
-            ViewBag.user = Operations.getProfil();
+            ViewBag.boxs = operations.GetBoxs(Kind.English);
+            ViewBag.user = operations.getProfil();
+            return View();
+        }
+
+        public ActionResult LevelExamStart(int levelNumber = 1, int kind = 1)
+        {
+            return View(operations.GetExamLevelStart(levelNumber, kind));
+        }
+
+        public ActionResult levelExam(int levelNumber, int kind, int subLevel)
+        {
+            SubLevel sub = (SubLevel)Enum.Parse(typeof(SubLevel), subLevel.ToString());
+
+            var result = operations.GetExam(sub, levelNumber, kind);
+
+            ViewBag.exam = result.Item1;
+            ViewBag.level = result.Item2;
+
             return View();
         }
 
@@ -44,7 +70,20 @@ namespace englishProject.Controllers
         {
             ClaimsIdentity ident = HttpContext.User.Identity as ClaimsIdentity;
 
+            operations.GetExam(SubLevel.Temel, 1, 1);
+
             return View(ident.Claims.ToList());
+        }
+
+        public ActionResult QuestionsExamples()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult LevelExamStartAjax(int levelNumber, int kind)
+        {
+            return PartialView("Templates/LevelExamStartPV", operations.GetExamLevelStart(levelNumber, kind));
         }
 
         [HttpPost]

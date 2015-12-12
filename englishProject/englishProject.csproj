@@ -207,6 +207,7 @@
     <Compile Include="Areas\Admin\Controllers\LevelController.cs" />
     <Compile Include="Areas\Admin\Controllers\WordController.cs" />
     <Compile Include="Infrastructure\Enums.cs" />
+    <Compile Include="Infrastructure\Extensions.cs" />
     <Compile Include="Infrastructure\HelperMethod.cs" />
     <Compile Include="Areas\Admin\Infrastructure\IWord.cs" />
     <Compile Include="Areas\Admin\Infrastructure\ILevel.cs" />
@@ -219,6 +220,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\LevelQuiz.cs" />
     <Compile Include="Infrastructure\Operations.cs" />
     <Compile Include="Infrastructure\Users\RoleApp.cs" />
     <Compile Include="Infrastructure\Users\RoleAppManager.cs" />
@@ -324,6 +326,7 @@
     <Content Include="Areas\Admin\Views\Word\Words.cshtml" />
     <Content Include="Areas\Admin\Views\Word\AddWord.cshtml" />
     <Content Include="Areas\Admin\Views\Word\UpdateWord.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\SpeedWord.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery.validation.bootstrap.js" />
     <Content Include="Scripts\login.js" />
@@ -370,6 +373,11 @@
     <Content Include="Views\Shared\Templates\UserProfileLeft.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\deneme.cshtml" />
+    <Content Include="Views\User\levelExam.cshtml" />
+    <Content Include="Views\Shared\_LayoutExam.cshtml" />
+    <Content Include="Views\User\QuestionsExamples.cshtml" />
+    <Content Include="Views\User\LevelExamStart.cshtml" />
+    <Content Include="Views\Shared\Templates\LevelExamStartPV.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

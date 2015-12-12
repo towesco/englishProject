@@ -16,6 +16,13 @@ namespace englishProject.Controllers
 {
     public class HomeController : Controller
     {
+        private Operations operations;
+
+        public HomeController()
+        {
+            operations = new Operations();
+        }
+
         public UserAppManager usermanager
         {
             get { return HttpContext.GetOwinContext().GetUserManager<UserAppManager>(); }
@@ -28,7 +35,7 @@ namespace englishProject.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.boxs = Operations.GetBoxs(Kind.English);
+            ViewBag.boxs = operations.GetBoxs(Kind.English);
 
             return View();
         }

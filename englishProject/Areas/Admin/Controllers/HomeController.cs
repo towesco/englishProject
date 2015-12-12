@@ -1,4 +1,5 @@
-﻿using System;
+﻿using englishProject.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -12,6 +13,13 @@ namespace englishProject.Areas.Admin.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public ActionResult SpeedWord(int subLevel = 1, int levelNumber = 1, int kind = 1)
+        {
+            Operations operations = new Operations();
+
+            return View(operations.GetExam((SubLevel)subLevel, levelNumber, kind));
         }
     }
 }

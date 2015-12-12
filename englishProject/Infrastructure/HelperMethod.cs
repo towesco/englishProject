@@ -2,6 +2,7 @@
 using englishProject.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Management;
@@ -13,45 +14,50 @@ namespace englishProject.Infrastructure
 {
     public class HelperMethod
     {
-        private static readonly EnglishProjectDBEntities entities = new EnglishProjectDBEntities();
+        // ReSharper disable once FieldCanBeMadeReadOnly.Local
+        private EnglishProjectDBEntities entities;
 
-        public static List<SelectListItem> getListKind()
+        public HelperMethod()
         {
-            return (from object item in Enum.GetValues(typeof(Kind))
-                    select new System.Web.Mvc.SelectListItem()
-                    {
-                        Text = item.ToString(),
-                        Value = ((int)item).ToString(),
-                        Selected = false
-                    }).ToList();
+            entities = new EnglishProjectDBEntities();
         }
 
-        public static List<SelectListItem> GetLevelSelectListItems()
+        public List<SelectListItem> getListKind()
+        {
+            return (Enum.GetValues(typeof(Kind)).Cast<object>().Select(item => new SelectListItem
+            {
+                Text = item.ToString(),
+                Value = ((int)item).ToString(CultureInfo.InvariantCulture),
+                Selected = false
+            })).ToList();
+        }
+
+        public List<SelectListItem> GetLevelSelectListItems()
         {
             return
                  entities.Level.ToList()
                      .Select(
                          a =>
-                             new SelectListItem()
+                             new SelectListItem
                              {
                                  Text = string.Format("{0}--------------->{1} kutusu", a.levelName, a.Box.boxName),
-                                 Value = a.levelNumber.ToString(),
+                                 Value = a.levelNumber.ToString(CultureInfo.InvariantCulture),
                                  Selected = false
                              })
                      .ToList();
         }
 
-        public static List<SelectListItem> GetBoxSelectListItems()
+        public List<SelectListItem> GetBoxSelectListItems()
         {
-            return entities.Box.ToList().Select(a => new SelectListItem()
+            return entities.Box.ToList().Select(a => new SelectListItem
             {
                 Text = a.boxName,
-                Value = a.boxNumber.ToString(),
+                Value = a.boxNumber.ToString(CultureInfo.InvariantCulture),
                 Selected = false
             }).ToList();
         }
 
-        public static List<SelectListItem> GetLevelNumberListItems()
+        public List<SelectListItem> GetLevelNumberListItems()
         {
             List<int> ListOne = Enumerable.Range(1, 50).ToList();
 
@@ -61,7 +67,7 @@ namespace englishProject.Infrastructure
 
             return
                 remainingList.Select(
-                    a => new SelectListItem() { Text = a.ToString(), Value = a.ToString(), Selected = false }).ToList();
+                    a => new SelectListItem { Text = a.ToString(CultureInfo.InvariantCulture), Value = a.ToString(CultureInfo.InvariantCulture), Selected = false }).ToList();
         }
     }
 }

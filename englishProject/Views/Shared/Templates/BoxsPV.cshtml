@@ -46,7 +46,7 @@
                             @foreach (Level level in item.Level)
                             {
                                 <li>
-                                    <a href="#" class="btn btn-primary btn-lg btn-level">
+                                    <a data-levelnumber="@level.levelNumber" data-kind="@item.kind" href="#" class="btn btn-primary btn-lg btn-level subLevelSelect">
                                         <div>
 
                                             <span class="badge badge-level"><strong> @level.levelNumber</strong></span>

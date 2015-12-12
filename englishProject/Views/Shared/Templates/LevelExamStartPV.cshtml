@@ -1,0 +1,85 @@
+﻿@using englishProject.Infrastructure
+@model Tuple<englishProject.Models.Level, englishProject.Models.levelUserProgress>
+@helper  subLevelButton(string btnName, bool lockk, bool disabled, int subLevel, bool success = false)
+{
+
+    <a href="@Url.Action("levelExam", "user", new { levelNumber = Model.Item1.levelNumber, kind = Model.Item1.kind, subLevel = subLevel })" class="btn btn-lg btn-block @(@disabled ? "disabled" : "") @(@success ? "btn-success" : "btn-primary") ">
+        <div class="row">
+
+            <div class="col-xs-8  text-left">
+
+                @if (lockk)
+                {
+                    <i class="fa fa-lock"></i>
+                }
+                @if (success)
+                {
+                    <i class="fa fa-check"></i>
+                }
+
+                @if (lockk == false && success == false)
+                {
+                    <i class="fa fa-arrow-right"></i>
+                }
+
+                @Enum.GetName(typeof(SubLevel), subLevel).ToString() Seviye
+            </div>
+            <div class="col-xs-3  text-left">
+                <div style="background-color: white; color: #2c86b7;" class="label label-primary">@btnName</div>
+            </div>
+            <div class="col-xs-1 "><i class="fa fa-chevron-circle-right"></i></div>
+        </div>
+    </a>
+
+}
+
+<div>
+
+    @if (Model.Item2 == null)
+    {
+        for (int i = 1; i <= 3; i++)
+        {
+
+            if (i < 2)
+            {
+
+                @subLevelButton("Başla", false, false, i)
+
+            }
+            else
+            {
+                @subLevelButton("Kilitli", true, true, i)
+
+            }
+
+        }
+
+    }
+    else
+    {
+
+        if (Model.Item2.star == 1)
+        {
+            @subLevelButton("Çalış", false, false, 1, true)
+            @subLevelButton("Başla", false, false, 2)
+            @subLevelButton("Kilitli", true, true, 3)
+
+        }
+        else if (Model.Item2.star == 2)
+        {
+
+            @subLevelButton("Çalış", false, false, 1, true)
+            @subLevelButton("Çalış", false, false, 2, true)
+            @subLevelButton("Başla", false, false, 3)
+
+        }
+        else
+        {
+            @subLevelButton("Çalış", false, false, 1, true)
+            @subLevelButton("Çalış", false, false, 2, true)
+            @subLevelButton("Çalış", false, false, 3, true)
+
+        }
+
+    }
+</div>

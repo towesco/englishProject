@@ -1,17 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="EnglishProjectDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="levelUserProgress">
-    <Key>
-      <PropertyRef Name="progressId" />
-    </Key>
-    <Property Name="progressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="userId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-    <Property Name="completeRate" Type="Int32" Nullable="false" />
-    <Property Name="levelNumber" Type="Int32" Nullable="false" />
-    <Property Name="kind" Type="Int32" Nullable="false" />
-  </EntityType>
   <EntityContainer Name="EnglishProjectDBEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" />
     <EntitySet Name="Box" EntityType="EnglishProjectDBModel.Box" />
     <EntitySet Name="Level" EntityType="EnglishProjectDBModel.Level" />
     <EntitySet Name="Word" EntityType="EnglishProjectDBModel.Word" />
@@ -23,6 +12,7 @@
       <End Role="Level" EntitySet="Level" />
       <End Role="Word" EntitySet="Word" />
     </AssociationSet>
+    <EntitySet Name="levelUserProgress" EntityType="EnglishProjectDBModel.levelUserProgress" />
   </EntityContainer>
   <EntityType Name="Box">
     <Key>
@@ -44,6 +34,7 @@
     <Property Name="levelName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="boxNumber" Type="Int32" Nullable="false" />
     <Property Name="levelPicture" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="levelPuan" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Box" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Level" ToRole="Box" />
     <NavigationProperty Name="Word" Relationship="EnglishProjectDBModel.FK_Word_Level" FromRole="Level" ToRole="Word" />
   </EntityType>
@@ -86,4 +77,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="levelUserProgress">
+    <Key>
+      <PropertyRef Name="progressId" />
+    </Key>
+    <Property Name="progressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="levelNumber" Type="Int32" Nullable="false" />
+    <Property Name="kind" Type="Int32" Nullable="false" />
+    <Property Name="star" Type="Int32" Nullable="false" />
+    <Property Name="puan" Type="Int32" Nullable="false" />
+  </EntityType>
 </Schema>
