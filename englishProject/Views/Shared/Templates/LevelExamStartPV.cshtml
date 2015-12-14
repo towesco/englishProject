@@ -1,5 +1,8 @@
 ﻿@using englishProject.Infrastructure
-@model Tuple<englishProject.Models.Level, englishProject.Models.levelUserProgress>
+@using Ninject
+@using WebGrease.Css.Extensions
+@using englishProject.Models
+@model Tuple<Level, levelUserProgress, levelUserProgress>
 @helper  subLevelButton(string btnName, bool lockk, bool disabled, int subLevel, bool success = false)
 {
 
@@ -37,19 +40,32 @@
 
     @if (Model.Item2 == null)
     {
-        for (int i = 1; i <= 3; i++)
+
+        if (Model.Item1.levelNumberAppear == 1 || (Model.Item3 != null && Model.Item3.star == 3))
         {
 
-            if (i < 2)
+            for (int i = 1; i <= 3; i++)
             {
 
-                @subLevelButton("Başla", false, false, i)
+                if (i < 2)
+                {
+
+                    @subLevelButton("Başla", false, false, i)
+
+                }
+                else
+                {
+                    @subLevelButton("Kilitli", true, true, i)
+
+                }
 
             }
-            else
+        }
+        else
+        {
+            for (int i = 1; i <= 3; i++)
             {
                 @subLevelButton("Kilitli", true, true, i)
-
             }
 
         }

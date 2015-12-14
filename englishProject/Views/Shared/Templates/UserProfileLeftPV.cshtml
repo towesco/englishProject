@@ -1,0 +1,45 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.Users
+@using Microsoft.Ajax.Utilities
+@model englishProject.Infrastructure.UserProfilView
+@{
+
+}
+<div class="panel panel-userbackground">
+    <div id="userBackground" class="text-center">
+        <div class="flagWrapper">
+            <img src="~/Content/images/flag/Turkey-icon.png" />
+            <i class="fa fa-exchange" style="color:white;"></i>
+            <img src="~/Content/images/flag/United-kingdom-icon.png" />
+        </div>
+    </div>
+    <div class="text-center">
+        <img src="@Model.picture" class="img-circle img-thumbnail userProfiPicture" />
+    </div>
+    <div class="text-center">
+        <strong class="text-primary"><i class="fa fa-user"></i> @Model.userName</strong>
+    </div>
+    <table class="table small">
+        <tr class="active">
+            <td><i class="fa fa-dot-circle-o" style="color: #B2AE97;"></i> Toplam puan</td>
+            <td><strong>@Model.TotalPuan</strong> puan</td>
+        </tr>
+        @if (Model.UserProfilBoxs.Any())
+        {
+            foreach (var item in Model.UserProfilBoxs)
+            {
+                <tr class="warning">
+
+                    <td><i class="fa fa-cube" style="color: #B2AE97;"></i> @item.BoxName kutusu</td>
+                    <td>
+                        <strong>
+                            @item.LevelCurrent
+                        </strong> . seviye
+                    </td>
+                </tr>
+
+            }
+
+        }
+    </table>
+</div>

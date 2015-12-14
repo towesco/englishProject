@@ -14,12 +14,13 @@
       <PropertyRef Name="levelNumber" />
       <PropertyRef Name="kind" />
     </Key>
-    <Property Name="levelNumber" Type="int" Nullable="false" />
+    <Property Name="levelNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="kind" Type="int" Nullable="false" />
     <Property Name="levelName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="boxNumber" Type="int" Nullable="false" />
     <Property Name="levelPicture" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="levelPuan" Type="int" Nullable="false" />
+    <Property Name="levelNumberAppear" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="levelUserProgress">
     <Key>
@@ -31,6 +32,7 @@
     <Property Name="kind" Type="int" Nullable="false" />
     <Property Name="star" Type="int" Nullable="false" />
     <Property Name="puan" Type="int" Nullable="false" />
+    <Property Name="boxNumber" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Word">
     <Key>

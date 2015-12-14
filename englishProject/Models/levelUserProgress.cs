@@ -20,5 +20,6 @@ namespace englishProject.Models
         public int kind { get; set; }
         public int star { get; set; }
         public int puan { get; set; }
+        public int boxNumber { get; set; }
     }
 }

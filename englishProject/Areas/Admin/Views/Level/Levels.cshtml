@@ -30,10 +30,16 @@
 <table class="table table-bordered table-striped table-hover">
     <tr>
         <th>
+            @Html.DisplayNameFor(model => model.kind)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Box.boxName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.levelNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.levelNumberAppear)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.levelName)
@@ -41,9 +47,8 @@
         <th>
             @Html.DisplayNameFor(model => model.levelPicture)
         </th>
-
         <th>
-            @Html.DisplayNameFor(model => model.kind)
+            @Html.DisplayNameFor(model => model.levelPuan)
         </th>
         <th></th>
     </tr>
@@ -53,6 +58,10 @@
 
         <tr>
             <td>
+
+                @Enum.GetName(typeof(Kind), item.kind)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.Box.boxName)
             </td>
             <td>
@@ -60,17 +69,18 @@
                 @Html.DisplayFor(modelItem => item.levelNumber)
             </td>
             <td>
+
+                @Html.DisplayFor(modelItem => item.levelNumberAppear)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.levelName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.levelPicture)
             </td>
-
             <td>
-
-                @Enum.GetName(typeof(Kind), item.kind)
+                @Html.DisplayFor(modelItem => item.levelPuan)
             </td>
-
             <td>
                 <div class="row">
                     <div class="col-md-3">

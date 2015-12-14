@@ -39,6 +39,7 @@ namespace englishProject.Areas.Admin.Controllers
         {
             ViewBag.boxNumber = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
             ViewBag.kind = helperMethod.getListKind();
+            ViewBag.levelNumberAppear = helperMethod.GetLevelNumberAppearListItems();
 
             return View(new Level());
         }

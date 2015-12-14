@@ -17,6 +17,7 @@
             var self = this;
             var levelNumber = "@level.levelNumber";
             var kind = "@level.kind";
+            var boxNumber = "@level.boxNumber";
             var okTextArray = new Array("Temel seviye tamamlandı.", "İleri seviye tamamlandı.", "Mükemmel seviye tamamlandı.");
             var questionTextArray = new Array("Türkçe çevirisi nedir ?", "İngilizce çevirisi nedir ?", "Kelimenin ingilizce karşılığını yazınız.");
             self.warningAppear = ko.observable(false); //sorun yanlış cevap verildiğinde doğru cevabın ortay çıkmasını sağlar
@@ -46,7 +47,8 @@
                     levelNumber: parseInt(levelNumber),
                     kind: parseInt(kind),
                     star: self.star(),
-                    puan: self.totalPuan()
+                    puan: Math.round(self.totalPuan()),
+                    boxNumber: boxNumber
 
                 }
                 var jsonData = ko.toJSON(self.userProgress);

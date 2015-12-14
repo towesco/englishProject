@@ -19,12 +19,13 @@
             <PropertyRef Name="levelNumber" />
             <PropertyRef Name="kind" />
           </Key>
-          <Property Name="levelNumber" Type="int" Nullable="false" />
+          <Property Name="levelNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="kind" Type="int" Nullable="false" />
           <Property Name="levelName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="boxNumber" Type="int" Nullable="false" />
           <Property Name="levelPicture" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="levelPuan" Type="int" Nullable="false" />
+          <Property Name="levelNumberAppear" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="levelUserProgress">
           <Key>
@@ -36,6 +37,7 @@
           <Property Name="kind" Type="int" Nullable="false" />
           <Property Name="star" Type="int" Nullable="false" />
           <Property Name="puan" Type="int" Nullable="false" />
+          <Property Name="boxNumber" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Word">
           <Key>
@@ -122,12 +124,13 @@
             <PropertyRef Name="levelNumber" />
             <PropertyRef Name="kind" />
           </Key>
-          <Property Name="levelNumber" Type="Int32" Nullable="false" />
+          <Property Name="levelNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="kind" Type="Int32" Nullable="false" />
           <Property Name="levelName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="boxNumber" Type="Int32" Nullable="false" />
           <Property Name="levelPicture" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="levelPuan" Type="Int32" Nullable="false" />
+          <Property Name="levelNumberAppear" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Box" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Level" ToRole="Box" />
           <NavigationProperty Name="Word" Relationship="EnglishProjectDBModel.FK_Word_Level" FromRole="Level" ToRole="Word" />
         </EntityType>
@@ -180,6 +183,7 @@
           <Property Name="kind" Type="Int32" Nullable="false" />
           <Property Name="star" Type="Int32" Nullable="false" />
           <Property Name="puan" Type="Int32" Nullable="false" />
+          <Property Name="boxNumber" Type="Int32" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -199,6 +203,7 @@
           <EntitySetMapping Name="Level">
             <EntityTypeMapping TypeName="EnglishProjectDBModel.Level">
               <MappingFragment StoreEntitySet="Level">
+                <ScalarProperty Name="levelNumberAppear" ColumnName="levelNumberAppear" />
                 <ScalarProperty Name="levelPuan" ColumnName="levelPuan" />
                 <ScalarProperty Name="levelPicture" ColumnName="levelPicture" />
                 <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
@@ -222,6 +227,7 @@
           <EntitySetMapping Name="levelUserProgress">
             <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
               <MappingFragment StoreEntitySet="levelUserProgress">
+                <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
                 <ScalarProperty Name="puan" ColumnName="puan" />
                 <ScalarProperty Name="star" ColumnName="star" />
                 <ScalarProperty Name="kind" ColumnName="kind" />

@@ -29,12 +29,13 @@
       <PropertyRef Name="levelNumber" />
       <PropertyRef Name="kind" />
     </Key>
-    <Property Name="levelNumber" Type="Int32" Nullable="false" />
+    <Property Name="levelNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="kind" Type="Int32" Nullable="false" />
     <Property Name="levelName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="boxNumber" Type="Int32" Nullable="false" />
     <Property Name="levelPicture" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
     <Property Name="levelPuan" Type="Int32" Nullable="false" />
+    <Property Name="levelNumberAppear" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Box" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Level" ToRole="Box" />
     <NavigationProperty Name="Word" Relationship="EnglishProjectDBModel.FK_Word_Level" FromRole="Level" ToRole="Word" />
   </EntityType>
@@ -87,5 +88,6 @@
     <Property Name="kind" Type="Int32" Nullable="false" />
     <Property Name="star" Type="Int32" Nullable="false" />
     <Property Name="puan" Type="Int32" Nullable="false" />
+    <Property Name="boxNumber" Type="Int32" Nullable="false" />
   </EntityType>
 </Schema>

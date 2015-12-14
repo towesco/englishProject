@@ -7,6 +7,7 @@ using Microsoft.Owin.Security;
 using System;
 using System.Data;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -45,13 +46,10 @@ namespace englishProject.Controllers
         public ActionResult Index()
         {
             ViewBag.boxs = operations.GetBoxs(Kind.English);
-            ViewBag.user = operations.getProfil();
-            return View();
-        }
+            ViewBag.userProfilView = operations.GetUserProfilViewMenu();
+            ViewBag.boxMenu = operations.GetBoxMenu();
 
-        public ActionResult LevelExamStart(int levelNumber = 1, int kind = 1)
-        {
-            return View(operations.GetExamLevelStart(levelNumber, kind));
+            return View();
         }
 
         public ActionResult levelExam(int levelNumber, int kind, int subLevel)

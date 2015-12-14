@@ -35,8 +35,6 @@ namespace englishProject.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.boxs = operations.GetBoxs(Kind.English);
-
             return View();
         }
 

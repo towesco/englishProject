@@ -13,6 +13,7 @@
     <EntitySetMapping Name="Level">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.Level">
         <MappingFragment StoreEntitySet="Level">
+          <ScalarProperty Name="levelNumberAppear" ColumnName="levelNumberAppear" />
           <ScalarProperty Name="levelPuan" ColumnName="levelPuan" />
           <ScalarProperty Name="levelPicture" ColumnName="levelPicture" />
           <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
@@ -36,6 +37,7 @@
     <EntitySetMapping Name="levelUserProgress">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
         <MappingFragment StoreEntitySet="levelUserProgress">
+          <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
           <ScalarProperty Name="puan" ColumnName="puan" />
           <ScalarProperty Name="star" ColumnName="star" />
           <ScalarProperty Name="kind" ColumnName="kind" />

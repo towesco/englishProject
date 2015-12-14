@@ -57,17 +57,22 @@ namespace englishProject.Infrastructure
             }).ToList();
         }
 
-        public List<SelectListItem> GetLevelNumberListItems()
+        public List<SelectListItem> GetLevelNumberAppearListItems()
         {
             List<int> ListOne = Enumerable.Range(1, 50).ToList();
 
-            List<int> ListTwo = entities.Level.Select(a => a.levelNumber).ToList();
+            //List<int> ListTwo = entities.Level.Select(a => a.levelNumber).ToList();
 
-            List<int> remainingList = ListOne.Except(ListTwo).ToList();
+            //List<int> remainingList = ListOne.Except(ListTwo).ToList();
+
+            //return
+            //    remainingList.Select(
+            //        a => new SelectListItem { Text = a.ToString(CultureInfo.InvariantCulture), Value = a.ToString(CultureInfo.InvariantCulture), Selected = false }).ToList();
 
             return
-                remainingList.Select(
-                    a => new SelectListItem { Text = a.ToString(CultureInfo.InvariantCulture), Value = a.ToString(CultureInfo.InvariantCulture), Selected = false }).ToList();
+                Enumerable.Range(1, 50)
+                    .Select(a => new SelectListItem() { Text = a.ToString(), Value = a.ToString(), Selected = false })
+                    .ToList();
         }
     }
 }

@@ -1,14 +1,16 @@
-﻿@using englishProject.Models
+﻿@using englishProject.Infrastructure
+@using englishProject.Models
 @{
     ViewBag.Title = "Home Page";
-    List<Box> boxs = ViewBag.boxs;
+    List<BoxLevelUser> boxs = ViewBag.boxs;
     ViewBag.Title = "Index";
 
 }
 
 @section Left
 {
-    @Html.Partial("Templates/UserProfileLeft", boxs)
+    @Html.Partial("Templates/UserProfileLeftPV", (UserProfilView)ViewBag.userProfilView)
+    @Html.Partial("Templates/BoxMenuPV", (Dictionary<string, int>)ViewBag.boxMenu)
 }
 @section scripts
 {
@@ -20,7 +22,9 @@
                 $("#mySubLevelSelect").modal();
                 var levelNumber = $(this).attr("data-levelNumber");
                 var kind = $(this).attr("data-kind");
-                var jsonData = { levelNumber: 1, kind: 1 };
+                var boxNumber = $(this).attr("data-boxNumber");
+
+                var jsonData = { boxNumber: boxNumber, levelNumber: levelNumber, kind: kind };
 
                 $.ajax("/User/LevelExamStartAjax", {
                     type: "GET",

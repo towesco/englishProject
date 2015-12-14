@@ -1,27 +1,16 @@
-﻿using AutoMapper;
-using englishProject.Infrastructure;
+﻿using englishProject.Infrastructure;
 using englishProject.Infrastructure.Users;
 using englishProject.Infrastructure.ViewModel;
 using englishProject.Models;
-
-using englishProject.Models;
-
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Newtonsoft.Json.Serialization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Http;
-using System.Web.Http.Results;
-using System.Web.Mvc;
 
 namespace englishProject.Controllers
 {

@@ -34,7 +34,7 @@
                     contentType: "application/json",
                     success: function (data) {
                         if (data) {
-                            location.reload();
+                            location.href = "/User/Index";
                         } else {
                             self.loading(false);
                             self.noUser(true);
@@ -74,7 +74,7 @@ var SignUpViewModel = function () {
                             self.signUpError(true);
                         }
                         else if (data == 1) {
-                            location.reload();
+                            location.href = "/User/Index";
                         } else {
                             $("#signUpErrorText").html("Email adresi kayıtlı.");
                             self.signupLoading(false);
