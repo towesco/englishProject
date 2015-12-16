@@ -40,7 +40,7 @@ namespace englishProject.Areas.Admin.Controllers
             ViewBag.boxNumber = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
             ViewBag.kind = helperMethod.getListKind();
             ViewBag.levelNumberAppear = helperMethod.GetLevelNumberAppearListItems();
-
+            ViewBag.levelModul = helperMethod.GetModulListItems();
             return View(new Level());
         }
 
@@ -57,6 +57,8 @@ namespace englishProject.Areas.Admin.Controllers
 
             ViewBag.kind = new SelectList(helperMethod.getListKind(), "Value", "Text", level.kind.ToString(CultureInfo.InvariantCulture));
             ViewBag.boxNumber = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text", level.boxNumber.ToString(CultureInfo.InvariantCulture));
+
+            ViewBag.levelModul = new SelectList(helperMethod.GetModulListItems(), "Value", "Text", level.levelModul.ToString(CultureInfo.InvariantCulture));
 
             return View(level);
         }

@@ -258,11 +258,11 @@
                                 <a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard fa-fw"></i> Gösterge paneli</a>
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Seviye ve Diller<span class="fa arrow"></span></a>
+                                @Html.ActionLink("Seviyeler", "Levels", "Level")
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> WordModul<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
-                                    <li>
-                                        @Html.ActionLink("Seviyeler", "Levels", "Level")
-                                    </li>
 
                                     <li>
                                         @Html.ActionLink("Kelimeler", "Words", "Word")

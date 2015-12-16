@@ -114,10 +114,7 @@
 }
 
 .updateAlert {
-    -ms-border-radius: 0px;
-    border-radius: 0px;
-    border: medium none;
-    margin: 30px -16px;
+    margin: 10px 0px 0px;
 }
 
 .starColor {

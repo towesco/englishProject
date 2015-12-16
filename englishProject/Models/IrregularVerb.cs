@@ -12,17 +12,13 @@ namespace englishProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Level
+    public partial class IrregularVerb
     {
+        public int IrregularId { get; set; }
+        public string verbOne { get; set; }
+        public string verbTwo { get; set; }
+        public string verbThree { get; set; }
         public int levelNumber { get; set; }
         public int kind { get; set; }
-        public string levelName { get; set; }
-        public int boxNumber { get; set; }
-        public string levelPicture { get; set; }
-        public int levelPuan { get; set; }
-        public int levelNumberAppear { get; set; }
-        public int levelModul { get; set; }
-    
-        public virtual Box Box { get; set; }
     }
 }

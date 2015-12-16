@@ -1,11 +1,13 @@
 ﻿using englishProject.Infrastructure;
 using englishProject.Infrastructure.Users;
+using englishProject.Models;
 using Facebook;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
@@ -17,12 +19,14 @@ namespace englishProject.Controllers
 {
     public class UserController : Controller
     {
-        private Operations operations;
+        private readonly Operations operations;
 
         public UserController()
         {
             operations = new Operations();
         }
+
+        #region Identity Gets
 
         public UserAppManager usermanager
         {
@@ -42,6 +46,8 @@ namespace englishProject.Controllers
             get { return HttpContext.GetOwinContext().Authentication; }
         }
 
+        #endregion Identity Gets
+
         // GET: User
         public ActionResult Index()
         {
@@ -52,14 +58,23 @@ namespace englishProject.Controllers
             return View();
         }
 
-        public ActionResult levelExam(int levelNumber, int kind, int subLevel)
+        public ActionResult levelExam(int levelNumber, int kind, int? subLevel)
         {
-            SubLevel sub = (SubLevel)Enum.Parse(typeof(SubLevel), subLevel.ToString());
+            Level level = operations.GetLevel(levelNumber, kind);
+            Modul m = (Modul)Enum.Parse(typeof(Modul), level.levelModul.ToString(CultureInfo.InvariantCulture));
+            ViewBag.level = level;
+            ViewBag.modul = m;
+            switch (m)
+            {
+                case Modul.WordModul:
+                    WordModulSubLevel sub = (WordModulSubLevel)Enum.Parse(typeof(WordModulSubLevel), subLevel.ToString());
+                    var result = operations.GetWordModul(sub, levelNumber, kind);
+                    ViewBag.exam = result.Item1;
+                    break;
 
-            var result = operations.GetExam(sub, levelNumber, kind);
-
-            ViewBag.exam = result.Item1;
-            ViewBag.level = result.Item2;
+                case Modul.IrregularVerbModul:
+                    break;
+            }
 
             return View();
         }
@@ -68,27 +83,26 @@ namespace englishProject.Controllers
         {
             ClaimsIdentity ident = HttpContext.User.Identity as ClaimsIdentity;
 
-            operations.GetExam(SubLevel.Temel, 1, 1);
+            operations.GetWordModul(WordModulSubLevel.Temel, 1, 1);
 
             return View(ident.Claims.ToList());
-        }
-
-        public ActionResult QuestionsExamples()
-        {
-            return View();
         }
 
         [HttpGet]
         public ActionResult LevelExamStartAjax(int levelNumber, int kind)
         {
-            return PartialView("Templates/LevelExamStartPV", operations.GetExamLevelStart(levelNumber, kind));
+            Level level = operations.GetLevel(levelNumber, kind);
+            string partialView = "Modul/" + Enum.GetName(typeof(Modul), level.levelModul) + "Start";
+            return PartialView(partialView, operations.GetExamLevelStart(levelNumber, kind));
         }
+
+        #region Social Login
 
         [HttpPost]
         [AllowAnonymous]
         public ActionResult FacebookLogin(string ReturnUrl)
         {
-            AuthenticationProperties properties = new AuthenticationProperties()
+            AuthenticationProperties properties = new AuthenticationProperties
             {
                 RedirectUri = Url.Action("facebookcallback", new { ReturnUrl = ReturnUrl })
             };
@@ -117,9 +131,9 @@ namespace englishProject.Controllers
 
                 ////user picture:  http://graph.facebook.com/10206530076964065/picture?type=large
 
-                string profilImage = "http://graph.facebook.com/" + userId.ToString() + "/picture?type=large";
+                string profilImage = "http://graph.facebook.com/" + userId + "/picture?type=large";
 
-                user = new UserApp() { Email = infoEmail.email, UserName = info.DefaultUserName, PicturePath = profilImage };
+                user = new UserApp { Email = infoEmail.email, UserName = info.DefaultUserName, PicturePath = profilImage };
 
                 var result = await usermanager.CreateAsync(user);
                 if (result.Succeeded)
@@ -134,7 +148,7 @@ namespace englishProject.Controllers
 
             ClaimsIdentity identity = await usermanager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
             identity.AddClaims(info.ExternalIdentity.Claims);
-            HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+            HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = true }, identity);
             return Redirect(ReturnUrl ?? "/");
         }
 
@@ -142,7 +156,7 @@ namespace englishProject.Controllers
         [AllowAnonymous]
         public ActionResult GoogleLogin(string ReturnUrl)
         {
-            AuthenticationProperties properties = new AuthenticationProperties()
+            AuthenticationProperties properties = new AuthenticationProperties
             {
                 RedirectUri = Url.Action("googlecallback", new { ReturnUrl = ReturnUrl })
             };
@@ -160,7 +174,7 @@ namespace englishProject.Controllers
 
             if (user == null)
             {
-                user = new UserApp() { Email = info.Email, UserName = info.DefaultUserName };
+                user = new UserApp { Email = info.Email, UserName = info.DefaultUserName };
 
                 IdentityResult result = await usermanager.CreateAsync(user);
                 if (result.Succeeded)
@@ -177,8 +191,10 @@ namespace englishProject.Controllers
 
             identity.AddClaims(info.ExternalIdentity.Claims);
 
-            HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties() { IsPersistent = true }, identity);
+            HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = true }, identity);
             return Redirect(ReturnUrl ?? "/");
         }
+
+        #endregion Social Login
     }
 }

@@ -5,7 +5,12 @@ using System.Web;
 
 namespace englishProject.Infrastructure
 {
-    public enum SubLevel
+    public enum Modul
+    {
+        WordModul = 1, IrregularVerbModul = 2
+    }
+
+    public enum WordModulSubLevel
     {
         Temel = 1, İleri = 2, Mükemmel = 3
     }

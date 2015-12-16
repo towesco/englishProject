@@ -1,4 +1,5 @@
 ﻿using englishProject.Infrastructure;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace englishProject.Areas.Admin.Controllers
         {
             Operations operations = new Operations();
 
-            return View(operations.GetExam((SubLevel)subLevel, levelNumber, kind));
+            return View(operations.GetWordModul((WordModulSubLevel)subLevel, levelNumber, kind));
         }
     }
 }

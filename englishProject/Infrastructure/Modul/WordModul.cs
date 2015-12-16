@@ -1,11 +1,12 @@
-﻿using System;
+﻿using englishProject.Infrastructure;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
 namespace englishProject.Infrastructure
 {
-    public class LevelExam
+    public class WordModul
     {
         public int Puan { get; set; }
 
@@ -13,7 +14,7 @@ namespace englishProject.Infrastructure
 
         public int Star { get; set; }
 
-        public SubLevel SubLevel { get; set; }
+        public WordModulSubLevel SubLevel { get; set; }
 
         public List<Questions> Questions { get; set; }
     }

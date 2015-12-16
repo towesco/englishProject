@@ -50,6 +50,9 @@
         <th>
             @Html.DisplayNameFor(model => model.levelPuan)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.levelModul)
+        </th>
         <th></th>
     </tr>
 
@@ -81,6 +84,12 @@
             <td>
                 @Html.DisplayFor(modelItem => item.levelPuan)
             </td>
+
+            <td>
+
+                @Enum.GetName(typeof(Modul), item.levelModul)
+            </td>
+
             <td>
                 <div class="row">
                     <div class="col-md-3">
@@ -89,7 +98,7 @@
                     <div class="col-md-3">
                         @using (Html.BeginForm("DeleteLevel", "Level", new { levelNumber = item.levelNumber, kind = item.kind }, FormMethod.Post, new { @style = "" }))
                         {
-                            <input type="submit" value="Sil" class="btn btn-danger btn-xs" />
+                        <input type="submit" value="Sil" class="btn btn-danger btn-xs" />
                         }
                     </div>
                 </div>

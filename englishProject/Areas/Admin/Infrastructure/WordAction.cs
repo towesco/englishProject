@@ -28,9 +28,11 @@ namespace englishProject.Areas.Admin.Infrastructure
         {
             try
             {
-                return entities.Level.Include("Word")
-                          .First(a => a.levelNumber == levelNumber && a.kind == kind && a.boxNumber == boxNumber)
-                          .Word.OrderByDescending(a => a.wordId).ToList();
+                //return entities.Level
+                //          .First(a => a.levelNumber == levelNumber && a.kind == kind && a.boxNumber == boxNumber)
+                //          .Word.OrderByDescending(a => a.wordId).ToList();
+
+                return entities.Word.Where(a => a.levelNumber == levelNumber && a.kind == kind).OrderByDescending(a => a.wordId).ToList();
             }
             catch (Exception)
             {

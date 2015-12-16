@@ -88,12 +88,12 @@ namespace englishProject.Controllers
             return Content(HttpStatusCode.OK, result);
         }
 
-        [System.Web.Http.ActionName("SubLevelQuestions")]
-        public IHttpActionResult GetSubLevelQuestions(int subLevel, int level, int kind)
+        [System.Web.Http.ActionName("WordModulSubLevelQuestions")]
+        public IHttpActionResult GetWordModulSubLevelQuestions(int subLevel, int level, int kind)
         {
-            SubLevel s = (SubLevel)Enum.Parse(typeof(SubLevel), subLevel.ToString());
+            WordModulSubLevel s = (WordModulSubLevel)Enum.Parse(typeof(WordModulSubLevel), subLevel.ToString());
 
-            return Content(HttpStatusCode.OK, new Operations().GetExam(s, level, kind).Item1);
+            return Content(HttpStatusCode.OK, new Operations().GetWordModul(s, level, kind).Item1);
         }
 
         [System.Web.Http.ActionName("UpdateUserProgress")]

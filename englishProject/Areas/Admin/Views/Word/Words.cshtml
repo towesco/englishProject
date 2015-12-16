@@ -33,12 +33,6 @@
 </p>
 <table class="table table-bordered table-striped table-hover">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Level.Box.boxName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Level.levelName)
-        </th>
 
         <th>
             @Html.DisplayNameFor(model => model.wordTurkish)
@@ -56,13 +50,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
-                @Html.DisplayFor(model => item.Level.Box.boxName)
-            </td>
 
-            <td>
-                @Html.DisplayFor(modelItem => item.Level.levelName)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.wordTurkish)
             </td>

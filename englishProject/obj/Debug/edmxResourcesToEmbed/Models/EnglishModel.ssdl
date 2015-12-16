@@ -9,6 +9,17 @@
     <Property Name="boxNumber" Type="int" Nullable="false" />
     <Property Name="kind" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="IrregularVerb">
+    <Key>
+      <PropertyRef Name="IrregularId" />
+    </Key>
+    <Property Name="IrregularId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="verbOne" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="verbTwo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="verbThree" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="levelNumber" Type="int" Nullable="false" />
+    <Property Name="kind" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Level">
     <Key>
       <PropertyRef Name="levelNumber" />
@@ -21,6 +32,7 @@
     <Property Name="levelPicture" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="levelPuan" Type="int" Nullable="false" />
     <Property Name="levelNumberAppear" Type="int" Nullable="false" />
+    <Property Name="levelModul" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="levelUserProgress">
     <Key>
@@ -28,11 +40,11 @@
     </Key>
     <Property Name="progressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="levelNumber" Type="int" Nullable="false" />
     <Property Name="kind" Type="int" Nullable="false" />
-    <Property Name="star" Type="int" Nullable="false" />
-    <Property Name="puan" Type="int" Nullable="false" />
     <Property Name="boxNumber" Type="int" Nullable="false" />
+    <Property Name="levelNumber" Type="int" Nullable="false" />
+    <Property Name="puan" Type="int" Nullable="false" />
+    <Property Name="star" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Word">
     <Key>
@@ -58,32 +70,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Word_Level">
-    <End Role="Level" Type="Self.Level" Multiplicity="1" />
-    <End Role="Word" Type="Self.Word" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Level">
-        <PropertyRef Name="levelNumber" />
-        <PropertyRef Name="kind" />
-      </Principal>
-      <Dependent Role="Word">
-        <PropertyRef Name="levelNumber" />
-        <PropertyRef Name="kind" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <EntityContainer Name="EnglishProjectDBModelStoreContainer">
     <EntitySet Name="Box" EntityType="Self.Box" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IrregularVerb" EntityType="Self.IrregularVerb" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Word" EntityType="Self.Word" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Level_Box" Association="Self.FK_Level_Box">
       <End Role="Box" EntitySet="Box" />
       <End Role="Level" EntitySet="Level" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Word_Level" Association="Self.FK_Word_Level">
-      <End Role="Level" EntitySet="Level" />
-      <End Role="Word" EntitySet="Word" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

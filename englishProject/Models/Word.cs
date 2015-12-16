@@ -19,7 +19,5 @@ namespace englishProject.Models
         public string wordTranslate { get; set; }
         public int levelNumber { get; set; }
         public int kind { get; set; }
-    
-        public virtual Level Level { get; set; }
     }
 }

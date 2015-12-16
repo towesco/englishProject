@@ -54,6 +54,11 @@ namespace englishProject.Infrastructure
             entities = new EnglishProjectDBEntities();
         }
 
+        /// <summary>
+        /// User/Index sayfasındaki boxs ları levelları ile beraber çeker
+        /// </summary>
+        /// <param name="kind"></param>
+        /// <returns></returns>
         public List<BoxLevelUser> GetBoxs(Kind kind)
         {
             int _kind = (int)kind;
@@ -68,13 +73,13 @@ namespace englishProject.Infrastructure
                 var userLevels = (from u in entities.levelUserProgress
                                   join l in entities.Level on new { u.levelNumber, u.kind } equals new { l.levelNumber, l.kind }
                                   where u.userId == GetUserId && u.boxNumber == itemBox.boxNumber
-                                  select new CustomLevel() { Level = l, Star = u.star }).ToList();
+                                  select new CustomLevel { Level = l, Star = u.star }).ToList();
 
                 BoxLevelUser b = new BoxLevelUser { Box = itemBox };
 
                 if (!userLevels.Any())
                 {
-                    userLevels = new List<CustomLevel> { new CustomLevel() { Level = itemBox.Level.First(), Star = 0 } };
+                    userLevels = new List<CustomLevel> { new CustomLevel { Level = itemBox.Level.First(), Star = 0 } };
                 }
                 else
                 {
@@ -96,7 +101,7 @@ namespace englishProject.Infrastructure
 
                         if (levelNext != null)
                         {
-                            userLevels.Add(new CustomLevel() { Level = levelNext, Star = 0 });
+                            userLevels.Add(new CustomLevel { Level = levelNext, Star = 0 });
                         }
                     }
                 }
@@ -111,10 +116,21 @@ namespace englishProject.Infrastructure
             return boxLevelUsers;
         }
 
+        /// <summary>
+        /// Üye olan kullanıcının UserApp bilgisini verir
+        /// </summary>
+        /// <returns></returns>
         public UserApp getProfil()
         {
             return usermanager.FindById(GetUserId);
         }
+
+        public Level GetLevel(int levelNumber, int kind)
+        {
+            return entities.Level.First(a => a.levelNumber == levelNumber && a.kind == kind);
+        }
+
+        #region WordModul
 
         /// <summary>
         /// Karışık soru getirir
@@ -123,7 +139,7 @@ namespace englishProject.Infrastructure
         /// <param name="subLevel">Alt level belirtilir</param>
         /// <param name="questionsList">Şıklarda çıkacak sorular Default olarak sorulacak kelimelerden seçilir</param>
         /// <returns></returns>
-        private LevelExam GetQuestionshuffle(IEnumerable<Word> words, SubLevel subLevel, List<Word> questionsList)
+        private WordModul GetWordModuleQuestionshuffle(IEnumerable<Word> words, WordModulSubLevel subLevel, IEnumerable<Word> questionsList)
         {
             Random rnd = new Random();
             List<Questions> List = new List<Questions>();
@@ -131,7 +147,7 @@ namespace englishProject.Infrastructure
 
             switch (subLevel)
             {
-                case SubLevel.Temel:
+                case WordModulSubLevel.Temel:
 
                     foreach (var item in words)
                     {
@@ -154,7 +170,7 @@ namespace englishProject.Infrastructure
 
                     break;
 
-                case SubLevel.İleri:
+                case WordModulSubLevel.İleri:
 
                     foreach (var item in words)
                     {
@@ -177,19 +193,19 @@ namespace englishProject.Infrastructure
 
                     break;
 
-                case SubLevel.Mükemmel:
+                case WordModulSubLevel.Mükemmel:
 
                     List.AddRange(words.Select(item => new Questions { Question = item.wordTurkish, QuestionCorrect = item.wordTranslate }));
 
                     break;
             }
 
-            LevelExam exam = new LevelExam { SubLevel = subLevel, Questions = List.OrderBy(a => rnd.Next()).ToList() };
+            WordModul exam = new WordModul { SubLevel = subLevel, Questions = List.OrderBy(a => rnd.Next()).ToList() };
 
             return exam;
         }
 
-        public Tuple<LevelExam, Level> GetExam(SubLevel subLevel, int levelNumber, int kind)
+        public Tuple<WordModul, Level> GetWordModul(WordModulSubLevel subLevel, int levelNumber, int kind)
         {
             Level level = entities.Level.Find(levelNumber, kind);
             levelUserProgress progress =
@@ -197,7 +213,11 @@ namespace englishProject.Infrastructure
                 entities.levelUserProgress.FirstOrDefault(
                   a => a.userId == GetUserId && a.levelNumber == level.levelNumber && a.kind == level.kind);
 
-            LevelExam exam = GetQuestionshuffle(level.Word.ToList(), subLevel, level.Word.ToList());
+            IEnumerable<Word> words = entities.Word.Where(a => a.levelNumber == levelNumber && a.kind == kind).ToList();
+
+            //LevelExam exam = GetQuestionshuffle(level.Word.ToList(), subLevel, level.Word.ToList());
+            WordModul exam = GetWordModuleQuestionshuffle(words, subLevel, words);
+
             exam.Puan = level.levelPuan;
 
             exam.Star = progress == null ? 0 : progress.star;
@@ -205,6 +225,14 @@ namespace englishProject.Infrastructure
             return Tuple.Create(exam, level);
         }
 
+        #endregion WordModul
+
+        /// <summary>
+        /// Kutulardaki levellara tıklandığında gelen modalda hangi alt levelların  kapalı veya açık olduğunu belirtir.
+        /// </summary>
+        /// <param name="levelNumber"></param>
+        /// <param name="kind"></param>
+        /// <returns></returns>
         public Tuple<Level, levelUserProgress, levelUserProgress> GetExamLevelStart(int levelNumber, int kind)
         {
             //Günce seviye bilgileri
@@ -226,6 +254,11 @@ namespace englishProject.Infrastructure
             return Tuple.Create(l, progress, previousLevelUserProgress);
         }
 
+        /// <summary>
+        /// Üye test çözerken alt levelları başarılı bitirdiğinde veri tabanında güncelleme yapılmaktadır.
+        /// </summary>
+        /// <param name="userProgress"></param>
+        /// <returns></returns>
         public bool UpdateUserProggress(levelUserProgress userProgress)
         {
             levelUserProgress l =
@@ -261,6 +294,10 @@ namespace englishProject.Infrastructure
             return true;
         }
 
+        /// <summary>
+        /// User/Index sayfasındaki kullanıcı hakkında bilgiler çekmektedir
+        /// </summary>
+        /// <returns></returns>
         public UserProfilView GetUserProfilViewMenu()
         {
             UserProfilView userProfilView = new UserProfilView();
@@ -291,6 +328,10 @@ namespace englishProject.Infrastructure
             return userProfilView;
         }
 
+        /// <summary>
+        /// Kutuların ismini ve  bu kutulara bağlı level sayısını çekmektedir
+        /// </summary>
+        /// <returns></returns>
         public Dictionary<string, int> GetBoxMenu()
         {
             Dictionary<string, int> result = entities.Box.ToDictionary(box => box.boxName, box => box.Level.Count);
