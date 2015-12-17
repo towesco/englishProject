@@ -1,16 +1,12 @@
 ﻿body {
     background-color: #f5f8fa !important;
 }
-
+/*carausel kontrolunun sag ve sol buttonlarının arkaplan resimlerinin kaldırılması*/
 .carousel-control.right, .carousel-control.left {
     background-image: none;
 }
 
-.btn-level {
-    width: 121px;
-    margin-top: 5px;
-}
-
+/*Seviyelerin gösterildiği kutucuklardaki  badge'nin boyutu'*/
 .badge-level {
     font-size: 17px;
 }
@@ -60,6 +56,7 @@
         }
 }
 
+/*UserProfil menusunun arkaplan resmi*/
 .panel-userbackground #userBackground {
     background-image: url("images/userbackground.png");
     background-position: center center;
@@ -69,54 +66,140 @@
     -ms-border-top-right-radius: 4px;
     border-top-right-radius: 4px;
 }
-
+/*UserProfil menusunun profil resmi*/
 .panel-userbackground .userProfiPicture {
     width: 100px;
     margin-top: -55px;
 }
-
+/*UserProfil menusundeki bayragın konumu*/
 .panel-userbackground .flagWrapper {
     padding-top: 25px;
 }
-
+/*levelExam sayfasında seviyenin gösterildiği çubuğun arkaplan resmi*/
 .examheader {
     background-color: #57B3E5;
 }
-
+    /*levelExam sayfasındaki  alt seviyelerin gösterildığınde  aktif olan seviyenin rengi*/
     .examheader > .active {
         color: white;
     }
-
+/*levelExam sayfasında altseviyelerin gösterildiği alanda varsayılan olarak gelen / işaretinin kaldırılması*/
 .examHeaderSubLevel > li + li::before {
     content: none;
 }
-
+/*levelExam sayfasındaki altseviyelirin  padding değeri*/
 .examHeaderSubLevel {
     padding: 6px 15px;
 }
-
+    /*levelExam sayfasında aktik alan alt levelin gösterilmesi*/
     .examHeaderSubLevel .subLevelActive {
         background-color: #57b3e5;
+        -ms-border-radius: 5px;
         border-radius: 5px;
         color: white;
         padding: 2px 5px;
     }
-
+/*LevelExam sayfasındaki kalplerin rengi ve boyutu*/
 .heart-color {
     color: #3097d1;
+    font-size: 1.5em;
 }
 
-.examInCorrectAlert {
+.alert-fail {
     -ms-border-radius: 0px;
     border-radius: 0px;
     border: medium none;
-    margin: -1px;
+    margin: 0px;
+    border-top: 3px solid #F2B8B8;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 
-.updateAlert {
-    margin: 10px 0px 0px;
+.alert-update {
+    -ms-border-radius: 0px;
+    border-radius: 0px;
+    border: medium none;
+    margin: 0px;
+    border-top: 3px solid #54843F;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 
+.progress {
+    -ms-border-radius: 10px;
+    border-radius: 10px;
+}
+
+hr {
+    margin: 0 0 10px;
+}
+/*LevelExam sayfasındak yıldızların rengi*/
 .starColor {
     color: #3097d1;
+}
+/*levelExam sayfasında şıkların gösterildiği butonlar*/
+.btn-ques {
+    min-width: 120px;
+    margin-top: 5px;
+    border: 5px solid #3097d1;
+    -ms-border-radius: 15px;
+    border-radius: 15px;
+    background-color: white;
+    color: black;
+}
+
+    .btn-ques:hover {
+        border-color: #1A4359;
+        background-color: white;
+        color: black;
+    }
+/*levelExam sayfasında devam butonu*/
+.btn-continue {
+    background-color: white;
+    border: 5px solid #bc3836;
+    border-radius: 15px;
+    color: #bc3836;
+    opacity: 1;
+    margin-top: 5px;
+}
+
+    .btn-continue:hover {
+        background-color: white;
+        border: 5px solid #822B29;
+        color: #bc3836;
+    }
+/*levelExam sayfasında  doğru cevap butonu*/
+.btn-quesCorrect {
+    -moz-min-width: 120px;
+    -ms-min-width: 120px;
+    -o-min-width: 120px;
+    -webkit-min-width: 120px;
+    min-width: 120px;
+    border: 5px solid #3097d1;
+    -ms-border-radius: 15px;
+    border-radius: 15px;
+    -ms-opacity: 1;
+    opacity: 1;
+}
+/*levelExam sayfasında bir sonraki level butonu*/
+.btn-update {
+    background-color: white;
+    border: 5px solid #54843f;
+    border-radius: 15px;
+    color: #54843f;
+    opacity: 1;
+}
+
+    .btn-update:hover {
+        background-color: white;
+        border: 5px solid #3C5B2E;
+        color: #54843f;
+    }
+/*Cevapların gösterildiği  alan*/
+.btnsWrapper {
+    background-color: #7ABEE2;
+    border-top: 3px solid #3097d1;
+    padding: 10px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
 }

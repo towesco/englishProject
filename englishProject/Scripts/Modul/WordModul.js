@@ -1,4 +1,8 @@
-﻿var viewmodel = function (exams, levelNumber, kind, boxNumber) {
+﻿//Eğer kullanıcı 3 seviyeyi birden tek seferde geçerse 100 bonus kazanır
+//Puan hesaplama  LevelPuan*seviye örn: level 1 için puan 5 olsun ilk sublevel(1*5) ikinci sublevel(2*5) üçüncü sublevel(3*5)
+//eğer kullanıcı 3 yıldız aldıysa ve tekrar yapmak isterse    subLevel*1
+
+var viewmodel = function (exams, levelNumber, kind, boxNumber) {
     var self = this;
     //var levelNumber = levelNumber;
     //var kind = kind;
@@ -14,18 +18,24 @@
     self.puan = self.exams().Puan;//sabit level puanı
     self.subLevelNumber = ko.observable(self.exams().SubLevel);//değişken sub level numarası
     self.totalPuan = ko.observable(self.exams().TotalPuan);//toplan puan
-    self.currentQuestion = ko.observable(1);//güncel soru
     self.totalQuestions = ko.observable(self.dataQuestions().length);//sabit toplam soru
     self.totapInCorrect = ko.observable(0);// hata sayısı
-    self.rate = (self.currentQuestion() / self.totalQuestions()) * 100;//sorunun yüzdelik karşılığı
+    self.rate = ko.observable((1 / self.totalQuestions()) * 100);
     self.star = ko.observable(self.exams().Star);//yıldız sayısı
     self.updateWrapper = ko.observable(false);//updateWrapper
     self.loading = ko.observable(false);//loading
     self.textValue = ko.observable();//level 3'deki textboxdegeri
+    self.fail = ko.observable(false); //başarısızlık durumu
+    self.end = ko.observable(false);  //level tamamen bittiğinde güzükecek
+    self.totalQuestions.subscribe(function (newValue) {
+        self.rate((1 / self.totalQuestions()) * 100);
+    });
+    self.totalRate = ko.pureComputed(function () {
+        return "% " + Math.ceil(((self.index()) / self.totalQuestions()) * 100);
+    });
+
+    //AltLevel tamamlandığında veritabanı güncelelme işlemi
     self.updateUserProggress = function () {
-        if (self.star() > 3) {
-            self.star(3);
-        }
         self.userProgress = {
             levelNumber: parseInt(levelNumber),
             kind: parseInt(kind),
@@ -39,10 +49,11 @@
             data: jsonData,
             contentType: "application/json",
             success: function (data) {
-                alert(data);
             }
         });
     }
+
+    ///////////////////////////////////////////soru dizisi/////////////////////////////////////////
     self.Questions = {
         Question: ko.observable(),
         QuestionCorrect: ko.observable(),
@@ -52,9 +63,10 @@
     self.Questions.Question(self.dataQuestions()[self.index()].Question);
     self.Questions.QuestionCorrect(self.dataQuestions()[self.index()].QuestionCorrect);
     self.Questions.QestionList(self.dataQuestions()[self.index()].QestionsOptions);
+    ///////////////////////////////////////////soru dizisi/////////////////////////////////////////
+
     self.successProgress = function (data) {
         var success = '<div class="progress-bar progress-bar-success" style="width: ' + data + '%"></div>';
-
         $(".progress").append(success);
     }
     self.errorProgress = function (data) {
@@ -62,17 +74,18 @@
 
         $(".progress").append(success);
     }
+    //Soruya yanlış cevap verildiğinde hata ekranının gösterilmesi
     self.warning = function (correct, correct2) {
-        var veri = '<button class="btn btn-success btn-lg ">' + correct + '&nbsp;&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;&nbsp;' + correct2 + '</button>';
+        var veri = '<button class="btn btn-lg btn-ques">' + "Cevap" + '&nbsp;&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;&nbsp;' + correct2 + '</button>';
 
         $("#warningWrapper").empty();
-        $("#warningWrapper").append("<strong>Doğru cevap:&nbsp;&nbsp;</strong>");
         $("#warningWrapper").append(veri);
 
-        $("#btnsWrapper button").prop("disabled", true);
+        $(".btnsWrapper button").prop("disabled", true);
 
         self.warningAppear(true);
     }
+    //Bir sonraki alt level soruları
     self.updateBtn = function () {
         self.loading(true);
 
@@ -87,7 +100,7 @@
                 self.subLevelNumber(self.exams().SubLevel);
                 self.dataQuestions(self.exams().Questions);
                 self.index(0);
-                self.currentQuestion(1);
+
                 self.totalQuestions(self.dataQuestions().length);
 
                 self.Questions.Question(self.dataQuestions()[self.index()].Question);
@@ -99,37 +112,87 @@
             }
         });
     }
+
+    //SubLevellarda gösterilecek ekran
     self.lavelUpdate = function () {
         self.questionText(questionTextArray[self.subLevelNumber()]);
         self.okText(okTextArray[self.subLevelNumber() - 1]);
-        self.star(self.star() + 1);
+
+        if (self.star() <= self.subLevelNumber()) {
+            self.star(self.star() + 1);
+        }
+
         self.updateWrapper(true);
         self.updateUserProggress();
+
+        if (self.subLevelNumber() > 2) {
+            self.end(true);
+        }
     };
+
+    //Kullanıcı 3 hakkınıda bitirdiğinde soruları tekrar yükleme işlemi
+    self.failBtn = function () {
+        self.loading(true);
+
+        var jsonData = { subLevel: self.subLevelNumber(), level: parseInt(levelNumber), kind: parseInt(kind) };
+
+        $.ajax("/api/ajax/WordModulSubLevelQuestions", {
+            type: "GET",
+            data: jsonData,
+            contentType: "application/json",
+            success: function (data) {
+                self.exams(data);
+                self.subLevelNumber(self.exams().SubLevel);
+                self.dataQuestions(self.exams().Questions);
+                self.index(0);
+
+                self.totalQuestions(self.dataQuestions().length);
+
+                self.Questions.Question(self.dataQuestions()[self.index()].Question);
+                self.Questions.QuestionCorrect(self.dataQuestions()[self.index()].QuestionCorrect);
+                self.Questions.QestionList(self.dataQuestions()[self.index()].QestionsOptions);
+
+                self.updateWrapper(false);
+                self.warningAppear(false);
+                $(".progress").empty();
+
+                self.loading(false);
+
+                self.fail(false);
+
+                self.totapInCorrect(0);
+                self.totalPuan(self.exams().TotalPuan);//toplan puan
+                $(".btnsWrapper button").prop("disabled", false);
+            }
+        });
+    }
+
+    //kullanıcı hata yaptıktan sonra  bir sonraki soruya geçme
+    self.nextBtn = function () {
+        self.next();
+        self.warningAppear(false);
+        $(".btnsWrapper button").prop("disabled", false);
+    }
+
+    //Bir sonraki soruyu göster
     self.next = function () {
-        if (self.currentQuestion() + 8 < self.totalQuestions()) {
+        self.index(self.index() + 1);
+        if (self.index() + 9 < self.totalQuestions()) {
             self.textValue("");
-            var i = self.index() + 1;
-            self.index(i); // index 0 dan 1 çıkıyor
-            self.currentQuestion(self.index() + 1); // soru 1 den 2'ye çıkıyorr
 
             self.Questions.Question(self.dataQuestions()[self.index()].Question);
             self.Questions.QuestionCorrect(self.dataQuestions()[self.index()].QuestionCorrect);
             self.Questions.QestionList(self.dataQuestions()[self.index()].QestionsOptions);
         } else {
-            if (self.totapInCorrect() < 4) {
+            if (self.totapInCorrect() <= 3) {
                 self.lavelUpdate();
             }
         }
     }
-    self.nextBtn = function () {
-        self.next();
-        self.warningAppear(false);
-        $("#btnsWrapper button").prop("disabled", false);
-    }
+    //Şıklardaki herhangi bir butona bastığında çalışır
     self.nextQuestion = function (data, event) {
         if ((data == self.Questions.QuestionCorrect()) || (self.textValue() == self.Questions.QuestionCorrect())) {
-            self.successProgress(self.rate);
+            self.successProgress(self.rate());
             var increasePuan = 0;
             if (self.star() == 3) {
                 //3 yıldızda 1 katsayısı çarpılır
@@ -142,17 +205,15 @@
             self.next();
         } else {
             //kalp sayısını arttır
-            var incorrect = self.totapInCorrect() + 1;
-            if (incorrect <= 3) {
-                self.totapInCorrect(incorrect);
-            } else {
-                //alert("3 yanlış oldu");
-            }
 
+            self.totapInCorrect(self.totapInCorrect() + 1);
+            if (self.totapInCorrect() >= 3) {
+                self.fail(true);
+            }
             var decrease = self.totalPuan() - self.subLevelNumber() * self.puan * 0.7;
             self.totalPuan(decrease);
 
-            self.errorProgress(self.rate);
+            self.errorProgress(self.rate());
             self.warning(self.Questions.Question(), self.Questions.QuestionCorrect());
         }
     }

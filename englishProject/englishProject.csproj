@@ -387,6 +387,12 @@
     <Content Include="Views\Shared\Templates\BoxMenuPV.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\LogInPartial.cshtml" />
     <Content Include="Views\Shared\Modul\WordModul.cshtml" />
+    <Content Include="Views\Shared\ModulPartial\EndPartial.cshtml" />
+    <Content Include="Views\Shared\ModulPartial\FailPartial.cshtml" />
+    <Content Include="Views\Shared\ModulPartial\HeaderPartial.cshtml" />
+    <Content Include="Views\Shared\ModulPartial\ProgressPartial.cshtml" />
+    <Content Include="Views\Shared\ModulPartial\SubLevelSuccess.cshtml" />
+    <Content Include="Views\Shared\ModulPartial\WarningPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

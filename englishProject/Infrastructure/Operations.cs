@@ -91,7 +91,7 @@ namespace englishProject.Infrastructure
                                 a.levelNumber == levelLast.Level.levelNumber && a.kind == levelLast.Level.kind &&
                                 a.boxNumber == levelLast.Level.boxNumber);
 
-                    if (userProgressLast.star == 3)
+                    if (userProgressLast.star >= 1)
                     {
                         Level levelNext =
                             entities.Level.FirstOrDefault(
@@ -128,6 +128,32 @@ namespace englishProject.Infrastructure
         public Level GetLevel(int levelNumber, int kind)
         {
             return entities.Level.First(a => a.levelNumber == levelNumber && a.kind == kind);
+        }
+
+        /// <summary>
+        /// Bir sonraki seviyeyi getirir
+        /// </summary>
+        /// <param name="levelNumber"></param>
+        /// <param name="kind"></param>
+        /// <returns></returns>
+        public Level GetNextLevel(int levelNumber, int kind)
+        {
+            Level l = GetLevel(levelNumber, kind);
+            return GetNextLevel(l);
+        }
+
+        /// <summary>
+        /// Bir sonraki seviyeyi getirir
+        /// </summary>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        public Level GetNextLevel(Level level)
+        {
+            return
+                entities.Level.FirstOrDefault(
+                    a =>
+                        a.levelNumberAppear == level.levelNumberAppear + 1 && a.kind == level.kind &&
+                        a.boxNumber == level.boxNumber);
         }
 
         #region WordModul

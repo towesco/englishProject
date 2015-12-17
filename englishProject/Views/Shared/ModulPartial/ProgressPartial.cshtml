@@ -1,0 +1,33 @@
+﻿<div class="row" style="padding: 10px;">
+    <div class=" col-md-9">
+
+        <div class="progress" style="margin-bottom: 0px;">
+        </div>
+    </div>
+    <div class=" col-md-1 text-left">
+
+        <strong data-bind="text:totalRate"></strong>
+    </div>
+    <div class=" col-md-2 text-center">
+
+        <span data-bind="visible:totapInCorrect()<1"><i class="fa fa-heart fa-2x heart-color"></i></span>
+        <span data-bind="visible:totapInCorrect()<2"><i class="fa fa-heart fa-2x heart-color"></i></span>
+        <span data-bind="visible:totapInCorrect()<3"><i class="fa fa-heart fa-2x heart-color"></i></span>
+    </div>
+</div>
+<hr />
+<div class="row" style="padding: 10px;">
+    <div class="col-md-4 ">
+        <div class="btn btn-primary disabled" style="-ms-opacity: 1; opacity: 1; background-color: #57b3e5; border: none;" type="button">
+            <i class="fa fa-tachometer"></i>  Puan: <span data-bind="text:totalPuan" class="badge"></span>
+        </div>
+
+        <div class="btn btn-default disabled" style="-ms-opacity: 1; opacity: 1;border: 1px solid #57b3e5;">
+            <i class="fa fa-star" data-bind="css:{starColor:star()>0}"></i>
+
+            <i class="fa fa-star" data-bind="css:{starColor:star()>1}"></i>
+
+            <i class="fa fa-star" data-bind="css:{starColor:star()>2}"></i>
+        </div>
+    </div>
+</div>

@@ -63,6 +63,7 @@ namespace englishProject.Controllers
             Level level = operations.GetLevel(levelNumber, kind);
             Modul m = (Modul)Enum.Parse(typeof(Modul), level.levelModul.ToString(CultureInfo.InvariantCulture));
             ViewBag.level = level;
+            ViewBag.nextLevel = operations.GetNextLevel(level);
             ViewBag.modul = m;
             switch (m)
             {

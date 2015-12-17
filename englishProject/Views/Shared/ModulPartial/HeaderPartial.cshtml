@@ -1,0 +1,20 @@
+﻿@model englishProject.Models.Level
+    <div class="row">
+        <div class="col-md-8">
+
+            <ol class="breadcrumb examheader">
+                <li class="active"><strong>@Model.Box.boxName </strong></li>
+                <li class="active"><strong>@Model.levelName</strong> </li>
+                <li class="active"><strong>Seviye(@Model.levelNumber)</strong> </li>
+            </ol>
+        </div>
+        <div class="col-md-4 text-right">
+
+            <ol class="breadcrumb examHeaderSubLevel">
+
+                <li data-bind="css: { subLevelActive:subLevelNumber()==1}" class="active"> Temel <i class="fa fa-chevron-right"></i> </li>
+                <li data-bind="css: { subLevelActive:subLevelNumber()==2 }" class="active"> İleri <i class="fa fa-chevron-right"></i></li>
+                <li data-bind="css: { subLevelActive:subLevelNumber()==3 }" class="active"> Mükemmel</li>
+            </ol>
+        </div>
+    </div>
