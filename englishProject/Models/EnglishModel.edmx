@@ -19,6 +19,7 @@
             <PropertyRef Name="IrregularId" />
           </Key>
           <Property Name="IrregularId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="werbTurkish" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="verbOne" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="verbTwo" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="verbThree" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -38,6 +39,7 @@
           <Property Name="levelPuan" Type="int" Nullable="false" />
           <Property Name="levelNumberAppear" Type="int" Nullable="false" />
           <Property Name="levelModul" Type="int" Nullable="false" />
+          <Property Name="levelSubLevel" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="levelUserProgress">
           <Key>
@@ -60,6 +62,8 @@
           <Property Name="wordTranslate" Type="nvarchar(max)" Nullable="false" />
           <Property Name="levelNumber" Type="int" Nullable="false" />
           <Property Name="kind" Type="int" Nullable="false" />
+          <Property Name="picture" Type="nvarchar" MaxLength="500" />
+          <Property Name="info" Type="nvarchar" MaxLength="500" />
         </EntityType>
         <Association Name="FK_Level_Box">
           <End Role="Box" Type="Self.Box" Multiplicity="1" />
@@ -133,6 +137,7 @@
           <Property Name="verbThree" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="levelNumber" Type="Int32" Nullable="false" />
           <Property Name="kind" Type="Int32" Nullable="false" />
+          <Property Name="werbTurkish" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Level">
           <Key>
@@ -148,6 +153,7 @@
           <Property Name="levelNumberAppear" Type="Int32" Nullable="false" />
           <Property Name="levelModul" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Box" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Level" ToRole="Box" />
+          <Property Name="levelSubLevel" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Word">
           <Key>
@@ -158,6 +164,8 @@
           <Property Name="wordTranslate" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="levelNumber" Type="Int32" Nullable="false" />
           <Property Name="kind" Type="Int32" Nullable="false" />
+          <Property Name="picture" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Level_Box">
           <End Type="EnglishProjectDBModel.Box" Role="Box" Multiplicity="1" />
@@ -204,6 +212,7 @@
           <EntitySetMapping Name="IrregularVerb">
             <EntityTypeMapping TypeName="EnglishProjectDBModel.IrregularVerb">
               <MappingFragment StoreEntitySet="IrregularVerb">
+                <ScalarProperty Name="werbTurkish" ColumnName="werbTurkish" />
                 <ScalarProperty Name="kind" ColumnName="kind" />
                 <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
                 <ScalarProperty Name="verbThree" ColumnName="verbThree" />
@@ -216,6 +225,7 @@
           <EntitySetMapping Name="Level">
             <EntityTypeMapping TypeName="EnglishProjectDBModel.Level">
               <MappingFragment StoreEntitySet="Level">
+                <ScalarProperty Name="levelSubLevel" ColumnName="levelSubLevel" />
                 <ScalarProperty Name="levelModul" ColumnName="levelModul" />
                 <ScalarProperty Name="levelNumberAppear" ColumnName="levelNumberAppear" />
                 <ScalarProperty Name="levelPuan" ColumnName="levelPuan" />
@@ -230,6 +240,8 @@
           <EntitySetMapping Name="Word">
             <EntityTypeMapping TypeName="EnglishProjectDBModel.Word">
               <MappingFragment StoreEntitySet="Word">
+                <ScalarProperty Name="info" ColumnName="info" />
+                <ScalarProperty Name="picture" ColumnName="picture" />
                 <ScalarProperty Name="kind" ColumnName="kind" />
                 <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
                 <ScalarProperty Name="wordTranslate" ColumnName="wordTranslate" />

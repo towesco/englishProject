@@ -6,6 +6,8 @@
         wordTranslate: ko.observable(),
         levelNumber: ko.observable(),
         kind: ko.observable(),
+        picture: ko.observable(),
+        info: ko.observable()
     }
     self.loading = ko.observable(false);
     self.words = ko.observableArray([]);
@@ -38,7 +40,7 @@
             data: jsonData,
             contentType: "application/json",
             success: function (data) {
-                self.words.push({ id: data, a: self.Word.wordTurkish(), b: self.Word.wordTranslate(), c: self.Word.levelNumber(), d: self.Word.kind() });
+                self.words.push({ id: data, a: self.Word.wordTurkish(), b: self.Word.wordTranslate(), c: self.Word.levelNumber(), d: self.Word.kind(), e: self.Word.picture(), f: self.Word.info() });
                 self.Word.wordTurkish("");
                 self.Word.wordTranslate("");
                 self.loading(false);

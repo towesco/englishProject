@@ -261,7 +261,10 @@
                                 @Html.ActionLink("Seviyeler", "Levels", "Level")
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> WordModul<span class="fa arrow"></span></a>
+                                @Html.ActionLink("Kordinat alma", "GetCoordinates", "Home")
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Word&PictureModul<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
 
                                     <li>
@@ -366,9 +369,9 @@
     <script src="@Url.Content("~/Scripts/knockout-3.4.0.debug.js")"></script>
 
     <script src="@Url.Content("~/Areas/Admin/js/sb-admin-2.js")"></script>
-    ""
 
     <script src="@Url.Content("~/Areas/Admin/js/metisMenu.js")"></script>
     <script src="@Url.Content("~/Areas/Admin/js/adminEnglish.js")"></script>
+    @RenderSection("Scripts", false)
 </body>
 </html>

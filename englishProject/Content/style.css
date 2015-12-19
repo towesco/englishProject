@@ -6,6 +6,10 @@
     background-image: none;
 }
 
+*:focus {
+    outline: 0 !important;
+}
+
 /*Seviyelerin gösterildiği kutucuklardaki  badge'nin boyutu'*/
 .badge-level {
     font-size: 17px;
@@ -133,6 +137,7 @@
 hr {
     margin: 0 0 10px;
 }
+
 /*LevelExam sayfasındak yıldızların rengi*/
 .starColor {
     color: #3097d1;
@@ -186,14 +191,14 @@ hr {
     background-color: white;
     border: 5px solid #54843f;
     border-radius: 15px;
-    color: #54843f;
+    color: #315E31;
     opacity: 1;
 }
 
     .btn-update:hover {
         background-color: white;
         border: 5px solid #3C5B2E;
-        color: #54843f;
+        color: #315E31;
     }
 /*Cevapların gösterildiği  alan*/
 .btnsWrapper {

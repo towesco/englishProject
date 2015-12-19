@@ -22,6 +22,7 @@ namespace englishProject.Models
         public int levelPuan { get; set; }
         public int levelNumberAppear { get; set; }
         public int levelModul { get; set; }
+        public int levelSubLevel { get; set; }
     
         public virtual Box Box { get; set; }
     }

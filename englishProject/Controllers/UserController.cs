@@ -62,18 +62,23 @@ namespace englishProject.Controllers
         {
             Level level = operations.GetLevel(levelNumber, kind);
             Modul m = (Modul)Enum.Parse(typeof(Modul), level.levelModul.ToString(CultureInfo.InvariantCulture));
+            ModulSubLevel sub = (ModulSubLevel)Enum.Parse(typeof(ModulSubLevel), subLevel.ToString());
+
             ViewBag.level = level;
             ViewBag.nextLevel = operations.GetNextLevel(level);
             ViewBag.modul = m;
             switch (m)
             {
                 case Modul.WordModul:
-                    WordModulSubLevel sub = (WordModulSubLevel)Enum.Parse(typeof(WordModulSubLevel), subLevel.ToString());
-                    var result = operations.GetWordModul(sub, levelNumber, kind);
-                    ViewBag.exam = result.Item1;
+
+                    ViewBag.exam = operations.GetWordModul(sub, levelNumber, kind).Item1;
+
                     break;
 
-                case Modul.IrregularVerbModul:
+                case Modul.PictureWordModul:
+
+                    ViewBag.exam = operations.GetPictureWordModul(sub, levelNumber, kind).Item1;
+
                     break;
             }
 
@@ -84,7 +89,7 @@ namespace englishProject.Controllers
         {
             ClaimsIdentity ident = HttpContext.User.Identity as ClaimsIdentity;
 
-            operations.GetWordModul(WordModulSubLevel.Temel, 1, 1);
+            operations.GetWordModul(ModulSubLevel.Temel, 1, 1);
 
             return View(ident.Claims.ToList());
         }
@@ -92,9 +97,9 @@ namespace englishProject.Controllers
         [HttpGet]
         public ActionResult LevelExamStartAjax(int levelNumber, int kind)
         {
-            Level level = operations.GetLevel(levelNumber, kind);
-            string partialView = "Modul/" + Enum.GetName(typeof(Modul), level.levelModul) + "Start";
-            return PartialView(partialView, operations.GetExamLevelStart(levelNumber, kind));
+            //Level level = operations.GetLevel(levelNumber, kind);
+            //string partialView = "Modul/" + Enum.GetName(typeof(Modul), level.levelModul) + "Start";
+            return PartialView("Modul/ModulStart", operations.GetExamLevelStart(levelNumber, kind));
         }
 
         #region Social Login

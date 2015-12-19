@@ -15,7 +15,7 @@
 
 }
 
-@helper LevelBox(int boxNumber, int levelNumber, int levelNumberAppear, int kind, string levelName, bool locked, int star)
+@helper LevelBox(int boxNumber, int levelNumber, int levelNumberAppear, int kind, string levelName, bool locked, int star, int subLevelCount)
 {
 
     <li>
@@ -32,7 +32,7 @@
             </div>
             <div>
 
-                <input id="@boxNumber-@levelNumber" value="@star" class="rating" data-min="0" data-max="3" data-step="1" data-stars="3" data-show-caption="false" data-disabled="true" data-size="xs" data-show-clear="false">
+                <input id="@boxNumber-@levelNumber" value="@star" class="rating" data-min="0" data-max="@subLevelCount" data-step="1" data-stars="@subLevelCount" data-show-caption="false" data-disabled="true" data-size="xs" data-show-clear="false">
             </div>
             <div>
 
@@ -76,13 +76,13 @@
 
                             @foreach (CustomLevel levelOne in item.UserLevels)
                             {
-                                @LevelBox(levelOne.Level.boxNumber, levelOne.Level.levelNumber, levelOne.Level.levelNumberAppear, levelOne.Level.kind, levelOne.Level.levelName, false, levelOne.Star)
+                                @LevelBox(levelOne.Level.boxNumber, levelOne.Level.levelNumber, levelOne.Level.levelNumberAppear, levelOne.Level.kind, levelOne.Level.levelName, false, levelOne.Star, levelOne.Level.levelSubLevel)
                             }
 
                             @foreach (Level level2 in item.OtherLevels)
                             {
 
-                                @LevelBox(level2.levelNumber, level2.levelNumber, level2.levelNumberAppear, level2.kind, level2.levelName, true, 0)
+                                @LevelBox(level2.levelNumber, level2.levelNumber, level2.levelNumberAppear, level2.kind, level2.levelName, true, 0, level2.levelSubLevel)
 
                             }
                         </ul>

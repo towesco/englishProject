@@ -15,7 +15,7 @@
 
             <div class="panel" style="border-width: 0px;">
                 <div id="SubLvelWrapper">
-                    @Html.Partial("ModulPartial/ProgressPartial")
+                    @Html.Partial("ModulPartial/ProgressPartial", level.levelSubLevel)
 
                     <div id="fail" data-bind="visible:!fail()">
                         <div class="row" data-bind="visible:!updateWrapper()">
@@ -28,19 +28,19 @@
 
                             <div data-bind="visible:subLevelNumber()<3" class="col-md-12 text-center">
 
-                                <form id="btnsWrapper" class="btnsWrapper form-inline" data-bind="foreach:Questions.QestionList">
+                                <div class="btnsWrapper form-inline" data-bind="foreach:Questions.QestionList">
 
                                     <button data-bind="click:$parent.nextQuestion,attr:{id:$data}" type="button" class="btn btn-lg btn-ques"><span data-bind="text:$data"></span></button>
-                                </form>
+                                </div>
                             </div>
 
-                            <div data-bind="visible:subLevelNumber()>2" class="col-md-12 text-center">
+                            <div data-bind="visible:subLevelNumber()>2" class="col-md-12 text-center" style="display: none">
 
                                 <div class="btnsWrapper form-inline">
-                                    <div class="form-group form-group-lg">
-                                        <input data-bind="value:textValue" class="form-control" style="margin-top: 5px;" type="text">
-                                        <button id="btnControl" data-bind="click:nextQuestion" class="btn btn-default btn-lg  btn-ques" type="button">Kontrol et</button>
-                                    </div>
+
+                                    <input id="txtEnglish" data-bind="textInput: textValue,valueUpdate: 'input', executeOnEnter: nextQuestion" class=" form-control input-lg" style="margin-top: 5px;" type="text">
+
+                                    <button id="btnControl" data-bind="click:nextQuestion,disable:textValueCount()==0" class="btn btn-lg  btn-ques" type="button">Kontrol et</button>
                                 </div>
                             </div>
                         </div>

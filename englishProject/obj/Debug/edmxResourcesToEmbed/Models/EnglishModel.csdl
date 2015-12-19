@@ -43,6 +43,7 @@
     <Property Name="verbThree" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Name="levelNumber" Type="Int32" Nullable="false" />
     <Property Name="kind" Type="Int32" Nullable="false" />
+    <Property Name="werbTurkish" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="Level">
     <Key>
@@ -58,6 +59,7 @@
     <Property Name="levelNumberAppear" Type="Int32" Nullable="false" />
     <Property Name="levelModul" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Box" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Level" ToRole="Box" />
+    <Property Name="levelSubLevel" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="Word">
     <Key>
@@ -68,6 +70,8 @@
     <Property Name="wordTranslate" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Name="levelNumber" Type="Int32" Nullable="false" />
     <Property Name="kind" Type="Int32" Nullable="false" />
+    <Property Name="picture" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_Level_Box">
     <End Type="EnglishProjectDBModel.Box" Role="Box" Multiplicity="1" />

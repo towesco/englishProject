@@ -26,7 +26,7 @@
                         }
                     </span>
 
-                    @Enum.GetName(typeof(WordModulSubLevel), subLevel).ToString() Seviye
+                    @Enum.GetName(typeof(ModulSubLevel), subLevel).ToString() Seviye
                 </div>
                 <div class="col-xs-3  text-left">
                     <div style="background-color: white; color: #2c86b7;" class="label label-primary">@btnName</div>
@@ -46,26 +46,14 @@
         if (Model.Item1.levelNumberAppear == 1 || (Model.Item3 != null && Model.Item3.star >= 1))
         {
 
-            for (int i = 1; i <= 3; i++)
+            for (int i = 1; i <= Model.Item1.levelSubLevel; i++)
             {
-
-                if (i < 2)
-                {
-
-                    @subLevelButton("Başla", false, false, i)
-
-                }
-                else
-                {
-                    @subLevelButton("Kilitli", true, true, i)
-
-                }
-
+                @(i < 2 ? subLevelButton("Başla", false, false, i) : subLevelButton("Kilitli", true, true, i))
             }
         }
         else
         {
-            for (int i = 1; i <= 3; i++)
+            for (int i = 1; i <= Model.Item1.levelSubLevel; i++)
             {
                 @subLevelButton("Kilitli", true, true, i)
             }
@@ -78,9 +66,14 @@
 
         if (Model.Item2.star == 1)
         {
+
             @subLevelButton("Çalış", false, false, 1, true)
             @subLevelButton("Başla", false, false, 2)
-            @subLevelButton("Kilitli", true, true, 3)
+
+            if (Model.Item1.levelSubLevel == 3)
+            {
+                @subLevelButton("Kilitli", true, true, 3)
+            }
 
         }
         else if (Model.Item2.star == 2)
@@ -88,10 +81,14 @@
 
             @subLevelButton("Çalış", false, false, 1, true)
             @subLevelButton("Çalış", false, false, 2, true)
-            @subLevelButton("Başla", false, false, 3)
+
+            if (Model.Item1.levelSubLevel == 3)
+            {
+                @subLevelButton("Başla", false, false, 3)
+            }
 
         }
-        else
+        else if (Model.Item2.star == 3)
         {
             @subLevelButton("Çalış", false, false, 1, true)
             @subLevelButton("Çalış", false, false, 2, true)

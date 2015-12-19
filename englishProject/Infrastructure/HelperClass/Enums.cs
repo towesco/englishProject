@@ -7,10 +7,11 @@ namespace englishProject.Infrastructure
 {
     public enum Modul
     {
-        WordModul = 1, IrregularVerbModul = 2
+        WordModul = 1,
+        PictureWordModul = 2
     }
 
-    public enum WordModulSubLevel
+    public enum ModulSubLevel
     {
         Temel = 1, İleri = 2, Mükemmel = 3
     }

@@ -19,5 +19,7 @@ namespace englishProject.Models
         public string wordTranslate { get; set; }
         public int levelNumber { get; set; }
         public int kind { get; set; }
+        public string picture { get; set; }
+        public string info { get; set; }
     }
 }

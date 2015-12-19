@@ -14,7 +14,7 @@ namespace englishProject.Infrastructure
 
         public int Star { get; set; }
 
-        public WordModulSubLevel SubLevel { get; set; }
+        public ModulSubLevel SubLevel { get; set; }
 
         public List<Questions> Questions { get; set; }
     }

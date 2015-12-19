@@ -20,5 +20,6 @@ namespace englishProject.Models
         public string verbThree { get; set; }
         public int levelNumber { get; set; }
         public int kind { get; set; }
+        public string werbTurkish { get; set; }
     }
 }

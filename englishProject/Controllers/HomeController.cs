@@ -44,5 +44,10 @@ namespace englishProject.Controllers
 
             return View();
         }
+
+        public ActionResult deneme()
+        {
+            return View();
+        }
     }
 }

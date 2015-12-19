@@ -26,6 +26,7 @@
     <EntitySetMapping Name="IrregularVerb">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.IrregularVerb">
         <MappingFragment StoreEntitySet="IrregularVerb">
+          <ScalarProperty Name="werbTurkish" ColumnName="werbTurkish" />
           <ScalarProperty Name="kind" ColumnName="kind" />
           <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
           <ScalarProperty Name="verbThree" ColumnName="verbThree" />
@@ -38,6 +39,7 @@
     <EntitySetMapping Name="Level">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.Level">
         <MappingFragment StoreEntitySet="Level">
+          <ScalarProperty Name="levelSubLevel" ColumnName="levelSubLevel" />
           <ScalarProperty Name="levelModul" ColumnName="levelModul" />
           <ScalarProperty Name="levelNumberAppear" ColumnName="levelNumberAppear" />
           <ScalarProperty Name="levelPuan" ColumnName="levelPuan" />
@@ -52,6 +54,8 @@
     <EntitySetMapping Name="Word">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.Word">
         <MappingFragment StoreEntitySet="Word">
+          <ScalarProperty Name="info" ColumnName="info" />
+          <ScalarProperty Name="picture" ColumnName="picture" />
           <ScalarProperty Name="kind" ColumnName="kind" />
           <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
           <ScalarProperty Name="wordTranslate" ColumnName="wordTranslate" />

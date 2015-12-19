@@ -165,7 +165,7 @@ namespace englishProject.Infrastructure
         /// <param name="subLevel">Alt level belirtilir</param>
         /// <param name="questionsList">Şıklarda çıkacak sorular Default olarak sorulacak kelimelerden seçilir</param>
         /// <returns></returns>
-        private WordModul GetWordModuleQuestionshuffle(IEnumerable<Word> words, WordModulSubLevel subLevel, IEnumerable<Word> questionsList)
+        private WordModul GetWordModuleQuestionshuffle(IEnumerable<Word> words, ModulSubLevel subLevel, IEnumerable<Word> questionsList)
         {
             Random rnd = new Random();
             List<Questions> List = new List<Questions>();
@@ -173,7 +173,7 @@ namespace englishProject.Infrastructure
 
             switch (subLevel)
             {
-                case WordModulSubLevel.Temel:
+                case ModulSubLevel.Temel:
 
                     foreach (var item in words)
                     {
@@ -196,7 +196,7 @@ namespace englishProject.Infrastructure
 
                     break;
 
-                case WordModulSubLevel.İleri:
+                case ModulSubLevel.İleri:
 
                     foreach (var item in words)
                     {
@@ -219,7 +219,7 @@ namespace englishProject.Infrastructure
 
                     break;
 
-                case WordModulSubLevel.Mükemmel:
+                case ModulSubLevel.Mükemmel:
 
                     List.AddRange(words.Select(item => new Questions { Question = item.wordTurkish, QuestionCorrect = item.wordTranslate }));
 
@@ -231,7 +231,51 @@ namespace englishProject.Infrastructure
             return exam;
         }
 
-        public Tuple<WordModul, Level> GetWordModul(WordModulSubLevel subLevel, int levelNumber, int kind)
+        private PictureWordModul GetPictureWordModuleQuestionshuffle(List<Word> words, ModulSubLevel subLevel)
+        {
+            Random rnd = new Random();
+            List<PictureQuestions> List = new List<PictureQuestions>();
+            List<string> answers = null;
+
+            switch (subLevel)
+            {
+                case ModulSubLevel.Temel:
+
+                    foreach (var item in words)
+                    {
+                        //1 tane doğru cevap liste
+                        List<Word> correctListOne = new List<Word> { item };
+                        //4 tane yanlış evap
+                        answers = words.Except(correctListOne).OrderBy(a => rnd.Next()).ToList().Take(4).Select(a => a.wordTranslate).ToList();
+                        //1 tane doğru cevap şıklar ekleniyor
+                        answers.Add(item.wordTranslate);
+
+                        PictureQuestions q = new PictureQuestions
+                        {
+                            QuestionCorrect = item.wordTranslate,
+                            QestionsOptions = answers.OrderBy(a => rnd.Next()).ToList(),
+                            QuestionInfo = item.info,
+                            QuestionPicture = item.picture
+                        };
+
+                        List.Add(q);
+                    }
+
+                    break;
+
+                case ModulSubLevel.İleri:
+
+                    List.AddRange(words.Select(item => new PictureQuestions { QuestionCorrect = item.wordTranslate, QuestionInfo = item.info, QuestionPicture = item.picture }));
+
+                    break;
+            }
+
+            PictureWordModul exam = new PictureWordModul { SubLevel = subLevel, Questions = List.OrderBy(a => rnd.Next()).ToList() };
+
+            return exam;
+        }
+
+        public Tuple<WordModul, Level> GetWordModul(ModulSubLevel subLevel, int levelNumber, int kind)
         {
             Level level = entities.Level.Find(levelNumber, kind);
             levelUserProgress progress =
@@ -241,11 +285,25 @@ namespace englishProject.Infrastructure
 
             IEnumerable<Word> words = entities.Word.Where(a => a.levelNumber == levelNumber && a.kind == kind).ToList();
 
-            //LevelExam exam = GetQuestionshuffle(level.Word.ToList(), subLevel, level.Word.ToList());
             WordModul exam = GetWordModuleQuestionshuffle(words, subLevel, words);
 
             exam.Puan = level.levelPuan;
 
+            exam.Star = progress == null ? 0 : progress.star;
+            exam.TotalPuan = progress == null ? 0 : progress.puan;
+            return Tuple.Create(exam, level);
+        }
+
+        public Tuple<PictureWordModul, Level> GetPictureWordModul(ModulSubLevel subLevel, int levelNumber, int kind)
+        {
+            Level level = entities.Level.Find(levelNumber, kind);
+            levelUserProgress progress =
+
+                entities.levelUserProgress.FirstOrDefault(
+                  a => a.userId == GetUserId && a.levelNumber == level.levelNumber && a.kind == level.kind);
+            List<Word> words = entities.Word.Where(a => a.levelNumber == levelNumber && a.kind == kind).ToList();
+            PictureWordModul exam = GetPictureWordModuleQuestionshuffle(words, subLevel);
+            exam.Puan = level.levelPuan;
             exam.Star = progress == null ? 0 : progress.star;
             exam.TotalPuan = progress == null ? 0 : progress.puan;
             return Tuple.Create(exam, level);

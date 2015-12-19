@@ -20,7 +20,12 @@ namespace englishProject.Areas.Admin.Controllers
         {
             Operations operations = new Operations();
 
-            return View(operations.GetWordModul((WordModulSubLevel)subLevel, levelNumber, kind));
+            return View(operations.GetWordModul((ModulSubLevel)subLevel, levelNumber, kind));
+        }
+
+        public ActionResult GetCoordinates()
+        {
+            return View();
         }
     }
 }

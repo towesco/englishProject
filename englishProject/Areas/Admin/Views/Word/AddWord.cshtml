@@ -46,6 +46,22 @@
             </div>
 
             <div class="form-group">
+                @Html.LabelFor(model => model.picture, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.picture, new { htmlAttributes = new { @class = "form-control", @data_bind = "value:picture" } })
+                    @Html.ValidationMessageFor(model => model.picture, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.info, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.info, new { htmlAttributes = new { @class = "form-control", @data_bind = "value:info" } })
+                    @Html.ValidationMessageFor(model => model.info, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <button data-bind="disable:$root.loading()" id="btnCreateWord" type="submit" class="btn btn-primary "><i data-bind="visible:$root.loading()" class="fa fa-refresh fa-spin"></i> Create</button>
                 </div>
@@ -72,6 +88,8 @@
             <td data-bind="text: b"></td>
             <td data-bind="text:  c"></td>
             <td data-bind="text: d"></td>
+            <td data-bind="text: e"></td>
+            <td data-bind="text: f"></td>
             <td><a href="#" data-bind="click:$root.deleteWord">sil</a></td>
         </tr>
     </tbody>

@@ -91,9 +91,17 @@ namespace englishProject.Controllers
         [System.Web.Http.ActionName("WordModulSubLevelQuestions")]
         public IHttpActionResult GetWordModulSubLevelQuestions(int subLevel, int level, int kind)
         {
-            WordModulSubLevel s = (WordModulSubLevel)Enum.Parse(typeof(WordModulSubLevel), subLevel.ToString());
+            ModulSubLevel s = (ModulSubLevel)Enum.Parse(typeof(ModulSubLevel), subLevel.ToString());
 
             return Content(HttpStatusCode.OK, new Operations().GetWordModul(s, level, kind).Item1);
+        }
+
+        [System.Web.Http.ActionName("PictureWordModulSubLevelQuestions")]
+        public IHttpActionResult GetPictureWordModulSubLevelQuestions(int subLevel, int level, int kind)
+        {
+            ModulSubLevel s = (ModulSubLevel)Enum.Parse(typeof(ModulSubLevel), subLevel.ToString());
+
+            return Content(HttpStatusCode.OK, new Operations().GetPictureWordModul(s, level, kind).Item1);
         }
 
         [System.Web.Http.ActionName("UpdateUserProgress")]

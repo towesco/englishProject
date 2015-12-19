@@ -221,6 +221,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Modul\PictureWordModul.cs" />
     <Compile Include="Infrastructure\Modul\WordModul.cs" />
     <Compile Include="Infrastructure\Operations.cs" />
     <Compile Include="Infrastructure\HelperClass\UserProfilView.cs" />
@@ -296,6 +297,9 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Pictures\blink.gif" />
+    <Content Include="Pictures\Moduls\BodyModul\body.jpg" />
+    <Content Include="Pictures\Moduls\BodyModul\face.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\FontAwesome.otf" />
@@ -334,6 +338,7 @@
     <Content Include="Areas\Admin\Views\Word\AddWord.cshtml" />
     <Content Include="Areas\Admin\Views\Word\UpdateWord.cshtml" />
     <Content Include="Areas\Admin\Views\Home\SpeedWord.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\GetCoordinates.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery.validation.bootstrap.js" />
     <Content Include="Scripts\login.js" />
@@ -350,6 +355,8 @@
     <Content Include="Scripts\knockout-3.4.0.debug.js" />
     <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\Modul\commonModul.js" />
+    <Content Include="Scripts\Modul\PictureWordModul.js" />
     <Content Include="Scripts\Modul\WordModul.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
@@ -383,7 +390,7 @@
     <Content Include="Views\User\deneme.cshtml" />
     <Content Include="Views\User\levelExam.cshtml" />
     <Content Include="Views\Shared\_LayoutExam.cshtml" />
-    <Content Include="Views\Shared\Modul\WordModulStart.cshtml" />
+    <Content Include="Views\Shared\Modul\ModulStart.cshtml" />
     <Content Include="Views\Shared\Templates\BoxMenuPV.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\LogInPartial.cshtml" />
     <Content Include="Views\Shared\Modul\WordModul.cshtml" />
@@ -393,12 +400,15 @@
     <Content Include="Views\Shared\ModulPartial\ProgressPartial.cshtml" />
     <Content Include="Views\Shared\ModulPartial\SubLevelSuccess.cshtml" />
     <Content Include="Views\Shared\ModulPartial\WarningPartial.cshtml" />
+    <Content Include="Views\Shared\Modul\PictureWordModul.cshtml" />
+    <Content Include="Views\Shared\ModulPartial\LoadingPartial.cshtml" />
+    <Content Include="Views\Home\deneme.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\font-awesome\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Pictures\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>

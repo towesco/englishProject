@@ -1,0 +1,60 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Models
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "levelExam";
+    Level level = ViewBag.level;
+    Level nextLevel = ViewBag.nextLevel;
+
+}
+
+<div id="examWrapper">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            @Html.Partial("ModulPartial/HeaderPartial", level)
+
+            <div class="panel" style="border-width: 0px;">
+                <div id="SubLvelWrapper">
+                    @Html.Partial("ModulPartial/ProgressPartial", level.levelSubLevel)
+
+                    <div id="fail" data-bind="visible:!fail()">
+                        <div class="row" data-bind="visible:!updateWrapper()">
+                            <div class="col-md-12 text-center">
+
+                                <div id="pointer_div" data-bind="style: { backgroundImage: 'url(\'' + Questions.Picture() + '\')',backgroundPosition:backgroundImg }" style="height:400px; background-position: 0px 0px; background-repeat: no-repeat; position: relative;">
+
+                                    <i id="icon" data-bind="style:{top:Questions.x,left:Questions.y}" class="fa fa-bullseye fa-2x" style="position: absolute;color: red; font-size: 1.3em;transition: all;"></i>
+                                </div>
+
+                                <h4 data-bind="text:questionText" class="text-danger"></h4>
+                            </div>
+
+                            @Html.Partial("ModulPartial/WarningPartial")
+
+                            <div data-bind="visible:subLevelNumber()<2" class="col-md-12 text-center">
+
+                                <div class="btnsWrapper form-inline" data-bind="foreach:Questions.List">
+
+                                    <button data-bind="click:$parent.nextQuestion,attr:{id:$data},text:$data" type="button" class="btn btn-lg btn-ques"></button>
+                                </div>
+                            </div>
+
+                            <div data-bind="visible:subLevelNumber()>1" class="col-md-12 text-center">
+
+                                <div class="btnsWrapper form-inline">
+
+                                    <input id="txtEnglish" data-bind="textInput:textValue,valueUpdate: 'input', executeOnEnter: nextQuestion" class="form-control input-lg" style="margin-top: 5px;" type="text">
+                                    <button id="btnControl" data-bind="click:nextQuestion,disable:textValueCount()<=0" class="btn btn-default btn-lg  btn-ques" type="button">Kontrol et</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @Html.Partial("ModulPartial/SubLevelSuccess", nextLevel)
+                    @Html.Partial("ModulPartial/FailPartial")
+                    @Html.Partial("ModulPartial/EndPartial", nextLevel)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
