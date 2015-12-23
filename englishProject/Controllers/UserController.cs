@@ -85,6 +85,11 @@ namespace englishProject.Controllers
             return View();
         }
 
+        public ActionResult RemenderCard(int levelNumber, int kind)
+        {
+            return View();
+        }
+
         public ActionResult deneme()
         {
             ClaimsIdentity ident = HttpContext.User.Identity as ClaimsIdentity;

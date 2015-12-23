@@ -2,99 +2,159 @@
 @using Ninject
 @using WebGrease.Css.Extensions
 @using englishProject.Models
-@model Tuple<Level, levelUserProgress, levelUserProgress>
+@model Tuple<Level, levelUserProgress, levelUserProgress, List<Word>>
 @helper  subLevelButton(string btnName, bool lockk, bool disabled, int subLevel, bool success = false)
 {
 
-    <a href="@Url.Action("levelExam", "user", new { levelNumber = Model.Item1.levelNumber, kind = Model.Item1.kind, subLevel = subLevel })" class="btn btn-lg btn-block @(@disabled ? "disabled" : "") @(@success ? "btn-success" : "btn-primary") ">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="col-xs-7  text-left">
-                    <span>
-                        @if (lockk)
-                        {
-                            <i class="fa fa-lock"></i>
-                        }
-                        @if (success)
-                        {
-                            <i class="fa fa-check"></i>
-                        }
+    <a href="@Url.Action("levelExam", "user", new { levelNumber = Model.Item1.levelNumber, kind = Model.Item1.kind, subLevel = subLevel })" class="btn  btn-default  @(@disabled ? "disabled" : "") ">
 
-                        @if (lockk == false && success == false)
-                        {
-                            <i class="fa fa-arrow-right"></i>
-                        }
-                    </span>
+        <span>
+            @if (lockk)
+            {
+                <i class="fa fa-lock"></i>
+            }
+            @if (success)
+            {
+                <i class="fa fa-check"></i>
+            }
 
-                    @Enum.GetName(typeof(ModulSubLevel), subLevel).ToString() Seviye
-                </div>
-                <div class="col-xs-3  text-left">
-                    <div style="background-color: white; color: #2c86b7;" class="label label-primary">@btnName</div>
-                </div>
-                <div class="col-xs-2 text-right"><i class="fa fa-chevron-circle-right"></i></div>
-            </div>
-        </div>
+            @if (lockk == false && success == false)
+            {
+                <i class="fa fa-arrow-right"></i>
+            }
+        </span>
+
+        @Enum.GetName(typeof(ModulSubLevel), subLevel).ToString() Seviye
+
+        <span class="label label-primary">@btnName</span>
     </a>
 
 }
 
-<div>
+<div class="modulStartBackground" style="padding: 20px;">
+    <div class="row">
+        <div class="col-md-2 col-sm-2">
+            <div style="width: 80px;height: 80px; background-color: #9bbbdd;border: 5px double white;" class="img-circle">
+                <i class="fa fa-star fa-3x" style="margin: 14px 16px; color: white;"></i>
+            </div>
+        </div>
+        <div class="col-md-10 col-sm-10" style="color: white;">
+            <div class="row" style="border-bottom: 3px solid white;margin-top: 4px;margin-left: 0px; padding-bottom: 4px;">
+                <div class="col-md-7 col-xs-6" style="padding-left: 0px;padding-top: 4px;">
+                    <h3 style="margin: 0px;">@(Model.Item1.levelNumberAppear).Seviye</h3>
+                </div>
+                @if (Model.Item1.levelRememderCard)
+                {
+                    <div class="col-md-5 text-right col-xs-6" style="padding-right: 0px;">
+                        <a class="btn  btn-danger" href="#"><i class="fa fa-paper-plane-o"></i>  hatırlatma kartları</a>
+                    </div>
 
-    @if (Model.Item2 == null)
-    {
+                }
+            </div>
 
-        if (Model.Item1.levelNumberAppear == 1 || (Model.Item3 != null && Model.Item3.star >= 1))
+            <h4>@Model.Item1.levelName</h4>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin: 0px;">
+
+    <div class="btn-group btn-group-justified">
+        @if (Model.Item2 == null)
         {
 
-            for (int i = 1; i <= Model.Item1.levelSubLevel; i++)
+            if (Model.Item1.levelNumberAppear == 1 || (Model.Item3 != null && Model.Item3.star >= 1))
             {
-                @(i < 2 ? subLevelButton("Başla", false, false, i) : subLevelButton("Kilitli", true, true, i))
+
+                for (int i = 1; i <= Model.Item1.levelSubLevel; i++)
+                {
+                    @(i < 2 ? subLevelButton("Başla", false, false, i) : subLevelButton("Kilitli", true, true, i))
+                }
             }
+            else
+            {
+                for (int i = 1; i <= Model.Item1.levelSubLevel; i++)
+                {
+                    @subLevelButton("Kilitli", true, true, i)
+                }
+
+            }
+
         }
         else
         {
-            for (int i = 1; i <= Model.Item1.levelSubLevel; i++)
+
+            if (Model.Item2.star == 1)
             {
-                @subLevelButton("Kilitli", true, true, i)
+
+                @subLevelButton("Çalış", false, false, 1, true)
+                @subLevelButton("Başla", false, false, 2)
+
+                if (Model.Item1.levelSubLevel == 3)
+                {
+                    @subLevelButton("Kilitli", true, true, 3)
+                }
+
+            }
+            else if (Model.Item2.star == 2)
+            {
+
+                @subLevelButton("Çalış", false, false, 1, true)
+                @subLevelButton("Çalış", false, false, 2, true)
+
+                if (Model.Item1.levelSubLevel == 3)
+                {
+                    @subLevelButton("Başla", false, false, 3)
+                }
+
+            }
+            else if (Model.Item2.star == 3)
+            {
+                @subLevelButton("Çalış", false, false, 1, true)
+                @subLevelButton("Çalış", false, false, 2, true)
+                @subLevelButton("Çalış", false, false, 3, true)
+
             }
 
         }
-
-    }
-    else
+    </div>
+    <div class="row" style="margin:0px">
+        <div class="col-md-12" style="background-color: #00c6ff; border-bottom: 3px solid #2c86b7;  background: -webkit-linear-gradient(to left, #00c6ff, #0072ff);background: linear-gradient(to left, #00c6ff, #0072ff);  color: white;">
+            <h4 style="padding: 10px; margin: 0px;">ÖGRENİLECEK KELİMELER</h4>
+        </div>
+    </div>
+    @if (Model.Item1.levelRememderCard)
     {
-
-        if (Model.Item2.star == 1)
-        {
-
-            @subLevelButton("Çalış", false, false, 1, true)
-            @subLevelButton("Başla", false, false, 2)
-
-            if (Model.Item1.levelSubLevel == 3)
-            {
-                @subLevelButton("Kilitli", true, true, 3)
-            }
-
-        }
-        else if (Model.Item2.star == 2)
-        {
-
-            @subLevelButton("Çalış", false, false, 1, true)
-            @subLevelButton("Çalış", false, false, 2, true)
-
-            if (Model.Item1.levelSubLevel == 3)
-            {
-                @subLevelButton("Başla", false, false, 3)
-            }
-
-        }
-        else if (Model.Item2.star == 3)
-        {
-            @subLevelButton("Çalış", false, false, 1, true)
-            @subLevelButton("Çalış", false, false, 2, true)
-            @subLevelButton("Çalış", false, false, 3, true)
-
-        }
-
+        <div class="col-md-12">
+            <small class="text-info">Teste başlamadan önce bu seviye için hatırlatma kartlarıyla çalışarak seviyeyi daha kolay bitirebilirsin.</small>
+        </div>
     }
+
+    <div class="col-sm-12" style="background-color: #f5f8fa ; padding: 10px;">
+        <div class="col-sm-6">
+            <ul class="list-group">
+                @foreach (Word item in Model.Item4.Take((Model.Item4.Count / 2)))
+                {
+
+                <li class="list-group-item">
+                    @item.wordTranslate <i class="fa fa-arrows-h"></i> @item.wordTurkish
+                </li>
+
+                }
+            </ul>
+        </div>
+        <div class="col-sm-6">
+            <ul class="list-group">
+                @foreach (Word item in Model.Item4.Skip(Model.Item4.Count / 2).Take(20))
+                {
+
+                <li class="list-group-item">
+                    @item.wordTranslate <i class="fa fa-arrows-h"></i> @item.wordTurkish
+                </li>
+
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+<div>
 </div>

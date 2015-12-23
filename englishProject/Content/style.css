@@ -62,7 +62,9 @@
 
 /*UserProfil menusunun arkaplan resmi*/
 .panel-userbackground #userBackground {
-    background-image: url("images/userbackground.png");
+    background: #00c6ff; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #00c6ff, #0072ff); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #00c6ff, #0072ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background-position: center center;
     height: 150px;
     -ms-border-top-left-radius: 4px;
@@ -207,4 +209,73 @@ hr {
     padding: 10px;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
+}
+
+.modulStartBackground {
+    background: #00c6ff; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #00c6ff, #0072ff); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #00c6ff, #0072ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.notRadius {
+    -ms-border-radius: 0px !important;
+    border-radius: 0px !important;
+    border-left-width: 0px;
+    border-right-width: 0px;
+}
+
+.btn-group > .btn {
+    border-radius: 0px !important;
+}
+
+.btn-group {
+    height: 50px;
+}
+
+.background {
+    background: #00c6ff; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #00c6ff, #0072ff); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #00c6ff, #0072ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.succesQuestionCard {
+    background: #76b852; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #76b852, #8DC26F); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #76b852, #8DC26F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.warningQuestioCard {
+    background: #a73737; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #a73737, #7a2828); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #a73737, #7a2828); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.questionCard {
+    height: 200px;
+    margin: 10px 10px;
+    position: relative;
+    max-width: 400px;
+    margin-right: auto;
+    margin-left: auto;
+    cursor: help;
+    -webkit-transform: perspective(600px) rotateY(0deg);
+    -moz-transform: perspective(600px) rotateY(0deg);
+    -ms-transform: perspective(600px) rotateY(0deg);
+    -o-transform: perspective(600px) rotateY(0deg);
+    transform: perspective(600px) rotateY(0deg);
+    -webkit-transition: all 1s ease-in-out;
+    -moz-transition: all 1s ease-in-out;
+    -ms-transition: all 1s ease-in-out;
+    -o-transition: all 1s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+.questionCardReverse {
+    -webkit-transform: perspective(600px) rotateY(180deg);
+    -moz-transform: perspective(600px) rotateY(180deg);
+    -ms-transform: perspective(600px) rotateY(180deg);
+    -o-transform: perspective(600px) rotateY(180deg);
+    transform: perspective(600px) rotateY(180deg);
 }

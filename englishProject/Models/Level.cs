@@ -23,6 +23,7 @@ namespace englishProject.Models
         public int levelNumberAppear { get; set; }
         public int levelModul { get; set; }
         public int levelSubLevel { get; set; }
+        public bool levelRememderCard { get; set; }
     
         public virtual Box Box { get; set; }
     }

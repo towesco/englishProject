@@ -282,6 +282,7 @@
     <Content Include="Content\font-awesome-4.5.0\css\font-awesome.min.css" />
     <Content Include="Content\images\flag\Turkey-icon.png" />
     <Content Include="Content\images\flag\United-kingdom-icon.png" />
+    <Content Include="Content\images\level\body.png" />
     <Content Include="Content\images\userbackground.png" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\style.css" />
@@ -298,8 +299,9 @@
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Pictures\blink.gif" />
-    <Content Include="Pictures\Moduls\BodyModul\body.jpg" />
-    <Content Include="Pictures\Moduls\BodyModul\face.jpg" />
+    <Content Include="Pictures\PictıreWordModul\body.jpg" />
+    <Content Include="Pictures\PictıreWordModul\face.jpg" />
+    <Content Include="Pictures\WordModul\200400.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\FontAwesome.otf" />
@@ -341,6 +343,7 @@
     <Content Include="Areas\Admin\Views\Home\GetCoordinates.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery.validation.bootstrap.js" />
+    <Content Include="Scripts\jquery.waitforimages.min.js" />
     <Content Include="Scripts\login.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -403,6 +406,7 @@
     <Content Include="Views\Shared\Modul\PictureWordModul.cshtml" />
     <Content Include="Views\Shared\ModulPartial\LoadingPartial.cshtml" />
     <Content Include="Views\Home\deneme.cshtml" />
+    <Content Include="Views\User\RemenderCard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

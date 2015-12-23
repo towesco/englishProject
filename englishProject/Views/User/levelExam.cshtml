@@ -24,6 +24,7 @@
 }
 @section scripts
 {
+    <script src="@Url.Content("~/Scripts/jquery.waitforimages.min.js")"></script>
     <script src="@Url.Content("~/Scripts/Modul/commonModul.js")"></script>
     <script src="@Url.Content("~/Scripts/Modul/" + m.ToString() + ".js")"></script>
 
@@ -44,6 +45,8 @@
 
         $(document).ready(function () {
             $("#loading").modal({ backdrop: false });
+            $('[data-toggle="popover"]').popover('show');
+
             var  vm = new viewmodel(@exam, @level.levelNumber, @level.kind, @level.boxNumber);
 
             ko.applyBindings(vm, document.getElementById("examWrapper"));

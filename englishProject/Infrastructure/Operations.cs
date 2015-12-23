@@ -188,7 +188,8 @@ namespace englishProject.Infrastructure
                         {
                             Question = item.wordTranslate,
                             QuestionCorrect = item.wordTurkish,
-                            QestionsOptions = siklar.OrderBy(a => rnd.Next()).ToList()
+                            QestionsOptions = siklar.OrderBy(a => rnd.Next()).ToList(),
+                            QuestionRemender = item.wordRemender
                         };
 
                         List.Add(q);
@@ -317,7 +318,7 @@ namespace englishProject.Infrastructure
         /// <param name="levelNumber"></param>
         /// <param name="kind"></param>
         /// <returns></returns>
-        public Tuple<Level, levelUserProgress, levelUserProgress> GetExamLevelStart(int levelNumber, int kind)
+        public Tuple<Level, levelUserProgress, levelUserProgress, List<Word>> GetExamLevelStart(int levelNumber, int kind)
         {
             //Günce seviye bilgileri
             Level l = entities.Level.Find(levelNumber, kind);
@@ -335,7 +336,7 @@ namespace englishProject.Infrastructure
                 previousLevelUserProgress = entities.levelUserProgress.FirstOrDefault(a => a.levelNumber == previousLevel.levelNumber && a.kind == previousLevel.kind && a.userId == GetUserId && a.boxNumber == previousLevel.boxNumber);
             }
 
-            return Tuple.Create(l, progress, previousLevelUserProgress);
+            return Tuple.Create(l, progress, previousLevelUserProgress, entities.Word.Where(a => a.levelNumber == l.levelNumber && a.kind == l.kind).ToList());
         }
 
         /// <summary>

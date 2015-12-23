@@ -60,6 +60,7 @@
     <Property Name="levelModul" Type="Int32" Nullable="false" />
     <NavigationProperty Name="Box" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Level" ToRole="Box" />
     <Property Name="levelSubLevel" Type="Int32" Nullable="false" />
+    <Property Name="levelRememderCard" Type="Boolean" Nullable="false" />
   </EntityType>
   <EntityType Name="Word">
     <Key>
@@ -72,6 +73,8 @@
     <Property Name="kind" Type="Int32" Nullable="false" />
     <Property Name="picture" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
     <Property Name="info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="wordRemender" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+    <Property Name="wordRemenderInfo" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
   </EntityType>
   <Association Name="FK_Level_Box">
     <End Type="EnglishProjectDBModel.Box" Role="Box" Multiplicity="1" />

@@ -17,11 +17,28 @@
                 <div id="SubLvelWrapper">
                     @Html.Partial("ModulPartial/ProgressPartial", level.levelSubLevel)
 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-info alert-dismissible notRadius" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <strong>Bilgi! </strong> Kelime kartının sağ alt kısmında göreceğiniz <i class="fa fa-exchange"></i> işareti kelimenin  hatırlatma resimi olduğu anlamına gelir.  Karta tıklayarak hatırlatma resmini görebilirsiniz. Her tıklamada kelimeden kazanacağımız puanın yarısını kaybedersinizi
+                            </div>
+                        </div>
+                    </div>
+
                     <div id="fail" data-bind="visible:!fail()">
                         <div class="row" data-bind="visible:!updateWrapper()">
+
+                            <div class="col-md-6 col-md-offset-3">
+                                <div data-bind="click:exChange" id="questionCard" class=" background questionCard img-rounded text-center">
+                                    <i data-bind="visible:exChangeVisible()>0" class="fa fa-exchange" style="position: absolute;right: 10px;bottom: 4px; color: white;font-size: 1.5em;"></i>
+                                    <h1 style="color:white;padding-top: 80px;;" data-bind="text:Questions.Question"></h1>
+                                </div>
+                            </div>
+
                             <div class="col-md-12 text-center">
-                                <h1 style="background-color: #F5F5F5;padding: 5px 30px;" class="img-thumbnail" data-bind="text:Questions.Question"></h1>
-                                <h4 data-bind="text:questionText" class="text-muted"></h4>
+
+                                <h4 data-bind="text:questionText"></h4>
                             </div>
 
                             @Html.Partial("ModulPartial/WarningPartial")

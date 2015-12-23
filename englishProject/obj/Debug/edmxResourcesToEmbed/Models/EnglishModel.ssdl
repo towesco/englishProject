@@ -35,6 +35,7 @@
     <Property Name="levelNumberAppear" Type="int" Nullable="false" />
     <Property Name="levelModul" Type="int" Nullable="false" />
     <Property Name="levelSubLevel" Type="int" Nullable="false" />
+    <Property Name="levelRememderCard" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="levelUserProgress">
     <Key>
@@ -59,6 +60,8 @@
     <Property Name="kind" Type="int" Nullable="false" />
     <Property Name="picture" Type="nvarchar" MaxLength="500" />
     <Property Name="info" Type="nvarchar" MaxLength="500" />
+    <Property Name="wordRemender" Type="nvarchar" MaxLength="3000" />
+    <Property Name="wordRemenderInfo" Type="nvarchar" MaxLength="3000" />
   </EntityType>
   <Association Name="FK_Level_Box">
     <End Role="Box" Type="Self.Box" Multiplicity="1" />

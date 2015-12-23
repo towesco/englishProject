@@ -39,6 +39,7 @@
     <EntitySetMapping Name="Level">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.Level">
         <MappingFragment StoreEntitySet="Level">
+          <ScalarProperty Name="levelRememderCard" ColumnName="levelRememderCard" />
           <ScalarProperty Name="levelSubLevel" ColumnName="levelSubLevel" />
           <ScalarProperty Name="levelModul" ColumnName="levelModul" />
           <ScalarProperty Name="levelNumberAppear" ColumnName="levelNumberAppear" />
@@ -54,6 +55,8 @@
     <EntitySetMapping Name="Word">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.Word">
         <MappingFragment StoreEntitySet="Word">
+          <ScalarProperty Name="wordRemenderInfo" ColumnName="wordRemenderInfo" />
+          <ScalarProperty Name="wordRemender" ColumnName="wordRemender" />
           <ScalarProperty Name="info" ColumnName="info" />
           <ScalarProperty Name="picture" ColumnName="picture" />
           <ScalarProperty Name="kind" ColumnName="kind" />

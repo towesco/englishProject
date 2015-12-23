@@ -40,6 +40,7 @@
           <Property Name="levelNumberAppear" Type="int" Nullable="false" />
           <Property Name="levelModul" Type="int" Nullable="false" />
           <Property Name="levelSubLevel" Type="int" Nullable="false" />
+          <Property Name="levelRememderCard" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="levelUserProgress">
           <Key>
@@ -64,6 +65,8 @@
           <Property Name="kind" Type="int" Nullable="false" />
           <Property Name="picture" Type="nvarchar" MaxLength="500" />
           <Property Name="info" Type="nvarchar" MaxLength="500" />
+          <Property Name="wordRemender" Type="nvarchar" MaxLength="3000" />
+          <Property Name="wordRemenderInfo" Type="nvarchar" MaxLength="3000" />
         </EntityType>
         <Association Name="FK_Level_Box">
           <End Role="Box" Type="Self.Box" Multiplicity="1" />
@@ -154,6 +157,7 @@
           <Property Name="levelModul" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Box" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Level" ToRole="Box" />
           <Property Name="levelSubLevel" Type="Int32" Nullable="false" />
+          <Property Name="levelRememderCard" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="Word">
           <Key>
@@ -166,6 +170,8 @@
           <Property Name="kind" Type="Int32" Nullable="false" />
           <Property Name="picture" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="wordRemender" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="wordRemenderInfo" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Level_Box">
           <End Type="EnglishProjectDBModel.Box" Role="Box" Multiplicity="1" />
@@ -225,6 +231,7 @@
           <EntitySetMapping Name="Level">
             <EntityTypeMapping TypeName="EnglishProjectDBModel.Level">
               <MappingFragment StoreEntitySet="Level">
+                <ScalarProperty Name="levelRememderCard" ColumnName="levelRememderCard" />
                 <ScalarProperty Name="levelSubLevel" ColumnName="levelSubLevel" />
                 <ScalarProperty Name="levelModul" ColumnName="levelModul" />
                 <ScalarProperty Name="levelNumberAppear" ColumnName="levelNumberAppear" />
@@ -240,6 +247,8 @@
           <EntitySetMapping Name="Word">
             <EntityTypeMapping TypeName="EnglishProjectDBModel.Word">
               <MappingFragment StoreEntitySet="Word">
+                <ScalarProperty Name="wordRemenderInfo" ColumnName="wordRemenderInfo" />
+                <ScalarProperty Name="wordRemender" ColumnName="wordRemender" />
                 <ScalarProperty Name="info" ColumnName="info" />
                 <ScalarProperty Name="picture" ColumnName="picture" />
                 <ScalarProperty Name="kind" ColumnName="kind" />

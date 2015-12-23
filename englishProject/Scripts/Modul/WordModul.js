@@ -4,6 +4,8 @@
 
 var viewmodel = function (exams, levelNumber, kind, boxNumber) {
     var self = this;
+    self.toogle = true;
+    var card = 1;
     //var levelNumber = levelNumber;
     //var kind = kind;
     //var boxNumber = boxNumber;
@@ -56,21 +58,32 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
     self.textValueCount = ko.pureComputed(function () {
         return self.textValue().length;
     });
-
+    self.exChangeVisible = ko.pureComputed(function () {
+        return self.Questions.Remender().length;
+    });
     ///////////////////////////////////////////soru dizisi/////////////////////////////////////////
     self.Questions = {
         Question: ko.observable(),
+        Remender: ko.observable(),
         QuestionCorrect: ko.observable(),
         QestionList: ko.observableArray()
     };
 
     self.Questions.Question(self.dataQuestions()[self.index()].Question);
+    self.Questions.Remender(self.dataQuestions()[self.index()].QuestionRemender);
     self.Questions.QuestionCorrect(self.dataQuestions()[self.index()].QuestionCorrect);
     self.Questions.QestionList(self.dataQuestions()[self.index()].QestionsOptions);
     ///////////////////////////////////////////soru dizisi/////////////////////////////////////////
 
-    //Soruya yanlış cevap verildiğinde hata ekranının gösterilmesi
-
+    self.Reset = function () {
+        $("#questionCard").css("background-image", '');
+        $("#questionCard").addClass("background").removeClass("succesQuestionCard").removeClass("warningQuestioCard").removeClass("questionCardReverse");
+        $(".fa-check-circle").remove();
+        $(".btnsWrapper button").removeClass("btn-update");
+        $(".btnsWrapper button,#txtEnglish").prop("disabled", false);
+        self.toogle = true;
+        card = 1;
+    }
     self.successProgress = function (data) {
         var success = '<div class="progress-bar progress-bar-success" style="width: ' + data + '%"></div>';
         $(".progress").append(success);
@@ -81,6 +94,39 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
         $(".progress").append(success);
     }
 
+    //Exhange
+
+    self.exChange = function () {
+        if (self.exChangeVisible() > 0) {
+            if (self.toogle) {
+                self.toogle = false;
+                card = 0.5;
+                $("#questionCard h1").empty().html("<i class='fa fa-spinner fa-pulse'></i>");
+                $('<img>').attr('src', function () {
+                    return self.Questions.Remender();
+                }).load(function () {
+                    $("#questionCard").addClass("questionCardReverse");
+
+                    setTimeout(function () {
+                        $("#questionCard h1").empty();
+                        $("#questionCard").css("background-image", "url(" + self.Questions.Remender() + ")");
+                    }, 300);
+                });
+            } else {
+                self.toogle = true;
+                $("#questionCard").removeClass("questionCardReverse");
+
+                setTimeout(function () {
+                    $("#questionCard").css("background-image", '');
+                    $("#questionCard h1").text(self.Questions.Question());
+                }, 300);
+            }
+        } else {
+            return false;
+        }
+    }
+
+    //Soruya yanlış cevap verildiğinde hata ekranının gösterilmesi
     self.warning = function (correct2) {
         var veri = '<button class="btn btn-lg btn-ques">' + "Cevap" + '&nbsp;&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;&nbsp;' + correct2 + '</button>';
 
@@ -92,6 +138,7 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
     }
     //Bir sonraki alt level soruları
     self.updateBtn = function () {
+        self.Reset();
         self.loading(true);
 
         var jsonData = { subLevel: self.subLevelNumber() + 1, level: parseInt(levelNumber), kind: parseInt(kind) };
@@ -109,6 +156,7 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
                 self.totalQuestions(self.dataQuestions().length);
 
                 self.Questions.Question(self.dataQuestions()[self.index()].Question);
+                self.Questions.Remender(self.dataQuestions()[self.index()].QuestionRemender);
                 self.Questions.QuestionCorrect(self.dataQuestions()[self.index()].QuestionCorrect);
                 self.Questions.QestionList(self.dataQuestions()[self.index()].QestionsOptions);
                 self.updateWrapper(false);
@@ -138,7 +186,7 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
     //Kullanıcı 3 hakkınıda bitirdiğinde soruları tekrar yükleme işlemi
     self.failBtn = function () {
         self.loading(true);
-
+        self.Reset();
         var jsonData = { subLevel: self.subLevelNumber(), level: parseInt(levelNumber), kind: parseInt(kind) };
 
         $.ajax("/api/ajax/WordModulSubLevelQuestions", {
@@ -151,9 +199,12 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
                 self.dataQuestions(self.exams().Questions);
                 self.index(0);
                 self.totalQuestions(self.dataQuestions().length);
+
                 self.Questions.Question(self.dataQuestions()[self.index()].Question);
+                self.Questions.Remender(self.dataQuestions()[self.index()].QuestionRemender);
                 self.Questions.QuestionCorrect(self.dataQuestions()[self.index()].QuestionCorrect);
                 self.Questions.QestionList(self.dataQuestions()[self.index()].QestionsOptions);
+
                 self.updateWrapper(false);
                 self.warningAppear(false);
                 $(".progress").empty();
@@ -179,17 +230,19 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
     //Bir sonraki soruyu göster
     self.next = function () {
         //ok işaretin ikaldır
-        $(".fa-check-circle").remove();
-        $(".btnsWrapper button").removeClass("btn-update");
+
+        self.Reset();
+
         if (self.subLevelNumber() == 3) {
             $(".btnsWrapper button").text("Kontrol et");
             $("#txtEnglish").focus();
         }
         self.index(self.index() + 1);
-        if (self.index() + 5 < self.totalQuestions()) {
+        if (self.index() < self.totalQuestions()) {
             self.textValue("");
 
             self.Questions.Question(self.dataQuestions()[self.index()].Question);
+            self.Questions.Remender(self.dataQuestions()[self.index()].QuestionRemender);
             self.Questions.QuestionCorrect(self.dataQuestions()[self.index()].QuestionCorrect);
             self.Questions.QestionList(self.dataQuestions()[self.index()].QestionsOptions);
         } else {
@@ -213,6 +266,11 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
                 $("#btnControl").html("<i style='color:#3C5B2E' class='fa fa-check-circle'></i>&nbsp;Doğru");
             }
 
+            $(".btnsWrapper button,#txtEnglish").prop("disabled", true);
+            $("#questionCard h1").text("Doğru");
+            $("#questionCard").css("background-image", '');
+            $("#questionCard").removeClass("background").addClass("succesQuestionCard").removeClass("questionCardReverse");
+
             self.successProgress(self.rate());
             var increasePuan = 0;
             if (self.star() == 3) {
@@ -220,17 +278,20 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
                 increasePuan = self.totalPuan() + self.subLevelNumber() * 1;
             } else {
                 //3 yıldız alınmadıysa level tablosunun levelPuan katsayısıyla çarpılır
-                increasePuan = self.totalPuan() + self.subLevelNumber() * self.puan;
+                increasePuan = self.totalPuan() + self.subLevelNumber() * self.puan * card;
             }
             self.totalPuan(increasePuan);
             setTimeout(function () { self.next(); }, 2000);
         } else {
+            $("#questionCard h1").text("Yanlış");
+            $("#questionCard").css("background-image", '');
+            $("#questionCard").removeClass("background").addClass("warningQuestioCard").removeClass("questionCardReverse");
             //kalp sayısını arttır
             self.totapInCorrect(self.totapInCorrect() + 1);
             if (self.totapInCorrect() >= 3) {
                 self.fail(true);
             }
-            var decrease = self.totalPuan() - self.subLevelNumber() * self.puan * 0.7;
+            var decrease = Math.round(self.totalPuan() - self.subLevelNumber() * self.puan * 1);
             self.totalPuan(decrease);
 
             self.errorProgress(self.rate());

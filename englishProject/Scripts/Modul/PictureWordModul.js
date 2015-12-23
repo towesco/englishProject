@@ -249,7 +249,7 @@
             if (self.totapInCorrect() >= 3) {
                 self.fail(true);
             }
-            var decrease = self.totalPuan() - self.subLevelNumber() * self.puan * 0.7;
+            var decrease = Math.round(self.totalPuan() - self.subLevelNumber() * self.puan * 0.7);
             self.totalPuan(decrease);
 
             self.errorProgress(self.rate());

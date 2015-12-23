@@ -25,6 +25,8 @@ namespace englishProject.Infrastructure
 
         public string QuestionCorrect { get; set; }
 
+        public string QuestionRemender { get; set; }
+
         public List<string> QestionsOptions { get; set; }
     }
 }

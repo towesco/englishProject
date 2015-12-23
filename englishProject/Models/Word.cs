@@ -21,5 +21,7 @@ namespace englishProject.Models
         public int kind { get; set; }
         public string picture { get; set; }
         public string info { get; set; }
+        public string wordRemender { get; set; }
+        public string wordRemenderInfo { get; set; }
     }
 }
