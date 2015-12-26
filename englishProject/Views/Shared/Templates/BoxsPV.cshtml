@@ -15,14 +15,14 @@
 
 }
 
-@helper LevelBox(int boxNumber, int levelNumber, int levelNumberAppear, int kind, string levelName, bool locked, int star, int subLevelCount)
+@helper LevelBox(int levelId, int levelNumber, string levelName, bool locked, int star, int subLevelCount)
 {
 
     <li>
-        <a data-boxnumber="@boxNumber" data-levelnumber="@levelNumber" data-kind="@kind" href="#" class="btn  btn-lg btn-level subLevelSelect  @(@locked ? "btn-primary" : "btn-success")">
+        <a data-levelid="@levelId" href="#" class="btn  btn-lg  subLevelSelect @(@locked ? "btn-primary" : "btn-success")">
             <div>
 
-                <span class="badge badge-level"><strong> @levelNumberAppear</strong></span>
+                <span class="badge badge-level"><strong> @levelNumber</strong></span>
                 <br />
                 <small>Seviye</small>
             </div>
@@ -32,7 +32,7 @@
             </div>
             <div>
 
-                <input id="@boxNumber-@levelNumber" value="@star" class="rating" data-min="0" data-max="@subLevelCount" data-step="1" data-stars="@subLevelCount" data-show-caption="false" data-disabled="true" data-size="xs" data-show-clear="false">
+                <input id="@levelId-@levelNumber" value="@star" class="rating" data-min="0" data-max="@subLevelCount" data-step="1" data-stars="@subLevelCount" data-show-caption="false" data-disabled="true" data-size="xs" data-show-clear="false">
             </div>
             <div>
 
@@ -76,13 +76,13 @@
 
                             @foreach (CustomLevel levelOne in item.UserLevels)
                             {
-                                @LevelBox(levelOne.Level.boxNumber, levelOne.Level.levelNumber, levelOne.Level.levelNumberAppear, levelOne.Level.kind, levelOne.Level.levelName, false, levelOne.Star, levelOne.Level.levelSubLevel)
+                                @LevelBox(levelOne.Level.levelId, levelOne.Level.levelNumber, levelOne.Level.levelName, false, levelOne.Star, levelOne.Level.levelSubLevel)
                             }
 
                             @foreach (Level level2 in item.OtherLevels)
                             {
 
-                                @LevelBox(level2.levelNumber, level2.levelNumber, level2.levelNumberAppear, level2.kind, level2.levelName, true, 0, level2.levelSubLevel)
+                                @LevelBox(level2.levelId, level2.levelNumber, level2.levelName, true, 0, level2.levelSubLevel)
 
                             }
                         </ul>

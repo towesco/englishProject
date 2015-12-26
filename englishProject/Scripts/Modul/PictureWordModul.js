@@ -1,8 +1,9 @@
-﻿var viewmodel = function (exams, levelNumber, kind, boxNumber) {
+﻿var viewmodel = function (exams, levelId, levelSubLevel) {
     var self = this;
 
     var okTextArray = new Array("Temel seviye tamamlandı.", "İleri seviye tamamlandı.", "Mükemmel seviye tamamlandı.");
     var questionTextArray = new Array("Kırmızı işeretli yer vücudun neresidir ?", "Kırmızı işretli yeri kutucuğa yazınız ?");
+    self.subLevelCount = levelSubLevel;
     self.warningAppear = ko.observable(false); //sorun yanlış cevap verildiğinde doğru cevabın ortay çıkmasını sağlar
     self.index = ko.observable(0); //0 indexli kayıtı getirir
     self.exams = ko.observable(exams); //datanın tamamını çeker;
@@ -60,11 +61,9 @@
     //AltLevel tamamlandığında veritabanı güncelelme işlemi
     self.updateUserProggress = function () {
         self.userProgress = {
-            levelNumber: parseInt(levelNumber),
-            kind: parseInt(kind),
+            levelId: parseInt(levelId),
             star: self.star(),
             puan: Math.round(self.totalPuan()),
-            boxNumber: boxNumber
         }
         var jsonData = ko.toJSON(self.userProgress);
         $.ajax("/api/ajax/UpdateUserProgress", {
@@ -101,7 +100,7 @@
     self.updateBtn = function () {
         self.loading(true);
 
-        var jsonData = { subLevel: self.subLevelNumber() + 1, level: parseInt(levelNumber), kind: parseInt(kind) };
+        var jsonData = { subLevel: self.subLevelNumber() + 1, levelId: parseInt(levelId) };
 
         $.ajax("/api/ajax/PictureWordModulSubLevelQuestions", {
             type: "GET",
@@ -150,7 +149,7 @@
     self.failBtn = function () {
         self.loading(true);
 
-        var jsonData = { subLevel: self.subLevelNumber(), level: parseInt(levelNumber), kind: parseInt(kind) };
+        var jsonData = { subLevel: self.subLevelNumber(), levelId: parseInt(levelId) };
 
         $.ajax("/api/ajax/PictureWordModulSubLevelQuestions", {
             type: "GET",
@@ -161,9 +160,7 @@
                 self.subLevelNumber(self.exams().SubLevel);
                 self.dataQuestions(self.exams().Questions);
                 self.index(0);
-
                 self.totalQuestions(self.dataQuestions().length);
-
                 self.Questions.Info(self.dataQuestions()[self.index()].QuestionInfo);
                 self.Questions.Picture(self.dataQuestions()[self.index()].QuestionPicture);
                 self.Questions.Correct(self.dataQuestions()[self.index()].QuestionCorrect);
@@ -202,7 +199,7 @@
             $(".btnsWrapper button").text("Kontrol et");
         }
         self.index(self.index() + 1);
-        if (self.index() < self.totalQuestions()) {
+        if (self.index() + 4 < self.totalQuestions()) {
             self.textValue("");
 
             self.Questions.Info(self.dataQuestions()[self.index()].QuestionInfo);

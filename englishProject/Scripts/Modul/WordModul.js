@@ -2,15 +2,14 @@
 //Puan hesaplama  LevelPuan*seviye örn: level 1 için puan 5 olsun ilk sublevel(1*5) ikinci sublevel(2*5) üçüncü sublevel(3*5)
 //eğer kullanıcı 3 yıldız aldıysa ve tekrar yapmak isterse    subLevel*1
 
-var viewmodel = function (exams, levelNumber, kind, boxNumber) {
+var viewmodel = function (exams, levelId, levelSubLevel) {
     var self = this;
     self.toogle = true;
     var card = 1;
-    //var levelNumber = levelNumber;
-    //var kind = kind;
-    //var boxNumber = boxNumber;
+
     var okTextArray = new Array("Temel seviye tamamlandı.", "İleri seviye tamamlandı.", "Mükemmel seviye tamamlandı.");
     var questionTextArray = new Array("Türkçe çevirisi nedir ?", "İngilizce çevirisi nedir ?", "Kelimenin ingilizce karşılığını yazınız.");
+    self.subLevelCount = levelSubLevel;
     self.warningAppear = ko.observable(false); //sorun yanlış cevap verildiğinde doğru cevabın ortay çıkmasını sağlar
     self.index = ko.observable(0); //0 indexli kayıtı getirir
     self.exams = ko.observable(exams); //datanın tamamını çeker;
@@ -39,11 +38,9 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
     //AltLevel tamamlandığında veritabanı güncelelme işlemi
     self.updateUserProggress = function () {
         self.userProgress = {
-            levelNumber: parseInt(levelNumber),
-            kind: parseInt(kind),
+            levelId: parseInt(levelId),
             star: self.star(),
             puan: Math.round(self.totalPuan()),
-            boxNumber: boxNumber
         }
         var jsonData = ko.toJSON(self.userProgress);
         $.ajax("/api/ajax/UpdateUserProgress", {
@@ -59,12 +56,16 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
         return self.textValue().length;
     });
     self.exChangeVisible = ko.pureComputed(function () {
-        return self.Questions.Remender().length;
+        if (self.Questions.Remender() != null) {
+            return self.Questions.Remender().length;
+        } else {
+            return 0;
+        }
     });
     ///////////////////////////////////////////soru dizisi/////////////////////////////////////////
     self.Questions = {
         Question: ko.observable(),
-        Remender: ko.observable(),
+        Remender: ko.observable(""),
         QuestionCorrect: ko.observable(),
         QestionList: ko.observableArray()
     };
@@ -141,7 +142,7 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
         self.Reset();
         self.loading(true);
 
-        var jsonData = { subLevel: self.subLevelNumber() + 1, level: parseInt(levelNumber), kind: parseInt(kind) };
+        var jsonData = { subLevel: self.subLevelNumber() + 1, levelId: parseInt(levelId) };
 
         $.ajax("/api/ajax/WordModulSubLevelQuestions", {
             type: "GET",
@@ -171,7 +172,7 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
         self.questionText(questionTextArray[self.subLevelNumber()]);
         self.okText(okTextArray[self.subLevelNumber() - 1]);
 
-        if (self.star() <= self.subLevelNumber()) {
+        if (self.star() < self.subLevelNumber()) {
             self.star(self.star() + 1);
         }
 
@@ -187,7 +188,7 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
     self.failBtn = function () {
         self.loading(true);
         self.Reset();
-        var jsonData = { subLevel: self.subLevelNumber(), level: parseInt(levelNumber), kind: parseInt(kind) };
+        var jsonData = { subLevel: self.subLevelNumber(), levelId: parseInt(levelId) };
 
         $.ajax("/api/ajax/WordModulSubLevelQuestions", {
             type: "GET",
@@ -238,7 +239,7 @@ var viewmodel = function (exams, levelNumber, kind, boxNumber) {
             $("#txtEnglish").focus();
         }
         self.index(self.index() + 1);
-        if (self.index() < self.totalQuestions()) {
+        if (self.index() + 10 < self.totalQuestions()) {
             self.textValue("");
 
             self.Questions.Question(self.dataQuestions()[self.index()].Question);

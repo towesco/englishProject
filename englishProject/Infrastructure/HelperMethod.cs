@@ -26,15 +26,6 @@ namespace englishProject.Infrastructure
         /// Genel Dil seçeneklerini getirir İngilizce=1,Almanca 2
         /// </summary>
         /// <returns></returns>
-        public List<SelectListItem> getListKind()
-        {
-            return (Enum.GetValues(typeof(Kind)).Cast<object>().Select(item => new SelectListItem
-            {
-                Text = item.ToString(),
-                Value = ((int)item).ToString(CultureInfo.InvariantCulture),
-                Selected = false
-            })).ToList();
-        }
 
         /// <summary>
         /// Level tablosundan  levelName ve levelın ait olduğu boxName çeker
@@ -43,13 +34,13 @@ namespace englishProject.Infrastructure
         public List<SelectListItem> GetLevelSelectListItems()
         {
             return
-                 entities.Level.OrderBy(a => a.boxNumber).ToList()
+                 entities.Level.OrderBy(a => a.levelId).ToList()
                      .Select(
                          a =>
                              new SelectListItem
                              {
                                  Text = string.Format("{0}({2})---->{1} kutusu", a.levelName, a.Box.boxName, Enum.GetName(typeof(Modul), a.levelModul) ?? ""),
-                                 Value = a.levelNumber.ToString(CultureInfo.InvariantCulture),
+                                 Value = a.levelId.ToString(CultureInfo.InvariantCulture),
                                  Selected = false
                              })
                      .ToList();
@@ -64,7 +55,7 @@ namespace englishProject.Infrastructure
             return entities.Box.ToList().Select(a => new SelectListItem
             {
                 Text = a.boxName,
-                Value = a.boxNumber.ToString(CultureInfo.InvariantCulture),
+                Value = a.boxId.ToString(CultureInfo.InvariantCulture),
                 Selected = false
             }).ToList();
         }
@@ -73,7 +64,7 @@ namespace englishProject.Infrastructure
         /// Level tablosundaki LevelNumberAppear değeri için 1 den 50 kadar sayı çeker
         /// </summary>
         /// <returns></returns>
-        public List<SelectListItem> GetLevelNumberAppearListItems()
+        public List<SelectListItem> GetLevelNumberListItems()
         {
             return
                 Enumerable.Range(1, 50)

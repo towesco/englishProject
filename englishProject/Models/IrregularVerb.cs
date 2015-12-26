@@ -15,11 +15,12 @@ namespace englishProject.Models
     public partial class IrregularVerb
     {
         public int IrregularId { get; set; }
+        public int levelId { get; set; }
+        public string werbTurkish { get; set; }
         public string verbOne { get; set; }
         public string verbTwo { get; set; }
         public string verbThree { get; set; }
-        public int levelNumber { get; set; }
-        public int kind { get; set; }
-        public string werbTurkish { get; set; }
+    
+        public virtual Level Level { get; set; }
     }
 }

@@ -12,17 +12,12 @@ namespace englishProject.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Word
+    public partial class sysdiagrams
     {
-        public int wordId { get; set; }
-        public int levelId { get; set; }
-        public string wordTurkish { get; set; }
-        public string wordTranslate { get; set; }
-        public string picture { get; set; }
-        public string info { get; set; }
-        public string wordRemender { get; set; }
-        public string wordRemenderInfo { get; set; }
-    
-        public virtual Level Level { get; set; }
+        public string name { get; set; }
+        public int principal_id { get; set; }
+        public int diagram_id { get; set; }
+        public Nullable<int> version { get; set; }
+        public byte[] definition { get; set; }
     }
 }

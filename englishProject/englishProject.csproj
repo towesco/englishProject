@@ -259,6 +259,9 @@
     <Compile Include="Models\levelUserProgress.cs">
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Word.cs">
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
@@ -269,7 +272,7 @@
     <Content Include="Areas\Admin\css\sb-admin-2.css" />
     <Content Include="Areas\Admin\css\font-awesome.css" />
     <Content Include="Areas\Admin\fonts\fontawesome-webfont.svg" />
-    <Content Include="Areas\Admin\js\adminEnglish.js" />
+    <Content Include="Areas\Admin\js\AddWord.js" />
     <Content Include="Areas\Admin\js\bootstrap.js" />
     <Content Include="Areas\Admin\js\metisMenu.js" />
     <Content Include="Areas\Admin\js\sb-admin-2.js" />
@@ -342,6 +345,9 @@
     <Content Include="Areas\Admin\Views\Home\SpeedWord.cshtml" />
     <Content Include="Areas\Admin\Views\Home\GetCoordinates.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\jquery-file-upload\jquery.fileupload.js" />
+    <Content Include="Scripts\jquery-file-upload\jquery.iframe-transport.js" />
+    <Content Include="Scripts\jquery-file-upload\jquery.ui.widget.js" />
     <Content Include="Scripts\jquery.validation.bootstrap.js" />
     <Content Include="Scripts\jquery.waitforimages.min.js" />
     <Content Include="Scripts\login.js" />

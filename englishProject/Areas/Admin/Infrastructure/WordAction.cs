@@ -2,8 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
 using System.Web;
+using System.Web.Helpers;
 
 namespace englishProject.Areas.Admin.Infrastructure
 {
@@ -24,7 +27,7 @@ namespace englishProject.Areas.Admin.Infrastructure
             return true;
         }
 
-        public IEnumerable<Word> Words(int levelNumber, int kind, int boxNumber)
+        public IEnumerable<Word> Words(int levelId)
         {
             try
             {
@@ -32,7 +35,7 @@ namespace englishProject.Areas.Admin.Infrastructure
                 //          .First(a => a.levelNumber == levelNumber && a.kind == kind && a.boxNumber == boxNumber)
                 //          .Word.OrderByDescending(a => a.wordId).ToList();
 
-                return entities.Word.Where(a => a.levelNumber == levelNumber && a.kind == kind).OrderByDescending(a => a.wordId).ToList();
+                return entities.Word.Where(a => a.levelId == levelId).OrderByDescending(a => a.wordId).ToList();
             }
             catch (Exception)
             {
@@ -49,9 +52,38 @@ namespace englishProject.Areas.Admin.Infrastructure
 
         public bool DeleteWord(int wordId)
         {
-            entities.Word.Remove(entities.Word.First(a => a.wordId == wordId));
+            Word w = entities.Word.First(a => a.wordId == wordId);
+
+            entities.Word.Remove(w);
+
+            if (File.Exists(HttpContext.Current.Server.MapPath(w.wordRemender)))
+            {
+                File.Delete(HttpContext.Current.Server.MapPath(w.wordRemender));
+            }
+
+            if (File.Exists(HttpContext.Current.Server.MapPath(w.wordRemenderInfo)))
+            {
+                File.Delete(HttpContext.Current.Server.MapPath(w.wordRemenderInfo));
+            }
+
             entities.SaveChanges();
             return true;
+        }
+
+        public bool DeletePicture(string path)
+        {
+            try
+            {
+                if (File.Exists(HttpContext.Current.Server.MapPath(path)))
+                {
+                    File.Delete(HttpContext.Current.Server.MapPath(path));
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
 
         public Word GetWord(int wordId)

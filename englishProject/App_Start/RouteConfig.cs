@@ -19,7 +19,7 @@ namespace englishProject
 
             routes.MapRoute(
       name: "levelQuiz",
-      url: "{controller}/{action}/{levelNumber}/{kind}/{subLevel}",
+      url: "{controller}/{action}/{levelId}/{subLevel}",
       defaults: new { controller = "User", action = "levelQuiz" }, namespaces: new[] { "englishProject.Controllers" }
 
   );

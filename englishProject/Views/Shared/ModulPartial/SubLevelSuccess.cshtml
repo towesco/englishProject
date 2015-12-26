@@ -1,5 +1,5 @@
 ﻿@model englishProject.Models.Level
-<div class=" alert alert-success alert-update" role="alert" data-bind="visible:(updateWrapper() && subLevelNumber()<2)" style="display: none">
+<div class=" alert alert-success alert-update" role="alert" data-bind="visible:(updateWrapper() && subLevelNumber()<subLevelCount)" style="display: none">
     <div class=" row">
         <div class="col-md-12  text-center">
             <div class="col-md-2">
@@ -20,8 +20,8 @@
 
                 @if (Model != null)
                 {
-                    <a href="@Url.Action("levelExam", "User", new {Model.levelNumber,Model.kind, subLevel = 1})" c class="btn btn-update">
-                        <i class="fa fa-unlock"></i><strong> @Model.levelNumberAppear . seviye açıldı.</strong>
+                    <a href="@Url.Action("levelExam", "User", new {Model.levelId,subLevel=1})" class="btn btn-update">
+                        <i class="fa fa-unlock"></i><strong> @Model.levelNumber . seviye açıldı.</strong>
                     </a>
                 }
             </div>

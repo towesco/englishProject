@@ -22,9 +22,9 @@ namespace englishProject.Areas.Admin.Infrastructure
             entities = new EnglishProjectDBEntities();
         }
 
-        public IEnumerable<Level> Levels(int boxNumber, Kind kind)
+        public IEnumerable<Level> Levels(int boxId)
         {
-            return entities.Level.Where(a => a.boxNumber == boxNumber & a.kind == (int)kind).ToList();
+            return entities.Box.Find(boxId).Level.ToList();
         }
 
         public bool AddLevel(Level level)
@@ -42,9 +42,9 @@ namespace englishProject.Areas.Admin.Infrastructure
             return true;
         }
 
-        public bool DeleteLevel(int levelNumber, int kind)
+        public bool DeleteLevel(int levelId)
         {
-            Level level = entities.Level.FirstOrDefault(a => a.levelNumber == levelNumber && a.kind == kind);
+            Level level = entities.Level.FirstOrDefault(a => a.levelId == levelId);
             if (level != null)
             {
                 entities.Entry(level).State = EntityState.Deleted;
@@ -54,9 +54,9 @@ namespace englishProject.Areas.Admin.Infrastructure
             return true;
         }
 
-        public Level GetLevel(int levelNumber, int kind)
+        public Level GetLevel(int levelId)
         {
-            return entities.Level.First(a => a.levelNumber == levelNumber && a.kind == kind);
+            return entities.Level.First(a => a.levelId == levelId);
         }
     }
 }

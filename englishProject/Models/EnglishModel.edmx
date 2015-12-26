@@ -7,37 +7,33 @@
     <Schema Namespace="EnglishProjectDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Box">
           <Key>
-            <PropertyRef Name="boxNumber" />
-            <PropertyRef Name="kind" />
+            <PropertyRef Name="boxId" />
           </Key>
+          <Property Name="boxId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="boxName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="boxNumber" Type="int" Nullable="false" />
-          <Property Name="kind" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="IrregularVerb">
           <Key>
             <PropertyRef Name="IrregularId" />
           </Key>
           <Property Name="IrregularId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="levelId" Type="int" Nullable="false" />
           <Property Name="werbTurkish" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="verbOne" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="verbTwo" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="verbThree" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="levelNumber" Type="int" Nullable="false" />
-          <Property Name="kind" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Level">
           <Key>
-            <PropertyRef Name="levelNumber" />
-            <PropertyRef Name="kind" />
+            <PropertyRef Name="levelId" />
           </Key>
-          <Property Name="levelNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="kind" Type="int" Nullable="false" />
+          <Property Name="levelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="levelNumber" Type="int" Nullable="false" />
           <Property Name="levelName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="boxNumber" Type="int" Nullable="false" />
+          <Property Name="boxId" Type="int" Nullable="false" />
           <Property Name="levelPicture" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="levelPuan" Type="int" Nullable="false" />
-          <Property Name="levelNumberAppear" Type="int" Nullable="false" />
           <Property Name="levelModul" Type="int" Nullable="false" />
           <Property Name="levelSubLevel" Type="int" Nullable="false" />
           <Property Name="levelRememderCard" Type="bit" Nullable="false" />
@@ -48,37 +44,66 @@
           </Key>
           <Property Name="progressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="kind" Type="int" Nullable="false" />
-          <Property Name="boxNumber" Type="int" Nullable="false" />
-          <Property Name="levelNumber" Type="int" Nullable="false" />
+          <Property Name="levelId" Type="int" Nullable="false" />
           <Property Name="puan" Type="int" Nullable="false" />
           <Property Name="star" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Word">
           <Key>
             <PropertyRef Name="wordId" />
           </Key>
           <Property Name="wordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="levelId" Type="int" Nullable="false" />
           <Property Name="wordTurkish" Type="nvarchar(max)" Nullable="false" />
           <Property Name="wordTranslate" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="levelNumber" Type="int" Nullable="false" />
-          <Property Name="kind" Type="int" Nullable="false" />
           <Property Name="picture" Type="nvarchar" MaxLength="500" />
           <Property Name="info" Type="nvarchar" MaxLength="500" />
           <Property Name="wordRemender" Type="nvarchar" MaxLength="3000" />
           <Property Name="wordRemenderInfo" Type="nvarchar" MaxLength="3000" />
         </EntityType>
+        <Association Name="FK_IrregularVerb_Level">
+          <End Role="Level" Type="Self.Level" Multiplicity="1" />
+          <End Role="IrregularVerb" Type="Self.IrregularVerb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="levelId" />
+            </Principal>
+            <Dependent Role="IrregularVerb">
+              <PropertyRef Name="levelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Level_Box">
           <End Role="Box" Type="Self.Box" Multiplicity="1" />
           <End Role="Level" Type="Self.Level" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Box">
-              <PropertyRef Name="boxNumber" />
-              <PropertyRef Name="kind" />
+              <PropertyRef Name="boxId" />
             </Principal>
             <Dependent Role="Level">
-              <PropertyRef Name="boxNumber" />
-              <PropertyRef Name="kind" />
+              <PropertyRef Name="boxId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Word_Level">
+          <End Role="Level" Type="Self.Level" Multiplicity="1" />
+          <End Role="Word" Type="Self.Word" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="levelId" />
+            </Principal>
+            <Dependent Role="Word">
+              <PropertyRef Name="levelId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -87,10 +112,19 @@
           <EntitySet Name="IrregularVerb" EntityType="Self.IrregularVerb" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Word" EntityType="Self.Word" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_IrregularVerb_Level" Association="Self.FK_IrregularVerb_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="IrregularVerb" EntitySet="IrregularVerb" />
+          </AssociationSet>
           <AssociationSet Name="FK_Level_Box" Association="Self.FK_Level_Box">
             <End Role="Box" EntitySet="Box" />
             <End Role="Level" EntitySet="Level" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Word_Level" Association="Self.FK_Word_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="Word" EntitySet="Word" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -98,36 +132,32 @@
     <edmx:ConceptualModels>
       <Schema Namespace="EnglishProjectDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="EnglishProjectDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="levelUserProgress" EntityType="EnglishProjectDBModel.levelUserProgress" />
           <EntitySet Name="Box" EntityType="EnglishProjectDBModel.Box" />
           <EntitySet Name="IrregularVerb" EntityType="EnglishProjectDBModel.IrregularVerb" />
           <EntitySet Name="Level" EntityType="EnglishProjectDBModel.Level" />
+          <EntitySet Name="sysdiagrams" EntityType="EnglishProjectDBModel.sysdiagrams" />
           <EntitySet Name="Word" EntityType="EnglishProjectDBModel.Word" />
           <AssociationSet Name="FK_Level_Box" Association="EnglishProjectDBModel.FK_Level_Box">
             <End Role="Box" EntitySet="Box" />
             <End Role="Level" EntitySet="Level" />
           </AssociationSet>
-          </EntityContainer>
-        <EntityType Name="levelUserProgress">
-          <Key>
-            <PropertyRef Name="progressId" />
-          </Key>
-          <Property Name="progressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="userId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="levelNumber" Type="Int32" Nullable="false" />
-          <Property Name="kind" Type="Int32" Nullable="false" />
-          <Property Name="star" Type="Int32" Nullable="false" />
-          <Property Name="puan" Type="Int32" Nullable="false" />
-          <Property Name="boxNumber" Type="Int32" Nullable="false" />
-        </EntityType>
+          <AssociationSet Name="FK_IrregularVerb_Level" Association="EnglishProjectDBModel.FK_IrregularVerb_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="IrregularVerb" EntitySet="IrregularVerb" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Word_Level" Association="EnglishProjectDBModel.FK_Word_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="Word" EntitySet="Word" />
+          </AssociationSet>
+          <EntitySet Name="levelUserProgress" EntityType="EnglishProjectDBModel.levelUserProgress" />
+        </EntityContainer>
         <EntityType Name="Box">
           <Key>
-            <PropertyRef Name="boxNumber" />
-            <PropertyRef Name="kind" />
+            <PropertyRef Name="boxId" />
           </Key>
+          <Property Name="boxId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="boxName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="boxNumber" Type="Int32" Nullable="false" />
-          <Property Name="kind" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Level" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Box" ToRole="Level" />
         </EntityType>
         <EntityType Name="IrregularVerb">
@@ -135,95 +165,123 @@
             <PropertyRef Name="IrregularId" />
           </Key>
           <Property Name="IrregularId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="levelId" Type="Int32" Nullable="false" />
+          <Property Name="werbTurkish" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="verbOne" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="verbTwo" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="verbThree" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="levelNumber" Type="Int32" Nullable="false" />
-          <Property Name="kind" Type="Int32" Nullable="false" />
-          <Property Name="werbTurkish" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Level" Relationship="EnglishProjectDBModel.FK_IrregularVerb_Level" FromRole="IrregularVerb" ToRole="Level" />
         </EntityType>
         <EntityType Name="Level">
           <Key>
-            <PropertyRef Name="levelNumber" />
-            <PropertyRef Name="kind" />
+            <PropertyRef Name="levelId" />
           </Key>
-          <Property Name="levelNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="kind" Type="Int32" Nullable="false" />
+          <Property Name="levelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="levelNumber" Type="Int32" Nullable="false" />
           <Property Name="levelName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="boxNumber" Type="Int32" Nullable="false" />
+          <Property Name="boxId" Type="Int32" Nullable="false" />
           <Property Name="levelPicture" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="levelPuan" Type="Int32" Nullable="false" />
-          <Property Name="levelNumberAppear" Type="Int32" Nullable="false" />
           <Property Name="levelModul" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Box" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Level" ToRole="Box" />
           <Property Name="levelSubLevel" Type="Int32" Nullable="false" />
           <Property Name="levelRememderCard" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Box" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Level" ToRole="Box" />
+          <NavigationProperty Name="IrregularVerb" Relationship="EnglishProjectDBModel.FK_IrregularVerb_Level" FromRole="Level" ToRole="IrregularVerb" />
+          <NavigationProperty Name="Word" Relationship="EnglishProjectDBModel.FK_Word_Level" FromRole="Level" ToRole="Word" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Word">
           <Key>
             <PropertyRef Name="wordId" />
           </Key>
           <Property Name="wordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="levelId" Type="Int32" Nullable="false" />
           <Property Name="wordTurkish" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="wordTranslate" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="levelNumber" Type="Int32" Nullable="false" />
-          <Property Name="kind" Type="Int32" Nullable="false" />
           <Property Name="picture" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
           <Property Name="wordRemender" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
           <Property Name="wordRemenderInfo" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Level" Relationship="EnglishProjectDBModel.FK_Word_Level" FromRole="Word" ToRole="Level" />
         </EntityType>
         <Association Name="FK_Level_Box">
           <End Type="EnglishProjectDBModel.Box" Role="Box" Multiplicity="1" />
           <End Type="EnglishProjectDBModel.Level" Role="Level" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Box">
-              <PropertyRef Name="boxNumber" />
-              <PropertyRef Name="kind" />
+              <PropertyRef Name="boxId" />
             </Principal>
             <Dependent Role="Level">
-              <PropertyRef Name="boxNumber" />
-              <PropertyRef Name="kind" />
+              <PropertyRef Name="boxId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_IrregularVerb_Level">
+          <End Type="EnglishProjectDBModel.Level" Role="Level" Multiplicity="1" />
+          <End Type="EnglishProjectDBModel.IrregularVerb" Role="IrregularVerb" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="levelId" />
+            </Principal>
+            <Dependent Role="IrregularVerb">
+              <PropertyRef Name="levelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Word_Level">
+          <End Type="EnglishProjectDBModel.Level" Role="Level" Multiplicity="1" />
+          <End Type="EnglishProjectDBModel.Word" Role="Word" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="levelId" />
+            </Principal>
+            <Dependent Role="Word">
+              <PropertyRef Name="levelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="levelUserProgress">
+          <Key>
+            <PropertyRef Name="progressId" />
+          </Key>
+          <Property Name="progressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="levelId" Type="Int32" Nullable="false" />
+          <Property Name="puan" Type="Int32" Nullable="false" />
+          <Property Name="star" Type="Int32" Nullable="false" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="EnglishProjectDBModelStoreContainer" CdmEntityContainer="EnglishProjectDBEntities">
-          <EntitySetMapping Name="levelUserProgress">
-            <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
-              <MappingFragment StoreEntitySet="levelUserProgress">
-                <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
-                <ScalarProperty Name="puan" ColumnName="puan" />
-                <ScalarProperty Name="star" ColumnName="star" />
-                <ScalarProperty Name="kind" ColumnName="kind" />
-                <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
-                <ScalarProperty Name="userId" ColumnName="userId" />
-                <ScalarProperty Name="progressId" ColumnName="progressId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Box">
             <EntityTypeMapping TypeName="EnglishProjectDBModel.Box">
               <MappingFragment StoreEntitySet="Box">
-                <ScalarProperty Name="kind" ColumnName="kind" />
                 <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
                 <ScalarProperty Name="boxName" ColumnName="boxName" />
+                <ScalarProperty Name="boxId" ColumnName="boxId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="IrregularVerb">
             <EntityTypeMapping TypeName="EnglishProjectDBModel.IrregularVerb">
               <MappingFragment StoreEntitySet="IrregularVerb">
-                <ScalarProperty Name="werbTurkish" ColumnName="werbTurkish" />
-                <ScalarProperty Name="kind" ColumnName="kind" />
-                <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
                 <ScalarProperty Name="verbThree" ColumnName="verbThree" />
                 <ScalarProperty Name="verbTwo" ColumnName="verbTwo" />
                 <ScalarProperty Name="verbOne" ColumnName="verbOne" />
+                <ScalarProperty Name="werbTurkish" ColumnName="werbTurkish" />
+                <ScalarProperty Name="levelId" ColumnName="levelId" />
                 <ScalarProperty Name="IrregularId" ColumnName="IrregularId" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -234,13 +292,23 @@
                 <ScalarProperty Name="levelRememderCard" ColumnName="levelRememderCard" />
                 <ScalarProperty Name="levelSubLevel" ColumnName="levelSubLevel" />
                 <ScalarProperty Name="levelModul" ColumnName="levelModul" />
-                <ScalarProperty Name="levelNumberAppear" ColumnName="levelNumberAppear" />
                 <ScalarProperty Name="levelPuan" ColumnName="levelPuan" />
                 <ScalarProperty Name="levelPicture" ColumnName="levelPicture" />
-                <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
+                <ScalarProperty Name="boxId" ColumnName="boxId" />
                 <ScalarProperty Name="levelName" ColumnName="levelName" />
-                <ScalarProperty Name="kind" ColumnName="kind" />
                 <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+                <ScalarProperty Name="levelId" ColumnName="levelId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="EnglishProjectDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="definition" ColumnName="definition" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -251,15 +319,25 @@
                 <ScalarProperty Name="wordRemender" ColumnName="wordRemender" />
                 <ScalarProperty Name="info" ColumnName="info" />
                 <ScalarProperty Name="picture" ColumnName="picture" />
-                <ScalarProperty Name="kind" ColumnName="kind" />
-                <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
                 <ScalarProperty Name="wordTranslate" ColumnName="wordTranslate" />
                 <ScalarProperty Name="wordTurkish" ColumnName="wordTurkish" />
+                <ScalarProperty Name="levelId" ColumnName="levelId" />
                 <ScalarProperty Name="wordId" ColumnName="wordId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          </EntityContainerMapping>
+          <EntitySetMapping Name="levelUserProgress">
+            <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
+              <MappingFragment StoreEntitySet="levelUserProgress">
+                <ScalarProperty Name="star" ColumnName="star" />
+                <ScalarProperty Name="puan" ColumnName="puan" />
+                <ScalarProperty Name="levelId" ColumnName="levelId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="progressId" ColumnName="progressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

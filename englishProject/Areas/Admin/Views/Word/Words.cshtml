@@ -12,18 +12,15 @@
 {
 
     <div class="form-group">
-        <label for="boxNumber">Kutu ismi:</label>
-        @Html.DropDownList("boxNumber", null, new { @class = "form-control" })
+        <label for="boxId">Kutu ismi:</label>
+        @Html.DropDownList("boxId", null, new { @class = "form-control" })
     </div>
 
     <div class="form-group">
-        <label for="levelNumber">Level ismi:</label>
-        @Html.DropDownList("levelNumber", null, new { @class = "form-control" })
+        <label for="levelId">Level Numara:</label>
+        @Html.DropDownList("levelId", null, new { @class = "form-control" })
     </div>
-    <div class="form-group">
-        <label for="levelNumber">Dil:</label>
-        @Html.DropDownList("kind", null, new { @class = "form-control" })
-    </div>
+
     <button type="submit" class="btn btn-primary">Seç</button>
 
 }
@@ -33,16 +30,26 @@
 </p>
 <table class="table table-bordered table-striped table-hover">
     <tr>
-
+        <th>
+            @Html.DisplayNameFor(model => model.Level.Box.boxName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.levelNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.levelName)
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.wordTurkish)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.wordTranslate)
         </th>
-
         <th>
-            @Html.DisplayNameFor(model => model.kind)
+            @Html.DisplayNameFor(model => model.wordRemender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.wordRemenderInfo)
         </th>
         <th>İşlemler</th>
     </tr>
@@ -50,22 +57,48 @@
     @foreach (var item in Model)
     {
         <tr>
-
+            <th>
+                @Html.DisplayFor(modelItem => item.Level.Box.boxName)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Level.levelNumber)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Level.levelName)
+            </th>
             <td>
                 @Html.DisplayFor(modelItem => item.wordTurkish)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.wordTranslate)
             </td>
-
             <td>
-                @Enum.GetName(typeof(Kind), item.kind)
+                @if (string.IsNullOrEmpty(item.wordRemender))
+                {
+                    <span>resim yok</span>
+                }
+                else
+                {
+                    <a class="btn btn-primary btn-xs" target="_blank" href="@item.wordRemender">resmi gör</a>
+
+                }
+            </td>
+            <td>
+                @if (string.IsNullOrEmpty(item.wordRemenderInfo))
+                {
+                    <span>resim yok</span>
+                }
+                else
+                {
+                    <a class="btn btn-primary btn-xs" target="_blank" href="@item.wordRemenderInfo">resmi gör</a>
+
+                }
             </td>
             <td>
                 <div class="row">
-                    <div class="col-md-3"><a class="btn btn-primary btn-xs " href="@Url.Action("UpdateWord","Word",new{wordId=item.wordId})">güncelle</a></div>
+                    <div class="col-md-3"><a class="btn btn-primary btn-xs " href="@Url.Action("UpdateWord","Word",new{item.wordId})">güncelle</a></div>
                     <div class="col-md-3">
-                        @using (Html.BeginForm("DeleteWord2", "Word", new { wordId = item.wordId }, FormMethod.Post))
+                        @using (Html.BeginForm("DeleteWord2", "Word", new { item.wordId }, FormMethod.Post))
                         {
                             <input class="btn btn-danger btn-xs" type="submit" value="sil" />
                         }

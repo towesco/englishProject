@@ -3,6 +3,7 @@ using englishProject.Infrastructure;
 using englishProject.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -22,17 +23,16 @@ namespace englishProject.Areas.Admin.Controllers
             helperMethod = new HelperMethod();
         }
 
-        public ActionResult Words(int levelNumber = 1, int kind = 1, int boxNumber = 1)
+        public ActionResult Words(int levelId = 1, int boxId = 1)
         {
-            ViewBag.boxNumber = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
-            ViewBag.levelNumber = new SelectList(helperMethod.GetLevelSelectListItems(), "Value", "Text");
-            ViewBag.kind = new SelectList(helperMethod.getListKind(), "Value", "Text");
-            return View(entities.Words(levelNumber, kind, boxNumber));
+            ViewBag.boxId = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
+            ViewBag.levelId = new SelectList(helperMethod.GetLevelSelectListItems(), "Value", "Text");
+
+            return View(entities.Words(levelId));
         }
 
         public ActionResult AddWord()
         {
-            ViewBag.kind = helperMethod.getListKind();
             return View(new Word());
         }
 
@@ -40,8 +40,8 @@ namespace englishProject.Areas.Admin.Controllers
         {
             var w = entities.GetWord(wordId);
 
-            ViewBag.levelNumber = new SelectList(helperMethod.GetLevelSelectListItems(), "Value", "Text", w.levelNumber);
-            ViewBag.kind = new SelectList(helperMethod.getListKind(), "Value", "Text", w.kind);
+            ViewBag.levelId = new SelectList(helperMethod.GetLevelSelectListItems(), "Value", "Text", w.levelId);
+
             return View(w);
         }
 
@@ -50,7 +50,7 @@ namespace englishProject.Areas.Admin.Controllers
         {
             entities.UpdateWord(w);
 
-            return RedirectToAction("Words", new { selectLevel = w.levelNumber, selectKind = w.kind });
+            return RedirectToAction("Words", new { selectLevel = w.levelId });
         }
 
         [HttpPost]
@@ -60,6 +60,8 @@ namespace englishProject.Areas.Admin.Controllers
             return RedirectToAction("Words");
         }
 
+        #region Ajax
+
         public JsonResult CreateWord(Word word)
         {
             entities.AddWord(word);
@@ -67,9 +69,25 @@ namespace englishProject.Areas.Admin.Controllers
             return Json(word.wordId, JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult DeletePicture(string path)
+        {
+            return Json(entities.DeletePicture(path), JsonRequestBehavior.AllowGet);
+        }
+
         public JsonResult DeleteWord(int wordId)
         {
             return Json(entities.DeleteWord(wordId), JsonRequestBehavior.AllowGet);
         }
+
+        public ContentResult Upload(HttpPostedFileBase fileUpload)
+        {
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(fileUpload.FileName);
+
+            fileUpload.SaveAs(Server.MapPath("~/Pictures/WordModul/" + fileName));
+
+            return Content("/Pictures/WordModul/" + fileName);
+        }
+
+        #endregion Ajax
     }
 }

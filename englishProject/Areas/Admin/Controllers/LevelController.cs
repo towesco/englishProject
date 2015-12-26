@@ -27,19 +27,18 @@ namespace englishProject.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult Levels(int boxNumber = 1, int selectKind = 1)
+        public ActionResult Levels(int boxId = 1, int selectKind = 1)
         {
-            ViewBag.selectKind = new SelectList(helperMethod.getListKind(), "Value", "Text");
             ViewBag.boxNumber = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
 
-            return View(entities.Levels(boxNumber, (Kind)selectKind));
+            return View(entities.Levels(boxId));
         }
 
         public ActionResult AddLevel()
         {
-            ViewBag.boxNumber = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
-            ViewBag.kind = helperMethod.getListKind();
-            ViewBag.levelNumberAppear = helperMethod.GetLevelNumberAppearListItems();
+            ViewBag.boxId = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
+
+            ViewBag.levelNumber = helperMethod.GetLevelNumberListItems();
             ViewBag.levelModul = helperMethod.GetModulListItems();
             return View(new Level());
         }
@@ -51,12 +50,11 @@ namespace englishProject.Areas.Admin.Controllers
             return RedirectToAction("Levels");
         }
 
-        public ActionResult UpdateLevel(int levelNumber, int kind)
+        public ActionResult UpdateLevel(int levelId)
         {
-            Level level = entities.GetLevel(levelNumber, kind);
+            Level level = entities.GetLevel(levelId);
 
-            ViewBag.kind = new SelectList(helperMethod.getListKind(), "Value", "Text", level.kind.ToString(CultureInfo.InvariantCulture));
-            ViewBag.boxNumber = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text", level.boxNumber.ToString(CultureInfo.InvariantCulture));
+            ViewBag.boxId = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text", level.boxId.ToString(CultureInfo.InvariantCulture));
 
             ViewBag.levelModul = new SelectList(helperMethod.GetModulListItems(), "Value", "Text", level.levelModul.ToString(CultureInfo.InvariantCulture));
 
@@ -67,13 +65,13 @@ namespace englishProject.Areas.Admin.Controllers
         public ActionResult UpdateLevel(Level level)
         {
             entities.UpdateLevel(level);
-            return RedirectToAction("Levels", new { boxNumber = level.boxNumber, kind = level.kind });
+            return RedirectToAction("Levels", new { level.boxId });
         }
 
         [HttpPost]
-        public ActionResult DeleteLevel(int levelNumber, int kind)
+        public ActionResult DeleteLevel(int levelId)
         {
-            entities.DeleteLevel(levelNumber, kind);
+            entities.DeleteLevel(levelId);
             return RedirectToAction("Levels");
         }
 

@@ -6,7 +6,7 @@
 @helper  subLevelButton(string btnName, bool lockk, bool disabled, int subLevel, bool success = false)
 {
 
-    <a href="@Url.Action("levelExam", "user", new { levelNumber = Model.Item1.levelNumber, kind = Model.Item1.kind, subLevel = subLevel })" class="btn  btn-default  @(@disabled ? "disabled" : "") ">
+    <a href="@Url.Action("levelExam", "user", new {Model.Item1.levelId, subLevel = subLevel })" class="btn btn-default @(@disabled ? "disabled" : "bos") ">
 
         <span>
             @if (lockk)
@@ -33,23 +33,23 @@
 
 <div class="modulStartBackground" style="padding: 20px;">
     <div class="row">
-        <div class="col-md-2 col-sm-2">
+        <div class="col-md-2 col-sm-2 hidden-xs hidden-sm">
             <div style="width: 80px;height: 80px; background-color: #9bbbdd;border: 5px double white;" class="img-circle">
                 <i class="fa fa-star fa-3x" style="margin: 14px 16px; color: white;"></i>
             </div>
         </div>
         <div class="col-md-10 col-sm-10" style="color: white;">
             <div class="row" style="border-bottom: 3px solid white;margin-top: 4px;margin-left: 0px; padding-bottom: 4px;">
-                <div class="col-md-7 col-xs-6" style="padding-left: 0px;padding-top: 4px;">
-                    <h3 style="margin: 0px;">@(Model.Item1.levelNumberAppear).Seviye</h3>
-                </div>
+
+                <h3 class="marginReset pull-left" style="padding-top: 4px;">@(Model.Item1.levelNumber).Seviye</h3>
+
                 @if (Model.Item1.levelRememderCard)
                 {
-                    <div class="col-md-5 text-right col-xs-6" style="padding-right: 0px;">
-                        <a class="btn  btn-danger" href="#"><i class="fa fa-paper-plane-o"></i>  hatırlatma kartları</a>
-                    </div>
+
+                    <a class="btn  btn-danger pull-right" href="@Url.Action("remendercard", "user", new { id = Model.Item1.levelId })"><i class="fa fa-paper-plane-o"></i>  hatırlatma kartları</a>
 
                 }
+                <i class="clearfix"></i>
             </div>
 
             <h4>@Model.Item1.levelName</h4>
@@ -62,7 +62,7 @@
         @if (Model.Item2 == null)
         {
 
-            if (Model.Item1.levelNumberAppear == 1 || (Model.Item3 != null && Model.Item3.star >= 1))
+            if (Model.Item1.levelNumber == 1 || (Model.Item3 != null && Model.Item3.star >= 1))
             {
 
                 for (int i = 1; i <= Model.Item1.levelSubLevel; i++)
@@ -135,9 +135,9 @@
                 @foreach (Word item in Model.Item4.Take((Model.Item4.Count / 2)))
                 {
 
-                <li class="list-group-item">
-                    @item.wordTranslate <i class="fa fa-arrows-h"></i> @item.wordTurkish
-                </li>
+                    <li class="list-group-item">
+                        @item.wordTranslate <i class="fa fa-arrows-h"></i> @item.wordTurkish
+                    </li>
 
                 }
             </ul>
@@ -147,9 +147,9 @@
                 @foreach (Word item in Model.Item4.Skip(Model.Item4.Count / 2).Take(20))
                 {
 
-                <li class="list-group-item">
-                    @item.wordTranslate <i class="fa fa-arrows-h"></i> @item.wordTurkish
-                </li>
+                    <li class="list-group-item">
+                        @item.wordTranslate <i class="fa fa-arrows-h"></i> @item.wordTurkish
+                    </li>
 
                 }
             </ul>

@@ -20,27 +20,17 @@
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.kind, "kind", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.Label("boxId", "Kutu seç:", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("kind", (List<SelectListItem>)ViewBag.list, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.levelNumber, "", new { @class = "text-danger" })
+                @Html.DropDownList("boxId", null, new { @class = "form-control" })
             </div>
         </div>
         <div class="form-group">
-            @Html.Label("boxNumber", "Kutu seç:", new { @class = "control-label col-md-2" })
+            @Html.Label("levelNumber", "Level Numara:", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("boxNumber", null, new { @class = "form-control" })
+                @Html.DropDownList("levelNumber", null, new { @class = "form-control" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.levelNumberAppear, "levelNumberAppear", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("levelNumberAppear", null, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.levelNumber, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
         <div class="form-group">
             @Html.LabelFor(model => model.levelName, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">

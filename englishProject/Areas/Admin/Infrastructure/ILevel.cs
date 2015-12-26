@@ -11,14 +11,14 @@ namespace englishProject.Areas.Admin.Infrastructure
 {
     public interface ILevel
     {
-        IEnumerable<Level> Levels(int boxNumber, Kind kind);
+        IEnumerable<Level> Levels(int boxId);
 
         bool AddLevel(Level level);
 
         bool UpdateLevel(Level level);
 
-        bool DeleteLevel(int levelNumber, int kind);
+        bool DeleteLevel(int levelId);
 
-        Level GetLevel(int levelNumber, int kind);
+        Level GetLevel(int levelId);
     }
 }

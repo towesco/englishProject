@@ -57,22 +57,20 @@ namespace englishProject.Infrastructure
         /// <summary>
         /// User/Index sayfasındaki boxs ları levelları ile beraber çeker
         /// </summary>
-        /// <param name="kind"></param>
-        /// <returns></returns>
-        public List<BoxLevelUser> GetBoxs(Kind kind)
-        {
-            int _kind = (int)kind;
 
+        /// <returns></returns>
+        public List<BoxLevelUser> GetBoxs()
+        {
             //tüm kutular çekiliyor
-            List<Box> boxs = entities.Box.Include("Level").Where(a => a.kind == _kind).OrderBy(a => a.boxNumber).ToList();
+            List<Box> boxs = entities.Box.OrderBy(a => a.boxNumber).ToList();
 
             List<BoxLevelUser> boxLevelUsers = new List<BoxLevelUser>();
 
             foreach (var itemBox in boxs)
             {
                 var userLevels = (from u in entities.levelUserProgress
-                                  join l in entities.Level on new { u.levelNumber, u.kind } equals new { l.levelNumber, l.kind }
-                                  where u.userId == GetUserId && u.boxNumber == itemBox.boxNumber
+                                  join l in entities.Level on new { u.levelId } equals new { l.levelId }
+                                  where u.userId == GetUserId
                                   select new CustomLevel { Level = l, Star = u.star }).ToList();
 
                 BoxLevelUser b = new BoxLevelUser { Box = itemBox };
@@ -83,21 +81,19 @@ namespace englishProject.Infrastructure
                 }
                 else
                 {
-                    CustomLevel levelLast = userLevels.OrderByDescending(a => a.Level.levelNumberAppear).First();
+                    CustomLevel levelLast = userLevels.OrderByDescending(a => a.Level.levelNumber).First();
 
                     levelUserProgress userProgressLast =
                         entities.levelUserProgress.First(
                             a =>
-                                a.levelNumber == levelLast.Level.levelNumber && a.kind == levelLast.Level.kind &&
-                                a.boxNumber == levelLast.Level.boxNumber);
+                                a.levelId == levelLast.Level.levelId);
 
                     if (userProgressLast.star >= 1)
                     {
                         Level levelNext =
                             entities.Level.FirstOrDefault(
                                 a =>
-                                    a.levelNumberAppear == levelLast.Level.levelNumberAppear + 1 && a.kind == levelLast.Level.kind &&
-                                    a.boxNumber == levelLast.Level.boxNumber);
+                                    a.levelNumber == levelLast.Level.levelNumber + 1);
 
                         if (levelNext != null)
                         {
@@ -125,20 +121,22 @@ namespace englishProject.Infrastructure
             return usermanager.FindById(GetUserId);
         }
 
-        public Level GetLevel(int levelNumber, int kind)
+        #region Levels
+
+        public Level GetLevel(int levelId)
         {
-            return entities.Level.First(a => a.levelNumber == levelNumber && a.kind == kind);
+            return entities.Level.Find(levelId);
         }
 
         /// <summary>
         /// Bir sonraki seviyeyi getirir
         /// </summary>
-        /// <param name="levelNumber"></param>
-        /// <param name="kind"></param>
+        /// <param name="levelId"></param>
+
         /// <returns></returns>
-        public Level GetNextLevel(int levelNumber, int kind)
+        public Level GetNextLevel(int levelId)
         {
-            Level l = GetLevel(levelNumber, kind);
+            Level l = GetLevel(levelId);
             return GetNextLevel(l);
         }
 
@@ -152,11 +150,17 @@ namespace englishProject.Infrastructure
             return
                 entities.Level.FirstOrDefault(
                     a =>
-                        a.levelNumberAppear == level.levelNumberAppear + 1 && a.kind == level.kind &&
-                        a.boxNumber == level.boxNumber);
+                        a.levelNumber == level.levelNumber + 1 && a.boxId == level.boxId);
         }
 
-        #region WordModul
+        #endregion Levels
+
+        public Level GetWords(int levelId)
+        {
+            return entities.Level.Include("Word").First(a => a.levelId == levelId);
+        }
+
+        #region WordModulPictureModul
 
         /// <summary>
         /// Karışık soru getirir
@@ -165,7 +169,7 @@ namespace englishProject.Infrastructure
         /// <param name="subLevel">Alt level belirtilir</param>
         /// <param name="questionsList">Şıklarda çıkacak sorular Default olarak sorulacak kelimelerden seçilir</param>
         /// <returns></returns>
-        private WordModul GetWordModuleQuestionshuffle(IEnumerable<Word> words, ModulSubLevel subLevel, IEnumerable<Word> questionsList)
+        private WordModul GetWordModuleQuestionshuffle(IEnumerable<Word> words, ModulSubLevel subLevel, List<Word> questionsList)
         {
             Random rnd = new Random();
             List<Questions> List = new List<Questions>();
@@ -236,7 +240,6 @@ namespace englishProject.Infrastructure
         {
             Random rnd = new Random();
             List<PictureQuestions> List = new List<PictureQuestions>();
-            List<string> answers = null;
 
             switch (subLevel)
             {
@@ -247,7 +250,7 @@ namespace englishProject.Infrastructure
                         //1 tane doğru cevap liste
                         List<Word> correctListOne = new List<Word> { item };
                         //4 tane yanlış evap
-                        answers = words.Except(correctListOne).OrderBy(a => rnd.Next()).ToList().Take(4).Select(a => a.wordTranslate).ToList();
+                        List<string> answers = words.Except(correctListOne).OrderBy(a => rnd.Next()).ToList().Take(4).Select(a => a.wordTranslate).ToList();
                         //1 tane doğru cevap şıklar ekleniyor
                         answers.Add(item.wordTranslate);
 
@@ -276,15 +279,15 @@ namespace englishProject.Infrastructure
             return exam;
         }
 
-        public Tuple<WordModul, Level> GetWordModul(ModulSubLevel subLevel, int levelNumber, int kind)
+        public Tuple<WordModul, Level> GetWordModul(ModulSubLevel subLevel, int levelId)
         {
-            Level level = entities.Level.Find(levelNumber, kind);
+            Level level = entities.Level.Find(levelId);
             levelUserProgress progress =
 
                 entities.levelUserProgress.FirstOrDefault(
-                  a => a.userId == GetUserId && a.levelNumber == level.levelNumber && a.kind == level.kind);
+                  a => a.userId == GetUserId && a.levelId == level.levelId);
 
-            IEnumerable<Word> words = entities.Word.Where(a => a.levelNumber == levelNumber && a.kind == kind).ToList();
+            List<Word> words = level.Word.ToList();
 
             WordModul exam = GetWordModuleQuestionshuffle(words, subLevel, words);
 
@@ -295,14 +298,15 @@ namespace englishProject.Infrastructure
             return Tuple.Create(exam, level);
         }
 
-        public Tuple<PictureWordModul, Level> GetPictureWordModul(ModulSubLevel subLevel, int levelNumber, int kind)
+        public Tuple<PictureWordModul, Level> GetPictureWordModul(ModulSubLevel subLevel, int levelId)
         {
-            Level level = entities.Level.Find(levelNumber, kind);
+            Level level = entities.Level.Find(levelId);
             levelUserProgress progress =
 
                 entities.levelUserProgress.FirstOrDefault(
-                  a => a.userId == GetUserId && a.levelNumber == level.levelNumber && a.kind == level.kind);
-            List<Word> words = entities.Word.Where(a => a.levelNumber == levelNumber && a.kind == kind).ToList();
+                  a => a.userId == GetUserId && a.levelId == level.levelId);
+
+            List<Word> words = level.Word.ToList();
             PictureWordModul exam = GetPictureWordModuleQuestionshuffle(words, subLevel);
             exam.Puan = level.levelPuan;
             exam.Star = progress == null ? 0 : progress.star;
@@ -310,33 +314,33 @@ namespace englishProject.Infrastructure
             return Tuple.Create(exam, level);
         }
 
-        #endregion WordModul
+        #endregion WordModulPictureModul
 
         /// <summary>
         /// Kutulardaki levellara tıklandığında gelen modalda hangi alt levelların  kapalı veya açık olduğunu belirtir.
         /// </summary>
-        /// <param name="levelNumber"></param>
-        /// <param name="kind"></param>
+        /// <param name="levelId"></param>
+
         /// <returns></returns>
-        public Tuple<Level, levelUserProgress, levelUserProgress, List<Word>> GetExamLevelStart(int levelNumber, int kind)
+        public Tuple<Level, levelUserProgress, levelUserProgress, List<Word>> GetExamLevelStart(int levelId)
         {
             //Günce seviye bilgileri
-            Level l = entities.Level.Find(levelNumber, kind);
+            Level l = entities.Level.Find(levelId);
             //Güncel LevelUser bilgileri
-            levelUserProgress progress = entities.levelUserProgress.FirstOrDefault(a => a.userId == GetUserId && a.levelNumber == l.levelNumber && a.kind == l.kind && a.boxNumber == l.boxNumber);
+            levelUserProgress progress = entities.levelUserProgress.FirstOrDefault(a => a.userId == GetUserId && a.levelId == l.levelId);
 
             //bir önceki level bilgileri
-            Level previousLevel = entities.Level.FirstOrDefault(a => a.levelNumberAppear == l.levelNumberAppear - 1 && a.kind == l.kind && a.boxNumber == l.boxNumber);
+            Level previousLevel = entities.Level.FirstOrDefault(a => a.levelNumber == l.levelNumber - 1 && a.boxId == l.boxId);
 
             //bir öncekli leveluser bilgileri
             levelUserProgress previousLevelUserProgress = null;
 
             if (previousLevel != null)
             {
-                previousLevelUserProgress = entities.levelUserProgress.FirstOrDefault(a => a.levelNumber == previousLevel.levelNumber && a.kind == previousLevel.kind && a.userId == GetUserId && a.boxNumber == previousLevel.boxNumber);
+                previousLevelUserProgress = entities.levelUserProgress.FirstOrDefault(a => a.levelId == previousLevel.levelId && a.userId == GetUserId);
             }
 
-            return Tuple.Create(l, progress, previousLevelUserProgress, entities.Word.Where(a => a.levelNumber == l.levelNumber && a.kind == l.kind).ToList());
+            return Tuple.Create(l, progress, previousLevelUserProgress, l.Word.ToList());
         }
 
         /// <summary>
@@ -349,19 +353,16 @@ namespace englishProject.Infrastructure
             levelUserProgress l =
                 entities.levelUserProgress.FirstOrDefault(
                     a =>
-                        a.userId == GetUserId && a.levelNumber == userProgress.levelNumber &&
-                        a.kind == userProgress.kind);
+                        a.userId == GetUserId && a.levelId == userProgress.levelId);
 
             if (l == null)
             {
                 levelUserProgress levelUser = new levelUserProgress
                 {
                     userId = GetUserId,
-                    levelNumber = userProgress.levelNumber,
-                    kind = userProgress.kind,
+                    levelId = userProgress.levelId,
                     star = userProgress.star,
                     puan = userProgress.puan,
-                    boxNumber = userProgress.boxNumber
                 };
 
                 entities.levelUserProgress.Add(levelUser);
@@ -371,7 +372,6 @@ namespace englishProject.Infrastructure
             {
                 l.star = userProgress.star;
                 l.puan = userProgress.puan;
-
                 entities.Entry(l).State = EntityState.Modified;
                 entities.SaveChanges();
             }
@@ -401,14 +401,15 @@ namespace englishProject.Infrastructure
             }
             userProfilView.TotalPuan = total;
             var result = (from u in entities.levelUserProgress
-                          join b in entities.Box on new { u.boxNumber, u.kind } equals new { b.boxNumber, b.kind }
-                          group b by b.boxName
+                          join l in entities.Level on new { u.levelId } equals new { l.levelId }
+                          group l by l.Box.boxName
                               into g
                               select new UserProfilBox
                               {
                                   BoxName = g.Key,
                                   LevelCurrent = g.Count()
                               }).ToList();
+
             userProfilView.UserProfilBoxs = result;
             return userProfilView;
         }

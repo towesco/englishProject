@@ -20,9 +20,9 @@ namespace englishProject.Models
             this.Level = new HashSet<Level>();
         }
     
+        public int boxId { get; set; }
         public string boxName { get; set; }
         public int boxNumber { get; set; }
-        public int kind { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Level> Level { get; set; }

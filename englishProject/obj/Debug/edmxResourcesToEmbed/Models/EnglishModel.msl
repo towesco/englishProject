@@ -1,37 +1,23 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
   <EntityContainerMapping StorageEntityContainer="EnglishProjectDBModelStoreContainer" CdmEntityContainer="EnglishProjectDBEntities">
-    <EntitySetMapping Name="levelUserProgress">
-      <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
-        <MappingFragment StoreEntitySet="levelUserProgress">
-          <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
-          <ScalarProperty Name="puan" ColumnName="puan" />
-          <ScalarProperty Name="star" ColumnName="star" />
-          <ScalarProperty Name="kind" ColumnName="kind" />
-          <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
-          <ScalarProperty Name="userId" ColumnName="userId" />
-          <ScalarProperty Name="progressId" ColumnName="progressId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="Box">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.Box">
         <MappingFragment StoreEntitySet="Box">
-          <ScalarProperty Name="kind" ColumnName="kind" />
           <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
           <ScalarProperty Name="boxName" ColumnName="boxName" />
+          <ScalarProperty Name="boxId" ColumnName="boxId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="IrregularVerb">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.IrregularVerb">
         <MappingFragment StoreEntitySet="IrregularVerb">
-          <ScalarProperty Name="werbTurkish" ColumnName="werbTurkish" />
-          <ScalarProperty Name="kind" ColumnName="kind" />
-          <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
           <ScalarProperty Name="verbThree" ColumnName="verbThree" />
           <ScalarProperty Name="verbTwo" ColumnName="verbTwo" />
           <ScalarProperty Name="verbOne" ColumnName="verbOne" />
+          <ScalarProperty Name="werbTurkish" ColumnName="werbTurkish" />
+          <ScalarProperty Name="levelId" ColumnName="levelId" />
           <ScalarProperty Name="IrregularId" ColumnName="IrregularId" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -42,13 +28,23 @@
           <ScalarProperty Name="levelRememderCard" ColumnName="levelRememderCard" />
           <ScalarProperty Name="levelSubLevel" ColumnName="levelSubLevel" />
           <ScalarProperty Name="levelModul" ColumnName="levelModul" />
-          <ScalarProperty Name="levelNumberAppear" ColumnName="levelNumberAppear" />
           <ScalarProperty Name="levelPuan" ColumnName="levelPuan" />
           <ScalarProperty Name="levelPicture" ColumnName="levelPicture" />
-          <ScalarProperty Name="boxNumber" ColumnName="boxNumber" />
+          <ScalarProperty Name="boxId" ColumnName="boxId" />
           <ScalarProperty Name="levelName" ColumnName="levelName" />
-          <ScalarProperty Name="kind" ColumnName="kind" />
           <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+          <ScalarProperty Name="levelId" ColumnName="levelId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="sysdiagrams">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.sysdiagrams">
+        <MappingFragment StoreEntitySet="sysdiagrams">
+          <ScalarProperty Name="definition" ColumnName="definition" />
+          <ScalarProperty Name="version" ColumnName="version" />
+          <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+          <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+          <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -59,11 +55,21 @@
           <ScalarProperty Name="wordRemender" ColumnName="wordRemender" />
           <ScalarProperty Name="info" ColumnName="info" />
           <ScalarProperty Name="picture" ColumnName="picture" />
-          <ScalarProperty Name="kind" ColumnName="kind" />
-          <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
           <ScalarProperty Name="wordTranslate" ColumnName="wordTranslate" />
           <ScalarProperty Name="wordTurkish" ColumnName="wordTurkish" />
+          <ScalarProperty Name="levelId" ColumnName="levelId" />
           <ScalarProperty Name="wordId" ColumnName="wordId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="levelUserProgress">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
+        <MappingFragment StoreEntitySet="levelUserProgress">
+          <ScalarProperty Name="star" ColumnName="star" />
+          <ScalarProperty Name="puan" ColumnName="puan" />
+          <ScalarProperty Name="levelId" ColumnName="levelId" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="progressId" ColumnName="progressId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

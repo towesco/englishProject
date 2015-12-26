@@ -20,11 +20,9 @@
 
             $(".subLevelSelect").click(function () {
                 $("#mySubLevelSelect").modal();
-                var levelNumber = $(this).attr("data-levelNumber");
-                var kind = $(this).attr("data-kind");
-                var boxNumber = $(this).attr("data-boxNumber");
+                var levelId = $(this).attr("data-levelId");
 
-                var jsonData = { boxNumber: boxNumber, levelNumber: levelNumber, kind: kind };
+                var jsonData = { levelId: levelId };
 
                 $.ajax("/User/LevelExamStartAjax", {
                     type: "GET",
@@ -45,14 +43,16 @@
 }
 @Html.Partial("Templates/BoxsPV", boxs)
 
-<!-- Modal -->
+<!-- SubLevel Select Modal -->
 <div class="modal fade" id="mySubLevelSelect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
 
             <div class="modal-body" style=" padding: 0px;">
-                <h2><i class="fa fa-cog fa-spin"></i></h2>
+
+                <h2 class="text-center"><i class="fa fa-spinner fa-pulse"></i> yükleniyor....</h2>
             </div>
         </div>
     </div>
 </div>
+<!-- SubLevel Select Modal -->

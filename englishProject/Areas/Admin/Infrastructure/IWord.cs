@@ -10,11 +10,13 @@ namespace englishProject.Areas.Admin.Infrastructure
     {
         bool AddWord(Word word);
 
-        IEnumerable<Word> Words(int levelNumber, int kind, int boxNumber);
+        IEnumerable<Word> Words(int levelId);
 
         bool UpdateWord(Word word);
 
         bool DeleteWord(int wordId);
+
+        bool DeletePicture(string path);
 
         Word GetWord(int wordId);
 

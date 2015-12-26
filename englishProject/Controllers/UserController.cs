@@ -51,16 +51,16 @@ namespace englishProject.Controllers
         // GET: User
         public ActionResult Index()
         {
-            ViewBag.boxs = operations.GetBoxs(Kind.English);
+            ViewBag.boxs = operations.GetBoxs();
             ViewBag.userProfilView = operations.GetUserProfilViewMenu();
             ViewBag.boxMenu = operations.GetBoxMenu();
 
             return View();
         }
 
-        public ActionResult levelExam(int levelNumber, int kind, int? subLevel)
+        public ActionResult levelExam(int levelId, int? subLevel = 1)
         {
-            Level level = operations.GetLevel(levelNumber, kind);
+            Level level = operations.GetLevel(levelId);
             Modul m = (Modul)Enum.Parse(typeof(Modul), level.levelModul.ToString(CultureInfo.InvariantCulture));
             ModulSubLevel sub = (ModulSubLevel)Enum.Parse(typeof(ModulSubLevel), subLevel.ToString());
 
@@ -71,13 +71,13 @@ namespace englishProject.Controllers
             {
                 case Modul.WordModul:
 
-                    ViewBag.exam = operations.GetWordModul(sub, levelNumber, kind).Item1;
+                    ViewBag.exam = operations.GetWordModul(sub, levelId).Item1;
 
                     break;
 
                 case Modul.PictureWordModul:
 
-                    ViewBag.exam = operations.GetPictureWordModul(sub, levelNumber, kind).Item1;
+                    ViewBag.exam = operations.GetPictureWordModul(sub, levelId).Item1;
 
                     break;
             }
@@ -85,26 +85,23 @@ namespace englishProject.Controllers
             return View();
         }
 
-        public ActionResult RemenderCard(int levelNumber, int kind)
+        public ActionResult RemenderCard(int id)
         {
-            return View();
+            return View(operations.GetLevel(id));
         }
 
         public ActionResult deneme()
         {
             ClaimsIdentity ident = HttpContext.User.Identity as ClaimsIdentity;
 
-            operations.GetWordModul(ModulSubLevel.Temel, 1, 1);
-
+            operations.GetWordModul(ModulSubLevel.Temel, 1);
             return View(ident.Claims.ToList());
         }
 
         [HttpGet]
-        public ActionResult LevelExamStartAjax(int levelNumber, int kind)
+        public ActionResult LevelExamStartAjax(int levelId)
         {
-            //Level level = operations.GetLevel(levelNumber, kind);
-            //string partialView = "Modul/" + Enum.GetName(typeof(Modul), level.levelModul) + "Start";
-            return PartialView("Modul/ModulStart", operations.GetExamLevelStart(levelNumber, kind));
+            return PartialView("Modul/ModulStart", operations.GetExamLevelStart(levelId));
         }
 
         #region Social Login

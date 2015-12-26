@@ -1,6 +1,150 @@
-﻿@{
+﻿@using englishProject.Models
+@{
     ViewBag.Title = "RemenderCard";
     Layout = "~/Views/Shared/_LayoutExam.cshtml";
+    int count = 0;
+}
+@model  Level
+@section scripts
+           {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $("#quizBtn").click(function () {
+
+                $("#mySubLevelSelect").modal();
+                var levelId = parseInt(@Model.levelId);
+
+                var jsonData = { levelId: levelId };
+
+                $.ajax("/User/LevelExamStartAjax", {
+                    type: "GET",
+                    data: jsonData,
+                    contentType: "html",
+                    success: function (data) {
+
+                        $("#mySubLevelSelect .modal-body").html(data);
+
+                    }
+                });
+
+            });
+
+            $("#remederCardCarausel").carousel('pause');
+
+            $('#remederCardCarausel').on('slid.bs.carousel', function (a) {
+
+                var index = $('#remederCardCarausel .active').index('#remederCardCarausel .item');
+
+                $("#wordList li").removeClass("list-group-item-info");
+
+                $("#wordList li:eq('" + index + "')").addClass("list-group-item-info");
+
+            });
+            $(".item:first").addClass("active");
+            $("#wordList li:first").addClass("list-group-item-info");
+        });
+    </script>
+    <style type="text/css">
+        .list-group-item:first-child {
+            border-top-right-radius: 0px;
+        }
+
+        .list-group-item:last-child {
+            border-bottom-right-radius: 0px;
+        }
+
+        .item img {
+            width: 500px;
+            height: 200px;
+        }
+    </style>
 }
 
-<h2>RemenderCard</h2>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <ol class="breadcrumb  examheader" style="margin-bottom: 0px;">
+                        <li class="active"><strong>@Model.Box.boxName </strong></li>
+                        <li class="active"><strong>@Model.levelName</strong> </li>
+                        <li class="active"><strong>Seviye(@Model.levelNumber)</strong> </li>
+                    </ol>
+                </div>
+                <div id="word" style=" background-color: #f5f5f5;border-bottom: 3px solid #e8e5e5;margin: 5px 0;padding: 8px;">
+
+                    <h3 style="margin: 0px;padding: 4px;" class="pull-left">Kelimeler <small class="text-muted">(@Model.Word.Count adet)</small></h3>
+
+                    <button id="quizBtn" href="#" class="btn btn-primary pull-right"><i class="fa fa-arrow-circle-right"></i> Teste giriş</button>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" style="border-width: 0px;position: relative;">
+
+            <div style="position: absolute; right: 15px; top: 15px;z-index: 10">
+
+                <a href="#remederCardCarausel" role="button" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a href="#remederCardCarausel" role="button" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <div class="row">
+                <div class="col-md-3  hidden-xs hidden-sm" style="height: 367px; overflow: auto;padding-right: 0px;">
+
+                    <ul id="wordList" class="list-group" style="margin-bottom: 0px;">
+                        @foreach (var item in Model.Word)
+                        {
+
+                            <li class="list-group-item">
+                                <a data-target="#remederCardCarausel" href="#" data-slide-to="@(count++)">@item.wordTranslate</a>
+                            </li>
+
+                        }
+                    </ul>
+                </div>
+                <div class="col-md-9">
+
+                    <div id="remederCardCarausel" class="carousel slide" style="margin: 10px;">
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+
+                            @foreach (Word item in Model.Word)
+                            {
+
+                                <div class="item">
+                                    <h3 style="margin-top: 0px;color: #286090;">@item.wordTurkish</h3>
+                                    <hr />
+                                    <img class=" img-rounded" src="@item.wordRemenderInfo" />
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SubLevel Select Modal -->
+<div class="modal fade" id="mySubLevelSelect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <div class="modal-body" style=" padding: 0px;">
+
+                <h2 class="text-center"><i class="fa fa-spinner fa-pulse"></i> yükleniyor....</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- SubLevel Select Modal -->

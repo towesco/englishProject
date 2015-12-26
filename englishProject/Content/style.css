@@ -10,6 +10,10 @@
     outline: 0 !important;
 }
 
+.marginReset {
+    margin: 0px;
+}
+
 /*Seviyelerin gösterildiği kutucuklardaki  badge'nin boyutu'*/
 .badge-level {
     font-size: 17px;
