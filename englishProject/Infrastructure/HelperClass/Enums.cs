@@ -5,6 +5,11 @@ using System.Web;
 
 namespace englishProject.Infrastructure
 {
+    public enum Alert : int
+    {
+        info, warning
+    }
+
     public enum Modul
     {
         WordModul = 1,

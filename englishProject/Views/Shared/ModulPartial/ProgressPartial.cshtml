@@ -18,11 +18,11 @@
 </div>
 <div class="row" style="margin: 0px;">
     <div class="col-md-12" style="background-color: #f5f5f5;padding: 5px 10px;">
-        <div class="btn btn-primary disabled" style="-ms-opacity: 1; opacity: 1; background-color: #57b3e5; border: none;" type="button">
+        <div class="pull-left" style="margin-right: 5px;padding: 7px;">
             <i class="fa fa-tachometer"></i>  Puan: <span data-bind="text:totalPuan" class="badge"></span>
         </div>
 
-        <div class="btn btn-default disabled" style="-ms-opacity: 1; opacity: 1;border: 1px solid #57b3e5;">
+        <div class="pull-left" style="margin-right: 5px;padding: 7px;">
             <i class="fa fa-star" data-bind="css:{starColor:star()>0}"></i>
 
             <i class="fa fa-star" data-bind="css:{starColor:star()>1}"></i>
@@ -32,5 +32,25 @@
                 <i class="fa fa-star" data-bind="css:{starColor:star()>2}"></i>
             }
         </div>
+
+        <button id="stopQuiz" type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target=".quizModal"><i class="fa fa-stop-circle"></i> Testti  bitir</button>
     </div>
 </div>
+
+<div id="stopQuizModal" class="modal fade quizModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Uyarı</h4>
+            </div>
+            <div class="modal-body">
+                <p>Testten çıkış yaparsanız kazanmış olduğunuz puanları kaybedeceksiniz.<strong>Biraz daha sabredip bitirmelisin bence :)</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+                <a href="@Url.Action("index","user")" class="btn btn-danger">Testten çık</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

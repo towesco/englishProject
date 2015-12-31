@@ -1,0 +1,51 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.Users
+@using Microsoft.Ajax.Utilities
+@model englishProject.Infrastructure.UserProfilView
+@{
+
+}
+<div class="panel userProfileBackground">
+
+    <div class="text-center">
+        <img src="@Model.picture" class="img-circle img-thumbnail userProfiPicture" />
+    </div>
+    <div class="text-center">
+        <strong> @Model.userName</strong>
+    </div>
+    <div style="border-bottom: 2px solid #0077ff;font-size: 16px;padding: 3px 9px;">
+        <div class="pull-left">
+            <i class="fa fa-dot-circle-o" style="color:white;"></i><strong> PUAN</strong>
+        </div>
+        <div class="pull-right">
+            <strong> @Model.TotalPuan</strong>
+        </div>
+        <i class="clearfix"></i>
+    </div>
+
+    @if (Model.UserProfilBoxs.Any())
+    {
+        foreach (var item in Model.UserProfilBoxs)
+        {
+            double deger = Math.Round(((double)item.CurrentProgress / (double)item.Progress), 2) * 100;
+
+            <div style="padding: 10px;">
+                <div>
+                    <strong class="pull-left"><i class="fa fa-cube"></i> @item.boxName kutusu</strong>
+                    <span class="pull-right">
+                        <strong>
+                            @item.CurrentLevel
+                        </strong>.seviye
+                    </span>
+                    <i class="clearfix"></i>
+                </div>
+                <div class="progress" style="margin-top: 3px;margin-bottom: 0px; height: 10px; background-color: #C4E3F2;">
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:@(deger)%; box-shadow: none; background-color: #283048">
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    }
+</div>

@@ -2,11 +2,11 @@
 //Puan hesaplama  LevelPuan*seviye örn: level 1 için puan 5 olsun ilk sublevel(1*5) ikinci sublevel(2*5) üçüncü sublevel(3*5)
 //eğer kullanıcı 3 yıldız aldıysa ve tekrar yapmak isterse    subLevel*1
 
-var viewmodel = function (exams, levelId, levelSubLevel) {
+var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
     var self = this;
     self.toogle = true;
     var card = 1;
-
+    var targetScore = 0; //kullanıcının günlük hedefi tesbit etmek için her alt seviyede  sıfırlanan puan
     var okTextArray = new Array("Temel seviye tamamlandı.", "İleri seviye tamamlandı.", "Mükemmel seviye tamamlandı.");
     var questionTextArray = new Array("Türkçe çevirisi nedir ?", "İngilizce çevirisi nedir ?", "Kelimenin ingilizce karşılığını yazınız.");
     self.subLevelCount = levelSubLevel;
@@ -41,6 +41,8 @@ var viewmodel = function (exams, levelId, levelSubLevel) {
             levelId: parseInt(levelId),
             star: self.star(),
             puan: Math.round(self.totalPuan()),
+            boxId: parseInt(boxId),
+            targetScore: Math.round(targetScore)
         }
         var jsonData = ko.toJSON(self.userProgress);
         $.ajax("/api/ajax/UpdateUserProgress", {
@@ -48,6 +50,7 @@ var viewmodel = function (exams, levelId, levelSubLevel) {
             data: jsonData,
             contentType: "application/json",
             success: function (data) {
+                targetScore = 0;
             }
         });
     }
@@ -276,10 +279,12 @@ var viewmodel = function (exams, levelId, levelSubLevel) {
             var increasePuan = 0;
             if (self.star() == 3) {
                 //3 yıldızda 1 katsayısı çarpılır
-                increasePuan = self.totalPuan() + self.subLevelNumber() * 1;
+                increasePuan = self.totalPuan() + self.subLevelNumber() * 1 * card;
+                targetScore += self.subLevelNumber() * card;
             } else {
                 //3 yıldız alınmadıysa level tablosunun levelPuan katsayısıyla çarpılır
                 increasePuan = self.totalPuan() + self.subLevelNumber() * self.puan * card;
+                targetScore += self.subLevelNumber() * self.puan * card;
             }
             self.totalPuan(increasePuan);
             setTimeout(function () { self.next(); }, 2000);
@@ -293,6 +298,7 @@ var viewmodel = function (exams, levelId, levelSubLevel) {
                 self.fail(true);
             }
             var decrease = Math.round(self.totalPuan() - self.subLevelNumber() * self.puan * 1);
+            targetScore -= self.subLevelNumber() * self.puan * 1;
             self.totalPuan(decrease);
 
             self.errorProgress(self.rate());

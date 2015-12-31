@@ -8,6 +8,13 @@
     <Property Name="boxName" Type="nvarchar" MaxLength="50" Nullable="false" />
     <Property Name="boxNumber" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="tinyint" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
   <EntityType Name="IrregularVerb">
     <Key>
       <PropertyRef Name="IrregularId" />
@@ -42,6 +49,16 @@
     <Property Name="levelId" Type="int" Nullable="false" />
     <Property Name="puan" Type="int" Nullable="false" />
     <Property Name="star" Type="int" Nullable="false" />
+    <Property Name="boxId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Score">
+    <Key>
+      <PropertyRef Name="targetId" />
+    </Key>
+    <Property Name="targetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="targetDate" Type="date" Nullable="false" />
+    <Property Name="targetScore" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -52,6 +69,13 @@
     <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="UserDetail">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="DailyTargetScore" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Word">
     <Key>
@@ -102,12 +126,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Function Name="userProggress" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userId" Type="nvarchar" Mode="In" />
+  </Function>
   <EntityContainer Name="EnglishProjectDBModelStoreContainer">
     <EntitySet Name="Box" EntityType="Self.Box" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IrregularVerb" EntityType="Self.IrregularVerb" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Score" EntityType="Self.Score" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Word" EntityType="Self.Word" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_IrregularVerb_Level" Association="Self.FK_IrregularVerb_Level">
       <End Role="Level" EntitySet="Level" />

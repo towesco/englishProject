@@ -4,55 +4,57 @@
     ViewBag.Title = "Home Page";
     List<BoxLevelUser> boxs = ViewBag.boxs;
     ViewBag.Title = "Index";
-
+    double userTargetPercent = ViewBag.userTargetPercent;
 }
 
 @section Left
 {
-    @Html.Partial("Templates/UserProfileLeftPV", (UserProfilView)ViewBag.userProfilView)
-    @Html.Partial("Templates/BoxMenuPV", (Dictionary<string, int>)ViewBag.boxMenu)
+    @Html.Partial("Templates/UserProfileLeftPartial", (UserProfilView)ViewBag.userProfilView)
+    @Html.Partial("Templates/BoxMenuPartial", (Dictionary<string, int>)ViewBag.boxMenu)
+    @Html.Partial("Templates/TargetScoreLeftPartial", (UserDetail)ViewBag.userDetails)
+
 }
 @section scripts
 {
-    <script type="text/javascript">
 
+    <script src="@Url.Content("~/Scripts/progressbar/progressbar.js")"></script>
+    <script type="text/javascript">
         $(document).ready(function () {
 
-            $(".subLevelSelect").click(function () {
-                $("#mySubLevelSelect").modal();
-                var levelId = $(this).attr("data-levelId");
+            var userTargetPercent = parseInt("@userTargetPercent");
 
-                var jsonData = { levelId: levelId };
+            if (userTargetPercent == 0) {
+                $("#scoreInfo").text("Bugün hiç çalışmamışsın");
+            }
 
-                $.ajax("/User/LevelExamStartAjax", {
-                    type: "GET",
-                    data: jsonData,
-                    contentType: "html",
-                    success: function (data) {
+            var circle = new ProgressBar.Circle('#progressContainer', {
+                color: '#602515',
+                strokeWidth: 15,
+                trailWidth: 10,
+                trailColor: '#EFC792',
+                duration: 1500,
+                text: {
+                    value: '%0'
+                },
+                step: function (state, bar) {
 
-                        $("#mySubLevelSelect .modal-body").html(data);
+                    bar.setText("%" + (bar.value() * 100).toFixed(0));
 
-                    }
-                });
-
+                }
             });
 
-        })
+            circle.animate(userTargetPercent / 100, function () {
+
+                if (userTargetPercent == "0") {
+                    circle.setText("?");
+                }
+            });
+
+        });
     </script>
 
 }
-@Html.Partial("Templates/BoxsPV", boxs)
 
-<!-- SubLevel Select Modal -->
-<div class="modal fade" id="mySubLevelSelect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+@Html.Partial("Templates/BoxsPartial", boxs)
 
-            <div class="modal-body" style=" padding: 0px;">
-
-                <h2 class="text-center"><i class="fa fa-spinner fa-pulse"></i> yükleniyor....</h2>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- SubLevel Select Modal -->
+@Html.Partial("Templates/modalPartial")

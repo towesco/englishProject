@@ -1,4 +1,6 @@
-﻿using englishProject.Infrastructure.Users;
+﻿using AutoMapper;
+using englishProject.Infrastructure.Users;
+using englishProject.Infrastructure.ViewModel;
 using englishProject.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
@@ -6,9 +8,14 @@ using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
+using System.Data.Entity.SqlServer;
 using System.Diagnostics;
+using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http.Results;
 
@@ -35,6 +42,20 @@ namespace englishProject.Infrastructure
         public static IAuthenticationManager Authen
         {
             get { return HttpContext.Current.GetOwinContext().Authentication; }
+        }
+
+        public static int GetTotalLevelPuan(Level level)
+        {
+            int total = 0;
+
+            for (int i = 1; i <= level.levelSubLevel; i++)
+            {
+                for (int a = 1; a <= level.Word.Count; a++)
+                {
+                    total += level.levelPuan * i;
+                }
+            }
+            return total;
         }
 
         public static string GetUserId
@@ -69,8 +90,8 @@ namespace englishProject.Infrastructure
             foreach (var itemBox in boxs)
             {
                 var userLevels = (from u in entities.levelUserProgress
-                                  join l in entities.Level on new { u.levelId } equals new { l.levelId }
-                                  where u.userId == GetUserId
+                                  join l in entities.Level on u.levelId equals l.levelId
+                                  where u.userId == GetUserId && u.boxId == itemBox.boxId
                                   select new CustomLevel { Level = l, Star = u.star }).ToList();
 
                 BoxLevelUser b = new BoxLevelUser { Box = itemBox };
@@ -93,7 +114,7 @@ namespace englishProject.Infrastructure
                         Level levelNext =
                             entities.Level.FirstOrDefault(
                                 a =>
-                                    a.levelNumber == levelLast.Level.levelNumber + 1);
+                                    a.levelNumber == levelLast.Level.levelNumber + 1 && a.boxId == itemBox.boxId);
 
                         if (levelNext != null)
                         {
@@ -158,6 +179,45 @@ namespace englishProject.Infrastructure
         public Level GetWords(int levelId)
         {
             return entities.Level.Include("Word").First(a => a.levelId == levelId);
+        }
+
+        public UserDetail GetUserDetail()
+        {
+            return entities.UserDetail.FirstOrDefault(a => a.userId == GetUserId);
+        }
+
+        public double GetUserTargetPercent()
+        {
+            Score t = entities.Score.FirstOrDefault(a => a.userId == GetUserId && SqlFunctions.DateDiff("DAY", a.targetDate, DateTime.Now) == 0);
+
+            if (t != null)
+            {
+                UserDetail userDetail = entities.UserDetail.Find(GetUserId);
+
+                double percent = Math.Round(((double)t.targetScore / (double)userDetail.DailyTargetScore) * 100);
+
+                return percent;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public void UpdateScore(int puan)
+        {
+            Score score = entities.Score.FirstOrDefault(a => a.userId == GetUserId && SqlFunctions.DateDiff("DAY", a.targetDate, DateTime.Now) == 0);
+
+            if (score != null)
+            {
+                score.targetScore = score.targetScore + puan;
+            }
+            else
+            {
+                Score s = new Score() { targetDate = DateTime.Now, targetScore = puan, userId = GetUserId };
+                entities.Score.Add(s);
+            }
+            entities.SaveChanges();
         }
 
         #region WordModulPictureModul
@@ -350,6 +410,8 @@ namespace englishProject.Infrastructure
         /// <returns></returns>
         public bool UpdateUserProggress(levelUserProgress userProgress)
         {
+            UpdateScore(userProgress.targetScore);
+
             levelUserProgress l =
                 entities.levelUserProgress.FirstOrDefault(
                     a =>
@@ -363,6 +425,7 @@ namespace englishProject.Infrastructure
                     levelId = userProgress.levelId,
                     star = userProgress.star,
                     puan = userProgress.puan,
+                    boxId = userProgress.boxId
                 };
 
                 entities.levelUserProgress.Add(levelUser);
@@ -390,6 +453,7 @@ namespace englishProject.Infrastructure
             UserApp user = usermanager.FindById(GetUserId);
             userProfilView.picture = user.PicturePath;
             userProfilView.userName = user.UserName;
+
             int total;
             try
             {
@@ -400,17 +464,22 @@ namespace englishProject.Infrastructure
                 total = 0;
             }
             userProfilView.TotalPuan = total;
-            var result = (from u in entities.levelUserProgress
-                          join l in entities.Level on new { u.levelId } equals new { l.levelId }
-                          group l by l.Box.boxName
-                              into g
-                              select new UserProfilBox
-                              {
-                                  BoxName = g.Key,
-                                  LevelCurrent = g.Count()
-                              }).ToList();
 
-            userProfilView.UserProfilBoxs = result;
+            userProfilView.UserProfilBoxs = entities.userProggress(GetUserId).ToList();
+
+            //var result = (from u in entities.levelUserProgress
+            //              join l in entities.Level on new { u.levelId } equals new { l.levelId }
+            //              group l by l.Box.boxName
+            //                  into g
+            //                  select new UserProfilBox
+            //                  {
+            //                      BoxName = g.Key,
+            //                      LevelCurrent = g.Count(),
+            //                      Progress = g.Sum(a => a.levelSubLevel),
+            //                  }).AsEnumerable().ToList();
+
+            //userProfilView.UserProfilBoxs = result;
+
             return userProfilView;
         }
 
@@ -423,6 +492,93 @@ namespace englishProject.Infrastructure
             Dictionary<string, int> result = entities.Box.ToDictionary(box => box.boxName, box => box.Level.Count);
 
             return result;
+        }
+
+        public void SignOut()
+        {
+            Authen.SignOut();
+            HttpContext.Current.Session.Abandon();
+        }
+
+        public string UpdateUser(UserViewModel userr)
+        {
+            UserApp user = usermanager.FindById(GetUserId);
+
+            user.Name = userr.Name;
+            user.SurName = userr.SurName;
+            user.Gender = userr.Gender;
+            user.City = userr.City;
+
+            if (!string.IsNullOrEmpty(userr.BirthDay))
+            {
+                user.BirthDay = DateTime.Parse(userr.BirthDay);
+            }
+
+            user.PicturePath = userr.PicturePath;
+
+            user.PhoneNumber = userr.PhoneNumber;
+            user.Email = userr.Email;
+            user.UserName = userr.UserName;
+
+            if (!string.IsNullOrEmpty(userr.Password))
+            {
+                usermanager.AddPassword(GetUserId, userr.Password);
+            }
+
+            IdentityResult result = usermanager.Update(user);
+
+            if (result.Succeeded)
+            {
+                return true.ToString();
+            }
+            else
+            {
+                if (result.Errors.First().Contains("Email"))
+                {
+                    return "Bu email adresi kullanılmaktadır.";
+                }
+                else if (result.Errors.First().Contains("Name"))
+                {
+                    return "Bu kullanıcı ismi kullanılmaktadır.";
+                }
+                else
+                {
+                    return "Bir hata meydana geldi. lütfen daha sonra tekrar deneyiniz";
+                }
+            }
+        }
+
+        public string GetUpdateUserPicture(HttpPostedFileBase fileUpload)
+        {
+            UserApp user = usermanager.FindById(GetUserId);
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(fileUpload.FileName);
+            fileUpload.SaveAs(HttpContext.Current.Server.MapPath("~/Pictures/UserPicture/" + fileName));
+
+            if (!string.IsNullOrEmpty(user.PicturePath) && (!user.PicturePath.Contains("http:") || !user.PicturePath.Contains("user.png")))
+            {
+                if (File.Exists(HttpContext.Current.Server.MapPath(user.PicturePath)))
+                {
+                    File.Delete((HttpContext.Current.Server.MapPath(user.PicturePath)));
+                }
+            }
+            user.PicturePath = "/Pictures/UserPicture/" + fileName;
+            usermanager.Update(user);
+            return "/Pictures/UserPicture/" + fileName;
+        }
+
+        public string UpdateUserPassword(UserPasswordViewModel pass)
+        {
+            UserApp user = usermanager.FindById(GetUserId);
+
+            IdentityResult result = usermanager.ChangePassword(GetUserId, pass.CurrentPassword, pass.NewPassword);
+            if (result.Succeeded)
+            {
+                return "1";
+            }
+            else
+            {
+                return result.Errors.First();
+            }
         }
     }
 }

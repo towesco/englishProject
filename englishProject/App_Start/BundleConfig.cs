@@ -14,7 +14,8 @@ namespace englishProject
                  "~/Scripts/knockout-3.4.0.debug.js",
                 "~/Scripts/jquery.validation.bootstrap.js",
                   "~/Scripts/star-rating/star-rating.js",
- "~/Scripts/login.js"
+ "~/Scripts/login.js",
+ "~/Scripts/common.js"
 
                         ));
 

@@ -65,11 +65,49 @@
     <EntitySetMapping Name="levelUserProgress">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
         <MappingFragment StoreEntitySet="levelUserProgress">
+          <ScalarProperty Name="boxId" ColumnName="boxId" />
           <ScalarProperty Name="star" ColumnName="star" />
           <ScalarProperty Name="puan" ColumnName="puan" />
           <ScalarProperty Name="levelId" ColumnName="levelId" />
           <ScalarProperty Name="userId" ColumnName="userId" />
           <ScalarProperty Name="progressId" ColumnName="progressId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="userProggress" FunctionName="EnglishProjectDBModel.Store.userProggress">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="EnglishProjectDBModel.userProggress_Result">
+          <ScalarProperty Name="boxId" ColumnName="boxId" />
+          <ScalarProperty Name="boxName" ColumnName="boxName" />
+          <ScalarProperty Name="Progress" ColumnName="Progress" />
+          <ScalarProperty Name="CurrentProgress" ColumnName="CurrentProgress" />
+          <ScalarProperty Name="CurrentLevel" ColumnName="CurrentLevel" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <EntitySetMapping Name="City">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.City">
+        <MappingFragment StoreEntitySet="City">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="UserDetail">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.UserDetail">
+        <MappingFragment StoreEntitySet="UserDetail">
+          <ScalarProperty Name="DailyTargetScore" ColumnName="DailyTargetScore" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Score">
+      <EntityTypeMapping TypeName="EnglishProjectDBModel.Score">
+        <MappingFragment StoreEntitySet="Score">
+          <ScalarProperty Name="targetScore" ColumnName="targetScore" />
+          <ScalarProperty Name="targetDate" ColumnName="targetDate" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="targetId" ColumnName="targetId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

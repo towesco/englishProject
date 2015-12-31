@@ -6,8 +6,7 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-
-            $("#boxCarausel").carousel('pause');
+            //subLevelSelect click common.js dosyasındadır
             $("#input-6e").rating();
 
         });
@@ -19,26 +18,45 @@
 {
 
     <li>
-        <a data-levelid="@levelId" href="#" class="btn  btn-lg  subLevelSelect @(@locked ? "btn-primary" : "btn-success")">
-            <div>
+        <a data-front="1" data-locked="@locked" data-levelid="@levelId" href="#" class="btn  btn-lg  subLevelSelect @(@locked ? "btn-primary" : "btn-success")">
 
-                <span class="badge badge-level"><strong> @levelNumber</strong></span>
-                <br />
-                <small>Seviye</small>
-            </div>
+            <div class="front">
+                <div>
 
-            <div style="border-top: 1px solid #214E72;margin-top: 4px;">
-                <small>@levelName</small>
-            </div>
-            <div>
+                    <span class="badge badge-level"><strong> @levelNumber</strong></span>
+                    <br />
+                    <small>Seviye</small>
 
-                <input id="@levelId-@levelNumber" value="@star" class="rating" data-min="0" data-max="@subLevelCount" data-step="1" data-stars="@subLevelCount" data-show-caption="false" data-disabled="true" data-size="xs" data-show-clear="false">
-            </div>
-            <div>
+                    @if (locked)
+                    {
+                        <i class="fa fa-lock"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-unlock"></i>
+                    }
+                </div>
+
+                @if (!locked)
+                {
+                    <div style="border-top: 2px solid #71995A;  margin: 3px 0px -4px 0px">
+                        <small>@levelName</small>
+                    </div>
+                }
+                else
+                {
+                    <div style="border-top: 2px solid #47729E;  margin: 3px 0px -4px 0px">
+                        <small>@levelName</small>
+                    </div>
+                }
 
                 <div>
-                    <i class="fa @(@locked ? "fa-lock" : "fa-unlock")"></i>
+
+                    <input id="@levelId-@levelNumber" value="@star" class="rating" data-min="0" data-max="@subLevelCount" data-step="1" data-stars="@subLevelCount" data-show-caption="false" data-disabled="true" data-size="xs" data-show-clear="false">
                 </div>
+            </div>
+            <div class="back" style="display: none">
+                <div>  <i class="fa fa-lock fa-5x"></i></div>
             </div>
         </a>
     </li>
@@ -49,11 +67,11 @@
 
     <div style="position: absolute; right: 15px; top: 15px;z-index: 10">
 
-        <a href="#boxCarausel" role="button" data-slide="prev">
+        <a href="#box-carausel" role="button" data-slide="prev">
             <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
             <span class="sr-only">Previous</span>
         </a>
-        <a href="#boxCarausel" role="button" data-slide="next">
+        <a href="#box-carausel" role="button" data-slide="next">
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
             <span class="sr-only">Next</span>
         </a>
@@ -61,7 +79,7 @@
 
     <div class="panel-body">
 
-        <div id="boxCarausel" class="carousel slide">
+        <div id="box-carausel" class="carousel slide">
 
             <!-- Wrapper for slides -->
             <div class="carousel-inner" role="listbox">

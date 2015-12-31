@@ -8,10 +8,10 @@
         </a>
         <ul class="dropdown-menu" style="z-index: 12;margin-top: 5px;">
             <li><a href="#">Profil</a></li>
-            <li><a href="#">Ayarlar</a></li>
+            <li><a href="@Url.Action("Settings","User")">Ayarlar</a></li>
 
             <li role="separator" class="divider"></li>
-            <li><a href="#">Oturum kapat</a></li>
+            <li><a id="siqnOut" href="@Url.Action("SignOut","User")">Oturum kapat</a></li>
         </ul>
     </li>
 </ul>

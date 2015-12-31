@@ -1,4 +1,4 @@
-﻿var viewmodel = function (exams, levelId, levelSubLevel) {
+﻿var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
     var self = this;
 
     var okTextArray = new Array("Temel seviye tamamlandı.", "İleri seviye tamamlandı.", "Mükemmel seviye tamamlandı.");
@@ -64,6 +64,7 @@
             levelId: parseInt(levelId),
             star: self.star(),
             puan: Math.round(self.totalPuan()),
+            boxId: parseInt(boxId)
         }
         var jsonData = ko.toJSON(self.userProgress);
         $.ajax("/api/ajax/UpdateUserProgress", {

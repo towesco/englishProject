@@ -75,7 +75,7 @@ var SignUpViewModel = function () {
                         }
                         else if (data == 1) {
                             location.href = "/User/Index";
-                        } else {
+                        } else if (data == 2) {
                             $("#signUpErrorText").html("Email adresi kayıtlı.");
                             self.signupLoading(false);
                             self.signUpError(true);

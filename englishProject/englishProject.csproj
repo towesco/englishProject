@@ -223,6 +223,7 @@
     </Compile>
     <Compile Include="Infrastructure\Modul\PictureWordModul.cs" />
     <Compile Include="Infrastructure\Modul\WordModul.cs" />
+    <Compile Include="Infrastructure\OperationDirect.cs" />
     <Compile Include="Infrastructure\Operations.cs" />
     <Compile Include="Infrastructure\HelperClass\UserProfilView.cs" />
     <Compile Include="Infrastructure\Users\RoleApp.cs" />
@@ -230,9 +231,14 @@
     <Compile Include="Infrastructure\Users\UserApp.cs" />
     <Compile Include="Infrastructure\Users\UserAppDbContext.cs" />
     <Compile Include="Infrastructure\Users\UserAppManager.cs" />
+    <Compile Include="Infrastructure\ViewModel\UserPasswordViewModel.cs" />
     <Compile Include="Infrastructure\ViewModel\UserSignUpVM.cs" />
     <Compile Include="Infrastructure\ViewModel\UserSignInVM.cs" />
+    <Compile Include="Infrastructure\ViewModel\UserViewModel.cs" />
     <Compile Include="Models\Box.cs">
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\City.cs">
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EnglishModel.Context.cs">
@@ -259,7 +265,16 @@
     <Compile Include="Models\levelUserProgress.cs">
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Score.cs">
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserDetail.cs">
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\userProggress_Result.cs">
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Word.cs">
@@ -286,6 +301,8 @@
     <Content Include="Content\images\flag\Turkey-icon.png" />
     <Content Include="Content\images\flag\United-kingdom-icon.png" />
     <Content Include="Content\images\level\body.png" />
+    <Content Include="Content\images\target.png" />
+    <Content Include="Content\images\user.png" />
     <Content Include="Content\images\userbackground.png" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\style.css" />
@@ -345,6 +362,7 @@
     <Content Include="Areas\Admin\Views\Home\SpeedWord.cshtml" />
     <Content Include="Areas\Admin\Views\Home\GetCoordinates.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\common.js" />
     <Content Include="Scripts\jquery-file-upload\jquery.fileupload.js" />
     <Content Include="Scripts\jquery-file-upload\jquery.iframe-transport.js" />
     <Content Include="Scripts\jquery-file-upload\jquery.ui.widget.js" />
@@ -367,6 +385,7 @@
     <Content Include="Scripts\Modul\commonModul.js" />
     <Content Include="Scripts\Modul\PictureWordModul.js" />
     <Content Include="Scripts\Modul\WordModul.js" />
+    <Content Include="Scripts\progressbar\progressbar.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -393,14 +412,14 @@
     <Content Include="Views\Shared\MenuTemplate\TopMenu.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\SignInPartial.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\SignUpPartial.cshtml" />
-    <Content Include="Views\Shared\Templates\BoxsPV.cshtml" />
-    <Content Include="Views\Shared\Templates\UserProfileLeftPV.cshtml" />
+    <Content Include="Views\Shared\Templates\BoxsPartial.cshtml" />
+    <Content Include="Views\Shared\Templates\UserProfileLeftPartial.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\User\deneme.cshtml" />
     <Content Include="Views\User\levelExam.cshtml" />
     <Content Include="Views\Shared\_LayoutExam.cshtml" />
-    <Content Include="Views\Shared\Modul\ModulStart.cshtml" />
-    <Content Include="Views\Shared\Templates\BoxMenuPV.cshtml" />
+    <Content Include="Views\Shared\Templates\ExamStart.cshtml" />
+    <Content Include="Views\Shared\Templates\BoxMenuPartial.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\LogInPartial.cshtml" />
     <Content Include="Views\Shared\Modul\WordModul.cshtml" />
     <Content Include="Views\Shared\ModulPartial\EndPartial.cshtml" />
@@ -413,12 +432,20 @@
     <Content Include="Views\Shared\ModulPartial\LoadingPartial.cshtml" />
     <Content Include="Views\Home\deneme.cshtml" />
     <Content Include="Views\User\RemenderCard.cshtml" />
+    <Content Include="Views\Shared\Templates\modalPartial.cshtml" />
+    <Content Include="Views\User\Settings.cshtml" />
+    <Content Include="Views\Shared\Templates\SettingsUserInfoPartial.cshtml" />
+    <Content Include="Views\Shared\Templates\SettingsPasswordPartial.cshtml" />
+    <Content Include="Views\Shared\Templates\ScoreLeftPartial.cshtml" />
+    <Content Include="Views\Shared\Templates\TargetScoreLeftPartial.cshtml" />
+    <Content Include="Views\Shared\Templates\SettingsTargetScore.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\font-awesome\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Pictures\UserPicture\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>

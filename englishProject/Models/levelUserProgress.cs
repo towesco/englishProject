@@ -19,5 +19,7 @@ namespace englishProject.Models
         public int levelId { get; set; }
         public int puan { get; set; }
         public int star { get; set; }
+        public int boxId { get; set; }
+        public int targetScore { get; set; }
     }
 }

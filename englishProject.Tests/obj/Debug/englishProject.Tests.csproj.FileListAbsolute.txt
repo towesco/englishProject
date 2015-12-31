@@ -181,3 +181,5 @@ C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\Microsoft.O
 C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\Microsoft.Owin.Security.Google.xml
 C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\Facebook.dll
 C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\Facebook.xml
+C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\AutoMapper.dll
+C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\AutoMapper.xml

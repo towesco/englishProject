@@ -14,6 +14,9 @@
         <AssociationConnector Association="EnglishProjectDBModel.FK_IrregularVerb_Level" />
         <AssociationConnector Association="EnglishProjectDBModel.FK_Word_Level" />
         <EntityTypeShape EntityType="EnglishProjectDBModel.levelUserProgress" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="EnglishProjectDBModel.City" Width="1.5" PointX="7.375" PointY="3.75" />
+        <EntityTypeShape EntityType="EnglishProjectDBModel.UserDetail" Width="1.5" PointX="5.375" PointY="7.75" />
+        <EntityTypeShape EntityType="EnglishProjectDBModel.Score" Width="1.5" PointX="7.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -11,6 +11,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
+using System.Web.Http.Results;
+using System.Web.Mvc;
 
 namespace englishProject.Controllers
 {
@@ -68,12 +70,19 @@ namespace englishProject.Controllers
             var userEmail = await usermanager.FindByEmailAsync(UserSignUpVM.Email);
             if (userEmail == null)
             {
-                UserApp user = new UserApp() { UserName = UserSignUpVM.Email, Email = UserSignUpVM.Email };
+                UserApp user = new UserApp() { UserName = UserSignUpVM.Email, Email = UserSignUpVM.Email, PicturePath = "/Content/images/user.png" };
 
                 IdentityResult identResult = await usermanager.CreateAsync(user, UserSignUpVM.Password);
                 if (identResult.Succeeded)
                 {
                     result = 1;
+
+                    ClaimsIdentity identity = await usermanager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+
+                    Authen.SignOut();
+                    Authen.SignIn(new AuthenticationProperties { IsPersistent = true }, identity);
+
+                    OperationDirect.UpdateTargetDailyTargetScore(100, user.Id, false);
                 }
                 else
                 {
@@ -108,6 +117,24 @@ namespace englishProject.Controllers
         public IHttpActionResult POSTUpdateUserProgress(levelUserProgress userProgress)
         {
             return Content(HttpStatusCode.OK, new Operations().UpdateUserProggress(userProgress));
+        }
+
+        [System.Web.Http.ActionName("UpdateUser")]
+        public IHttpActionResult POSTUpdateUser(UserViewModel user)
+        {
+            return Content(HttpStatusCode.OK, new Operations().UpdateUser(user));
+        }
+
+        [System.Web.Http.ActionName("UpdateUserPassword")]
+        public IHttpActionResult POSTUpdateUserPassword(UserPasswordViewModel user)
+        {
+            return Content(HttpStatusCode.OK, new Operations().UpdateUserPassword(user));
+        }
+
+        [System.Web.Http.ActionName("UpdateDailyTargetScore")]
+        public IHttpActionResult GETUpdateDailyTargetScore(int score = 100)
+        {
+            return Content(HttpStatusCode.OK, OperationDirect.UpdateTargetDailyTargetScore(score, Operations.GetUserId));
         }
     }
 }

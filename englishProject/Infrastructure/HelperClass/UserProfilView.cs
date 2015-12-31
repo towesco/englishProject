@@ -1,4 +1,5 @@
-﻿using System;
+﻿using englishProject.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,7 +14,7 @@ namespace englishProject.Infrastructure
 
         public int TotalPuan { get; set; }
 
-        public List<UserProfilBox> UserProfilBoxs { get; set; }
+        public List<userProggress_Result> UserProfilBoxs { get; set; }
     }
 
     public class UserProfilBox
@@ -21,5 +22,9 @@ namespace englishProject.Infrastructure
         public string BoxName { get; set; }
 
         public int LevelCurrent { get; set; }
+
+        public int Progress { get; set; }
+
+        public int CurrentProgress { get; set; }
     }
 }

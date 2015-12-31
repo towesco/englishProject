@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Dynamic;
 using System.Linq;
 using System.Web;
 
@@ -13,6 +15,14 @@ namespace englishProject.Infrastructure.Users
         {
         }
 
-        //public System.Data.Entity.DbSet<englishProject.Infrastructure.Users.UserApp> UserApps { get; set; }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            Database.SetInitializer(new SetInitializerDbContext());
+            base.OnModelCreating(modelBuilder);
+        }
+    }
+
+    public class SetInitializerDbContext : DropCreateDatabaseIfModelChanges<UserAppDbContext>
+    {
     }
 }

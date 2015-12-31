@@ -23,7 +23,7 @@ namespace englishProject.Areas.Admin.Controllers
             helperMethod = new HelperMethod();
         }
 
-        public ActionResult Words(int levelId = 1, int boxId = 1)
+        public ActionResult Words(int levelId = 1)
         {
             ViewBag.boxId = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
             ViewBag.levelId = new SelectList(helperMethod.GetLevelSelectListItems(), "Value", "Text");

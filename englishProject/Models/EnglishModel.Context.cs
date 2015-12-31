@@ -12,6 +12,8 @@ namespace englishProject.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class EnglishProjectDBEntities : DbContext
     {
@@ -31,5 +33,17 @@ namespace englishProject.Models
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Word> Word { get; set; }
         public virtual DbSet<levelUserProgress> levelUserProgress { get; set; }
+        public virtual DbSet<City> City { get; set; }
+        public virtual DbSet<UserDetail> UserDetail { get; set; }
+        public virtual DbSet<Score> Score { get; set; }
+    
+        public virtual ObjectResult<userProggress_Result> userProggress(string userId)
+        {
+            var userIdParameter = userId != null ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<userProggress_Result>("userProggress", userIdParameter);
+        }
     }
 }

@@ -6,6 +6,8 @@
     Level level = ViewBag.level;
     Level nextLevel = ViewBag.nextLevel;
 
+    IHtmlString message1 = Html.Raw("<strong>Uyarı ! </strong> Kelime kartının sağ alt kısmında göreceğiniz <i class='fa fa-exchange'></i> işareti kelimenin  hatırlatma resimi olduğu anlamına gelir.  Karta tıklayarak hatırlatma resmini görebilirsiniz. Her tıklamada kelimeden kazanacağımız puanın<strong> yarısını</strong> kaybedersiniz.");
+
 }
 
 <div id="examWrapper">
@@ -19,10 +21,8 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="alert alert-info alert-dismissible notRadius" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <strong>Bilgi! </strong> Kelime kartının sağ alt kısmında göreceğiniz <i class="fa fa-exchange"></i> işareti kelimenin  hatırlatma resimi olduğu anlamına gelir.  Karta tıklayarak hatırlatma resmini görebilirsiniz. Her tıklamada kelimeden kazanacağımız puanın yarısını kaybedersinizi
-                            </div>
+
+                            @HelperMethod.GetMessage(message1, Alert.info, 1)
                         </div>
                     </div>
 

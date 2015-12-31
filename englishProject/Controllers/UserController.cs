@@ -1,5 +1,8 @@
-﻿using englishProject.Infrastructure;
+﻿using AutoMapper;
+using AutoMapper.Internal;
+using englishProject.Infrastructure;
 using englishProject.Infrastructure.Users;
+using englishProject.Infrastructure.ViewModel;
 using englishProject.Models;
 using Facebook;
 using Microsoft.AspNet.Identity;
@@ -8,11 +11,13 @@ using Microsoft.Owin.Security;
 using System;
 using System.Data;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace englishProject.Controllers
@@ -54,7 +59,8 @@ namespace englishProject.Controllers
             ViewBag.boxs = operations.GetBoxs();
             ViewBag.userProfilView = operations.GetUserProfilViewMenu();
             ViewBag.boxMenu = operations.GetBoxMenu();
-
+            ViewBag.userDetail = operations.GetUserDetail();
+            ViewBag.userTargetPercent = operations.GetUserTargetPercent();
             return View();
         }
 
@@ -87,7 +93,24 @@ namespace englishProject.Controllers
 
         public ActionResult RemenderCard(int id)
         {
-            return View(operations.GetLevel(id));
+            ViewBag.userProfilView = operations.GetUserProfilViewMenu();
+
+            Level level = operations.GetLevel(1);
+
+            return View(level);
+        }
+
+        public ActionResult Settings(int id = 0)
+        {
+            UserApp userApp = operations.getProfil();
+
+            ViewBag.user = Mapper.Map<UserViewModel>(userApp);
+
+            ViewBag.City = new SelectList(new HelperMethod().GetCityListItems(), "Value", "Text", userApp.City.ToString());
+            ViewBag.DailyTargetScore = operations.GetUserDetail().DailyTargetScore;
+            ViewBag.index = id;
+
+            return View();
         }
 
         public ActionResult deneme()
@@ -98,10 +121,11 @@ namespace englishProject.Controllers
             return View(ident.Claims.ToList());
         }
 
-        [HttpGet]
-        public ActionResult LevelExamStartAjax(int levelId)
+        public ActionResult SignOut()
         {
-            return PartialView("Modul/ModulStart", operations.GetExamLevelStart(levelId));
+            Authen.SignOut();
+            Session.Abandon();
+            return RedirectToAction("Index", "Home");
         }
 
         #region Social Login
@@ -147,6 +171,7 @@ namespace englishProject.Controllers
                 if (result.Succeeded)
                 {
                     await usermanager.AddLoginAsync(user.Id, info.Login);
+                    OperationDirect.UpdateTargetDailyTargetScore(100, user.Id, false);
                 }
                 else
                 {
@@ -157,7 +182,8 @@ namespace englishProject.Controllers
             ClaimsIdentity identity = await usermanager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
             identity.AddClaims(info.ExternalIdentity.Claims);
             HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = true }, identity);
-            return Redirect(ReturnUrl ?? "/");
+
+            return Redirect(ReturnUrl ?? "/User/Index");
         }
 
         [HttpPost]
@@ -188,6 +214,7 @@ namespace englishProject.Controllers
                 if (result.Succeeded)
                 {
                     await usermanager.AddLoginAsync(user.Id, info.Login);
+                    OperationDirect.UpdateTargetDailyTargetScore(100, user.Id, false);
                 }
                 else
                 {
@@ -200,9 +227,30 @@ namespace englishProject.Controllers
             identity.AddClaims(info.ExternalIdentity.Claims);
 
             HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = true }, identity);
-            return Redirect(ReturnUrl ?? "/");
+
+            return Redirect(ReturnUrl ?? "/User/Index");
         }
 
         #endregion Social Login
+
+        #region ajax
+
+        [HttpGet]
+        public ActionResult LevelExamStartAjax(int levelId)
+        {
+            return PartialView("Templates/ExamStart", operations.GetExamLevelStart(levelId));
+        }
+
+        public JsonResult MessageHide(string key)
+        {
+            return Json(HelperMethod.GetMessageHide(key), JsonRequestBehavior.AllowGet);
+        }
+
+        public ContentResult UploadUserPicture(HttpPostedFileBase fileUpload)
+        {
+            return Content(operations.GetUpdateUserPicture(fileUpload));
+        }
+
+        #endregion ajax
     }
 }

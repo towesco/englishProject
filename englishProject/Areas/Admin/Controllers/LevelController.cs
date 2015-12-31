@@ -27,9 +27,9 @@ namespace englishProject.Areas.Admin.Controllers
             return View();
         }
 
-        public ActionResult Levels(int boxId = 1, int selectKind = 1)
+        public ActionResult Levels(int boxId = 1)
         {
-            ViewBag.boxNumber = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
+            ViewBag.boxId = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
 
             return View(entities.Levels(boxId));
         }
@@ -47,7 +47,7 @@ namespace englishProject.Areas.Admin.Controllers
         public ActionResult AddLevel(Level level)
         {
             entities.AddLevel(level);
-            return RedirectToAction("Levels");
+            return RedirectToAction("Levels", new { boxId = level.boxId });
         }
 
         public ActionResult UpdateLevel(int levelId)

@@ -13,6 +13,13 @@
           <Property Name="boxName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="boxNumber" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="tinyint" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
         <EntityType Name="IrregularVerb">
           <Key>
             <PropertyRef Name="IrregularId" />
@@ -47,6 +54,16 @@
           <Property Name="levelId" Type="int" Nullable="false" />
           <Property Name="puan" Type="int" Nullable="false" />
           <Property Name="star" Type="int" Nullable="false" />
+          <Property Name="boxId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Score">
+          <Key>
+            <PropertyRef Name="targetId" />
+          </Key>
+          <Property Name="targetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userId" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="targetDate" Type="date" Nullable="false" />
+          <Property Name="targetScore" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -57,6 +74,13 @@
           <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="UserDetail">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="DailyTargetScore" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Word">
           <Key>
@@ -107,12 +131,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="userProggress" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userId" Type="nvarchar" Mode="In" />
+        </Function>
         <EntityContainer Name="EnglishProjectDBModelStoreContainer">
           <EntitySet Name="Box" EntityType="Self.Box" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="IrregularVerb" EntityType="Self.IrregularVerb" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Score" EntityType="Self.Score" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Word" EntityType="Self.Word" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_IrregularVerb_Level" Association="Self.FK_IrregularVerb_Level">
             <End Role="Level" EntitySet="Level" />
@@ -150,6 +180,12 @@
             <End Role="Word" EntitySet="Word" />
           </AssociationSet>
           <EntitySet Name="levelUserProgress" EntityType="EnglishProjectDBModel.levelUserProgress" />
+          <FunctionImport Name="userProggress" ReturnType="Collection(EnglishProjectDBModel.userProggress_Result)">
+          <Parameter Name="userId" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="City" EntityType="EnglishProjectDBModel.City" />
+          <EntitySet Name="UserDetail" EntityType="EnglishProjectDBModel.UserDetail" />
+          <EntitySet Name="Score" EntityType="EnglishProjectDBModel.Score" />
         </EntityContainer>
         <EntityType Name="Box">
           <Key>
@@ -258,6 +294,37 @@
           <Property Name="levelId" Type="Int32" Nullable="false" />
           <Property Name="puan" Type="Int32" Nullable="false" />
           <Property Name="star" Type="Int32" Nullable="false" />
+          <Property Name="boxId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <ComplexType Name="userProggress_Result">
+          <Property Type="Int32" Name="boxId" Nullable="false" />
+          <Property Type="String" Name="boxName" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="Progress" Nullable="true" />
+          <Property Type="Int32" Name="CurrentProgress" Nullable="true" />
+          <Property Type="Int32" Name="CurrentLevel" Nullable="true" />
+        </ComplexType>
+        <EntityType Name="City">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Byte" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="UserDetail">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="DailyTargetScore" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Score">
+          <Key>
+            <PropertyRef Name="targetId" />
+          </Key>
+          <Property Name="targetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userId" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="targetDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="targetScore" Type="Int32" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -329,11 +396,49 @@
           <EntitySetMapping Name="levelUserProgress">
             <EntityTypeMapping TypeName="EnglishProjectDBModel.levelUserProgress">
               <MappingFragment StoreEntitySet="levelUserProgress">
+                <ScalarProperty Name="boxId" ColumnName="boxId" />
                 <ScalarProperty Name="star" ColumnName="star" />
                 <ScalarProperty Name="puan" ColumnName="puan" />
                 <ScalarProperty Name="levelId" ColumnName="levelId" />
                 <ScalarProperty Name="userId" ColumnName="userId" />
                 <ScalarProperty Name="progressId" ColumnName="progressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="userProggress" FunctionName="EnglishProjectDBModel.Store.userProggress">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="EnglishProjectDBModel.userProggress_Result">
+                <ScalarProperty Name="boxId" ColumnName="boxId" />
+                <ScalarProperty Name="boxName" ColumnName="boxName" />
+                <ScalarProperty Name="Progress" ColumnName="Progress" />
+                <ScalarProperty Name="CurrentProgress" ColumnName="CurrentProgress" />
+                <ScalarProperty Name="CurrentLevel" ColumnName="CurrentLevel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="City">
+            <EntityTypeMapping TypeName="EnglishProjectDBModel.City">
+              <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserDetail">
+            <EntityTypeMapping TypeName="EnglishProjectDBModel.UserDetail">
+              <MappingFragment StoreEntitySet="UserDetail">
+                <ScalarProperty Name="DailyTargetScore" ColumnName="DailyTargetScore" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Score">
+            <EntityTypeMapping TypeName="EnglishProjectDBModel.Score">
+              <MappingFragment StoreEntitySet="Score">
+                <ScalarProperty Name="targetScore" ColumnName="targetScore" />
+                <ScalarProperty Name="targetDate" ColumnName="targetDate" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="targetId" ColumnName="targetId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

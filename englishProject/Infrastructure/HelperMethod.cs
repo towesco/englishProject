@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Management;
 using System.Web.Mvc;
@@ -72,6 +74,10 @@ namespace englishProject.Infrastructure
                     .ToList();
         }
 
+        /// <summary>
+        /// 1-10 kadar sayı getirir aynı zamanda eşleşen modul adlarını getirir
+        /// </summary>
+        /// <returns></returns>
         public List<SelectListItem> GetModulListItems()
         {
             return
@@ -79,5 +85,92 @@ namespace englishProject.Infrastructure
                     .Select(a => new SelectListItem { Text = string.Format("{0}-{1}", a.ToString(CultureInfo.InvariantCulture), Enum.GetName(typeof(Modul), a) ?? "boş"), Value = a.ToString(CultureInfo.InvariantCulture), Selected = false })
                     .ToList();
         }
+
+        public List<SelectListItem> GetCityListItems()
+        {
+            return entities.City.Select(a => new SelectListItem() { Text = a.Name, Value = a.Id.ToString() }).ToList();
+        }
+
+        #region BilgilendirmeMesaj
+
+        /// <summary>
+        /// Sitede gösterilen mesajlar
+        /// </summary>
+        /// <param name="info">bilgilendirme yazısı</param>
+        /// <param name="alert"></param>
+        /// <param name="key">Numarası dikkatli olmak lazım daha önceki verdiğimiz numaralar olmamalı</param>
+        /// <returns></returns>
+        public static MvcHtmlString GetMessage(IHtmlString info, Alert alert, int key)
+        {
+            HttpCookie h = HttpContext.Current.Request.Cookies["alert"];
+
+            string data = string.Empty;
+
+            if (h != null)
+            {
+                if (h[key.ToString(CultureInfo.InvariantCulture)] == null || h[key.ToString(CultureInfo.InvariantCulture)] == true.ToString())
+                {
+                    h[key.ToString(CultureInfo.InvariantCulture)] = true.ToString();
+                    h.Expires = DateTime.Now.AddDays(60);
+                    HttpContext.Current.Response.Cookies.Add(h);
+                    data = string.Format(
+                        "<div class='alert alert-{0} alert-dismissible notRadius' role='alert'><button data-key='{2}' type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>{1}</div>",
+                        alert.ToString(), info.ToHtmlString(), key);
+                }
+            }
+            else
+            {
+                h = new HttpCookie("alert");
+                h[key.ToString(CultureInfo.InvariantCulture)] = true.ToString();
+                h.Expires = DateTime.Now.AddDays(60);
+                HttpContext.Current.Response.Cookies.Add(h);
+                data = string.Format(
+                    "<div class='alert alert-{0} alert-dismissible notRadius' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>{1}</div>",
+                    alert.ToString(), info.ToHtmlString());
+            }
+
+            return new MvcHtmlString(data);
+        }
+
+        /// <summary>
+        /// cookie sayesinde mesajı saklar. ve bir daha göstermez
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static bool GetMessageHide(string key)
+        {
+            HttpCookie h = HttpContext.Current.Request.Cookies["alert"];
+            if (h != null)
+            {
+                h[key] = false.ToString();
+                HttpContext.Current.Response.Cookies.Set(h);
+            }
+            return true;
+        }
+
+        public static string getUserName(string email)
+        {
+            Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
+            Match match = regex.Match(email);
+            if (match.Success)
+            {
+                email = email.Substring(0, email.IndexOf('@'));
+                if (email.Length > 16)
+                {
+                    email = email.Substring(0, 13) + "...";
+                }
+            }
+            else
+            {
+                if (email.Length > 16)
+                {
+                    email = email.Substring(0, 13) + "...";
+                }
+            }
+
+            return email;
+        }
+
+        #endregion BilgilendirmeMesaj
     }
 }

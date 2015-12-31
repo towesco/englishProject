@@ -19,6 +19,12 @@
       <End Role="Word" EntitySet="Word" />
     </AssociationSet>
     <EntitySet Name="levelUserProgress" EntityType="EnglishProjectDBModel.levelUserProgress" />
+    <FunctionImport Name="userProggress" ReturnType="Collection(EnglishProjectDBModel.userProggress_Result)">
+      <Parameter Name="userId" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="City" EntityType="EnglishProjectDBModel.City" />
+    <EntitySet Name="UserDetail" EntityType="EnglishProjectDBModel.UserDetail" />
+    <EntitySet Name="Score" EntityType="EnglishProjectDBModel.Score" />
   </EntityContainer>
   <EntityType Name="Box">
     <Key>
@@ -127,5 +133,36 @@
     <Property Name="levelId" Type="Int32" Nullable="false" />
     <Property Name="puan" Type="Int32" Nullable="false" />
     <Property Name="star" Type="Int32" Nullable="false" />
+    <Property Name="boxId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <ComplexType Name="userProggress_Result">
+    <Property Type="Int32" Name="boxId" Nullable="false" />
+    <Property Type="String" Name="boxName" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="Progress" Nullable="true" />
+    <Property Type="Int32" Name="CurrentProgress" Nullable="true" />
+    <Property Type="Int32" Name="CurrentLevel" Nullable="true" />
+  </ComplexType>
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Byte" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="UserDetail">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="DailyTargetScore" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Score">
+    <Key>
+      <PropertyRef Name="targetId" />
+    </Key>
+    <Property Name="targetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="targetDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="targetScore" Type="Int32" Nullable="false" />
   </EntityType>
 </Schema>

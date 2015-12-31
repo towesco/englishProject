@@ -1,0 +1,19 @@
+﻿@using englishProject.Infrastructure
+@model  Dictionary<string, int>
+@{
+    int count = 0;
+}
+
+<div id="BoxMenu" class="list-group">
+    @foreach (var item in Model)
+    {
+
+        <a href="#" data-target="#box-carausel" data-slide-to="@(count++)" class="list-group-item">
+
+            @item.Key
+
+            <span class="badge">@item.Value</span>
+        </a>
+
+    }
+</div>

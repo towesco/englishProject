@@ -1,0 +1,272 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.Users
+@using englishProject.Infrastructure.ViewModel
+@{
+    ViewBag.Title = "Settings";
+
+    UserViewModel user = ViewBag.user;
+    var index = ViewBag.index;
+
+    int DailyTargetScore = ViewBag.DailyTargetScore;
+}
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.ui.widget.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.fileupload.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.iframe-transport.js")"></script>
+    <style type="text/css">
+        .list-group-score a.active {
+            background: #FF512F; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left, #FF512F, #F09819); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left, #FF512F, #F09819); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            border: 1px solid #D84B2F;
+        }
+
+            .list-group-score a.active .badge {
+                color: #FF512F; /* fallback for old browsers */
+            }
+
+        .list-group-settings a.active {
+            border-left: 5px solid #234F72 !important;
+        }
+
+        .list-group-settings .list-group-item {
+            border-style: none !important;
+        }
+
+            .list-group-settings .list-group-item:first-child {
+                -ms-border-top-left-radius: 0px;
+                border-top-left-radius: 0px;
+                -ms-border-top-right-radius: 0px;
+                border-top-right-radius: 0px;
+            }
+
+        .list-group-settings {
+            margin-bottom: 0px;
+        }
+
+            .list-group-settings .list-group-item {
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                border-right: none;
+                border-left: none;
+            }
+
+                .list-group-settings .list-group-item:last-child {
+                    border-bottom: none;
+                }
+
+        .panel {
+            border-width: 0px;
+        }
+
+        .bg-primary {
+            padding: 10px;
+        }
+
+        .alert {
+            margin-bottom: 0px;
+            padding: 12px;
+            margin-left: 5px;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            var index = parseInt("@index");
+            var score = "@DailyTargetScore";
+            $("#" + score).parent().addClass("active");
+
+            $(".list-group-score a").click(function () {
+                var a = $(this);
+                var dailyScore = $(this).children("strong").text();
+
+                $.getJSON("/api/ajax/UpdateDailyTargetScore", { score: dailyScore }, function (data) {
+                    $(".list-group-score a").removeClass("active");
+                    $(a).addClass("active");
+                });
+
+            });
+
+            $(".list-group-settings .list-group-item:eq(" + index + ")").addClass("active");
+            $("#carousel-settings .item:eq(" + index + ")").addClass("active");
+
+            $('#carousel-settings').on('slid.bs.carousel', function (a) {
+
+                var index = $('#carousel-settings .active').index('#carousel-settings .item');
+
+                $(".list-group-settings a").removeClass("active");
+
+                $(".list-group-settings a:eq('" + index + "')").addClass("active");
+
+            });
+
+            $('#fileUpload').fileupload({
+                url: '/User/UploadUserPicture',
+                singleFileUploads: false,
+                add: function (e, data) {
+                    data.submit().success(function (result, textStatus, abc) {
+                        $(".PicturePath").attr("src", result);
+                    });
+                },
+                fail: function (e, data) {
+                    alert("hata var");
+                },
+                progressall: function (e, data) {
+
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+                    console.log(progress);
+
+                    $(".fileUpload strong").html('% ' + progress);
+
+                },
+
+                done: function (e, data) {
+                    $(".fileUpload strong").html('');
+                }
+
+            });
+            var userPassword = function () {
+
+                this.currentPassword = $("#CurrentPassword").val();
+                this.newPassword = $("#NewPassword").val();
+                this.confirmPassword = $("#ConfirmPassword").val();
+            }
+            userPassword.prototype.convertJson = function () {
+
+                return JSON.stringify(new userPassword());
+            }
+
+            $("#btnUserPasswordUpdate").click(function () {
+
+                if ($("#UserPasswordForm").valid()) {
+                    $(".fa-spin").removeClass("hidden");
+                    $(this).attr("disabled", true);
+                    var jsonData = new userPassword().convertJson();
+                    console.log(jsonData);
+                    $.ajax("/api/ajax/UpdateUserPassword", {
+                        type: "POST",
+                        data: jsonData,
+                        contentType: "application/json",
+                        success: function (data) {
+                            if (data != "True") {
+                                $(".panel-body .alert").removeClass("alert-success").addClass("alert-danger").html(data).fadeIn(100).delay(2000).fadeOut(100);
+                            } else {
+                                $(".panel-body .alert").removeClass("alert-danger").addClass("alert-success").html("<strong>Bilgileriniz güncellenmiştir.</strong>").fadeIn(100).delay(2000).fadeOut(100);
+                            }
+                        },
+                        complete: function () {
+                            $(".fa-spin").addClass("hidden");
+                            $("#btnUserPasswordUpdate").prop("disabled", false);
+                        }
+                    });
+                };
+                return false;
+
+            });
+
+            var user = function () {
+                this.Name = $("#Name").val();
+                this.SurName = $("#SurName").val();
+                this.BirthDay = $("#BirthDay").val();
+                this.PhoneNumber = $("#PhoneNumber").val();
+                this.City = $("#City").val();
+                this.Gender = parseInt($('input[name=Gender]:checked').val());
+                this.UserName = $("#UserName").val();
+                this.Email = $("#Email").val();
+                this.PicturePath = $("#PicturePath").attr("src");
+                this.password = $("#Password").val();
+
+            }
+            user.prototype.convertJson = function () {
+
+                return JSON.stringify(new user());
+            }
+
+            $("#btnUserInfoUpdate").click(function () {
+
+                if ($("#UserInfoForm").valid()) {
+                    $(".fa-spin").removeClass("hidden");
+                    $(this).attr("disabled", true);
+                    var jsonData = new user().convertJson();
+                    $.ajax("/api/ajax/UpdateUser", {
+                        type: "POST",
+                        data: jsonData,
+                        contentType: "application/json",
+                        success: function (data) {
+                            if (data != "True") {
+                                $(".panel-body .alert").removeClass("alert-success").addClass("alert-danger").html(data).fadeIn(100).delay(2000).fadeOut(100);
+                            } else {
+                                $(".panel-body .alert").removeClass("alert-danger").addClass("alert-success").html("<strong>Bilgileriniz güncellenmiştir.</strong>").fadeIn(100).delay(2000).fadeOut(100);
+                            }
+                        },
+                        complete: function () {
+                            $(".fa-spin").addClass("hidden");
+                            $("#btnUserInfoUpdate").prop("disabled", false);
+                        }
+                    });
+                };
+                return false;
+            });
+
+        });
+    </script>
+}
+@section Left
+{
+    <div class="panel">
+        <div class="userSettingBackground">
+
+            <div class="pull-left">
+                <img src="@user.PicturePath" class="img-circle img-thumbnail PicturePath" />
+            </div>
+            <div class="pull-left">
+                <h4 class="userName">@HelperMethod.getUserName(user.UserName)</h4>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+        <div>
+            <div class="list-group list-group-settings">
+                <a href="#" data-target="#carousel-settings" data-slide-to="0" class="list-group-item">
+                    <span class="pull-left">Üyelik bilgilerim</span>
+                    <span class="pull-right"><i class="fa fa-chevron-right"></i></span>
+                    <i class="clearfix"></i>
+                </a>
+
+                <a href="#" data-target="#carousel-settings" data-slide-to="1" class="list-group-item">
+                    <span class="pull-left">Parola ayarlarım</span>
+                    <span class="pull-right"><i class="fa fa-chevron-right"></i></span>
+                    <i class="clearfix"></i>
+                </a>
+                <a href="#" data-target="#carousel-settings" data-slide-to="2" class="list-group-item">
+                    <span class="pull-left">Günlük hedef belirle</span>
+                    <span class="pull-right"><i class="fa fa-chevron-right"></i></span>
+                    <i class="clearfix"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+}
+
+<div class="panel">
+    <div id="carousel-settings" class="carousel slide" data-ride="carousel">
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item">
+                @Html.Partial("Templates/SettingsUserInfoPartial", user)
+            </div>
+            <div class="item">
+                @Html.Partial("Templates/SettingsPasswordPartial", new UserPasswordViewModel())
+            </div>
+
+            <div class="item">
+                @Html.Partial("Templates/SettingsTargetScore")
+            </div>
+        </div>
+
+        <!-- Controls -->
+    </div>
+</div>

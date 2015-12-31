@@ -44,10 +44,11 @@
         }
 
         $(document).ready(function () {
+
             $("#loading").modal({ backdrop: false });
             $('[data-toggle="popover"]').popover('show');
 
-            var  vm = new viewmodel(@exam, @level.levelId,@level.levelSubLevel);
+            var  vm = new viewmodel(@exam, @level.levelId,@level.levelSubLevel,@level.boxId);
 
             ko.applyBindings(vm, document.getElementById("examWrapper"));
 
