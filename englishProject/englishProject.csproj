@@ -209,6 +209,7 @@
     <Compile Include="Infrastructure\HelperClass\BoxLevelUser.cs" />
     <Compile Include="Infrastructure\HelperClass\Enums.cs" />
     <Compile Include="Infrastructure\Extensions.cs" />
+    <Compile Include="Infrastructure\HelperClass\ScoreTable.cs" />
     <Compile Include="Infrastructure\HelperMethod.cs" />
     <Compile Include="Areas\Admin\Infrastructure\IWord.cs" />
     <Compile Include="Areas\Admin\Infrastructure\ILevel.cs" />
@@ -283,6 +284,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\css\images\Keys-icon.png" />
     <Content Include="Areas\Admin\css\metisMenu.css" />
     <Content Include="Areas\Admin\css\sb-admin-2.css" />
     <Content Include="Areas\Admin\css\font-awesome.css" />
@@ -361,6 +363,8 @@
     <Content Include="Areas\Admin\Views\Word\UpdateWord.cshtml" />
     <Content Include="Areas\Admin\Views\Home\SpeedWord.cshtml" />
     <Content Include="Areas\Admin\Views\Home\GetCoordinates.cshtml" />
+    <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\login.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\common.js" />
     <Content Include="Scripts\jquery-file-upload\jquery.fileupload.js" />
@@ -438,7 +442,9 @@
     <Content Include="Views\Shared\Templates\SettingsPasswordPartial.cshtml" />
     <Content Include="Views\Shared\Templates\ScoreLeftPartial.cshtml" />
     <Content Include="Views\Shared\Templates\TargetScoreLeftPartial.cshtml" />
-    <Content Include="Views\Shared\Templates\SettingsTargetScore.cshtml" />
+    <Content Include="Views\Shared\Templates\SettingsTargetScorePartial.cshtml" />
+    <Content Include="Views\Shared\Templates\SettingsProfilPartial.cshtml" />
+    <Content Include="Views\User\ScoreTable.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

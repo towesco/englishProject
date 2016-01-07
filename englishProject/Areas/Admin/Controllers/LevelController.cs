@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace englishProject.Areas.Admin.Controllers
 {
+    [Authorize]
     public class LevelController : Controller
     {
         private readonly ILevel entities;

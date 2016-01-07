@@ -1,6 +1,6 @@
 ﻿var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
     var self = this;
-
+    var targetScore = 0; //kullanıcının günlük hedefi tesbit etmek için her alt seviyede  sıfırlanan puan
     var okTextArray = new Array("Temel seviye tamamlandı.", "İleri seviye tamamlandı.", "Mükemmel seviye tamamlandı.");
     var questionTextArray = new Array("Kırmızı işeretli yer vücudun neresidir ?", "Kırmızı işretli yeri kutucuğa yazınız ?");
     self.subLevelCount = levelSubLevel;
@@ -64,7 +64,8 @@
             levelId: parseInt(levelId),
             star: self.star(),
             puan: Math.round(self.totalPuan()),
-            boxId: parseInt(boxId)
+            boxId: parseInt(boxId),
+            targetScore: Math.round(targetScore)
         }
         var jsonData = ko.toJSON(self.userProgress);
         $.ajax("/api/ajax/UpdateUserProgress", {
@@ -72,6 +73,7 @@
             data: jsonData,
             contentType: "application/json",
             success: function (data) {
+                targetScore = 0;
             }
         });
     }
@@ -234,9 +236,11 @@
             if (self.star() == 2) {
                 //3 yıldızda 1 katsayısı çarpılır
                 increasePuan = self.totalPuan() + self.subLevelNumber() * 1;
+                targetScore += self.subLevelNumber();
             } else {
                 //3 yıldız alınmadıysa level tablosunun levelPuan katsayısıyla çarpılır
                 increasePuan = self.totalPuan() + self.subLevelNumber() * self.puan;
+                targetScore += self.subLevelNumber() * self.puan;
             }
             self.totalPuan(increasePuan);
             setTimeout(function () { self.next(); }, 2000);
@@ -247,7 +251,8 @@
             if (self.totapInCorrect() >= 3) {
                 self.fail(true);
             }
-            var decrease = Math.round(self.totalPuan() - self.subLevelNumber() * self.puan * 0.7);
+            var decrease = Math.round(self.totalPuan() - self.subLevelNumber() * self.puan * 1);
+            targetScore -= self.subLevelNumber() * self.puan * 1;
             self.totalPuan(decrease);
 
             self.errorProgress(self.rate());

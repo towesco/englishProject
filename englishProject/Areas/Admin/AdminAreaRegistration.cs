@@ -17,7 +17,7 @@ namespace englishProject.Areas.Admin
             context.MapRoute(
                 "Admin_default",
                 "Admin/{controller}/{action}/{id}",
-                new { Controller = "Home", action = "Index", id = UrlParameter.Optional }
+                new { Controller = "Home", action = "login", id = UrlParameter.Optional }
             );
         }
     }

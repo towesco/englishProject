@@ -11,14 +11,14 @@
         <img src="@Model.picture" class="img-circle img-thumbnail userProfiPicture" />
     </div>
     <div class="text-center">
-        <strong> @Model.userName</strong>
+        <strong> @HelperMethod.getUserName(Model.userName)</strong>
     </div>
-    <div style="border-bottom: 2px solid #0077ff;font-size: 16px;padding: 3px 9px;">
+    <div style="font-size: 16px;padding: 3px 9px;">
         <div class="pull-left">
-            <i class="fa fa-dot-circle-o" style="color:white;"></i><strong> PUAN</strong>
+            <i class="fa fa-dot-circle-o" style="color:white;"></i><strong> Puan</strong>
         </div>
         <div class="pull-right">
-            <strong> @Model.TotalPuan</strong>
+            <strong class="badge" style="background-color: #283048;font-size: 15px;"> @Model.TotalPuan</strong>
         </div>
         <i class="clearfix"></i>
     </div>
@@ -31,7 +31,7 @@
 
             <div style="padding: 10px;">
                 <div>
-                    <strong class="pull-left"><i class="fa fa-cube"></i> @item.boxName kutusu</strong>
+                    <strong class="pull-left"><i class="fa fa-cube"></i> @item.boxName</strong>
                     <span class="pull-right">
                         <strong>
                             @item.CurrentLevel
@@ -46,6 +46,10 @@
             </div>
 
         }
+
+    }
+    else
+    {
 
     }
 </div>

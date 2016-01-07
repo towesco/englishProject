@@ -127,80 +127,6 @@ hr {
 .starColor {
     color: #3097d1;
 }
-/*levelExam sayfasında şıkların gösterildiği butonlar*/
-.btn-ques {
-    min-width: 120px;
-    margin-top: 5px;
-    border: 5px solid #3097d1;
-    -ms-border-radius: 15px;
-    border-radius: 15px;
-    background-color: white;
-    color: black;
-}
-
-    .btn-ques:hover {
-        border-color: #1A4359;
-        background-color: white;
-        color: black;
-    }
-/*levelExam sayfasında devam butonu*/
-.btn-continue {
-    background-color: white;
-    border: 5px solid #bc3836;
-    border-radius: 15px;
-    color: #bc3836;
-    opacity: 1;
-    margin-top: 5px;
-}
-
-    .btn-continue:hover {
-        background-color: white;
-        border: 5px solid #822B29;
-        color: #bc3836;
-    }
-/*levelExam sayfasında  doğru cevap butonu*/
-.btn-quesCorrect {
-    -moz-min-width: 120px;
-    -ms-min-width: 120px;
-    -o-min-width: 120px;
-    -webkit-min-width: 120px;
-    min-width: 120px;
-    border: 5px solid #3097d1;
-    -ms-border-radius: 15px;
-    border-radius: 15px;
-    -ms-opacity: 1;
-    opacity: 1;
-}
-/*levelExam sayfasında bir sonraki level butonu*/
-.btn-update {
-    background-color: white;
-    border: 5px solid #54843f;
-    border-radius: 15px;
-    color: #315E31;
-    opacity: 1;
-}
-
-    .btn-update:hover {
-        background-color: white;
-        border: 5px solid #3C5B2E;
-        color: #315E31;
-    }
-/*Cevapların gösterildiği  alan*/
-.btnsWrapper {
-    background-color: #7ABEE2;
-    border-top: 3px solid #3097d1;
-    padding: 10px;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-}
-
-.ExamStartBackground {
-    background: #76b852; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #76b852, #8DC26F); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #76b852, #8DC26F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-}
 
 .btn-select {
     background: none !important;
@@ -276,24 +202,6 @@ hr {
     transform: perspective(600px) rotateY(180deg);
 }
 
-.fileUpload {
-    position: relative;
-    overflow: hidden;
-    margin: 10px;
-}
-
-    .fileUpload input.upload {
-        position: absolute;
-        top: 0;
-        right: 0;
-        margin: 0;
-        padding: 0;
-        font-size: 20px;
-        cursor: pointer;
-        opacity: 0;
-        filter: alpha(opacity=0);
-    }
-
 .subLevelSelect {
     position: relative;
     -webkit-transform: perspective(600px) rotateY(0deg);
@@ -321,50 +229,12 @@ hr {
     transition: all 0.5s ease-in-out;
 }
 
-#box-carausel .btn-success {
-    border: 2px solid #71995A !important;
-    width: 110px !important;
-    height: 125px !important;
-    padding-right: 0px;
-    padding-left: 0px;
-    margin-bottom: 10px;
-    background: #76b852; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #76b852, #8DC26F); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #76b852, #8DC26F); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background-position: center center;
-}
-
-.front .fa-unlock {
-    background-color: #71995A;
-    -ms-border-bottom-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    padding: 2px 3px 9px 10px;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-#box-carausel .btn-primary {
-    border: 2px solid #47729E !important;
-    width: 110px !important;
-    height: 125px !important;
-    padding-right: 0px;
-    padding-left: 0px;
-    margin-bottom: 10px;
-    background: #457fca; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #457fca, #5691c8); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #457fca, #5691c8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background-position: center center;
-}
-
-.front .fa-lock {
-    background-color: #47729E;
-    -ms-border-bottom-left-radius: 30px;
-    border-bottom-left-radius: 30px;
-    padding: 2px 3px 9px 10px;
-    position: absolute;
-    right: 0;
-    top: 0;
+.ExamStartBackground {
+    background: #009FFF; /* fallback for old browsers */
+    -ms-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    -ms-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
 }
 
 .progressbar-text {
@@ -373,7 +243,9 @@ hr {
     font-weight: bold;
 }
 
-/*////////buttons////////////*/
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////buttons////////////////*/
+
+/*gunlük hedef belirle butonu*/
 .btn-border {
     border: 2px solid white;
     -ms-border-radius: 6px;
@@ -387,9 +259,145 @@ hr {
         color: white;
     }
 
-/*////////buttons////////////*/
+/*levelExam sayfasında şıkların gösterildiği butonlar*/
+.btn-ques {
+    min-width: 120px;
+    margin-top: 5px;
+    border: 5px solid #3097d1;
+    -ms-border-radius: 15px;
+    border-radius: 15px;
+    background-color: white;
+    color: black;
+}
 
-/*//////////////////////LEFT/////////////////////////////////////////////*/
+    .btn-ques:hover {
+        border-color: #1A4359;
+        background-color: white;
+        color: black;
+    }
+/*levelExam sayfasında devam butonu*/
+.btn-continue {
+    background-color: white;
+    border: 5px solid #bc3836;
+    border-radius: 15px;
+    color: #bc3836;
+    opacity: 1;
+    margin-top: 5px;
+}
+
+    .btn-continue:hover {
+        background-color: white;
+        border: 5px solid #822B29;
+        color: #bc3836;
+    }
+/*levelExam sayfasında  doğru cevap butonu*/
+.btn-quesCorrect {
+    -moz-min-width: 120px;
+    -ms-min-width: 120px;
+    -o-min-width: 120px;
+    -webkit-min-width: 120px;
+    min-width: 120px;
+    border: 5px solid #3097d1;
+    -ms-border-radius: 15px;
+    border-radius: 15px;
+    -ms-opacity: 1;
+    opacity: 1;
+}
+/*levelExam sayfasında bir sonraki level butonu*/
+.btn-update {
+    background-color: white;
+    border: 5px solid #54843f;
+    border-radius: 15px;
+    color: #315E31;
+    opacity: 1;
+}
+
+    .btn-update:hover {
+        background-color: white;
+        border: 5px solid #3C5B2E;
+        color: #315E31;
+    }
+/*Cevapların gösterildiği  alan*/
+.btnsWrapper {
+    background-color: #7ABEE2;
+    border-top: 3px solid #3097d1;
+    padding: 10px;
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+
+    .fileUpload input.upload {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
+        padding: 0;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0;
+        filter: alpha(opacity=0);
+    }
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////buttons////////////////*/
+
+/*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////Boxs Buttons/////////////////////////*/
+#box-carausel .btn-success {
+    border: 2px solid #0870A8 !important;
+    width: 110px !important;
+    height: 125px !important;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-bottom: 10px;
+    background-position: center center;
+    background: #0493E0; /* fallback for old browsers */
+}
+
+    #box-carausel .btn-success .badge {
+        color: #0870A8;
+    }
+
+.front .fa-unlock {
+    background-color: #0870A8;
+    -ms-border-bottom-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    padding: 2px 3px 9px 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#box-carausel .btn-primary {
+    border: 2px solid #962D18 !important;
+    width: 110px !important;
+    height: 125px !important;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-bottom: 10px;
+    background-position: center center;
+    background: #e43a15; /* fallback for old browsers */
+}
+
+    #box-carausel .btn-primary .badge {
+        color: #962D18;
+    }
+
+.front .fa-lock {
+    background-color: #962D18;
+    -ms-border-bottom-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    padding: 2px 3px 9px 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////////Boxs Buttons/////////////////////////*/
+
+/*////////////////////////////////////////////////////////////////////////////////////////////////////LEFT/////////////////////////////////////////////*/
 .scoreBackground {
     border-width: 0px;
     background: #FF512F; /* fallback for old browsers */
@@ -448,18 +456,10 @@ hr {
     color: white;
 }
 
-    /*UserProfil menusunun arkaplan resmi*/
-    .userProfileBackground #userBackground {
-        /*height: 150px;
-        -ms-border-top-left-radius: 4px;
-        border-top-left-radius: 4px;
-        -ms-border-top-right-radius: 4px;
-        border-top-right-radius: 4px;*/
-    }
     /*UserProfil menusunun profil resmi*/
     .userProfileBackground .userProfiPicture {
         width: 100px;
-        margin: 15px 10px;
+        margin: 8px 10px;
         height: 100px;
     }
     /*UserProfil menusundeki bayragın konumu*/
@@ -469,9 +469,9 @@ hr {
         opacity: 0.6;
     }
 
-/*//////////////////////LEFT/////////////////////////////////////////////*/
+/*///////////////////////////////////////////////////////////////////////////////////////////////////LEFT/////////////////////////////////////////////*/
 
-/*/////////////////////////////SCROLL/////////////////////////////////////*/
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////SCROLL/////////////////////////////////////*/
 .scroll::-webkit-scrollbar {
     width: 8px;
 }
@@ -488,4 +488,4 @@ hr {
     .scroll::-webkit-scrollbar-thumb:hover {
         background-color: #aaa;
     }
-/*/////////////////////////////SCROLL/////////////////////////////////////*/
+/*//////////////////////////////////////////////////////////////////////////////////////////////////////////SCROLL/////////////////////////////////////*/

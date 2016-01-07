@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace englishProject.Controllers
 {
+    [AllowAnonymous]
     public class HomeController : Controller
     {
         private Operations operations;
@@ -16,33 +17,16 @@ namespace englishProject.Controllers
             operations = new Operations();
         }
 
-        public UserAppManager usermanager
-        {
-            get { return HttpContext.GetOwinContext().GetUserManager<UserAppManager>(); }
-        }
-
-        public IAuthenticationManager Authen
-        {
-            get { return HttpContext.GetOwinContext().Authentication; }
-        }
-
         public ActionResult Index()
         {
-            return View();
-        }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "User");
+            }
+            else
+            {
+                return View();
+            }
         }
 
         public ActionResult deneme()

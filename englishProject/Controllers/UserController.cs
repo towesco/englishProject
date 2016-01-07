@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
+using System.ComponentModel.Design;
 using System.Data;
 using System.Globalization;
 using System.IO;
@@ -22,6 +23,7 @@ using System.Web.Mvc;
 
 namespace englishProject.Controllers
 {
+    [Authorize]
     public class UserController : Controller
     {
         private readonly Operations operations;
@@ -108,8 +110,27 @@ namespace englishProject.Controllers
 
             ViewBag.City = new SelectList(new HelperMethod().GetCityListItems(), "Value", "Text", userApp.City.ToString());
             ViewBag.DailyTargetScore = operations.GetUserDetail().DailyTargetScore;
+            ViewBag.userProfilView = operations.GetUserProfilViewMenu();
+            ViewBag.userApp = operations.getProfil();
             ViewBag.index = id;
 
+            return View();
+        }
+
+        public ActionResult Profil()
+        {
+            return View();
+        }
+
+        public ActionResult ScoreTable()
+        {
+            ViewBag.userProfilView = operations.GetUserProfilViewMenu();
+            ViewBag.ScoreTableBox = OperationDirect.GetScoreTable();
+            return View();
+        }
+
+        public ActionResult Contact()
+        {
             return View();
         }
 

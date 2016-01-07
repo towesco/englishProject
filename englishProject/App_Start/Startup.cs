@@ -22,6 +22,7 @@ namespace englishProject
             {
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Home/Index"),
+                LogoutPath = new PathString("/Home/Index"),
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 

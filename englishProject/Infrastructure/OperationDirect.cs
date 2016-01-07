@@ -1,4 +1,5 @@
-﻿using englishProject.Models;
+﻿using englishProject.Infrastructure.HelperClass;
+using englishProject.Models;
 using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
@@ -42,6 +43,43 @@ namespace englishProject.Infrastructure
                 entities.SaveChanges();
             }
             return true;
+        }
+
+        public static string GetCityName(int cityId)
+        {
+            return entities.City.Find(cityId).Name;
+        }
+
+        public static List<ScoreTableBox> GetScoreTable()
+        {
+            List<ScoreTableBox> scoreTableBoxs = new List<ScoreTableBox>();
+            foreach (Box box in entities.Box.ToList())
+            {
+                ScoreTableBox _scoreTableBox = new ScoreTableBox { BoxName = box.boxName };
+                List<ScoreTableLevel> scoreTableLevels = new List<ScoreTableLevel>();
+
+                foreach (var level in box.Level.ToList())
+                {
+                    ScoreTableLevel _scoreTableLevel = new ScoreTableLevel();
+                    int levelTotal = 0;
+
+                    _scoreTableLevel.LevelNumber = level.levelNumber;
+                    _scoreTableLevel.LevelName = level.levelName;
+
+                    for (int i = 1; i <= level.levelSubLevel; i++)
+                    {
+                        levelTotal += level.Word.ToList().Sum(word => i * level.levelPuan);
+                    }
+                    _scoreTableLevel.Score = levelTotal;
+                    _scoreTableBox.boxTotalScore += levelTotal;
+
+                    scoreTableLevels.Add(_scoreTableLevel);
+                }
+                _scoreTableBox.ScoreTableLevels = scoreTableLevels;
+                scoreTableBoxs.Add(_scoreTableBox);
+            }
+
+            return scoreTableBoxs;
         }
     }
 }

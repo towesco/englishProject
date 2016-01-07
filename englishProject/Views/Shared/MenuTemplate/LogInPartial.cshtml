@@ -1,14 +1,16 @@
-﻿<ul class="nav navbar-nav navbar-right">
+﻿@using englishProject.Infrastructure
+@model string
+<ul class="nav navbar-nav navbar-right">
 
     <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
 
-            <i class="fa fa-user"></i> <b> @HttpContext.Current.User.Identity.Name</b>
+            <i class="fa fa-user"></i> <b> @HelperMethod.getUserName(Model)</b>
             <span class="caret"></span>
         </a>
         <ul class="dropdown-menu" style="z-index: 12;margin-top: 5px;">
-            <li><a href="#">Profil</a></li>
-            <li><a href="@Url.Action("Settings","User")">Ayarlar</a></li>
+            <li><a href="@Url.Action("Settings","user",new{id=0})">Profilim</a></li>
+            <li><a href="@Url.Action("Settings","User",new{id=1})">Üyelik bilgilerim</a></li>
 
             <li role="separator" class="divider"></li>
             <li><a id="siqnOut" href="@Url.Action("SignOut","User")">Oturum kapat</a></li>

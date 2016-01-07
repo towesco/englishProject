@@ -10,6 +10,7 @@ using System.Web.Mvc;
 
 namespace englishProject.Areas.Admin.Controllers
 {
+    [Authorize]
     public class WordController : Controller
     {
         // ReSharper disable once FieldCanBeMadeReadOnly.Local

@@ -467,18 +467,18 @@ namespace englishProject.Infrastructure
 
             userProfilView.UserProfilBoxs = entities.userProggress(GetUserId).ToList();
 
-            //var result = (from u in entities.levelUserProgress
-            //              join l in entities.Level on new { u.levelId } equals new { l.levelId }
-            //              group l by l.Box.boxName
-            //                  into g
-            //                  select new UserProfilBox
-            //                  {
-            //                      BoxName = g.Key,
-            //                      LevelCurrent = g.Count(),
-            //                      Progress = g.Sum(a => a.levelSubLevel),
-            //                  }).AsEnumerable().ToList();
-
-            //userProfilView.UserProfilBoxs = result;
+            if (!userProfilView.UserProfilBoxs.Any())
+            {
+                Box b = entities.Box.First();
+                userProfilView.UserProfilBoxs.Add(new userProggress_Result()
+                {
+                    boxId = b.boxId,
+                    boxName = b.boxName,
+                    CurrentLevel = 1,
+                    Progress = 0,
+                    CurrentProgress = 0
+                });
+            }
 
             return userProfilView;
         }
@@ -554,13 +554,14 @@ namespace englishProject.Infrastructure
             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(fileUpload.FileName);
             fileUpload.SaveAs(HttpContext.Current.Server.MapPath("~/Pictures/UserPicture/" + fileName));
 
-            if (!string.IsNullOrEmpty(user.PicturePath) && (!user.PicturePath.Contains("http:") || !user.PicturePath.Contains("user.png")))
+            if (!user.PicturePath.Contains("user") && !user.PicturePath.Contains("http"))
             {
                 if (File.Exists(HttpContext.Current.Server.MapPath(user.PicturePath)))
                 {
                     File.Delete((HttpContext.Current.Server.MapPath(user.PicturePath)));
                 }
             }
+
             user.PicturePath = "/Pictures/UserPicture/" + fileName;
             usermanager.Update(user);
             return "/Pictures/UserPicture/" + fileName;

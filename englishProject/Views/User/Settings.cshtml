@@ -1,6 +1,7 @@
 ﻿@using englishProject.Infrastructure
 @using englishProject.Infrastructure.Users
 @using englishProject.Infrastructure.ViewModel
+@using englishProject.Models
 @{
     ViewBag.Title = "Settings";
 
@@ -8,13 +9,28 @@
     var index = ViewBag.index;
 
     int DailyTargetScore = ViewBag.DailyTargetScore;
+    UserProfilView userProfilView = ViewBag.userProfilView;
+
+    foreach (userProggress_Result item in userProfilView.UserProfilBoxs)
+    {
+
+    }
 }
 @section scripts
 {
     <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.ui.widget.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.fileupload.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.iframe-transport.js")"></script>
+    <script src="@Url.Content("~/Scripts/progressbar/progressbar.js")"></script>
     <style type="text/css">
+        .settingsProfilBackground {
+        }
+
+            .settingsProfilBackground .img-circle {
+                height: 150px;
+                width: 150px;
+            }
+
         .list-group-score a.active {
             background: #FF512F; /* fallback for old browsers */
             background: -webkit-linear-gradient(to left, #FF512F, #F09819); /* Chrome 10-25, Safari 5.1-6 */
@@ -34,15 +50,8 @@
             border-style: none !important;
         }
 
-            .list-group-settings .list-group-item:first-child {
-                -ms-border-top-left-radius: 0px;
-                border-top-left-radius: 0px;
-                -ms-border-top-right-radius: 0px;
-                border-top-right-radius: 0px;
-            }
-
         .list-group-settings {
-            margin-bottom: 0px;
+            margin-bottom: 10px;
         }
 
             .list-group-settings .list-group-item {
@@ -58,6 +67,7 @@
 
         .panel {
             border-width: 0px;
+            background-color: #f5f5f5;
         }
 
         .bg-primary {
@@ -69,16 +79,62 @@
             padding: 12px;
             margin-left: 5px;
         }
+
+        small {
+            color: white !important;
+            font-family: verdana;
+        }
     </style>
 
     <script type="text/javascript">
+        var userProfilView = function (data) {
+
+            var self = this;
+            self.totalPuan = data.TotalPuan;
+            self.UserProfilBoxs = data.UserProfilBoxs;
+
+            for (var i = 0; i < self.UserProfilBoxs.length; i++) {
+
+                $("#circleLevel").append("<div class='pull-left' style='width:180px;margin:10px;'><h4>" + self.UserProfilBoxs[i].boxName + "</h4><div id='" + i + "' style=' width: 150px; margin:0 auto;  height: 150px;'></div><h4>" + self.UserProfilBoxs[i].CurrentLevel + ".Seviye</h4></div>");
+
+                var parcent = self.UserProfilBoxs[i].CurrentProgress / self.UserProfilBoxs[i].Progress;
+                //$("#" + i).append("<h1>" + parcent.toFixed(2) + "</h1>");
+
+                var element = document.getElementById(i);
+                var circle = new ProgressBar.Circle(element, {
+                    color: '#283048',
+                    strokeWidth: 15,
+                    trailWidth: 10,
+                    trailColor: '#BAE6F2',
+                    duration: 1500,
+                    text: {
+                        value: '%0'
+                    },
+                    step: function (state, bar) {
+
+                        bar.setText("%" + (bar.value() * 100).toFixed(0));
+
+                    }
+                });
+                circle.animate(parcent, function () {
+
+                });
+
+            }
+
+        }
 
         $(document).ready(function () {
+
+            var profilView = new userProfilView(@Html.HtmlConvertToJson(userProfilView));
+            ko.applyBindings(profilView);
+
             var index = parseInt("@index");
             var score = "@DailyTargetScore";
             $("#" + score).parent().addClass("active");
 
-            $(".list-group-score a").click(function () {
+            $(".list-group-score a").click(function (e) {
+                e.preventDefault();
                 var a = $(this);
                 var dailyScore = $(this).children("strong").text();
 
@@ -94,11 +150,11 @@
 
             $('#carousel-settings').on('slid.bs.carousel', function (a) {
 
-                var index = $('#carousel-settings .active').index('#carousel-settings .item');
+                var index2 = $('#carousel-settings .active').index('#carousel-settings .item');
 
                 $(".list-group-settings a").removeClass("active");
 
-                $(".list-group-settings a:eq('" + index + "')").addClass("active");
+                $(".list-group-settings a:eq('" + index2 + "')").addClass("active");
 
             });
 
@@ -106,7 +162,7 @@
                 url: '/User/UploadUserPicture',
                 singleFileUploads: false,
                 add: function (e, data) {
-                    data.submit().success(function (result, textStatus, abc) {
+                    data.submit().success(function (result) {
                         $(".PicturePath").attr("src", result);
                     });
                 },
@@ -215,37 +271,29 @@
 }
 @section Left
 {
-    <div class="panel">
-        <div class="userSettingBackground">
 
-            <div class="pull-left">
-                <img src="@user.PicturePath" class="img-circle img-thumbnail PicturePath" />
-            </div>
-            <div class="pull-left">
-                <h4 class="userName">@HelperMethod.getUserName(user.UserName)</h4>
-            </div>
-            <div class="clearfix"></div>
-        </div>
-        <div>
-            <div class="list-group list-group-settings">
-                <a href="#" data-target="#carousel-settings" data-slide-to="0" class="list-group-item">
-                    <span class="pull-left">Üyelik bilgilerim</span>
-                    <span class="pull-right"><i class="fa fa-chevron-right"></i></span>
-                    <i class="clearfix"></i>
-                </a>
+    <div class="list-group list-group-settings">
+        <a href="#" data-target="#carousel-settings" data-slide-to="0" class="list-group-item">
+            <span class="pull-left">Profilim</span>
+            <span class="pull-right"><i class="fa fa-user"></i></span>
+            <i class="clearfix"></i>
+        </a>
+        <a href="#" data-target="#carousel-settings" data-slide-to="1" class="list-group-item">
+            <span class="pull-left">Üyelik bilgilerim</span>
+            <span class="pull-right"><i class="fa fa-cog"></i></span>
+            <i class="clearfix"></i>
+        </a>
 
-                <a href="#" data-target="#carousel-settings" data-slide-to="1" class="list-group-item">
-                    <span class="pull-left">Parola ayarlarım</span>
-                    <span class="pull-right"><i class="fa fa-chevron-right"></i></span>
-                    <i class="clearfix"></i>
-                </a>
-                <a href="#" data-target="#carousel-settings" data-slide-to="2" class="list-group-item">
-                    <span class="pull-left">Günlük hedef belirle</span>
-                    <span class="pull-right"><i class="fa fa-chevron-right"></i></span>
-                    <i class="clearfix"></i>
-                </a>
-            </div>
-        </div>
+        <a href="#" data-target="#carousel-settings" data-slide-to="2" class="list-group-item">
+            <span class="pull-left">Parola ayarlarım</span>
+            <span class="pull-right"><i class="fa fa-key"></i></span>
+            <i class="clearfix"></i>
+        </a>
+        <a href="#" data-target="#carousel-settings" data-slide-to="3" class="list-group-item">
+            <span class="pull-left">Günlük hedef belirle</span>
+            <span class="pull-right"><i class="fa fa-dot-circle-o"></i></span>
+            <i class="clearfix"></i>
+        </a>
     </div>
 
 }
@@ -256,6 +304,10 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="item">
+                @Html.Partial("Templates/SettingsProfilPartial", userProfilView)
+            </div>
+
+            <div class="item">
                 @Html.Partial("Templates/SettingsUserInfoPartial", user)
             </div>
             <div class="item">
@@ -263,7 +315,7 @@
             </div>
 
             <div class="item">
-                @Html.Partial("Templates/SettingsTargetScore")
+                @Html.Partial("Templates/SettingsTargetScorePartial")
             </div>
         </div>
 

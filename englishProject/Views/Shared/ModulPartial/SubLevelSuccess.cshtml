@@ -3,10 +3,14 @@
     <div class=" row">
         <div class="col-md-12  text-center">
             <div class="col-md-2">
-                <i class="fa fa-thumbs-o-up" style="font-size: 4.7em;"></i>
+                <i class="fa fa-thumbs-o-up" style="font-size: 8.7em;"></i>
             </div>
             <div id="warning" class="col-md-8  text-center">
-                <h4 style="color: black"><i class="fa fa-star-o"></i> <span data-bind="text:okText"></span></h4>
+                <h4 style="color: black">
+                    <i class="fa fa-star-o"></i>
+                    <i class="fa fa-star-o" data-bind="visible:subLevelNumber()>1"></i>
+                    <span data-bind="text:okText"></span>
+                </h4>
 
                 <p>
                     <strong>

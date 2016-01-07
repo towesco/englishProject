@@ -26,7 +26,7 @@
 
         @Enum.GetName(typeof(ModulSubLevel), subLevel).ToString() Seviye
 
-        <span class="badge" style="background-color: #71995A">@btnName</span>
+        <span class="badge" style="background-color:#116A9E ">@btnName</span>
     </a>
 
 }
@@ -35,13 +35,13 @@
 
     <div class="row" style="padding:10px 10px 2px">
         <div class="col-md-2 hidden-xs hidden-sm">
-            <div style="width: 80px;height: 80px; background-color: #71995A;border: 5px solid #71995A;" class="img-circle">
+            <div style="width: 80px;height: 80px; background-color: #116A9E;border: 5px solid #116A9E;" class="img-circle">
                 <i class="fa fa-star fa-3x" style="margin: 14px 16px; color: white;"></i>
             </div>
         </div>
         <div class="col-md-10" style="color: white;">
 
-            <div style="border-bottom: 3px solid #71995a; padding-bottom: 4px;">
+            <div style="border-bottom: 3px solid white; padding-bottom: 4px;">
 
                 <h3 class="marginReset pull-left" style="padding-top: 10px;">@(Model.Item1.levelNumber).Seviye</h3>
 
@@ -126,13 +126,13 @@
 </div>
 
 <div class="row marginReset">
-    <div class="col-md-12 bg-success">
+    <div class="col-md-12 bg-primary">
 
         <h4 style="padding: 10px; margin: 0px;">ÖGRENİLECEK KELİMELER</h4>
     </div>
     @if (Model.Item1.levelRememderCard)
     {
-        <div class="col-md-12 bg-primary">
+        <div class="col-md-12 bg-info">
             <small>Teste başlamadan önce bu seviye için hatırlatma kartlarıyla çalışarak seviyeyi daha kolay bitirebilirsin.</small>
         </div>
     }
