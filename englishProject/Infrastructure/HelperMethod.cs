@@ -1,4 +1,7 @@
 ﻿using englishProject.Infrastructure;
+
+using englishProject.Infrastructure;
+
 using englishProject.Models;
 using System;
 using System.Collections.Generic;
@@ -41,7 +44,7 @@ namespace englishProject.Infrastructure
                          a =>
                              new SelectListItem
                              {
-                                 Text = string.Format("{0}({2})---->{1} kutusu", a.levelName, a.Box.boxName, Enum.GetName(typeof(Modul), a.levelModul) ?? ""),
+                                 Text = String.Format("{0}({2})---->{1} kutusu", a.levelName, a.Box.boxName, Enum.GetName(typeof(Modul), a.levelModul) ?? ""),
                                  Value = a.levelId.ToString(CultureInfo.InvariantCulture),
                                  Selected = false
                              })
@@ -82,7 +85,7 @@ namespace englishProject.Infrastructure
         {
             return
                 Enumerable.Range(1, 10)
-                    .Select(a => new SelectListItem { Text = string.Format("{0}-{1}", a.ToString(CultureInfo.InvariantCulture), Enum.GetName(typeof(Modul), a) ?? "boş"), Value = a.ToString(CultureInfo.InvariantCulture), Selected = false })
+                    .Select(a => new SelectListItem { Text = String.Format("{0}-{1}", a.ToString(CultureInfo.InvariantCulture), Enum.GetName(typeof(Modul), a) ?? "boş"), Value = a.ToString(CultureInfo.InvariantCulture), Selected = false })
                     .ToList();
         }
 
@@ -104,7 +107,7 @@ namespace englishProject.Infrastructure
         {
             HttpCookie h = HttpContext.Current.Request.Cookies["alert"];
 
-            string data = string.Empty;
+            string data = String.Empty;
 
             if (h != null)
             {
@@ -113,7 +116,7 @@ namespace englishProject.Infrastructure
                     h[key.ToString(CultureInfo.InvariantCulture)] = true.ToString();
                     h.Expires = DateTime.Now.AddDays(60);
                     HttpContext.Current.Response.Cookies.Add(h);
-                    data = string.Format(
+                    data = String.Format(
                         "<div class='alert alert-{0} alert-dismissible notRadius' role='alert'><button data-key='{2}' type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>{1}</div>",
                         alert.ToString(), info.ToHtmlString(), key);
                 }
@@ -124,7 +127,7 @@ namespace englishProject.Infrastructure
                 h[key.ToString(CultureInfo.InvariantCulture)] = true.ToString();
                 h.Expires = DateTime.Now.AddDays(60);
                 HttpContext.Current.Response.Cookies.Add(h);
-                data = string.Format(
+                data = String.Format(
                     "<div class='alert alert-{0} alert-dismissible notRadius' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>{1}</div>",
                     alert.ToString(), info.ToHtmlString());
             }
@@ -169,6 +172,20 @@ namespace englishProject.Infrastructure
             }
 
             return email;
+        }
+
+        public static int GetTotalLevelPuan(Level level)
+        {
+            int total = 0;
+
+            for (int i = 1; i <= level.levelSubLevel; i++)
+            {
+                for (int a = 1; a <= level.Word.Count; a++)
+                {
+                    total += level.levelPuan * i;
+                }
+            }
+            return total;
         }
 
         #endregion BilgilendirmeMesaj

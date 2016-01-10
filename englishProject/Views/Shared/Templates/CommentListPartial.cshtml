@@ -1,0 +1,39 @@
+﻿<!-- Contenedor Principal -->
+@using englishProject.Infrastructure
+@using englishProject.Infrastructure.Users
+@model  List<englishProject.Models.comment>
+
+@if (Model.Any())
+{
+    <ul class="list-unstyled commentList">
+
+        @foreach (var item in Model)
+        {
+
+            UserApp user = OperationDirect.GetUser(item.userId);
+            <li>
+
+                @CommentLine.Row(user.PicturePath, user.UserName, item.commentDate, item.commentId, item.commentNote, 1)
+
+                <ul class="list-unstyled commentList replyList ">
+                    @foreach (var item2 in item.comment1)
+                    {
+                        UserApp user2 = OperationDirect.GetUser(item2.userId);
+
+                        <li>
+                            @CommentLine.Row(user2.PicturePath, user2.UserName, item2.commentDate, item2.commentId, item2.commentNote, 2)
+                        </li>
+
+                    }
+                </ul>
+            </li>
+
+        }
+    </ul>
+
+}
+else
+{
+    //yorum yoksa
+
+}

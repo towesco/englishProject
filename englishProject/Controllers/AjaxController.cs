@@ -136,5 +136,11 @@ namespace englishProject.Controllers
         {
             return Content(HttpStatusCode.OK, OperationDirect.UpdateTargetDailyTargetScore(score, Operations.GetUserId));
         }
+
+        [System.Web.Http.ActionName("CommentIssueSave")]
+        public IHttpActionResult POSTCommentIssueSave(CommentIssueVM viewModel)
+        {
+            return Content(HttpStatusCode.OK, OperationDirect.CommentIssueSave(viewModel));
+        }
     }
 }

@@ -14,52 +14,59 @@
     margin: 0px;
 }
 
+#login-dp a {
+    color: #337ab7 !important;
+}
 /*Seviyelerin gösterildiği kutucuklardaki  badge'nin boyutu'*/
 .badge-level {
     font-size: 17px;
 }
 
-.customNavbar .navbar-nav > li > a {
+#customNavbar .navbar-nav > li > a {
     color: white;
+    font-weight: bold;
 }
 
-.customNavbar .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+#customNavbar .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
     background-color: #2C86B7;
     color: white;
 }
 
-.customNavbar .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+#customNavbar .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
     background-color: #2C86B7;
     color: white;
 }
 
-.customNavbar .navbar-brand {
+#customNavbar .navbar-brand {
     color: white;
 }
 
-    .customNavbar .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+    #customNavbar .navbar-brand:hover, .navbar-default .navbar-brand:focus {
         background-color: #2C86B7;
         color: white;
     }
 
-.customNavbar {
-    background-color: #3097D1;
+#customNavbar {
+    /*background-color: #3097D1;*/
     border-radius: 0px;
-    border: 1px solid #2C86B7;
-    border-bottom: 6px solid #2C86B7;
+    border-top: none;
+    border-bottom: 3px solid #2C86B7;
+    background: #00c6ff; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #00c6ff, #0072ff); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #00c6ff, #0072ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
-    .customNavbar .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    #customNavbar .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
         background-color: #2C86B7;
         color: white;
     }
 
 @media (max-width: 767px) {
-    .customNavbar .navbar-nav .open .dropdown-menu > li > a {
+    #customNavbar .navbar-nav .open .dropdown-menu > li > a {
         color: #DEE8EF;
     }
 
-        .customNavbar .navbar-nav .open .dropdown-menu > li > a:hover {
+        #customNavbar .navbar-nav .open .dropdown-menu > li > a:hover {
             color: white;
         }
 }
@@ -243,6 +250,11 @@ hr {
     font-weight: bold;
 }
 
+.commentIssue-background {
+    background: #ecf2f0; /* fallback for old browsers */
+    border: none;
+}
+
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////buttons////////////////*/
 
 /*gunlük hedef belirle butonu*/
@@ -256,6 +268,20 @@ hr {
 
     .btn-border:hover {
         background-color: #db4920 !important;
+        color: white;
+    }
+
+.btn-login {
+    border: 2px solid white;
+    -ms-border-radius: 6px;
+    border-radius: 32px;
+    background: none !important;
+    color: white;
+    font-weight: bold;
+}
+
+    .btn-login:hover, .btn-login:active, .btn-login:focus {
+        background-color: #2e6da4 !important;
         color: white;
     }
 
@@ -343,6 +369,13 @@ hr {
         opacity: 0;
         filter: alpha(opacity=0);
     }
+
+#btnCommentIssue {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+}
+
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////buttons////////////////*/
 
 /*///////////////////////////////////////////////////////////////////////////////////////////////////////////////////Boxs Buttons/////////////////////////*/

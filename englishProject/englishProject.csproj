@@ -207,6 +207,7 @@
     <Compile Include="Areas\Admin\Controllers\LevelController.cs" />
     <Compile Include="Areas\Admin\Controllers\WordController.cs" />
     <Compile Include="Infrastructure\HelperClass\BoxLevelUser.cs" />
+    <Compile Include="Infrastructure\HelperClass\Comments.cs" />
     <Compile Include="Infrastructure\HelperClass\Enums.cs" />
     <Compile Include="Infrastructure\Extensions.cs" />
     <Compile Include="Infrastructure\HelperClass\ScoreTable.cs" />
@@ -226,7 +227,9 @@
     <Compile Include="Infrastructure\Modul\WordModul.cs" />
     <Compile Include="Infrastructure\OperationDirect.cs" />
     <Compile Include="Infrastructure\Operations.cs" />
-    <Compile Include="Infrastructure\HelperClass\UserProfilView.cs" />
+    <Compile Include="Infrastructure\ViewModel\CommentVM.cs" />
+    <Compile Include="Infrastructure\ViewModel\ContactVM.cs" />
+    <Compile Include="Infrastructure\ViewModel\UserProfilView.cs" />
     <Compile Include="Infrastructure\Users\RoleApp.cs" />
     <Compile Include="Infrastructure\Users\RoleAppManager.cs" />
     <Compile Include="Infrastructure\Users\UserApp.cs" />
@@ -240,6 +243,9 @@
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\City.cs">
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\comment.cs">
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\EnglishModel.Context.cs">
@@ -269,9 +275,6 @@
     <Compile Include="Models\Score.cs">
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\UserDetail.cs">
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
@@ -298,8 +301,12 @@
     <Content Include="Areas\Admin\css\bootstrap.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\comment.css" />
     <Content Include="Content\font-awesome-4.5.0\css\font-awesome.css" />
     <Content Include="Content\font-awesome-4.5.0\css\font-awesome.min.css" />
+    <Content Include="Content\font-awesome-4.5.0\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\font-awesome-4.5.0\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\images\comment.png" />
     <Content Include="Content\images\flag\Turkey-icon.png" />
     <Content Include="Content\images\flag\United-kingdom-icon.png" />
     <Content Include="Content\images\level\body.png" />
@@ -365,6 +372,16 @@
     <Content Include="Areas\Admin\Views\Home\GetCoordinates.cshtml" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Home\login.cshtml" />
+    <Content Include="App_Code\CommentLine.cshtml" />
+    <Content Include="Content\font-awesome-4.5.0\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\font-awesome-4.5.0\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\font-awesome-4.5.0\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\font-awesome-4.5.0\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\font-awesome-4.5.0\fonts\FontAwesome.otf" />
+    <Content Include="Content\font-awesome-4.5.0\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\font-awesome-4.5.0\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\font-awesome-4.5.0\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\font-awesome-4.5.0\fonts\glyphicons-halflings-regular.woff2" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\common.js" />
     <Content Include="Scripts\jquery-file-upload\jquery.fileupload.js" />
@@ -397,6 +414,17 @@
     <Content Include="Scripts\star-rating\star-rating.css" />
     <Content Include="Scripts\star-rating\star-rating.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\css\agency.css" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\about\beta.jpg" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\about\startups.jpg" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\about\web.jpg" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\team\fatih.jpg" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\team\seyda.jpg" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\index.html" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\js\agency.js" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\js\cbpAnimatedHeader.js" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\js\cbpAnimatedHeader.min.js" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\js\classie.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -410,9 +438,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\TopMenu.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\SignInPartial.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\SignUpPartial.cshtml" />
@@ -445,13 +470,24 @@
     <Content Include="Views\Shared\Templates\SettingsTargetScorePartial.cshtml" />
     <Content Include="Views\Shared\Templates\SettingsProfilPartial.cshtml" />
     <Content Include="Views\User\ScoreTable.cshtml" />
+    <Content Include="Views\Shared\ModulPartial\commentIssue.cshtml" />
+    <Content Include="Views\User\commentsLevel.cshtml" />
+    <Content Include="Views\Shared\Templates\CommentListPartial.cshtml" />
+    <Content Include="Views\Shared\Templates\LeftCommentLevel.cshtml" />
+    <Content Include="Views\Shared\Templates\CommentSavePartial.cshtml" />
+    <Content Include="Views\User\comments.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\LICENSE" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\README.md" />
+    <Content Include="Views\Shared\Templates\ContactPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Code\" />
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\font-awesome\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Pictures\UserPicture\" />
+    <Folder Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\logos\" />
+    <Folder Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\portfolio\" />
     <Folder Include="Views\Shared\EditorTemplates\" />
   </ItemGroup>
   <ItemGroup>

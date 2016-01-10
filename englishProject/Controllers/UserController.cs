@@ -93,6 +93,21 @@ namespace englishProject.Controllers
             return View();
         }
 
+        public ActionResult commentsLevel(int id)
+        {
+            ViewBag.userProfilView = operations.GetUserProfilViewMenu();
+            ViewBag.comments = operations.GetComment(id);
+            ViewBag.level = operations.GetLevel(id);
+            return View();
+        }
+
+        public ActionResult comments()
+        {
+            ViewBag.userProfilView = operations.GetUserProfilViewMenu();
+            ViewBag.comments = operations.GetComment();
+            return View();
+        }
+
         public ActionResult RemenderCard(int id)
         {
             ViewBag.userProfilView = operations.GetUserProfilViewMenu();

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace englishProject.Infrastructure
+namespace englishProject.Infrastructure.ViewModel
 {
     public class UserProfilView
     {
@@ -15,16 +15,5 @@ namespace englishProject.Infrastructure
         public int TotalPuan { get; set; }
 
         public List<userProggress_Result> UserProfilBoxs { get; set; }
-    }
-
-    public class UserProfilBox
-    {
-        public string BoxName { get; set; }
-
-        public int LevelCurrent { get; set; }
-
-        public int Progress { get; set; }
-
-        public int CurrentProgress { get; set; }
     }
 }

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace englishProject.Infrastructure
+﻿namespace englishProject.Infrastructure
 {
     public enum Alert : int
     {
         info, warning
+    }
+
+    internal enum CommentIssue
+    {
+        comment = 1, issue = 2
     }
 
     public enum Modul

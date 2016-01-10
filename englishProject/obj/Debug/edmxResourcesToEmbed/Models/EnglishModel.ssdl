@@ -15,6 +15,18 @@
     <Property Name="Id" Type="tinyint" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
   </EntityType>
+  <EntityType Name="comment">
+    <Key>
+      <PropertyRef Name="commentId" />
+    </Key>
+    <Property Name="commentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="commentNote" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="commentDate" Type="datetime" Nullable="false" />
+    <Property Name="commentExceptId" Type="int" Nullable="false" />
+    <Property Name="commentReplyId" Type="int" />
+    <Property Name="commentKind" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="IrregularVerb">
     <Key>
       <PropertyRef Name="IrregularId" />
@@ -60,16 +72,6 @@
     <Property Name="targetDate" Type="date" Nullable="false" />
     <Property Name="targetScore" Type="int" Nullable="false" />
   </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-    <Property Name="principal_id" Type="int" Nullable="false" />
-    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="version" Type="int" />
-    <Property Name="definition" Type="varbinary(max)" />
-  </EntityType>
   <EntityType Name="UserDetail">
     <Key>
       <PropertyRef Name="userId" />
@@ -90,6 +92,18 @@
     <Property Name="wordRemender" Type="nvarchar" MaxLength="3000" />
     <Property Name="wordRemenderInfo" Type="nvarchar" MaxLength="3000" />
   </EntityType>
+  <Association Name="FK_comment_comment">
+    <End Role="comment" Type="Self.comment" Multiplicity="0..1" />
+    <End Role="comment1" Type="Self.comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="comment">
+        <PropertyRef Name="commentId" />
+      </Principal>
+      <Dependent Role="comment1">
+        <PropertyRef Name="commentReplyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_IrregularVerb_Level">
     <End Role="Level" Type="Self.Level" Multiplicity="1" />
     <End Role="IrregularVerb" Type="Self.IrregularVerb" Multiplicity="*" />
@@ -132,13 +146,17 @@
   <EntityContainer Name="EnglishProjectDBModelStoreContainer">
     <EntitySet Name="Box" EntityType="Self.Box" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="comment" EntityType="Self.comment" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="IrregularVerb" EntityType="Self.IrregularVerb" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Score" EntityType="Self.Score" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Word" EntityType="Self.Word" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_comment_comment" Association="Self.FK_comment_comment">
+      <End Role="comment" EntitySet="comment" />
+      <End Role="comment1" EntitySet="comment" />
+    </AssociationSet>
     <AssociationSet Name="FK_IrregularVerb_Level" Association="Self.FK_IrregularVerb_Level">
       <End Role="Level" EntitySet="Level" />
       <End Role="IrregularVerb" EntitySet="IrregularVerb" />

@@ -4,7 +4,6 @@
     <EntitySet Name="Box" EntityType="EnglishProjectDBModel.Box" />
     <EntitySet Name="IrregularVerb" EntityType="EnglishProjectDBModel.IrregularVerb" />
     <EntitySet Name="Level" EntityType="EnglishProjectDBModel.Level" />
-    <EntitySet Name="sysdiagrams" EntityType="EnglishProjectDBModel.sysdiagrams" />
     <EntitySet Name="Word" EntityType="EnglishProjectDBModel.Word" />
     <AssociationSet Name="FK_Level_Box" Association="EnglishProjectDBModel.FK_Level_Box">
       <End Role="Box" EntitySet="Box" />
@@ -25,6 +24,11 @@
     <EntitySet Name="City" EntityType="EnglishProjectDBModel.City" />
     <EntitySet Name="UserDetail" EntityType="EnglishProjectDBModel.UserDetail" />
     <EntitySet Name="Score" EntityType="EnglishProjectDBModel.Score" />
+    <EntitySet Name="comment" EntityType="EnglishProjectDBModel.comment" />
+    <AssociationSet Name="FK_comment_comment" Association="EnglishProjectDBModel.FK_comment_comment">
+      <End Role="comment" EntitySet="comment" />
+      <End Role="comment1" EntitySet="comment" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Box">
     <Key>
@@ -63,16 +67,6 @@
     <NavigationProperty Name="Box" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Level" ToRole="Box" />
     <NavigationProperty Name="IrregularVerb" Relationship="EnglishProjectDBModel.FK_IrregularVerb_Level" FromRole="Level" ToRole="IrregularVerb" />
     <NavigationProperty Name="Word" Relationship="EnglishProjectDBModel.FK_Word_Level" FromRole="Level" ToRole="Word" />
-  </EntityType>
-  <EntityType Name="sysdiagrams">
-    <Key>
-      <PropertyRef Name="diagram_id" />
-    </Key>
-    <Property Name="name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-    <Property Name="principal_id" Type="Int32" Nullable="false" />
-    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="version" Type="Int32" />
-    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
   </EntityType>
   <EntityType Name="Word">
     <Key>
@@ -165,4 +159,30 @@
     <Property Name="targetDate" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="targetScore" Type="Int32" Nullable="false" />
   </EntityType>
+  <EntityType Name="comment">
+    <Key>
+      <PropertyRef Name="commentId" />
+    </Key>
+    <Property Name="commentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="commentNote" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="commentDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="commentExceptId" Type="Int32" Nullable="false" />
+    <Property Name="commentReplyId" Type="Int32" />
+    <Property Name="commentKind" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="comment1" Relationship="EnglishProjectDBModel.FK_comment_comment" FromRole="comment" ToRole="comment1" />
+    <NavigationProperty Name="comment2" Relationship="EnglishProjectDBModel.FK_comment_comment" FromRole="comment1" ToRole="comment" />
+  </EntityType>
+  <Association Name="FK_comment_comment">
+    <End Type="EnglishProjectDBModel.comment" Role="comment" Multiplicity="0..1" />
+    <End Type="EnglishProjectDBModel.comment" Role="comment1" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="comment">
+        <PropertyRef Name="commentId" />
+      </Principal>
+      <Dependent Role="comment1">
+        <PropertyRef Name="commentReplyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

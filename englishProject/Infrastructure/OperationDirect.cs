@@ -1,16 +1,39 @@
-﻿using englishProject.Infrastructure.HelperClass;
+﻿using englishProject.Infrastructure;
+using englishProject.Infrastructure.Users;
+using englishProject.Infrastructure.ViewModel;
 using englishProject.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
+using System.Web.UI.WebControls;
 
 namespace englishProject.Infrastructure
 {
     public static class OperationDirect
     {
+        public static UserAppManager usermanager
+        {
+            get { return HttpContext.Current.GetOwinContext().GetUserManager<UserAppManager>(); }
+        }
+
+        public static RoleAppManager rolemanager
+        {
+            get
+            {
+                return HttpContext.Current.GetOwinContext().GetUserManager<RoleAppManager>();
+            }
+        }
+
+        public static IAuthenticationManager Authen
+        {
+            get { return HttpContext.Current.GetOwinContext().Authentication; }
+        }
+
         private static EnglishProjectDBEntities entities;
 
         static OperationDirect()
@@ -80,6 +103,49 @@ namespace englishProject.Infrastructure
             }
 
             return scoreTableBoxs;
+        }
+
+        public static bool CommentIssueSave(CommentIssueVM viewmodel)
+        {
+            CommentIssue _commentIssue = (CommentIssue)viewmodel.Kind;
+
+            switch (_commentIssue)
+            {
+                case CommentIssue.comment:
+
+                    comment c = new comment
+       {
+           userId = viewmodel.UserId,
+           commentNote = viewmodel.CommentIssue,
+           commentKind = 1,
+           commentDate = DateTime.Now,
+           commentExceptId = viewmodel.ExceptId,
+       };
+                    if (viewmodel.ReplyId != null)
+                    {
+                        c.commentReplyId = viewmodel.ReplyId;
+                    }
+
+                    entities.comment.Add(c);
+                    entities.SaveChanges();
+
+                    break;
+
+                case CommentIssue.issue:
+                    break;
+            }
+
+            return true;
+        }
+
+        public static bool GetCommentAny(int levelId)
+        {
+            return entities.comment.Any(a => a.commentKind == 1 && a.commentExceptId == levelId);
+        }
+
+        public static UserApp GetUser(string userId)
+        {
+            return usermanager.FindById(userId);
         }
     }
 }

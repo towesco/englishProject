@@ -20,6 +20,6 @@ namespace englishProject.Models
         public int puan { get; set; }
         public int star { get; set; }
         public int boxId { get; set; }
-        public int targetScore { get; set; }
+        public int TargetScore { get; set; }
     }
 }

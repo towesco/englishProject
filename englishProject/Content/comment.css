@@ -1,0 +1,139 @@
+﻿.panel-level-background {
+    background: #FF8008; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #FF8008, #FFC837); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #FF8008, #FFC837); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-width: 0px;
+    margin-bottom: 10px !important;
+}
+
+    .panel-level-background .img-circle {
+        background-color: #BC8332;
+        border: 4px solid #fff;
+        color: #fff;
+        height: 140px;
+        width: 140px;
+    }
+
+    .panel-level-background .boxName {
+        margin-top: 10px;
+        color: white;
+    }
+
+.panel-comment {
+    position: relative;
+}
+
+    .panel-comment > .panel-heading:after, .panel > .panel-heading:before {
+        position: absolute;
+        top: 11px;
+        left: -16px;
+        right: 100%;
+        width: 0;
+        height: 0;
+        display: block;
+        content: " ";
+        border-color: transparent;
+        border-style: solid solid outset;
+        pointer-events: none;
+    }
+
+    .panel-comment > .panel-heading:after {
+        border-width: 7px;
+        border-right-color: #f7f7f7;
+        margin-top: 1px;
+        margin-left: 2px;
+    }
+
+    .panel-comment > .panel-heading:before {
+        border-right-color: #ddd;
+        border-width: 8px;
+    }
+
+.replyList {
+    padding-left: 95px;
+}
+
+.commentList {
+    position: relative;
+}
+
+    .commentList:before {
+        content: '';
+        width: 2px;
+        height: 100%;
+        background: #c7cacb;
+        position: absolute;
+        left: 92px;
+        top: 0;
+    }
+
+.replyList:before, .replyList:after {
+    display: none;
+}
+
+.replyList li:before {
+    content: '';
+    width: 60px;
+    height: 2px;
+    background: #c7cacb;
+    position: absolute;
+    top: 32px;
+    left: 93px;
+}
+
+.approval {
+    background-color: #b5b9bc;
+    border: 1px solid #b5b9bc;
+    -ms-border-radius: 6px;
+    border-radius: 6px;
+    margin: 0 0 10px 100px;
+    display: none;
+    padding-top: 10px;
+}
+
+@media (min-width: 1200px) {
+}
+
+/* Landscape tablets and medium desktops */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .commentList:before {
+        left: 66px;
+    }
+
+    .replyList li:before {
+        left: 66px;
+    }
+}
+
+/* Portrait tablets and small desktops */
+@media (min-width: 768px) and (max-width: 991px) {
+    .commentList:before {
+        left: 69px;
+    }
+
+    .replyList li:before {
+        left: 70px;
+    }
+}
+
+/* Landscape phones and portrait tablets */
+@media (max-width: 767px) {
+    .commentList:before {
+        display: none;
+    }
+
+    .replyList li:before {
+        display: none;
+    }
+}
+
+/* Portrait phones and smaller */
+@media (max-width: 480px) {
+    .commentList:before {
+        display: none;
+    }
+
+    .replyList li:before {
+        display: none;
+    }
+}

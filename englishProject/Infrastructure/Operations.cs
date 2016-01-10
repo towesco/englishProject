@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using englishProject.Infrastructure;
+using englishProject.Infrastructure.HelperClass;
 using englishProject.Infrastructure.Users;
 using englishProject.Infrastructure.ViewModel;
 using englishProject.Models;
@@ -15,6 +17,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http.Results;
@@ -42,20 +45,6 @@ namespace englishProject.Infrastructure
         public static IAuthenticationManager Authen
         {
             get { return HttpContext.Current.GetOwinContext().Authentication; }
-        }
-
-        public static int GetTotalLevelPuan(Level level)
-        {
-            int total = 0;
-
-            for (int i = 1; i <= level.levelSubLevel; i++)
-            {
-                for (int a = 1; a <= level.Word.Count; a++)
-                {
-                    total += level.levelPuan * i;
-                }
-            }
-            return total;
         }
 
         public static string GetUserId
@@ -410,7 +399,8 @@ namespace englishProject.Infrastructure
         /// <returns></returns>
         public bool UpdateUserProggress(levelUserProgress userProgress)
         {
-            UpdateScore(userProgress.targetScore);
+            //hata var
+            UpdateScore(userProgress.TargetScore);
 
             levelUserProgress l =
                 entities.levelUserProgress.FirstOrDefault(
@@ -580,6 +570,24 @@ namespace englishProject.Infrastructure
             {
                 return result.Errors.First();
             }
+        }
+
+        public List<comment> GetComment(int levelId)
+        {
+            return entities.comment.Where(a => a.commentExceptId == levelId && a.commentReplyId == null).OrderByDescending(b => b.commentDate).ToList();
+        }
+
+        public List<CommentCustom> GetComment()
+        {
+            return (from c in entities.comment
+                    join l in entities.Level on c.commentExceptId equals l.levelId
+                    where c.commentReplyId == null
+                    orderby c.commentDate descending
+                    select new CommentCustom()
+                    {
+                        Comment = c,
+                        Level = l
+                    }).ToList();
         }
     }
 }
