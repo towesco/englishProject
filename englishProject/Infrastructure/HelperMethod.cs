@@ -1,7 +1,5 @@
 ﻿using englishProject.Infrastructure;
 
-using englishProject.Infrastructure;
-
 using englishProject.Models;
 using System;
 using System.Collections.Generic;
@@ -19,6 +17,11 @@ namespace englishProject.Infrastructure
 {
     public class HelperMethod
     {
+        public static string GetErrorMessage
+        {
+            get { return "Hata meydana geldi. Lütfen daha sonra tekrar deneyiniz."; }
+        }
+
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
         private EnglishProjectDBEntities entities;
 
@@ -145,7 +148,8 @@ namespace englishProject.Infrastructure
             HttpCookie h = HttpContext.Current.Request.Cookies["alert"];
             if (h != null)
             {
-                h[key] = false.ToString();
+                h[key] = h[key].Replace(true.ToString(), false.ToString());
+
                 HttpContext.Current.Response.Cookies.Set(h);
             }
             return true;

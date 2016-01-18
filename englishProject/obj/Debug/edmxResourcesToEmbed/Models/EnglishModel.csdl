@@ -29,6 +29,7 @@
       <End Role="comment" EntitySet="comment" />
       <End Role="comment1" EntitySet="comment" />
     </AssociationSet>
+    <EntitySet Name="log" EntityType="EnglishProjectDBModel.log" />
   </EntityContainer>
   <EntityType Name="Box">
     <Key>
@@ -185,4 +186,16 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <EntityType Name="log">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Thread" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Level" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Logger" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Message" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="false" />
+    <Property Name="Exception" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+  </EntityType>
 </Schema>

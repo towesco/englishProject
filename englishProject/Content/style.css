@@ -86,19 +86,26 @@
 /*levelExam sayfasındaki altseviyelirin  padding değeri*/
 .examHeaderSubLevel {
     padding: 6px 15px;
+    font-size: 16px;
+    background: none;
 }
     /*levelExam sayfasında aktik alan alt levelin gösterilmesi*/
     .examHeaderSubLevel .subLevelActive {
         background-color: #57b3e5;
-        -ms-border-radius: 5px;
-        border-radius: 5px;
+        -ms-border-radius: 30px;
+        border-radius: 30px;
         color: white;
-        padding: 2px 5px;
+        padding: 2px 15px;
     }
+
 /*LevelExam sayfasındaki kalplerin rengi ve boyutu*/
 .heart-color {
-    color: #3097d1;
+    color: #C9302C;
     font-size: 1.5em;
+}
+
+.heartDisabled {
+    color: #C9C3C3;
 }
 
 .alert-fail {
@@ -119,6 +126,8 @@
     border-top: 3px solid #54843F;
     border-bottom-left-radius: 4px;
     border-bottom-right-radius: 4px;
+    background-image: url('images/success.png');
+    background-repeat: no-repeat;
 }
 
 .progress {
@@ -153,6 +162,10 @@ hr {
     border-radius: 0px !important;
     border-left-width: 0px;
     border-right-width: 0px;
+}
+
+.examheader > li + li::before {
+    color: white !important;
 }
 
 .btn-group > .btn {
@@ -443,8 +456,8 @@ hr {
     .scoreBackground .img-circle {
         border: 4px solid white;
         color: white;
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
         background-color: #db4920;
     }
 
@@ -487,13 +500,25 @@ hr {
     background: linear-gradient(to left, #00c6ff, #0072ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background-position: center center;
     color: white;
+    position: relative;
 }
+
+    .userProfileBackground a:first-child {
+        position: absolute;
+        top: 6px;
+        right: 9px;
+        color: white;
+    }
+
+        .userProfileBackground a:first-child:hover {
+            color: black;
+        }
 
     /*UserProfil menusunun profil resmi*/
     .userProfileBackground .userProfiPicture {
-        width: 100px;
+        width: 150px;
         margin: 8px 10px;
-        height: 100px;
+        height: 150px;
     }
     /*UserProfil menusundeki bayragın konumu*/
     .userProfileBackground .flagWrapper {
@@ -522,3 +547,63 @@ hr {
         background-color: #aaa;
     }
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////SCROLL/////////////////////////////////////*/
+
+.boxMenuWrapper ul {
+    margin: 0;
+    padding: 0;
+    height: 75px;
+    border-radius: 3px;
+    background-color: #fff;
+}
+
+.boxMenuWrapper {
+    margin-bottom: 10px;
+    border-top: 3px solid #0072ff;
+}
+
+    .boxMenuWrapper ul li a {
+        color: gray;
+    }
+
+    .boxMenuWrapper ul li {
+        display: inline-block;
+        /* Removes the default space between items */
+        width: 120px;
+        text-align: center;
+    }
+
+        .boxMenuWrapper ul li:hover > a,
+        .current > a {
+            color: #0072ff;
+        }
+
+.current {
+}
+
+    .current a {
+        color: #0072ff !important;
+        font-family: verdana;
+    }
+
+    .current::before {
+        display: block;
+        margin: 0 auto -6px auto;
+        width: 0;
+        border-top: 6px solid #0072ff;
+        border-right: 8px solid transparent;
+        border-left: 8px solid transparent;
+        content: "";
+    }
+
+.boxMenuWrapper ul li a {
+    display: block;
+    box-sizing: border-box;
+    padding-top: 10px;
+    height: 75px;
+    border-right: thin solid #e0e1db;
+    text-decoration: none;
+}
+
+.boxMenuWrapper ul li div {
+    margin-top: 4px;
+}

@@ -1,4 +1,5 @@
-﻿using englishProject.Infrastructure;
+﻿using englishProject.Areas.Admin.Infrastructure;
+using englishProject.Infrastructure;
 using englishProject.Infrastructure.Users;
 using englishProject.Infrastructure.ViewModel;
 using Microsoft.AspNet.Identity;
@@ -42,6 +43,11 @@ namespace englishProject.Areas.Admin.Controllers
         public ActionResult GetCoordinates()
         {
             return View();
+        }
+
+        public ActionResult Log()
+        {
+            return View(OperationsAdmin.GetLogs());
         }
 
         [AllowAnonymous]

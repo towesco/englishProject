@@ -89,13 +89,25 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
         card = 1;
     }
     self.successProgress = function (data) {
-        var success = '<div class="progress-bar progress-bar-success" style="width: ' + data + '%"></div>';
-        $(".progress").append(success);
-    }
-    self.errorProgress = function (data) {
-        var success = '<div class="progress-bar progress-bar-danger" style="width: ' + data + '%"></div>';
+        var success = '<div id="' + self.index() + '" class="progress-bar progress-bar-success" style="width: ' + 0 + '%"></div>';
 
         $(".progress").append(success);
+        $("#" + self.index()).animate({
+            width: data + "%",
+        }, 100, "swing", function () {
+            // Animation complete.
+        });
+    }
+    self.errorProgress = function (data) {
+        var success = '<div id="' + self.index() + '" class="progress-bar progress-bar-danger" style="width: ' + 0 + '%"></div>';
+
+        $(".progress").append(success);
+
+        $("#" + self.index()).animate({
+            width: data + "%",
+        }, 100, "swing", function () {
+            // Animation complete.
+        });
     }
 
     //Exhange
@@ -166,6 +178,9 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
                 self.updateWrapper(false);
                 $(".progress").empty();
                 self.loading(false);
+            },
+            error: function () {
+                alert("Diğer seviyenin yüklenmesinde hata meydana geldi. :( Sayfayı yenileyerek tekrar başlayınız...");
             }
         });
     }
@@ -220,6 +235,9 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
                 self.totapInCorrect(0);
                 self.totalPuan(self.exams().TotalPuan);//toplan puan
                 $(".btnsWrapper button").prop("disabled", false);
+            },
+            error: function () {
+                alert("Diğer seviyenin yüklenmesinde hata meydana geldi. :( Sayfayı yenileyerek tekrar başlayınız...");
             }
         });
     }
@@ -242,7 +260,7 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
             $("#txtEnglish").focus();
         }
         self.index(self.index() + 1);
-        if (self.index() + 10 < self.totalQuestions()) {
+        if (self.index() < self.totalQuestions()) {
             self.textValue("");
 
             self.Questions.Question(self.dataQuestions()[self.index()].Question);

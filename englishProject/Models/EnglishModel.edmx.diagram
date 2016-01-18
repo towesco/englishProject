@@ -18,6 +18,7 @@
         <EntityTypeShape EntityType="EnglishProjectDBModel.Score" Width="1.5" PointX="9.25" PointY="0.5" />
         <EntityTypeShape EntityType="EnglishProjectDBModel.comment" Width="1.5" PointX="0.75" PointY="6.75" />
         <AssociationConnector Association="EnglishProjectDBModel.FK_comment_comment" />
+        <EntityTypeShape EntityType="EnglishProjectDBModel.log" Width="1.5" PointX="3.375" PointY="7.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

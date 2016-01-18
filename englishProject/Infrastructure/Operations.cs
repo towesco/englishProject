@@ -16,6 +16,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -26,6 +27,8 @@ namespace englishProject.Infrastructure
 {
     public class Operations
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
         private EnglishProjectDBEntities entities;
 
@@ -399,37 +402,48 @@ namespace englishProject.Infrastructure
         /// <returns></returns>
         public bool UpdateUserProggress(levelUserProgress userProgress)
         {
-            //hata var
-            UpdateScore(userProgress.TargetScore);
-
-            levelUserProgress l =
-                entities.levelUserProgress.FirstOrDefault(
-                    a =>
-                        a.userId == GetUserId && a.levelId == userProgress.levelId);
-
-            if (l == null)
+            try
             {
-                levelUserProgress levelUser = new levelUserProgress
+                //hata var
+                UpdateScore(userProgress.TargetScore);
+
+                levelUserProgress l =
+                    entities.levelUserProgress.FirstOrDefault(
+                        a =>
+                            a.userId == GetUserId && a.levelId == userProgress.levelId);
+
+                if (l == null)
                 {
-                    userId = GetUserId,
-                    levelId = userProgress.levelId,
-                    star = userProgress.star,
-                    puan = userProgress.puan,
-                    boxId = userProgress.boxId
-                };
+                    levelUserProgress levelUser = new levelUserProgress
+                    {
+                        userId = GetUserId,
+                        levelId = userProgress.levelId,
+                        star = userProgress.star,
+                        puan = userProgress.puan,
+                        boxId = userProgress.boxId
+                    };
 
-                entities.levelUserProgress.Add(levelUser);
-                entities.SaveChanges();
+                    entities.levelUserProgress.Add(levelUser);
+                    entities.SaveChanges();
+                }
+                else
+                {
+                    l.star = userProgress.star;
+                    l.puan = userProgress.puan;
+                    entities.Entry(l).State = EntityState.Modified;
+                    entities.SaveChanges();
+                }
+                return true;
             }
-            else
+            catch (Exception ex)
             {
-                l.star = userProgress.star;
-                l.puan = userProgress.puan;
-                entities.Entry(l).State = EntityState.Modified;
-                entities.SaveChanges();
+                logger.Error("UpdateUserProggress", ex);
+                return false;
             }
 
-            return true;
+            //hata var
+
+            ;
         }
 
         /// <summary>
@@ -492,83 +506,106 @@ namespace englishProject.Infrastructure
 
         public string UpdateUser(UserViewModel userr)
         {
-            UserApp user = usermanager.FindById(GetUserId);
-
-            user.Name = userr.Name;
-            user.SurName = userr.SurName;
-            user.Gender = userr.Gender;
-            user.City = userr.City;
-
-            if (!string.IsNullOrEmpty(userr.BirthDay))
+            try
             {
-                user.BirthDay = DateTime.Parse(userr.BirthDay);
-            }
+                UserApp user = usermanager.FindById(GetUserId);
 
-            user.PicturePath = userr.PicturePath;
+                user.Name = userr.Name;
+                user.SurName = userr.SurName;
+                user.Gender = userr.Gender;
+                user.City = userr.City;
 
-            user.PhoneNumber = userr.PhoneNumber;
-            user.Email = userr.Email;
-            user.UserName = userr.UserName;
-
-            if (!string.IsNullOrEmpty(userr.Password))
-            {
-                usermanager.AddPassword(GetUserId, userr.Password);
-            }
-
-            IdentityResult result = usermanager.Update(user);
-
-            if (result.Succeeded)
-            {
-                return true.ToString();
-            }
-            else
-            {
-                if (result.Errors.First().Contains("Email"))
+                if (!string.IsNullOrEmpty(userr.BirthDay))
                 {
-                    return "Bu email adresi kullanılmaktadır.";
+                    user.BirthDay = DateTime.Parse(userr.BirthDay);
                 }
-                else if (result.Errors.First().Contains("Name"))
+
+                user.PicturePath = userr.PicturePath;
+
+                user.PhoneNumber = userr.PhoneNumber;
+                user.Email = userr.Email;
+                user.UserName = userr.UserName;
+
+                if (!string.IsNullOrEmpty(userr.Password))
                 {
-                    return "Bu kullanıcı ismi kullanılmaktadır.";
+                    usermanager.AddPassword(GetUserId, userr.Password);
+                }
+
+                IdentityResult result = usermanager.Update(user);
+
+                if (result.Succeeded)
+                {
+                    return true.ToString();
                 }
                 else
                 {
-                    return "Bir hata meydana geldi. lütfen daha sonra tekrar deneyiniz";
+                    if (result.Errors.First().Contains("Email"))
+                    {
+                        return "Bu email adresi kullanılmaktadır.";
+                    }
+                    else if (result.Errors.First().Contains("Name"))
+                    {
+                        return "Bu kullanıcı ismi kullanılmaktadır.";
+                    }
+                    else
+                    {
+                        return HelperMethod.GetErrorMessage;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                logger.Error("UpdateUser", ex);
+                return HelperMethod.GetErrorMessage;
             }
         }
 
         public string GetUpdateUserPicture(HttpPostedFileBase fileUpload)
         {
-            UserApp user = usermanager.FindById(GetUserId);
             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(fileUpload.FileName);
-            fileUpload.SaveAs(HttpContext.Current.Server.MapPath("~/Pictures/UserPicture/" + fileName));
-
-            if (!user.PicturePath.Contains("user") && !user.PicturePath.Contains("http"))
+            try
             {
-                if (File.Exists(HttpContext.Current.Server.MapPath(user.PicturePath)))
+                UserApp user = usermanager.FindById(GetUserId);
+
+                fileUpload.SaveAs(HttpContext.Current.Server.MapPath("~/Pictures/UserPicture/" + fileName));
+
+                if (!user.PicturePath.Contains("user") && !user.PicturePath.Contains("http"))
                 {
-                    File.Delete((HttpContext.Current.Server.MapPath(user.PicturePath)));
+                    if (File.Exists(HttpContext.Current.Server.MapPath(user.PicturePath)))
+                    {
+                        File.Delete((HttpContext.Current.Server.MapPath(user.PicturePath)));
+                    }
                 }
+                user.PicturePath = "/Pictures/UserPicture/" + fileName;
+                usermanager.Update(user);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("GetUpdateUserPicture", ex);
             }
 
-            user.PicturePath = "/Pictures/UserPicture/" + fileName;
-            usermanager.Update(user);
             return "/Pictures/UserPicture/" + fileName;
         }
 
         public string UpdateUserPassword(UserPasswordViewModel pass)
         {
-            UserApp user = usermanager.FindById(GetUserId);
-
-            IdentityResult result = usermanager.ChangePassword(GetUserId, pass.CurrentPassword, pass.NewPassword);
-            if (result.Succeeded)
+            try
             {
-                return "1";
+                UserApp user = usermanager.FindById(GetUserId);
+                IdentityResult result = usermanager.ChangePassword(GetUserId, pass.CurrentPassword, pass.NewPassword);
+                if (result.Succeeded)
+                {
+                    return "true";
+                }
+                else
+                {
+                    return result.Errors.First();
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return result.Errors.First();
+                logger.Error("UpdateUserPassword", ex);
+                return HelperMethod.GetErrorMessage;
             }
         }
 

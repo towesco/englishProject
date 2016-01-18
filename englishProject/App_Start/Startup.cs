@@ -7,7 +7,8 @@ using Microsoft.Owin.Security.Google;
 using Owin;
 using System.Threading.Tasks;
 
-//[assembly: OwinStartup(typeof(englishProject.Startup))]
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
+
 namespace englishProject
 {
     public class Startup

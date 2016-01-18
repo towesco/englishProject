@@ -5,7 +5,8 @@
 }
 @model  englishProject.Infrastructure.ViewModel.UserProfilView
 
-<div id="profilWrapper" class="settingsProfilBackground" style="margin-top: 10px;">
+<div id="profilWrapper" class="settingsProfilBackground" style="margin-top: 10px; position: relative;">
+
     <h4 class="bg-primary" style="margin-bottom: 0px;margin-top: 40px;   border-bottom: 5px solid #234f72 ;color:white;">
         <span class="pull-left">
 
@@ -40,6 +41,10 @@
                         <div style="z-index: 1;">
                             <img src="@user.PicturePath" class="img-circle img-thumbnail" />
                         </div>
+
+                        <div class="text-center" style="margin-top: -25px;">
+                            <strong class="badge" style=" padding: 5px 15px;border-radius: 32px; color: #283048;background-color: white;font-size: 22px;"> @Model.TotalPuan puan</strong>
+                        </div>
                     </div>
                 </div>
 
@@ -47,9 +52,6 @@
                     <div>
                         <h2>@HelperMethod.getUserName(user.UserName)</h2>
                         <h4 class="text-muted">@user.Email</h4>
-                    </div>
-                    <div>
-                        <h1>@Model.TotalPuan PUAN</h1>
                     </div>
                 </div>
             </div>

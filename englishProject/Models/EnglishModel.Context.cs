@@ -36,6 +36,7 @@ namespace englishProject.Models
         public virtual DbSet<UserDetail> UserDetail { get; set; }
         public virtual DbSet<Score> Score { get; set; }
         public virtual DbSet<comment> comment { get; set; }
+        public virtual DbSet<log> log { get; set; }
     
         public virtual ObjectResult<userProggress_Result> userProggress(string userId)
         {

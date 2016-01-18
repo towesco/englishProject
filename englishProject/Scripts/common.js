@@ -4,13 +4,13 @@
     });
 
     ///////////////user/index sayfasındaki box menu///////////////////////////
-    $("#BoxMenu a:first").addClass("active");
+    $(".boxMenuWrapper li:first").addClass("current");
     $('#box-carausel').on('slid.bs.carousel', function (a) {
         var index = $('#box-carausel .active').index('#box-carausel .item');
 
-        $("#BoxMenu a").removeClass("active");
+        $(".boxMenuWrapper li").removeClass("current");
 
-        $("#BoxMenu a:eq('" + index + "')").addClass("active");
+        $(".boxMenuWrapper li:eq('" + index + "')").addClass("current");
     });
     ///////////////user/index sayfasındaki box menu///////////////////////////
     $("button.close").click(function () {

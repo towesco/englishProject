@@ -74,18 +74,34 @@
             contentType: "application/json",
             success: function (data) {
                 targetScore = 0;
+            },
+            error: function () {
+                //burda seviye bölünmesin diye uyarı göstermiyoruz....
             }
         });
     }
     self.successProgress = function (data) {
-        var success = '<div class="progress-bar progress-bar-success" style="width: ' + data + '%"></div>';
-        $(".progress").append(success);
-    }
-    self.errorProgress = function (data) {
-        var success = '<div class="progress-bar progress-bar-danger" style="width: ' + data + '%"></div>';
+        var success = '<div id="' + self.index() + '" class="progress-bar progress-bar-success" style="width: ' + 0 + '%"></div>';
 
         $(".progress").append(success);
+        $("#" + self.index()).animate({
+            width: data + "%",
+        }, 100, "swing", function () {
+            // Animation complete.
+        });
     }
+    self.errorProgress = function (data) {
+        var success = '<div id="' + self.index() + '" class="progress-bar progress-bar-danger" style="width: ' + 0 + '%"></div>';
+
+        $(".progress").append(success);
+
+        $("#" + self.index()).animate({
+            width: data + "%",
+        }, 100, "swing", function () {
+            // Animation complete.
+        });
+    }
+
     //Soruya yanlış cevap verildiğinde hata ekranının gösterilmesi
     self.warning = function (correct2) {
         var veri = '<button class="btn btn-lg btn-ques">' + "Cevap" + '&nbsp;&nbsp;<i class="fa fa-hand-o-right"></i>&nbsp;&nbsp;' + correct2 + '</button>';
@@ -127,6 +143,9 @@
                 self.updateWrapper(false);
                 $(".progress").empty();
                 self.loading(false);
+            },
+            error: function () {
+                alert("Diğer seviyenin yüklenmesinde hata meydana geldi. :( Sayfayı yenileyerek tekrar başlayınız...");
             }
         });
     }
@@ -182,6 +201,9 @@
                 self.totapInCorrect(0);
                 self.totalPuan(self.exams().TotalPuan);//toplan puan
                 $(".btnsWrapper button").prop("disabled", false);
+            },
+            error: function () {
+                alert("Diğer seviyenin yüklenmesinde hata meydana geldi. :( Sayfayı yenileyerek tekrar başlayınız...");
             }
         });
     }

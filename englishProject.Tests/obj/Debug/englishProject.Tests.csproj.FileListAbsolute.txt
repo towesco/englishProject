@@ -183,3 +183,5 @@ C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\Facebook.dl
 C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\Facebook.xml
 C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\AutoMapper.dll
 C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\AutoMapper.xml
+C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\log4net.dll
+C:\Users\fatih\Desktop\englishProject\englishProject.Tests\bin\Debug\log4net.xml

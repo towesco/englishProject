@@ -16,6 +16,8 @@ namespace englishProject.Infrastructure
 {
     public static class OperationDirect
     {
+        private static readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public static UserAppManager usermanager
         {
             get { return HttpContext.Current.GetOwinContext().GetUserManager<UserAppManager>(); }
@@ -49,23 +51,31 @@ namespace englishProject.Infrastructure
         ///     /// <param name="UserId">Var olan günlük hedefin güncellenmesini sağllar </param>
         public static bool UpdateTargetDailyTargetScore(int score, string UserId, bool update = true)
         {
-            UserDetail userDetail = entities.UserDetail.FirstOrDefault(a => a.userId == UserId);
-
-            if (userDetail != null)
+            try
             {
-                if (update)
+                UserDetail userDetail = entities.UserDetail.FirstOrDefault(a => a.userId == UserId);
+
+                if (userDetail != null)
                 {
-                    userDetail.DailyTargetScore = score;
+                    if (update)
+                    {
+                        userDetail.DailyTargetScore = score;
+                        entities.SaveChanges();
+                    }
+                }
+                else
+                {
+                    UserDetail u = new UserDetail() { DailyTargetScore = score, userId = UserId };
+                    entities.UserDetail.Add(u);
                     entities.SaveChanges();
                 }
+                return true;
             }
-            else
+            catch (Exception ex)
             {
-                UserDetail u = new UserDetail() { DailyTargetScore = score, userId = UserId };
-                entities.UserDetail.Add(u);
-                entities.SaveChanges();
+                logger.Error("UpdateTargetDailyTargetScore", ex);
+                return false;
             }
-            return true;
         }
 
         public static string GetCityName(int cityId)
@@ -107,35 +117,42 @@ namespace englishProject.Infrastructure
 
         public static bool CommentIssueSave(CommentIssueVM viewmodel)
         {
-            CommentIssue _commentIssue = (CommentIssue)viewmodel.Kind;
-
-            switch (_commentIssue)
+            try
             {
-                case CommentIssue.comment:
+                CommentIssue _commentIssue = (CommentIssue)viewmodel.Kind;
 
-                    comment c = new comment
-       {
-           userId = viewmodel.UserId,
-           commentNote = viewmodel.CommentIssue,
-           commentKind = 1,
-           commentDate = DateTime.Now,
-           commentExceptId = viewmodel.ExceptId,
-       };
-                    if (viewmodel.ReplyId != null)
-                    {
-                        c.commentReplyId = viewmodel.ReplyId;
-                    }
+                switch (_commentIssue)
+                {
+                    case CommentIssue.comment:
 
-                    entities.comment.Add(c);
-                    entities.SaveChanges();
+                        comment c = new comment
+                        {
+                            userId = viewmodel.UserId,
+                            commentNote = viewmodel.CommentIssue,
+                            commentKind = 1,
+                            commentDate = DateTime.Now,
+                            commentExceptId = viewmodel.ExceptId,
+                        };
+                        if (viewmodel.ReplyId != null)
+                        {
+                            c.commentReplyId = viewmodel.ReplyId;
+                        }
 
-                    break;
+                        entities.comment.Add(c);
+                        entities.SaveChanges();
 
-                case CommentIssue.issue:
-                    break;
+                        break;
+
+                    case CommentIssue.issue:
+                        break;
+                }
+                return true;
             }
-
-            return true;
+            catch (Exception ex)
+            {
+                logger.Error("CommentIssueSave", ex);
+                return false;
+            }
         }
 
         public static bool GetCommentAny(int levelId)

@@ -47,12 +47,27 @@
         var commentIssueViewModel=function() {
             var self = this;
             self.loading = ko.observable(false);
+            self.resultText =ko.observable("Mesajınız gönderilmiştir.");
+
             self.viewModel= {
                 CommentIssue:ko.observable(),
                 ExceptId:parseInt("@level.levelId"),
                 Kind:ko.observable("1"),
                 UserId:"@Operations.GetUserId"
             }
+
+            self.viewModel.Kind.subscribe(function(newValue) {
+
+                console.log(newValue);
+                if (newValue == "1") {
+                    self.resultText("Mesajınız gönderilmiştir.");
+                }
+                if(newValue=="2") {
+                    self.resultText("Sorununuz bildirilmiştir.");
+                }
+
+            });
+
             self.send=function() {
 
                 if ($("#commentIssueForm").valid()) {
@@ -68,10 +83,17 @@
 
                             if (data) {
 
+                                setTimeout(function() {
+                                    $("#commentIssueModal").modal("hide");
+                                }, 2000);
+
+                            } else {
+                                self.resultText("@HelperMethod.GetErrorMessage");
                             }
                         },
                         complete:function() {
                             self.loading(false);
+                            $("#result").show();
                         }
                     });
 
@@ -99,6 +121,8 @@
             });
             $("#btnCommentIssue,#btnCommentIssue2").click(function() {
                 $("#commentIssueModal").modal();
+                $("#result").hide();
+                $("#CommentIssue").val("");
 
             });
 
@@ -109,4 +133,4 @@
 
 @Html.Partial("Modul/" + m.ToString())
 
-@Html.Partial("ModulPartial/CommentIssue", new CommentIssueVM())
+@Html.Partial("ModulPartial/CommentIssue", new CommentIssueVM() { ExceptId = level.levelId })

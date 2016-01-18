@@ -3,7 +3,7 @@
 <div id="signInWrapper" data-bind="visible:showlogin()">
 
     <div class="text-center" data-bind="visible:loading()">
-        <h2><i class="fa fa-cog fa-spin"></i></h2>
+        <h2><i class="fa fa-spinner fa-pulse"></i></h2>
         <p class="text-muted">  giriş yapılıyor</p>
     </div>
 
@@ -38,7 +38,7 @@
 
                     @Html.PasswordFor(x => x.Password, new { @data_bind = "value:UserSignInVM.password", @class = "form-control", @placeholder = "şifreniz" })
                     @Html.ValidationMessageFor(x => x.Password)
-                    <div class="help-block text-right"><a href="">Şifremi unuttun ?</a></div>
+                    <small class="help-block text-right"><a href="">Şifremi unuttun ?</a></small>
                 </div>
                 <div class="checkbox">
                     <label>

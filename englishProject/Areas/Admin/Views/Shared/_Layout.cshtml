@@ -256,6 +256,9 @@
                                 <a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard fa-fw"></i> Gösterge paneli</a>
                             </li>
                             <li>
+                                <a href="@Url.Action("Log","Home")">Hatalar</a>
+                            </li>
+                            <li>
                                 @Html.ActionLink("Seviyeler", "Levels", "Level")
                             </li>
                             <li>
@@ -347,7 +350,7 @@
                 </div>
                 <!-- /.navbar-static-side -->
             </nav>
-            <div id="page-wrapper">
+            <div id="page-wrapper" style="padding-top: 10px;">
                 <div class="">
                     @RenderBody()
                 </div>

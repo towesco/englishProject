@@ -4,16 +4,18 @@
     int count = 0;
 }
 
-<div id="BoxMenu" class="list-group">
-    @foreach (var item in Model)
-    {
+<div class="boxMenuWrapper  panel panel-default">
+    <ul>
+        @foreach (var item in Model)
+        {
 
-        <a href="#" data-target="#box-carausel" data-slide-to="@(count++)" class="list-group-item">
+            <li>
+                <a href='#' data-target="#box-carausel" data-slide-to="@(count++)">
+                    <i class='fa fa-cube fa-2x'></i>
+                    <div><strong>@item.Key.ToUpper()</strong></div>
+                </a>
+            </li>
 
-            @item.Key
-
-            <span class="badge">@item.Value</span>
-        </a>
-
-    }
+        }
+    </ul>
 </div>

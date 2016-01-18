@@ -135,8 +135,14 @@
                 var dailyScore = $(this).children("strong").text();
 
                 $.getJSON("/api/ajax/UpdateDailyTargetScore", { score: dailyScore }, function (data) {
-                    $(".list-group-score a").removeClass("active");
-                    $(a).addClass("active");
+
+                    if (data) {
+                        $(".list-group-score a").removeClass("active");
+                        $(a).addClass("active");
+                    } else {
+                        alert("@HelperMethod.GetErrorMessage");
+                    }
+
                 });
 
             });
@@ -155,20 +161,43 @@
             });
 
             $('#fileUpload').fileupload({
+
                 url: '/User/UploadUserPicture',
                 singleFileUploads: false,
                 add: function (e, data) {
-                    data.submit().success(function (result) {
-                        $(".PicturePath").attr("src", result);
-                    });
+                    console.log(data.originalFiles[0]['size']);
+                    var uploadErrors = [];
+                    var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
+                    if (data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
+                        uploadErrors.push('yüklemek istediğiniz resim formatı uygun degil');
+                    }
+
+                    if (data.originalFiles[0]['size'] > 2097152) {
+
+                        uploadErrors.push('Resim boyutu 2 Mb büyük olamaz');
+                    }
+                    if (uploadErrors.length > 0) {
+                        alert(uploadErrors.join("\n"));
+                    }
+                    else {
+
+                        data.submit().success(function (result) {
+                            $(".PicturePath").attr("src", result);
+                        });
+
+                    }
                 },
+
                 fail: function (e, data) {
-                    alert("hata var");
+                    alert("@HelperMethod.GetErrorMessage");
                 },
                 progressall: function (e, data) {
 
+                    console.log(data);
+                    //console.log(data.total);
+                    //console.log(data.loaded);
+                    //console.log(progress);
                     var progress = parseInt(data.loaded / data.total * 100, 10);
-                    console.log(progress);
 
                     $(".fileUpload strong").html('% ' + progress);
 
@@ -179,6 +208,7 @@
                 }
 
             });
+
             var userPassword = function () {
 
                 this.currentPassword = $("#CurrentPassword").val();
@@ -202,11 +232,12 @@
                         data: jsonData,
                         contentType: "application/json",
                         success: function (data) {
-                            if (data != "True") {
+                            if (data != "true") {
                                 $(".panel-body .alert").removeClass("alert-success").addClass("alert-danger").html(data).fadeIn(100).delay(2000).fadeOut(100);
                             } else {
                                 $(".panel-body .alert").removeClass("alert-danger").addClass("alert-success").html("<strong>Bilgileriniz güncellenmiştir.</strong>").fadeIn(100).delay(2000).fadeOut(100);
                             }
+
                         },
                         complete: function () {
                             $(".fa-spin").addClass("hidden");
@@ -256,7 +287,12 @@
                         complete: function () {
                             $(".fa-spin").addClass("hidden");
                             $("#btnUserInfoUpdate").prop("disabled", false);
+                        },
+                        error: function () {
+                            alert("@HelperMethod.GetErrorMessage");
+
                         }
+
                     });
                 };
                 return false;

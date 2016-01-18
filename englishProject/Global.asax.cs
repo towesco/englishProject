@@ -4,6 +4,7 @@ using englishProject.Infrastructure.Users;
 using englishProject.Infrastructure.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -17,6 +18,7 @@ namespace englishProject
     {
         protected void Application_Start()
         {
+            log4net.Config.XmlConfigurator.Configure();
             Mapper.CreateMap<UserApp, UserViewModel>()
                 .ForMember(dest => dest.BirthDay,
                     opt =>

@@ -4,12 +4,14 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System.Web;
 using System.Web.Mvc;
+using WebGrease.Activities;
 
 namespace englishProject.Controllers
 {
     [AllowAnonymous]
     public class HomeController : Controller
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         private Operations operations;
 
         public HomeController()
@@ -31,6 +33,10 @@ namespace englishProject.Controllers
 
         public ActionResult deneme()
         {
+            logger.Error("hata oldu");
+            logger.Fatal("ülümcül hata");
+            logger.Info(("bilgilendirme mesajı"));
+
             return View();
         }
     }

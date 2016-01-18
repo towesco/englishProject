@@ -59,6 +59,10 @@
       <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
       <Private>True</Private>
@@ -206,6 +210,7 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LevelController.cs" />
     <Compile Include="Areas\Admin\Controllers\WordController.cs" />
+    <Compile Include="Areas\Admin\Infrastructure\OperationsAdmin.cs" />
     <Compile Include="Infrastructure\HelperClass\BoxLevelUser.cs" />
     <Compile Include="Infrastructure\HelperClass\Comments.cs" />
     <Compile Include="Infrastructure\HelperClass\Enums.cs" />
@@ -272,6 +277,9 @@
     <Compile Include="Models\levelUserProgress.cs">
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\log.cs">
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Score.cs">
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
@@ -310,6 +318,7 @@
     <Content Include="Content\images\flag\Turkey-icon.png" />
     <Content Include="Content\images\flag\United-kingdom-icon.png" />
     <Content Include="Content\images\level\body.png" />
+    <Content Include="Content\images\success.png" />
     <Content Include="Content\images\target.png" />
     <Content Include="Content\images\user.png" />
     <Content Include="Content\images\userbackground.png" />
@@ -382,6 +391,7 @@
     <Content Include="Content\font-awesome-4.5.0\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Content\font-awesome-4.5.0\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\font-awesome-4.5.0\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Areas\Admin\Views\Home\Log.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\common.js" />
     <Content Include="Scripts\jquery-file-upload\jquery.fileupload.js" />
@@ -418,6 +428,7 @@
     <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\about\beta.jpg" />
     <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\about\startups.jpg" />
     <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\about\web.jpg" />
+    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\background.jpg" />
     <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\team\fatih.jpg" />
     <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\team\seyda.jpg" />
     <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\index.html" />

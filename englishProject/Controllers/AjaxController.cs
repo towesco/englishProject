@@ -2,6 +2,7 @@
 using englishProject.Infrastructure.Users;
 using englishProject.Infrastructure.ViewModel;
 using englishProject.Models;
+using log4net.Repository.Hierarchy;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -18,6 +19,8 @@ namespace englishProject.Controllers
 {
     public class AjaxController : ApiController
     {
+        private readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public UserAppManager usermanager
         {
             get { return HttpContext.Current.GetOwinContext().GetUserManager<UserAppManager>(); }
@@ -39,22 +42,30 @@ namespace englishProject.Controllers
             bool result = false;
             UserApp user = await usermanager.FindByEmailAsync(UserSignInVM.Email);
 
-            if (user != null)
+            try
             {
-                var isUser = await usermanager.FindAsync(user.UserName, UserSignInVM.Password);
-
-                if (isUser != null)
+                if (user != null)
                 {
-                    ClaimsIdentity identity = await usermanager.CreateIdentityAsync(user,
-                        DefaultAuthenticationTypes.ApplicationCookie);
+                    var isUser = await usermanager.FindAsync(user.UserName, UserSignInVM.Password);
 
-                    Authen.SignOut();
-                    Authen.SignIn(new AuthenticationProperties() { IsPersistent = UserSignInVM.MeRemember }, identity);
-                    result = true;
+                    if (isUser != null)
+                    {
+                        ClaimsIdentity identity = await usermanager.CreateIdentityAsync(user,
+                            DefaultAuthenticationTypes.ApplicationCookie);
+
+                        Authen.SignOut();
+                        Authen.SignIn(new AuthenticationProperties() { IsPersistent = UserSignInVM.MeRemember }, identity);
+                        result = true;
+                    }
                 }
-            }
 
-            return Content(HttpStatusCode.OK, result);
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("SignIn", ex);
+                return BadRequest();
+            }
         }
 
         /// <summary>
@@ -70,23 +81,31 @@ namespace englishProject.Controllers
             var userEmail = await usermanager.FindByEmailAsync(UserSignUpVM.Email);
             if (userEmail == null)
             {
-                UserApp user = new UserApp() { UserName = UserSignUpVM.Email, Email = UserSignUpVM.Email, PicturePath = "/Content/images/user.png" };
-
-                IdentityResult identResult = await usermanager.CreateAsync(user, UserSignUpVM.Password);
-                if (identResult.Succeeded)
+                try
                 {
-                    result = 1;
+                    UserApp user = new UserApp() { UserName = UserSignUpVM.Email, Email = UserSignUpVM.Email, PicturePath = "/Content/images/user.png" };
 
-                    ClaimsIdentity identity = await usermanager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                    IdentityResult identResult = await usermanager.CreateAsync(user, UserSignUpVM.Password);
+                    if (identResult.Succeeded)
+                    {
+                        result = 1;
 
-                    Authen.SignOut();
-                    Authen.SignIn(new AuthenticationProperties { IsPersistent = true }, identity);
+                        ClaimsIdentity identity = await usermanager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
 
-                    OperationDirect.UpdateTargetDailyTargetScore(100, user.Id, false);
+                        Authen.SignOut();
+                        Authen.SignIn(new AuthenticationProperties { IsPersistent = true }, identity);
+
+                        OperationDirect.UpdateTargetDailyTargetScore(100, user.Id, false);
+                    }
+                    else
+                    {
+                        result = 0;
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
                     result = 0;
+                    logger.Error("SignUp", ex);
                 }
             }
             else
@@ -102,7 +121,15 @@ namespace englishProject.Controllers
         {
             ModulSubLevel s = (ModulSubLevel)Enum.Parse(typeof(ModulSubLevel), subLevel.ToString());
 
-            return Content(HttpStatusCode.OK, new Operations().GetWordModul(s, levelId).Item1);
+            try
+            {
+                return Content(HttpStatusCode.OK, new Operations().GetWordModul(s, levelId).Item1);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("WordModulSubLevelQuestions", ex);
+                return NotFound();
+            }
         }
 
         [System.Web.Http.ActionName("PictureWordModulSubLevelQuestions")]
@@ -110,13 +137,29 @@ namespace englishProject.Controllers
         {
             ModulSubLevel s = (ModulSubLevel)Enum.Parse(typeof(ModulSubLevel), subLevel.ToString());
 
-            return Content(HttpStatusCode.OK, new Operations().GetPictureWordModul(s, levelId).Item1);
+            try
+            {
+                return Content(HttpStatusCode.OK, new Operations().GetPictureWordModul(s, levelId).Item1);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("PictureWordModulSubLevelQuestions", ex);
+                return BadRequest();
+            }
         }
 
         [System.Web.Http.ActionName("UpdateUserProgress")]
         public IHttpActionResult POSTUpdateUserProgress(levelUserProgress userProgress)
         {
-            return Content(HttpStatusCode.OK, new Operations().UpdateUserProggress(userProgress));
+            try
+            {
+                return Content(HttpStatusCode.OK, new Operations().UpdateUserProggress(userProgress));
+            }
+            catch (Exception ex)
+            {
+                logger.Error("UpdateUserProgress", ex);
+                return BadRequest();
+            }
         }
 
         [System.Web.Http.ActionName("UpdateUser")]

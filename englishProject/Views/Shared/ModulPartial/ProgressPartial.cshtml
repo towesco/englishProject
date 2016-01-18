@@ -1,21 +1,15 @@
 ﻿@model int
 <div class="row " style=" padding: 10px; ">
 
-    <div class=" col-md-9">
+    <div class=" col-md-12">
 
         <div class="progress" style="margin-bottom: 0px;">
         </div>
     </div>
-    <div class=" col-md-1 text-left hidden-xs hidden-sm">
+    @*<div class=" col-md-1 text-left hidden-xs hidden-sm">
 
-        <strong data-bind="text:totalRate"></strong>
-    </div>
-    <div class=" col-md-2 text-center">
-
-        <span data-bind="visible:totapInCorrect()<1"><i class="fa fa-heart fa-2x heart-color"></i></span>
-        <span data-bind="visible:totapInCorrect()<2"><i class="fa fa-heart fa-2x heart-color"></i></span>
-        <span data-bind="visible:totapInCorrect()<3"><i class="fa fa-heart fa-2x heart-color"></i></span>
-    </div>
+            <strong class="badge" data-bind="text:totalRate"></strong>
+        </div>*@
 </div>
 <div class="row" style="margin: 0px;background-color: #f5f5f5;">
 
@@ -24,19 +18,24 @@
     </div>
 
     <div class="pull-left bg-success" style="padding: 7px;">
-        <i class="fa fa-star" data-bind="css:{starColor:star()>0}"></i>
+        <i class="fa fa-star" style="font-size: 1.3em" data-bind="css:{starColor:star()>0}"></i>
 
-        <i class="fa fa-star" data-bind="css:{starColor:star()>1}"></i>
+        <i class="fa fa-star" style="font-size: 1.3em" data-bind="css:{starColor:star()>1}"></i>
 
         @if (Model > 2)
         {
-            <i class="fa fa-star" data-bind="css:{starColor:star()>2}"></i>
+            <i class="fa fa-star" style="font-size: 1.3em" data-bind="css:{starColor:star()>2}"></i>
         }
     </div>
 
-    <button style="border-radius: 0;" id="stopQuiz" type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target=".quizModal"><i class="fa fa-stop-circle"></i> Testti  bitir</button>
+    <div class="pull-right" style="margin: 6px 15px 0px;">
 
-    <button data-toggle="tooltip" data-placement="left" title="Bu seviye için yorum yap/sorun bildir" style="border-radius: 0;" id="btnCommentIssue2" type="button" class="btn btn-info pull-right hidden-lg hidden-md"><i class="fa fa-plus-circle"></i></button>
+        @*data-bind="css: { subLevelActive:subLevelNumber()==1}"*@
+
+        <span><i data-bind="css:{heartDisabled:totapInCorrect()>=1}" class="fa fa-heart fa-2x heart-color"></i></span>
+        <span><i data-bind="css:{heartDisabled:totapInCorrect()>=2}" class="fa fa-heart fa-2x heart-color"></i></span>
+        <span><i data-bind="css:{heartDisabled:totapInCorrect()>=3}" class="fa fa-heart fa-2x heart-color"></i></span>
+    </div>
 
     <i class="clearfix"></i>
 </div>

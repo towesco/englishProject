@@ -1,13 +1,13 @@
 ﻿.panel-level-background {
-    background: #FF8008; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #FF8008, #FFC837); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #FF8008, #FFC837); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #FF512F; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #FF512F, #F09819); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #FF512F, #F09819); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     border-width: 0px;
     margin-bottom: 10px !important;
 }
 
     .panel-level-background .img-circle {
-        background-color: #BC8332;
+        background-color: #db4920;
         border: 4px solid #fff;
         color: #fff;
         height: 140px;

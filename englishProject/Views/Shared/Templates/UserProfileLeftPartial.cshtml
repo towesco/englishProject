@@ -6,21 +6,17 @@
 
 }
 <div class="panel userProfileBackground">
+    <a href="@Url.Action("settings","user",new{id=1})"><i class="fa fa-cog"></i></a>
 
     <div class="text-center">
         <img src="@Model.picture" class="img-circle img-thumbnail userProfiPicture" />
     </div>
-    <div class="text-center">
-        <strong> @HelperMethod.getUserName(Model.userName)</strong>
+    <div class="text-center" style="margin-top: -25px;">
+        <strong class="badge" style=" padding: 5px 15px;border-radius: 32px; color: #283048;background-color: white;font-size: 15px;"> @Model.TotalPuan puan</strong>
     </div>
-    <div style="font-size: 16px;padding: 3px 9px;">
-        <div class="pull-left">
-            <i class="fa fa-dot-circle-o" style="color:white;"></i><strong> Puan</strong>
-        </div>
-        <div class="pull-right">
-            <strong class="badge" style="background-color: #283048;font-size: 15px;"> @Model.TotalPuan</strong>
-        </div>
-        <i class="clearfix"></i>
+
+    <div class="text-center" style="margin-top: 5px;">
+        <strong> @HelperMethod.getUserName(Model.userName)</strong>
     </div>
 
     @if (Model.UserProfilBoxs.Any())

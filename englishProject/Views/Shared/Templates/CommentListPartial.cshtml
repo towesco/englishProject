@@ -5,7 +5,7 @@
 
 @if (Model.Any())
 {
-    <ul class="list-unstyled commentList">
+    <ul class="list-unstyled commentList" style=" border-bottom: 2px solid #c7cacb;">
 
         @foreach (var item in Model)
         {
@@ -15,17 +15,19 @@
 
                 @CommentLine.Row(user.PicturePath, user.UserName, item.commentDate, item.commentId, item.commentNote, 1)
 
-                <ul class="list-unstyled commentList replyList ">
-                    @foreach (var item2 in item.comment1)
+                @if (item.comment1.Any())
+                {
+                    foreach (var item2 in item.comment1)
                     {
                         UserApp user2 = OperationDirect.GetUser(item2.userId);
-
-                        <li>
-                            @CommentLine.Row(user2.PicturePath, user2.UserName, item2.commentDate, item2.commentId, item2.commentNote, 2)
-                        </li>
-
+                        <ul class="list-unstyled commentList replyList ">
+                            <li>
+                                @CommentLine.Row(user2.PicturePath, user2.UserName, item2.commentDate, item2.commentId, item2.commentNote, 2)
+                            </li>
+                        </ul>
                     }
-                </ul>
+
+                }
             </li>
 
         }

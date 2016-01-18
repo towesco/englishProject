@@ -39,6 +39,9 @@
                             self.loading(false);
                             self.noUser(true);
                         }
+                    },
+                    error: function () {
+                        alert("Hata meydana geldi. Lütfen daha sonra tekrar deneyiniz.");
                     }
                 });
             }
@@ -69,7 +72,7 @@ var SignUpViewModel = function () {
                     contentType: "application/json",
                     success: function (data) {
                         if (data == 0) {
-                            $("#signUpErrorText").html("Bir hata meydana geldi. Lütfen daha sonra tekrar deneyiniz.");
+                            $("#signUpErrorText").html("Hata meydana geldi. Lütfen daha sonra tekrar deneyiniz..");
                             self.signupLoading(false);
                             self.signUpError(true);
                         }
@@ -80,6 +83,11 @@ var SignUpViewModel = function () {
                             self.signupLoading(false);
                             self.signUpError(true);
                         }
+                    },
+                    error: function () {
+                        $("#signUpErrorText").html("Hata meydana geldi. Lütfen daha sonra tekrar deneyiniz..");
+                        self.signupLoading(false);
+                        self.signUpError(true);
                     }
                 });
             }
