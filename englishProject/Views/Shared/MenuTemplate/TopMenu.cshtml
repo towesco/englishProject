@@ -5,15 +5,15 @@
 @{
     string actionName = Request.RequestContext.RouteData.Values["Action"].ToString();
 }
-<nav id="customNavbar" class="navbar navbar-default " role="navigation" style="">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
+<nav id="customNavbar" class="navbar navbar-default " role="navigation">
+    <div class="container" style="position: relative;">
+
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbarMenu">
                 <span class="sr-only">Toggle navigation</span>
                 <i style="color: white;" class="fa fa-bars"></i>
             </button>
-            <a href="#" class="navbar-brand">BETA</a>
+            <a style=" border-bottom: 3px solid white; height: 45px;margin-right: 10px;margin-left: 0px; " href="#" class="navbar-brand"><i class="fa fa-cubes"></i><span style="font-family: verdana;"> Kelime kutusu</span></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -42,5 +42,6 @@
 
             @Html.Partial("MenuTemplate/LogInPartial", User.Identity.GetUserName())
         </div><!-- /.navbar-collapse -->
+        <!-- Brand and toggle get grouped for better mobile display -->
     </div><!-- /.container-fluid -->
 </nav>

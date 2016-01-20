@@ -1,4 +1,5 @@
 ﻿using englishProject.Infrastructure;
+using englishProject.Infrastructure.HelperClass;
 using englishProject.Infrastructure.Users;
 using englishProject.Infrastructure.ViewModel;
 using englishProject.Models;
@@ -7,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -184,6 +186,12 @@ namespace englishProject.Controllers
         public IHttpActionResult POSTCommentIssueSave(CommentIssueVM viewModel)
         {
             return Content(HttpStatusCode.OK, OperationDirect.CommentIssueSave(viewModel));
+        }
+
+        [System.Web.Http.ActionName("GetChart")]
+        public JsonResult<List<ScoreChart>> GETGetChart()
+        {
+            return Json(new Operations().GetScoreChart());
         }
     }
 }

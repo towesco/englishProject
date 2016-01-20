@@ -1,4 +1,5 @@
 ﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.HelperClass
 @using englishProject.Infrastructure.Users
 @using englishProject.Infrastructure.ViewModel
 @using englishProject.Models
@@ -10,7 +11,7 @@
 
     int DailyTargetScore = ViewBag.DailyTargetScore;
     UserProfilView userProfilView = ViewBag.userProfilView;
-
+    List<ScoreChart> chart = ViewBag.chart;
 }
 @section scripts
 {
@@ -18,6 +19,11 @@
     <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.fileupload.js")"></script>
     <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.iframe-transport.js")"></script>
     <script src="@Url.Content("~/Scripts/progressbar/progressbar.js")"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+    <script src="@Url.Content("~/Scripts/chart.js")"></script>
+
     <style type="text/css">
         .settingsProfilBackground {
         }
@@ -83,6 +89,7 @@
     </style>
 
     <script type="text/javascript">
+
         var userProfilView = function (data) {
 
             var self = this;
@@ -108,7 +115,8 @@
                     },
                     step: function (state, bar) {
 
-                        bar.setText("%" + (bar.value() * 100).toFixed(0));
+                        var yuzde = Math.abs((bar.value() * 100).toFixed(0));
+                        bar.setText("%" + yuzde);
 
                     }
                 });
@@ -121,6 +129,12 @@
         }
 
         $(document).ready(function () {
+
+            $(window).load(function () {
+
+                $("#loading").hide();
+                $("#panel").show();
+            });
 
             var profilView = new userProfilView(@Html.HtmlConvertToJson(userProfilView));
             ko.applyBindings(profilView);
@@ -326,16 +340,29 @@
             <span class="pull-right"><i class="fa fa-dot-circle-o"></i></span>
             <i class="clearfix"></i>
         </a>
+        <a href="#" data-target="#carousel-settings" data-slide-to="4" class="list-group-item">
+            <span class="pull-left">Çalışma performansım</span>
+            <span class="pull-right"><i class="fa fa-area-chart"></i></span>
+            <i class="clearfix"></i>
+        </a>
     </div>
 
 }
 
-<div class="panel">
+<div class="row" id="loading">
+    <div class="col-md-12 text-center">
+        <h2><i class="fa fa-spinner fa-pulse"></i> Yükleniyor...</h2>
+    </div>
+</div>
+
+<div class="panel" id="panel" style="display: none">
+
     <div id="carousel-settings" class="carousel slide" data-ride="carousel">
 
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="item">
+
                 @Html.Partial("Templates/SettingsProfilPartial", userProfilView)
             </div>
 
@@ -348,6 +375,19 @@
 
             <div class="item">
                 @Html.Partial("Templates/SettingsTargetScorePartial")
+            </div>
+            <div class="item">
+                <div>
+                    <h4 class="bg-primary">10 günlük çalışma performansım</h4>
+
+                    <div class="panel-body" style="width: 800px;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="chart_div" style="margin-top: -25px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

@@ -12,10 +12,13 @@
     @Html.Partial("Templates/UserProfileLeftPartial", (UserProfilView)ViewBag.userProfilView)
 
 }
+
+<div class="page-header">
+    <h2>Puanlama tablosu</h2>
+</div>
 <div class="panel">
     <div class="panel-body">
-        <h2 style="margin-top: 0px;">Puanlama tablosu</h2>
-        <hr />
+
         @foreach (var item in boxs)
         {
 

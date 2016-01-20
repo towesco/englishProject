@@ -10,6 +10,10 @@
     outline: 0 !important;
 }
 
+.page-header {
+    margin-top: 0px;
+}
+
 .marginReset {
     margin: 0px;
 }
@@ -444,6 +448,37 @@ hr {
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////////Boxs Buttons/////////////////////////*/
 
 /*////////////////////////////////////////////////////////////////////////////////////////////////////LEFT/////////////////////////////////////////////*/
+
+.panelLevelMenu {
+    background: #FF512F; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #FF512F, #F09819); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #FF512F, #F09819); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    border-width: 0px;
+    margin-bottom: 10px !important;
+    position: relative;
+}
+
+    .panelLevelMenu .img-circle {
+        background-color: #db4920;
+        border: 4px solid #fff;
+        color: #fff;
+        height: 140px;
+        width: 140px;
+    }
+
+    .panelLevelMenu .boxName {
+        margin-top: 10px;
+        color: white;
+    }
+
+    .panelLevelMenu > i {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        color: #8E3422;
+        cursor: pointer;
+    }
+
 .scoreBackground {
     border-width: 0px;
     background: #FF512F; /* fallback for old browsers */
@@ -505,8 +540,8 @@ hr {
 
     .userProfileBackground a:first-child {
         position: absolute;
-        top: 6px;
-        right: 9px;
+        top: 4px;
+        right: 8px;
         color: white;
     }
 
@@ -558,7 +593,7 @@ hr {
 
 .boxMenuWrapper {
     margin-bottom: 10px;
-    border-top: 3px solid #0072ff;
+    border-top: 3px solid #00ABFF;
 }
 
     .boxMenuWrapper ul li a {
@@ -574,14 +609,14 @@ hr {
 
         .boxMenuWrapper ul li:hover > a,
         .current > a {
-            color: #0072ff;
+            color: #00ABFF;
         }
 
 .current {
 }
 
     .current a {
-        color: #0072ff !important;
+        color: #00ABFF !important;
         font-family: verdana;
     }
 
@@ -589,7 +624,7 @@ hr {
         display: block;
         margin: 0 auto -6px auto;
         width: 0;
-        border-top: 6px solid #0072ff;
+        border-top: 8px solid #00ABFF;
         border-right: 8px solid transparent;
         border-left: 8px solid transparent;
         content: "";

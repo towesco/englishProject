@@ -215,6 +215,7 @@
     <Compile Include="Infrastructure\HelperClass\Comments.cs" />
     <Compile Include="Infrastructure\HelperClass\Enums.cs" />
     <Compile Include="Infrastructure\Extensions.cs" />
+    <Compile Include="Infrastructure\HelperClass\ScoreChart.cs" />
     <Compile Include="Infrastructure\HelperClass\ScoreTable.cs" />
     <Compile Include="Infrastructure\HelperMethod.cs" />
     <Compile Include="Areas\Admin\Infrastructure\IWord.cs" />
@@ -393,6 +394,7 @@
     <Content Include="Content\font-awesome-4.5.0\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Areas\Admin\Views\Home\Log.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+    <Content Include="Scripts\chart.js" />
     <Content Include="Scripts\common.js" />
     <Content Include="Scripts\jquery-file-upload\jquery.fileupload.js" />
     <Content Include="Scripts\jquery-file-upload\jquery.iframe-transport.js" />
@@ -484,13 +486,15 @@
     <Content Include="Views\Shared\ModulPartial\commentIssue.cshtml" />
     <Content Include="Views\User\commentsLevel.cshtml" />
     <Content Include="Views\Shared\Templates\CommentListPartial.cshtml" />
-    <Content Include="Views\Shared\Templates\LeftCommentLevel.cshtml" />
+    <Content Include="Views\Shared\Templates\LeftLevelMenu.cshtml" />
     <Content Include="Views\Shared\Templates\CommentSavePartial.cshtml" />
     <Content Include="Views\User\comments.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\LICENSE" />
     <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\README.md" />
     <Content Include="Views\Shared\Templates\ContactPartial.cshtml" />
+    <Content Include="Views\Shared\Templates\UserScoreChartPartial.cshtml" />
+    <Content Include="Views\Shared\Templates\SettingsChartPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

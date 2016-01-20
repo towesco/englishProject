@@ -1,13 +1,17 @@
 ﻿using englishProject.Infrastructure;
-
 using englishProject.Models;
+using Facebook;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Management;
 using System.Web.Mvc;
 using System.Web.WebPages.Html;
@@ -95,6 +99,20 @@ namespace englishProject.Infrastructure
         public List<SelectListItem> GetCityListItems()
         {
             return entities.City.Select(a => new SelectListItem() { Text = a.Name, Value = a.Id.ToString() }).ToList();
+        }
+
+        public static string getGooglePicture(string key)
+        {
+            WebClient web = new WebClient();
+
+            string json = web.DownloadString(
+                      "https://www.googleapis.com/plus/v1/people/117697405997139435772?fields=image&key=" + key);
+
+            JObject j = JObject.Parse(json);
+
+            ;
+
+            return (string)j["image"]["url"];
         }
 
         #region BilgilendirmeMesaj

@@ -56,7 +56,8 @@ h1, h2, h3, h4, h5, h6 {
 
     #homeNavbar .navbar-brand {
         color: white;
-        background: none;
+        background-color: #0D4963;
+        border-radius: 6px;
     }
 
     #homeNavbar .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
@@ -71,10 +72,11 @@ h1, h2, h3, h4, h5, h6 {
 
     #homeNavbar .navbar-brand {
         color: white;
+        font-family: verdana;
     }
 
         #homeNavbar .navbar-brand:hover, #homeNavbar .navbar-brand:focus, #homeNavbar .navbar-brand:active, #homeNavbar .navbar-brand.active {
-            color: #2e6da4;
+            color: yellow;
         }
 
     #homeNavbar .navbar-collapse {

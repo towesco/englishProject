@@ -51,12 +51,9 @@
                     <a class="btn btn-sm  btn-select pull-right" href="@Url.Action("remendercard", "user", new { id = Model.Item1.levelId })"> hatırlatma kartları</a>
 
                 }
-                @if (OperationDirect.GetCommentAny(Model.Item1.levelId))
-                {
 
-                    <a style="margin-right: 5px;" class="btn btn-sm  btn-select pull-right" href="@Url.Action("commentsLevel", "user", new { id = Model.Item1.levelId })">yorumlar</a>
+                <a style="margin-right: 5px;" class="btn btn-sm  btn-select pull-right" href="@Url.Action("commentsLevel", "user", new { id = Model.Item1.levelId })">yorumlar</a>
 
-                }
                 <i class="clearfix"></i>
             </div>
             <div>

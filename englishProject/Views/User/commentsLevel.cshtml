@@ -102,14 +102,13 @@
             var commentVM = new commentViewModel();
             ko.applyBindings(commentVM, document.getElementById("commentsWrapper"));
 
-            $('[data-toggle="tooltip"]').tooltip();
         })
     </script>
 }
 @section Left
 {
 
-    @Html.Partial("Templates/LeftCommentLevel", level)
+    @Html.Partial("Templates/LeftLevelMenu", Tuple.Create(level, 1))
     @Html.Partial("Templates/UserProfileLeftPartial", (UserProfilView)ViewBag.userProfilView)
     @Html.Partial("Templates/ScoreLeftPartial", HelperMethod.GetTotalLevelPuan(level))
 
@@ -117,8 +116,9 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h2>Yorumlar</h2>
-        <hr />
+        <div class="page-header">
+            <h2>Yorumlar</h2>
+        </div>
     </div>
 </div>
 <div id="commentsWrapper">

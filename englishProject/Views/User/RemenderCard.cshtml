@@ -46,6 +46,9 @@
 
 @section Left
 {
+
+    @Html.Partial("Templates/LeftLevelMenu", Tuple.Create(Model, 2))
+
     @Html.Partial("Templates/UserProfileLeftPartial", (UserProfilView)ViewBag.userProfilView)
     @Html.Partial("Templates/ScoreLeftPartial", HelperMethod.GetTotalLevelPuan(Model))
 
@@ -53,19 +56,9 @@
 
 <div class="row">
     <div class="col-md-12">
-        <div>
-            <ol class="breadcrumb  examheader" style="margin-bottom: 0px;">
-                <li class="active"><strong>@Model.Box.boxName </strong></li>
-                <li class="active"><strong>@Model.levelName</strong> </li>
-                <li class="active"><strong>Seviye(@Model.levelNumber)</strong> </li>
-            </ol>
-        </div>
-        <div id="word" style=" background-color: #f5f5f5;border-bottom: 3px solid #e8e5e5;margin: 5px 0;padding: 8px;">
 
-            <h3 style="margin: 0px;padding: 4px;" class="pull-left">Kelimeler <small class="text-muted">(@Model.Word.Count adet)</small></h3>
-
-            <button data-locked="False" data-levelid="@Model.levelId" id="quizBtn" href="#" class="btn btn-success pull-right"><i class="fa fa-arrow-circle-right"></i> Teste giriş</button>
-            <div class="clearfix"></div>
+        <div class="page-header">
+            <h2>Kelimeler <small class="text-muted">@Model.Word.Count adet</small></h2>
         </div>
     </div>
 </div>

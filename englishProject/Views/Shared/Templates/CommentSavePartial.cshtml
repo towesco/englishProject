@@ -12,7 +12,7 @@
                 <strong data-bind="text:replyName"></strong> üyesine cevap ver
             </div>
             <div class="form-group">
-                @Html.TextAreaFor(x => x.CommentIssue, new { @class = "form-control", @data_bind = "value:viewModel.CommentIssue,attr: {placeholder: ph}", @Placeholder = "bu seviye için yorumunuz...." })
+                @Html.TextAreaFor(x => x.CommentIssue, new { @class = "form-control", @data_bind = "value:viewModel.CommentIssue,attr: {placeholder: ph}", @Placeholder = "bu seviye için yorumunuz....", @style = "height:100px;" })
                 @Html.ValidationMessageFor(x => x.CommentIssue)
             </div>
 

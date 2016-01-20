@@ -1,25 +1,4 @@
-﻿.panel-level-background {
-    background: #FF512F; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #FF512F, #F09819); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #FF512F, #F09819); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    border-width: 0px;
-    margin-bottom: 10px !important;
-}
-
-    .panel-level-background .img-circle {
-        background-color: #db4920;
-        border: 4px solid #fff;
-        color: #fff;
-        height: 140px;
-        width: 140px;
-    }
-
-    .panel-level-background .boxName {
-        margin-top: 10px;
-        color: white;
-    }
-
-.panel-comment {
+﻿.panel-comment {
     position: relative;
 }
 

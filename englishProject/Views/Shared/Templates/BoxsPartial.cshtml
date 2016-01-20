@@ -32,25 +32,25 @@
 
                     @if (locked)
                     {
-                    <i class="fa fa-lock"></i>
+                        <i class="fa fa-lock"></i>
                     }
                     else
                     {
-                    <i class="fa fa-unlock"></i>
+                        <i class="fa fa-unlock"></i>
                     }
                 </div>
 
                 @if (!locked)
                 {
-                <div style="border-top: 2px solid #0870A8;  margin: 3px 0px -4px 0px">
-                    <small>@levelName</small>
-                </div>
+                    <div style="border-top: 2px solid #0870A8;  margin: 3px 0px -4px 0px">
+                        <small>@levelName</small>
+                    </div>
                 }
                 else
                 {
-                <div style="border-top: 2px solid #962D18;  margin: 3px 0px -4px 0px">
-                    <small>@levelName</small>
-                </div>
+                    <div style="border-top: 2px solid #962D18;  margin: 3px 0px -4px 0px">
+                        <small>@levelName</small>
+                    </div>
                 }
 
                 <div>
@@ -92,9 +92,10 @@
                 {
 
                     <div class="item @(item.Box.boxNumber==1 ? "active" : null)">
-                        <h3 style="margin-top: 0px;color: #286090;"> @item.Box.boxName kutusu</h3>
-                        <hr />
-                        <ul class="list-unstyled list-inline">
+                        @*<h3 style="margin-top: 0px;color: #286090;"> @item.Box.boxName kutusu</h3>
+                        *@
+
+                        <ul class="list-unstyled list-inline" style="margin-top: 5px;">
 
                             @foreach (CustomLevel levelOne in item.UserLevels)
                             {

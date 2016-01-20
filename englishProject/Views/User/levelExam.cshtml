@@ -111,7 +111,6 @@
             var  vm = new viewmodel(@exam, @level.levelId,@level.levelSubLevel,@level.boxId);
             ko.applyBindings(vm, document.getElementById("examWrapper"));
 
-            $('[data-toggle="tooltip"]').tooltip();
             $('[data-toggle="popover"]').popover('show');
 
             $("#loading").modal({ backdrop: false });

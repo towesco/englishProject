@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using englishProject.Infrastructure;
-using englishProject.Infrastructure.HelperClass;
+﻿using englishProject.Infrastructure.HelperClass;
 using englishProject.Infrastructure.Users;
 using englishProject.Infrastructure.ViewModel;
 using englishProject.Models;
@@ -10,18 +8,11 @@ using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects;
 using System.Data.Entity.SqlServer;
-using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Threading.Tasks;
 using System.Web;
-using System.Web.Http.Results;
 
 namespace englishProject.Infrastructure
 {
@@ -134,7 +125,93 @@ namespace englishProject.Infrastructure
             return usermanager.FindById(GetUserId);
         }
 
+        public UserApp getProfil(string userId)
+        {
+            return usermanager.FindById(userId);
+        }
+
+        public Level GetWords(int levelId)
+        {
+            return entities.Level.Include("Word").First(a => a.levelId == levelId);
+        }
+
+        public List<ScoreChart> GetScoreChart()
+        {
+            UserDetail userDetail = GetUserDetail();
+
+            DateTime oldDate = DateTime.Now.AddDays(-10);
+
+            var result =
+                entities.Score.Where(a => a.targetDate >= oldDate && a.targetDate <= DateTime.Now && a.userId == GetUserId)
+                    .ToList();
+
+            return result.Select(item => new ScoreChart { Date = item.targetDate.ToShortDateString(), CurrentScore = item.targetScore, TargetScore = userDetail.DailyTargetScore }).ToList();
+        }
+
+        public void UpdateScore(int puan)
+        {
+            Score score = entities.Score.FirstOrDefault(a => a.userId == GetUserId && SqlFunctions.DateDiff("DAY", a.targetDate, DateTime.Now) == 0);
+
+            if (score != null)
+            {
+                score.targetScore = score.targetScore + puan;
+            }
+            else
+            {
+                Score s = new Score() { targetDate = DateTime.Now, targetScore = puan, userId = GetUserId };
+                entities.Score.Add(s);
+            }
+            entities.SaveChanges();
+        }
+
+        /// <summary>
+        /// Kutuların ismini ve  bu kutulara bağlı level sayısını çekmektedir
+        /// </summary>
+        /// <returns></returns>
+        public Dictionary<string, int> GetBoxMenu()
+        {
+            Dictionary<string, int> result = entities.Box.ToDictionary(box => box.boxName, box => box.Level.Count);
+
+            return result;
+        }
+
+        /// <summary>
+        /// çıkış
+        /// </summary>
+        public void SignOut()
+        {
+            Authen.SignOut();
+            HttpContext.Current.Session.Abandon();
+        }
+
         #region Levels
+
+        /// <summary>
+        /// Kutulardaki levellara tıklandığında gelen modalda hangi alt levelların  kapalı veya açık olduğunu belirtir.
+        /// </summary>
+        /// <param name="levelId"></param>
+
+        /// <returns></returns>
+        public Tuple<Level, levelUserProgress, levelUserProgress, List<Word>> GetExamLevelStart(int levelId)
+        {
+            //Günce seviye bilgileri
+            Level l = entities.Level.Find(levelId);
+            //Güncel LevelUser bilgileri
+            levelUserProgress progress = entities.levelUserProgress.FirstOrDefault(a => a.userId == GetUserId && a.levelId == l.levelId);
+
+            //bir önceki level bilgileri
+            Level previousLevel = entities.Level.FirstOrDefault(a => a.levelNumber == l.levelNumber - 1 && a.boxId == l.boxId);
+
+            //bir öncekli leveluser bilgileri
+            levelUserProgress previousLevelUserProgress = null;
+
+            if (previousLevel != null)
+            {
+                previousLevelUserProgress = entities.levelUserProgress.FirstOrDefault(a => a.levelId == previousLevel.levelId && a.userId == GetUserId);
+            }
+
+            return Tuple.Create(l, progress, previousLevelUserProgress, l.Word.ToList());
+        }
 
         public Level GetLevel(int levelId)
         {
@@ -167,50 +244,6 @@ namespace englishProject.Infrastructure
         }
 
         #endregion Levels
-
-        public Level GetWords(int levelId)
-        {
-            return entities.Level.Include("Word").First(a => a.levelId == levelId);
-        }
-
-        public UserDetail GetUserDetail()
-        {
-            return entities.UserDetail.FirstOrDefault(a => a.userId == GetUserId);
-        }
-
-        public double GetUserTargetPercent()
-        {
-            Score t = entities.Score.FirstOrDefault(a => a.userId == GetUserId && SqlFunctions.DateDiff("DAY", a.targetDate, DateTime.Now) == 0);
-
-            if (t != null)
-            {
-                UserDetail userDetail = entities.UserDetail.Find(GetUserId);
-
-                double percent = Math.Round(((double)t.targetScore / (double)userDetail.DailyTargetScore) * 100);
-
-                return percent;
-            }
-            else
-            {
-                return 0;
-            }
-        }
-
-        public void UpdateScore(int puan)
-        {
-            Score score = entities.Score.FirstOrDefault(a => a.userId == GetUserId && SqlFunctions.DateDiff("DAY", a.targetDate, DateTime.Now) == 0);
-
-            if (score != null)
-            {
-                score.targetScore = score.targetScore + puan;
-            }
-            else
-            {
-                Score s = new Score() { targetDate = DateTime.Now, targetScore = puan, userId = GetUserId };
-                entities.Score.Add(s);
-            }
-            entities.SaveChanges();
-        }
 
         #region WordModulPictureModul
 
@@ -368,32 +401,7 @@ namespace englishProject.Infrastructure
 
         #endregion WordModulPictureModul
 
-        /// <summary>
-        /// Kutulardaki levellara tıklandığında gelen modalda hangi alt levelların  kapalı veya açık olduğunu belirtir.
-        /// </summary>
-        /// <param name="levelId"></param>
-
-        /// <returns></returns>
-        public Tuple<Level, levelUserProgress, levelUserProgress, List<Word>> GetExamLevelStart(int levelId)
-        {
-            //Günce seviye bilgileri
-            Level l = entities.Level.Find(levelId);
-            //Güncel LevelUser bilgileri
-            levelUserProgress progress = entities.levelUserProgress.FirstOrDefault(a => a.userId == GetUserId && a.levelId == l.levelId);
-
-            //bir önceki level bilgileri
-            Level previousLevel = entities.Level.FirstOrDefault(a => a.levelNumber == l.levelNumber - 1 && a.boxId == l.boxId);
-
-            //bir öncekli leveluser bilgileri
-            levelUserProgress previousLevelUserProgress = null;
-
-            if (previousLevel != null)
-            {
-                previousLevelUserProgress = entities.levelUserProgress.FirstOrDefault(a => a.levelId == previousLevel.levelId && a.userId == GetUserId);
-            }
-
-            return Tuple.Create(l, progress, previousLevelUserProgress, l.Word.ToList());
-        }
+        #region User
 
         /// <summary>
         /// Üye test çözerken alt levelları başarılı bitirdiğinde veri tabanında güncelleme yapılmaktadır.
@@ -487,23 +495,29 @@ namespace englishProject.Infrastructure
             return userProfilView;
         }
 
+        public double GetUserTargetPercent()
+        {
+            Score t = entities.Score.FirstOrDefault(a => a.userId == GetUserId && SqlFunctions.DateDiff("DAY", a.targetDate, DateTime.Now) == 0);
+
+            if (t != null)
+            {
+                UserDetail userDetail = entities.UserDetail.Find(GetUserId);
+
+                double percent = Math.Round(((double)t.targetScore / (double)userDetail.DailyTargetScore) * 100);
+
+                return percent;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         /// <summary>
-        /// Kutuların ismini ve  bu kutulara bağlı level sayısını çekmektedir
+        /// kullanıcı güncelleme
         /// </summary>
+        /// <param name="userr"></param>
         /// <returns></returns>
-        public Dictionary<string, int> GetBoxMenu()
-        {
-            Dictionary<string, int> result = entities.Box.ToDictionary(box => box.boxName, box => box.Level.Count);
-
-            return result;
-        }
-
-        public void SignOut()
-        {
-            Authen.SignOut();
-            HttpContext.Current.Session.Abandon();
-        }
-
         public string UpdateUser(UserViewModel userr)
         {
             try
@@ -560,6 +574,11 @@ namespace englishProject.Infrastructure
             }
         }
 
+        /// <summary>
+        /// kullanıcı resmi güncelleme
+        /// </summary>
+        /// <param name="fileUpload"></param>
+        /// <returns></returns>
         public string GetUpdateUserPicture(HttpPostedFileBase fileUpload)
         {
             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(fileUpload.FileName);
@@ -587,6 +606,11 @@ namespace englishProject.Infrastructure
             return "/Pictures/UserPicture/" + fileName;
         }
 
+        /// <summary>
+        /// Kullanıcı password güncelleme
+        /// </summary>
+        /// <param name="pass"></param>
+        /// <returns></returns>
         public string UpdateUserPassword(UserPasswordViewModel pass)
         {
             try
@@ -609,11 +633,29 @@ namespace englishProject.Infrastructure
             }
         }
 
+        public UserDetail GetUserDetail()
+        {
+            return entities.UserDetail.FirstOrDefault(a => a.userId == GetUserId);
+        }
+
+        #endregion User
+
+        #region Comments
+
+        /// <summary>
+        /// Seviyeye ait yorumlar
+        /// </summary>
+        /// <param name="levelId"></param>
+        /// <returns></returns>
         public List<comment> GetComment(int levelId)
         {
             return entities.comment.Where(a => a.commentExceptId == levelId && a.commentReplyId == null).OrderByDescending(b => b.commentDate).ToList();
         }
 
+        /// <summary>
+        /// Tüm yorumlar
+        /// </summary>
+        /// <returns></returns>
         public List<CommentCustom> GetComment()
         {
             return (from c in entities.comment
@@ -626,5 +668,7 @@ namespace englishProject.Infrastructure
                         Level = l
                     }).ToList();
         }
+
+        #endregion Comments
     }
 }

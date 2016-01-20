@@ -128,7 +128,7 @@ namespace englishProject.Controllers
             ViewBag.userProfilView = operations.GetUserProfilViewMenu();
             ViewBag.userApp = operations.getProfil();
             ViewBag.index = id;
-
+            ViewBag.chart = operations.GetScoreChart();
             return View();
         }
 
@@ -151,10 +151,12 @@ namespace englishProject.Controllers
 
         public ActionResult deneme()
         {
-            ClaimsIdentity ident = HttpContext.User.Identity as ClaimsIdentity;
+            //ClaimsIdentity ident = HttpContext.User.Identity as ClaimsIdentity;
+            //return View(ident.Claims.ToList());
 
-            operations.GetWordModul(ModulSubLevel.Temel, 1);
-            return View(ident.Claims.ToList());
+            ViewBag.chart = operations.GetScoreChart();
+
+            return View();
         }
 
         public ActionResult SignOut()
@@ -244,7 +246,7 @@ namespace englishProject.Controllers
 
             if (user == null)
             {
-                user = new UserApp { Email = info.Email, UserName = info.DefaultUserName };
+                user = new UserApp { Email = info.Email, UserName = info.DefaultUserName, PicturePath = HelperMethod.getGooglePicture("AIzaSyCVD7qMU1-coXSlDi7zAx5LQpVcxcSAfe0") };
 
                 IdentityResult result = await usermanager.CreateAsync(user);
                 if (result.Succeeded)
@@ -270,6 +272,12 @@ namespace englishProject.Controllers
         #endregion Social Login
 
         #region ajax
+
+        [HttpGet]
+        public ActionResult ChartAjax()
+        {
+            return PartialView("Templates/SettingsChartPartial", operations.GetScoreChart());
+        }
 
         [HttpGet]
         public ActionResult LevelExamStartAjax(int levelId)
