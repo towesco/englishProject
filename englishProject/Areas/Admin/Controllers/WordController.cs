@@ -1,11 +1,11 @@
-﻿using englishProject.Areas.Admin.Infrastructure;
+﻿using AutoMapper.Internal;
+using englishProject.Areas.Admin.Infrastructure;
 using englishProject.Infrastructure;
 using englishProject.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace englishProject.Areas.Admin.Controllers
@@ -16,7 +16,7 @@ namespace englishProject.Areas.Admin.Controllers
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
         private IWord entities;
 
-        private HelperMethod helperMethod;
+        private readonly HelperMethod helperMethod;
 
         public WordController(IWord word)
         {
@@ -27,13 +27,14 @@ namespace englishProject.Areas.Admin.Controllers
         public ActionResult Words(int levelId = 1)
         {
             ViewBag.boxId = new SelectList(helperMethod.GetBoxSelectListItems(), "Value", "Text");
-            ViewBag.levelId = new SelectList(helperMethod.GetLevelSelectListItems(), "Value", "Text");
+            ViewBag.levelId = new SelectList(helperMethod.GetLevelSelectListItems(Modul.WordModul), "Value", "Text");
 
             return View(entities.Words(levelId));
         }
 
-        public ActionResult AddWord()
+        public ActionResult AddWord(int id)
         {
+            ViewBag.id = id;
             return View(new Word());
         }
 
@@ -41,7 +42,7 @@ namespace englishProject.Areas.Admin.Controllers
         {
             var w = entities.GetWord(wordId);
 
-            ViewBag.levelId = new SelectList(helperMethod.GetLevelSelectListItems(), "Value", "Text", w.levelId);
+            ViewBag.levelId = new SelectList(helperMethod.GetLevelSelectListItems(Modul.WordModul), "Value", "Text", w.levelId);
 
             return View(w);
         }
@@ -51,23 +52,24 @@ namespace englishProject.Areas.Admin.Controllers
         {
             entities.UpdateWord(w);
 
-            return RedirectToAction("Words", new { selectLevel = w.levelId });
+            return RedirectToAction("Words", new { levelId = w.levelId });
         }
 
         [HttpPost]
         public ActionResult DeleteWord2(int wordId)
         {
+            Word w = entities.GetWord(wordId);
             entities.DeleteWord(wordId);
-            return RedirectToAction("Words");
+            return RedirectToAction("Words", new { levelId = w.levelId });
         }
 
         #region Ajax
 
         public JsonResult CreateWord(Word word)
         {
-            entities.AddWord(word);
+            string json = string.Format("{0}-{1}", entities.AddWord(word), word.wordId);
 
-            return Json(word.wordId, JsonRequestBehavior.AllowGet);
+            return Json(json, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult DeletePicture(string path)
@@ -84,7 +86,12 @@ namespace englishProject.Areas.Admin.Controllers
         {
             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(fileUpload.FileName);
 
-            fileUpload.SaveAs(Server.MapPath("~/Pictures/WordModul/" + fileName));
+            WebImage webImage = new WebImage(fileUpload.InputStream);
+
+            webImage.Resize(400, 200, false);
+
+            webImage.Save(Server.MapPath("~/Pictures/WordModul/" + fileName));
+            //fileUpload.SaveAs(Server.MapPath("~/Pictures/WordModul/" + fileName));
 
             return Content("/Pictures/WordModul/" + fileName);
         }

@@ -1,0 +1,62 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Models
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "levelExam";
+    Level level = ViewBag.level;
+    Level nextLevel = ViewBag.nextLevel;
+
+}
+
+<div id="examWrapper">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            @Html.Partial("ModulPartial/HeaderPartial", level)
+
+            <div class="panel examPanel">
+                <div id="SubLvelWrapper">
+                    @Html.Partial("ModulPartial/ProgressPartial", level.levelSubLevel)
+
+                    <div data-bind="visible:normalShow()">
+                        <div id="dragWrapper">
+
+                            <div id="leftWrapper" class="col-md-9 text-left" data-bind="foreach:QuestionsList">
+
+                                <div ondrop="drop(event)" ondragenter="dragenter(event)" ondragleave="dragleave(event)" ondragover="dragover(event)" id="group-1" data-bind="    attr: { id: 'group-' + Key, 'data-key': Key }" class="btn-group btn-group-lg  group" role="group" aria-label="...">
+
+                                    <button data-bind="attr:{'data-key':Key}" ondrop="noDrop(event)" draggable="false" class="btn btn-primary  btn-right">
+                                        <span data-bind="text:Synonym1"></span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="rightWrapper" ondrop="drop(event)" ondragover="dragover(event)" class="col-md-3 text-center" draggable="false" data-bind="foreach:QuestionsList">
+
+                                <div data-toggle="tooltip" data-placement="top" ondragstart="dragstart(event)" data-bind="attr: {id:'btn-' + Key, 'data-key': Key,title:Turkish }" draggable="true" class="btn  btn-info  btn-lg ">
+
+                                    <i ondrop="noDrop(event)" class="fa fa-arrows-h fa-2x"></i>
+                                    <span data-bind="text:Synonym2"></span>
+
+                                    <span data-bind="visible:$parent.turkishVisible">(<small data-bind="text:Turkish"></small>)</span>
+                                    <a data-bind="click:$parent.backBtn" ondrop="noDrop(event)" href="#"><i class="fa fa-times-circle"></i></a>
+                                </div>
+                            </div>
+                            <i class="clearfix"></i>
+                        </div>
+
+                        <div data-bind="visible:subLevelNumber()<3" class="col-md-12 text-center btnsWrapper">
+
+                            <button data-bind="click:control,visible:controlShow" type="button" class="btn btn-lg btn-ques"><span>Kontrol et</span></button>
+                            <button data-bind="click:contionous,visible:continousShow" type="button" class="btn btn-lg btn-ques"><span>Devam et</span></button>
+                        </div>
+                    </div>
+
+                    @Html.Partial("ModulPartial/SubLevelSuccess", nextLevel)
+                    @Html.Partial("ModulPartial/FailPartial")
+
+                    @Html.Partial("ModulPartial/EndPartial", nextLevel)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

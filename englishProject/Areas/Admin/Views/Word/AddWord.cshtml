@@ -1,4 +1,5 @@
-﻿@using englishProject.Infrastructure
+﻿@using AutoMapper.Internal
+@using englishProject.Infrastructure
 @model englishProject.Models.Word
 
 @{
@@ -37,7 +38,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.levelId, "levelId", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("levelId", new HelperMethod().GetLevelSelectListItems(), htmlAttributes: new { @class = "form-control", @data_bind = "value:levelId" })
+                    @Html.DropDownList("levelId", new HelperMethod().GetLevelSelectListItems(Modul.WordModul), htmlAttributes: new { @class = "form-control", @data_bind = "value:levelId" })
                     @Html.ValidationMessageFor(model => model.levelId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -67,15 +68,36 @@
             </div>
 
             <div class="form-group">
+                @Html.LabelFor(model => model.wordDefinition, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.wordDefinition, new { htmlAttributes = new { @class = "form-control", @data_bind = "value:wordDefinition" } })
+                    @Html.ValidationMessageFor(model => model.wordDefinition, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.wordExample, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.wordExample, new { htmlAttributes = new { @class = "form-control", @data_bind = "value:wordExample" } })
+                    @Html.ValidationMessageFor(model => model.wordExample, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" id="images">
                 <div class="row">
+
                     <div class="col-md-5 col-md-offset-2">
                         @Html.Label("hatırlatıcı resim ekle")
                         <input name="fileUpload" id="wordRemender" type="file" />
                     </div>
-                    <div class="col-md-5">
-                        @Html.Label("hatırlatıcı açıklayıcı resim ekle")
-                        <input name="fileUpload" id="wordRemenderInfo" type="file" />
-                    </div>
+
+                    @if (ViewBag.id == 2)
+                    {
+                        <div class="col-md-5">
+                            @Html.Label("hatırlatıcı açıklayıcı resim ekle")
+                            <input name="fileUpload" id="wordRemenderInfo" type="file" />
+                        </div>
+
+                    }
                 </div>
             </div>
 
@@ -100,6 +122,8 @@
             <th>Çeviri Kelime</th>
             <th>Seviye</th>
             <th>ek bilgi</th>
+            <th>Açıklama</th>
+            <th>Örnek</th>
             <th>Hatırlatıcı resim</th>
             <th>Hatırlatıcı resim açıklamalı</th>
             <th>Sil</th>
@@ -113,6 +137,8 @@
             <td data-bind="text:number"></td>
 
             <td data-bind="text: info"></td>
+            <td data-bind="text: definition"></td>
+            <td data-bind="text: example"></td>
             <th>
                 <img data-bind="attr:{src:remender}" />
             </th>

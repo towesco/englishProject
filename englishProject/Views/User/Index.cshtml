@@ -39,7 +39,7 @@
                 },
                 step: function (state, bar) {
 
-                    bar.setText("%" + (bar.value() * 100).toFixed(0));
+                    bar.setText("%" + Math.abs((bar.value() * 100).toFixed(0)));
 
                 }
             });

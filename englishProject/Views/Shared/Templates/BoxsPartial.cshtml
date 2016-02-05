@@ -9,8 +9,8 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            //subLevelSelect click common.js dosyasındadır
-            $("#input-6e").rating();
+            //subLevelSelect click common.js dosyasındadır.
+            //$("#input-6e").rating();
 
         });
     </script>
@@ -43,13 +43,13 @@
                 @if (!locked)
                 {
                     <div style="border-top: 2px solid #0870A8;  margin: 3px 0px -4px 0px">
-                        <small>@levelName</small>
+                        <small>@HelperMethod.GetCutString(levelName, 13)</small>
                     </div>
                 }
                 else
                 {
                     <div style="border-top: 2px solid #962D18;  margin: 3px 0px -4px 0px">
-                        <small>@levelName</small>
+                        <small>@HelperMethod.GetCutString(levelName, 13)</small>
                     </div>
                 }
 

@@ -20,29 +20,21 @@
         case Modul.PictureWordModul:
             exam = Html.HtmlConvertToJson((PictureWordModul)ViewBag.exam);
             break;
+        case Modul.SynonymWordModul:
+
+            exam = Html.HtmlConvertToJson((CommonModul<SynonymQuestions>)ViewBag.exam);
+            break;
+
     }
 
 }
 @section scripts
 {
-
+    <link href="@Url.Content("~/Content/"+m.ToString()+".css")" rel="stylesheet" />
     <script src="@Url.Content("~/Scripts/Modul/commonModul.js")"></script>
     <script src="@Url.Content("~/Scripts/Modul/" + m.ToString() + ".js")"></script>
 
     <script type="text/javascript">
-        ko.bindingHandlers.executeOnEnter = {
-            init: function (element, valueAccessor, allBindings, viewModel) {
-                var callback = valueAccessor();
-                $(element).keypress(function (event) {
-                    var keyCode = (event.which ? event.which : event.keyCode);
-                    if (keyCode === 13) {
-                        callback.call(viewModel);
-                        return false;
-                    }
-                    return true;
-                });
-            }
-        }
 
         var commentIssueViewModel=function() {
             var self = this;
@@ -107,29 +99,30 @@
         $(document).ready(function () {
 
             var commentVM = new commentIssueViewModel();
+
             ko.applyBindings(commentVM,document.getElementById("commentIssueModal"));
+
             var  vm = new viewmodel(@exam, @level.levelId,@level.levelSubLevel,@level.boxId);
             ko.applyBindings(vm, document.getElementById("examWrapper"));
-
-            $('[data-toggle="popover"]').popover('show');
-
-            $("#loading").modal({ backdrop: false });
-            $(window).load(function () {
-                $("#loading").modal("hide");
-
-            });
-            $("#btnCommentIssue,#btnCommentIssue2").click(function() {
-                $("#commentIssueModal").modal();
-                $("#result").hide();
-                $("#CommentIssue").val("");
-
-            });
 
         });
     </script>
 }
-@Html.Partial("ModulPartial/LoadingPartial")
 
-@Html.Partial("Modul/" + m.ToString())
+@Html.Partial("Templates/LoadingPartial")
 
-@Html.Partial("ModulPartial/CommentIssue", new CommentIssueVM() { ExceptId = level.levelId })
+<div id="levelExamWrapper" style="display: none">
+    @Html.Partial("Modul/" + m.ToString())
+
+    @Html.Partial("ModulPartial/CommentIssue", new CommentIssueVM() { ExceptId = level.levelId })
+</div>
+
+<audio controls id="successAudi" preload="auto">
+
+    <source src="@Url.Content("~/Content/audi/success.wav")" />
+</audio>
+
+<audio controls id="wrongAudi" preload="auto">
+
+    <source src="@Url.Content("~/Content/audi/wrong.wav")" />
+</audio>

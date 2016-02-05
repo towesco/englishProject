@@ -89,6 +89,17 @@
           <Property Name="targetDate" Type="date" Nullable="false" />
           <Property Name="targetScore" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="SynonymWord">
+          <Key>
+            <PropertyRef Name="synonymId" />
+          </Key>
+          <Property Name="synonymId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="levelId" Type="int" Nullable="false" />
+          <Property Name="synonymTurkish" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="synonym1" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="synonym2" Type="nvarchar" MaxLength="100" />
+          <Property Name="synonym3" Type="nvarchar" MaxLength="100" />
+        </EntityType>
         <EntityType Name="UserDetail">
           <Key>
             <PropertyRef Name="userId" />
@@ -108,6 +119,8 @@
           <Property Name="info" Type="nvarchar" MaxLength="500" />
           <Property Name="wordRemender" Type="nvarchar" MaxLength="3000" />
           <Property Name="wordRemenderInfo" Type="nvarchar" MaxLength="3000" />
+          <Property Name="wordDefinition" Type="nvarchar" MaxLength="1000" />
+          <Property Name="wordExample" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <Association Name="FK_comment_comment">
           <End Role="comment" Type="Self.comment" Multiplicity="0..1" />
@@ -145,6 +158,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SynonymWord_Level">
+          <End Role="Level" Type="Self.Level" Multiplicity="1" />
+          <End Role="SynonymWord" Type="Self.SynonymWord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="levelId" />
+            </Principal>
+            <Dependent Role="SynonymWord">
+              <PropertyRef Name="levelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Word_Level">
           <End Role="Level" Type="Self.Level" Multiplicity="1" />
           <End Role="Word" Type="Self.Word" Multiplicity="*" />
@@ -169,6 +194,7 @@
           <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="log" EntityType="Self.log" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Score" EntityType="Self.Score" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SynonymWord" EntityType="Self.SynonymWord" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Word" EntityType="Self.Word" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_comment_comment" Association="Self.FK_comment_comment">
@@ -183,6 +209,10 @@
             <End Role="Box" EntitySet="Box" />
             <End Role="Level" EntitySet="Level" />
           </AssociationSet>
+          <AssociationSet Name="FK_SynonymWord_Level" Association="Self.FK_SynonymWord_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="SynonymWord" EntitySet="SynonymWord" />
+          </AssociationSet>
           <AssociationSet Name="FK_Word_Level" Association="Self.FK_Word_Level">
             <End Role="Level" EntitySet="Level" />
             <End Role="Word" EntitySet="Word" />
@@ -196,7 +226,6 @@
           <EntitySet Name="Box" EntityType="EnglishProjectDBModel.Box" />
           <EntitySet Name="IrregularVerb" EntityType="EnglishProjectDBModel.IrregularVerb" />
           <EntitySet Name="Level" EntityType="EnglishProjectDBModel.Level" />
-          <EntitySet Name="Word" EntityType="EnglishProjectDBModel.Word" />
           <AssociationSet Name="FK_Level_Box" Association="EnglishProjectDBModel.FK_Level_Box">
             <End Role="Box" EntitySet="Box" />
             <End Role="Level" EntitySet="Level" />
@@ -204,10 +233,6 @@
           <AssociationSet Name="FK_IrregularVerb_Level" Association="EnglishProjectDBModel.FK_IrregularVerb_Level">
             <End Role="Level" EntitySet="Level" />
             <End Role="IrregularVerb" EntitySet="IrregularVerb" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Word_Level" Association="EnglishProjectDBModel.FK_Word_Level">
-            <End Role="Level" EntitySet="Level" />
-            <End Role="Word" EntitySet="Word" />
           </AssociationSet>
           <EntitySet Name="levelUserProgress" EntityType="EnglishProjectDBModel.levelUserProgress" />
           <FunctionImport Name="userProggress" ReturnType="Collection(EnglishProjectDBModel.userProggress_Result)">
@@ -222,6 +247,16 @@
             <End Role="comment1" EntitySet="comment" />
           </AssociationSet>
           <EntitySet Name="log" EntityType="EnglishProjectDBModel.log" />
+          <EntitySet Name="Word" EntityType="EnglishProjectDBModel.Word" />
+          <AssociationSet Name="FK_Word_Level" Association="EnglishProjectDBModel.FK_Word_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="Word" EntitySet="Word" />
+          </AssociationSet>
+          <EntitySet Name="SynonymWord" EntityType="EnglishProjectDBModel.SynonymWord" />
+          <AssociationSet Name="FK_SynonymWord_Level" Association="EnglishProjectDBModel.FK_SynonymWord_Level">
+            <End Role="Level" EntitySet="Level" />
+            <End Role="SynonymWord" EntitySet="SynonymWord" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Box">
           <Key>
@@ -260,20 +295,7 @@
           <NavigationProperty Name="Box" Relationship="EnglishProjectDBModel.FK_Level_Box" FromRole="Level" ToRole="Box" />
           <NavigationProperty Name="IrregularVerb" Relationship="EnglishProjectDBModel.FK_IrregularVerb_Level" FromRole="Level" ToRole="IrregularVerb" />
           <NavigationProperty Name="Word" Relationship="EnglishProjectDBModel.FK_Word_Level" FromRole="Level" ToRole="Word" />
-        </EntityType>
-        <EntityType Name="Word">
-          <Key>
-            <PropertyRef Name="wordId" />
-          </Key>
-          <Property Name="wordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="levelId" Type="Int32" Nullable="false" />
-          <Property Name="wordTurkish" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="wordTranslate" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="picture" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
-          <Property Name="wordRemender" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
-          <Property Name="wordRemenderInfo" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Level" Relationship="EnglishProjectDBModel.FK_Word_Level" FromRole="Word" ToRole="Level" />
+          <NavigationProperty Name="SynonymWord" Relationship="EnglishProjectDBModel.FK_SynonymWord_Level" FromRole="Level" ToRole="SynonymWord" />
         </EntityType>
         <Association Name="FK_Level_Box">
           <End Type="EnglishProjectDBModel.Box" Role="Box" Multiplicity="1" />
@@ -295,18 +317,6 @@
               <PropertyRef Name="levelId" />
             </Principal>
             <Dependent Role="IrregularVerb">
-              <PropertyRef Name="levelId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Word_Level">
-          <End Type="EnglishProjectDBModel.Level" Role="Level" Multiplicity="1" />
-          <End Type="EnglishProjectDBModel.Word" Role="Word" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Level">
-              <PropertyRef Name="levelId" />
-            </Principal>
-            <Dependent Role="Word">
               <PropertyRef Name="levelId" />
             </Dependent>
           </ReferentialConstraint>
@@ -390,6 +400,58 @@
           <Property Name="Message" Type="String" Nullable="false" MaxLength="4000" FixedLength="false" Unicode="false" />
           <Property Name="Exception" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
         </EntityType>
+        <EntityType Name="Word">
+          <Key>
+            <PropertyRef Name="wordId" />
+          </Key>
+          <Property Name="wordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="levelId" Type="Int32" Nullable="false" />
+          <Property Name="wordTurkish" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="wordTranslate" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="picture" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="wordRemender" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="wordRemenderInfo" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+          <Property Name="wordDefinition" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="wordExample" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Level" Relationship="EnglishProjectDBModel.FK_Word_Level" FromRole="Word" ToRole="Level" />
+        </EntityType>
+        <Association Name="FK_Word_Level">
+          <End Type="EnglishProjectDBModel.Level" Role="Level" Multiplicity="1" />
+          <End Type="EnglishProjectDBModel.Word" Role="Word" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="levelId" />
+            </Principal>
+            <Dependent Role="Word">
+              <PropertyRef Name="levelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SynonymWord">
+          <Key>
+            <PropertyRef Name="synonymId" />
+          </Key>
+          <Property Name="synonymId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="levelId" Type="Int32" Nullable="false" />
+          <Property Name="synonymTurkish" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="synonym1" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="synonym2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="synonym3" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Level" Relationship="EnglishProjectDBModel.FK_SynonymWord_Level" FromRole="SynonymWord" ToRole="Level" />
+        </EntityType>
+        <Association Name="FK_SynonymWord_Level">
+          <End Type="EnglishProjectDBModel.Level" Role="Level" Multiplicity="1" />
+          <End Type="EnglishProjectDBModel.SynonymWord" Role="SynonymWord" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Level">
+              <PropertyRef Name="levelId" />
+            </Principal>
+            <Dependent Role="SynonymWord">
+              <PropertyRef Name="levelId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -429,20 +491,6 @@
                 <ScalarProperty Name="levelName" ColumnName="levelName" />
                 <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
                 <ScalarProperty Name="levelId" ColumnName="levelId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Word">
-            <EntityTypeMapping TypeName="EnglishProjectDBModel.Word">
-              <MappingFragment StoreEntitySet="Word">
-                <ScalarProperty Name="wordRemenderInfo" ColumnName="wordRemenderInfo" />
-                <ScalarProperty Name="wordRemender" ColumnName="wordRemender" />
-                <ScalarProperty Name="info" ColumnName="info" />
-                <ScalarProperty Name="picture" ColumnName="picture" />
-                <ScalarProperty Name="wordTranslate" ColumnName="wordTranslate" />
-                <ScalarProperty Name="wordTurkish" ColumnName="wordTurkish" />
-                <ScalarProperty Name="levelId" ColumnName="levelId" />
-                <ScalarProperty Name="wordId" ColumnName="wordId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -518,6 +566,34 @@
                 <ScalarProperty Name="Thread" ColumnName="Thread" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Word">
+            <EntityTypeMapping TypeName="EnglishProjectDBModel.Word">
+              <MappingFragment StoreEntitySet="Word">
+                <ScalarProperty Name="wordExample" ColumnName="wordExample" />
+                <ScalarProperty Name="wordDefinition" ColumnName="wordDefinition" />
+                <ScalarProperty Name="wordRemenderInfo" ColumnName="wordRemenderInfo" />
+                <ScalarProperty Name="wordRemender" ColumnName="wordRemender" />
+                <ScalarProperty Name="info" ColumnName="info" />
+                <ScalarProperty Name="picture" ColumnName="picture" />
+                <ScalarProperty Name="wordTranslate" ColumnName="wordTranslate" />
+                <ScalarProperty Name="wordTurkish" ColumnName="wordTurkish" />
+                <ScalarProperty Name="levelId" ColumnName="levelId" />
+                <ScalarProperty Name="wordId" ColumnName="wordId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SynonymWord">
+            <EntityTypeMapping TypeName="EnglishProjectDBModel.SynonymWord">
+              <MappingFragment StoreEntitySet="SynonymWord">
+                <ScalarProperty Name="synonym3" ColumnName="synonym3" />
+                <ScalarProperty Name="synonym2" ColumnName="synonym2" />
+                <ScalarProperty Name="synonym1" ColumnName="synonym1" />
+                <ScalarProperty Name="synonymTurkish" ColumnName="synonymTurkish" />
+                <ScalarProperty Name="levelId" ColumnName="levelId" />
+                <ScalarProperty Name="synonymId" ColumnName="synonymId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

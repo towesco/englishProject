@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "deneme2";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+}
+
+<h2>deneme2</h2>
+
+@section scripts
+{
+
+    <script>
+
+        // trnsl.1.1.20160203T094240Z.82eed6f851dea057.6b8535582a07fa9389d8c716c56735188092b4e3
+
+        $(document).ready(function () {
+
+            $(".audioDemo").trigger('load');
+            $("button").click(function () {
+                $(".audioDemo").trigger('play');
+
+            });
+
+            //var uri = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=trnsl.1.1.20160203T094240Z.82eed6f851dea057.6b8535582a07fa9389d8c716c56735188092b4e3&text=ilgi&lang=tr-en";
+
+            //$.getJSON(uri, null, function (veri) {
+
+            //    console.log(veri.text);
+
+            //});
+
+            //var recognizer = new webkitSpeechRecognition();
+            //recognizer.lang = "en";
+            //recognizer.onresult = function (event) {
+            //    if (event.results.length > 0) {
+            //        var result = event.results[event.results.length - 1];
+            //        if (result.isFinal) {
+            //            console.log(result[0].transcript);
+            //        }
+            //    }
+            //};
+            //recognizer.start();
+
+        })
+    </script>
+}
+<button type="button">çal</button>
+<audio class="audioDemo" preload="none">
+    controls="controls">
+    <source src="@Url.Content("~/Content/audi/success.wav")" />
+</audio>

@@ -209,12 +209,16 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Areas\Admin\Controllers\LevelController.cs" />
+    <Compile Include="Areas\Admin\Controllers\SynonymWordController.cs" />
     <Compile Include="Areas\Admin\Controllers\WordController.cs" />
+    <Compile Include="Areas\Admin\Infrastructure\ISynonym.cs" />
     <Compile Include="Areas\Admin\Infrastructure\OperationsAdmin.cs" />
+    <Compile Include="Areas\Admin\Infrastructure\SynonymAction.cs" />
     <Compile Include="Infrastructure\HelperClass\BoxLevelUser.cs" />
     <Compile Include="Infrastructure\HelperClass\Comments.cs" />
     <Compile Include="Infrastructure\HelperClass\Enums.cs" />
     <Compile Include="Infrastructure\Extensions.cs" />
+    <Compile Include="Infrastructure\HelperClass\ExamStartWord.cs" />
     <Compile Include="Infrastructure\HelperClass\ScoreChart.cs" />
     <Compile Include="Infrastructure\HelperClass\ScoreTable.cs" />
     <Compile Include="Infrastructure\HelperMethod.cs" />
@@ -229,7 +233,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Infrastructure\Modul\CommonModul.cs" />
     <Compile Include="Infrastructure\Modul\PictureWordModul.cs" />
+    <Compile Include="Infrastructure\Modul\SynonymWordModul.cs" />
     <Compile Include="Infrastructure\Modul\WordModul.cs" />
     <Compile Include="Infrastructure\OperationDirect.cs" />
     <Compile Include="Infrastructure\Operations.cs" />
@@ -281,7 +287,11 @@
     <Compile Include="Models\log.cs">
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ModelHelper.cs" />
     <Compile Include="Models\Score.cs">
+      <DependentUpon>EnglishModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SynonymWord.cs">
       <DependentUpon>EnglishModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserDetail.cs">
@@ -301,10 +311,14 @@
     <Content Include="Areas\Admin\css\sb-admin-2.css" />
     <Content Include="Areas\Admin\css\font-awesome.css" />
     <Content Include="Areas\Admin\fonts\fontawesome-webfont.svg" />
+    <Content Include="Areas\Admin\js\AddSynonymWord.js" />
     <Content Include="Areas\Admin\js\AddWord.js" />
     <Content Include="Areas\Admin\js\bootstrap.js" />
     <Content Include="Areas\Admin\js\metisMenu.js" />
     <Content Include="Areas\Admin\js\sb-admin-2.js" />
+    <Content Include="Content\animate.css" />
+    <Content Include="Content\audi\success.wav" />
+    <Content Include="Content\audi\wrong.wav" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Areas\Admin\css\bootstrap.css" />
@@ -318,6 +332,7 @@
     <Content Include="Content\images\comment.png" />
     <Content Include="Content\images\flag\Turkey-icon.png" />
     <Content Include="Content\images\flag\United-kingdom-icon.png" />
+    <Content Include="Content\images\level-update-background.png" />
     <Content Include="Content\images\level\body.png" />
     <Content Include="Content\images\success.png" />
     <Content Include="Content\images\target.png" />
@@ -325,6 +340,7 @@
     <Content Include="Content\images\userbackground.png" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\style.css" />
+    <Content Include="Content\SynonymWordModul.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -340,7 +356,6 @@
     <Content Include="Pictures\blink.gif" />
     <Content Include="Pictures\PictıreWordModul\body.jpg" />
     <Content Include="Pictures\PictıreWordModul\face.jpg" />
-    <Content Include="Pictures\WordModul\200400.jpg" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="fonts\FontAwesome.otf" />
@@ -393,6 +408,9 @@
     <Content Include="Content\font-awesome-4.5.0\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\font-awesome-4.5.0\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Areas\Admin\Views\Home\Log.cshtml" />
+    <Content Include="Areas\Admin\Views\SynonymWord\AddSynonymWord.cshtml" />
+    <Content Include="Areas\Admin\Views\SynonymWord\SynonymWords.cshtml" />
+    <Content Include="Areas\Admin\Views\SynonymWord\UpdateSynonymWord.cshtml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\chart.js" />
     <Content Include="Scripts\common.js" />
@@ -416,6 +434,7 @@
     <Content Include="Scripts\knockout-3.4.0.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\Modul\commonModul.js" />
+    <Content Include="Scripts\Modul\SynonymWordModul.js" />
     <Content Include="Scripts\Modul\PictureWordModul.js" />
     <Content Include="Scripts\Modul\WordModul.js" />
     <Content Include="Scripts\progressbar\progressbar.js" />
@@ -471,10 +490,9 @@
     <Content Include="Views\Shared\ModulPartial\SubLevelSuccess.cshtml" />
     <Content Include="Views\Shared\ModulPartial\WarningPartial.cshtml" />
     <Content Include="Views\Shared\Modul\PictureWordModul.cshtml" />
-    <Content Include="Views\Shared\ModulPartial\LoadingPartial.cshtml" />
+    <Content Include="Views\Shared\Templates\LoadingPartial.cshtml" />
     <Content Include="Views\Home\deneme.cshtml" />
     <Content Include="Views\User\RemenderCard.cshtml" />
-    <Content Include="Views\Shared\Templates\modalPartial.cshtml" />
     <Content Include="Views\User\Settings.cshtml" />
     <Content Include="Views\Shared\Templates\SettingsUserInfoPartial.cshtml" />
     <Content Include="Views\Shared\Templates\SettingsPasswordPartial.cshtml" />
@@ -495,12 +513,17 @@
     <Content Include="Views\Shared\Templates\ContactPartial.cshtml" />
     <Content Include="Views\Shared\Templates\UserScoreChartPartial.cshtml" />
     <Content Include="Views\Shared\Templates\SettingsChartPartial.cshtml" />
+    <Content Include="Views\Shared\Templates\LayoutExtensions.cshtml" />
+    <Content Include="Views\Shared\Modul\SynonymWordModul.cshtml" />
+    <Content Include="Views\User\deneme2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\font-awesome\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Pictures\UserPicture\" />
+    <Folder Include="Pictures\WordModul\" />
+    <Folder Include="Scripts\notification\" />
     <Folder Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\logos\" />
     <Folder Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\portfolio\" />
     <Folder Include="Views\Shared\EditorTemplates\" />

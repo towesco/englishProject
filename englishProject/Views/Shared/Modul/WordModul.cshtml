@@ -6,8 +6,6 @@
     Level level = ViewBag.level;
     Level nextLevel = ViewBag.nextLevel;
 
-    IHtmlString message1 = Html.Raw("<strong>Uyarı ! </strong> Kelime kartının sağ alt kısmında göreceğiniz <i class='fa fa-exchange'></i> işareti kelimenin  hatırlatma resimi olduğu anlamına gelir.  Karta tıklayarak hatırlatma resmini görebilirsiniz. Her tıklamada kelimeden kazanacağımız puanın<strong> yarısını</strong> kaybedersiniz.");
-
 }
 
 <div id="examWrapper">
@@ -15,19 +13,21 @@
         <div class="col-md-10 col-md-offset-1">
             @Html.Partial("ModulPartial/HeaderPartial", level)
 
-            <div class="panel" style="border-width: 0px; border-top-left-radius: 0px;border-top-right-radius: 0px;">
+            <div class="panel examPanel">
                 <div id="SubLvelWrapper">
                     @Html.Partial("ModulPartial/ProgressPartial", level.levelSubLevel)
 
-                    <div class="row">
-                        <div class="col-md-12">
+                    <div id="fail" data-bind="visible:normalShow()" style="position: relative;">
 
-                            @HelperMethod.GetMessage(message1, Alert.info, 1)
+                        <div class="btn-group-vertical definitionWrapper" role="group">
+                            @*<h1 data-bind="text:definitionValueCount"></h1>*@
+
+                            <button data-placement="right" data-bind="visible:definitionValueCount()>0, attr: { 'data-content': Questions.Definition }" data-trigger="focus" type="button" class="btn btn-default btn-sm" data-toggle="popover" title="Açıklama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">Açıklama</button>
+
+                            <button data-placement="right" data-bind="visible:exampleValueCount()>0, attr: { 'data-content': Questions.Example }" data-trigger="focus" type="button" class="btn btn-default btn-sm" data-toggle="popover" title="Örnek&nbsp;cümle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">Örnek cümle</button>
                         </div>
-                    </div>
 
-                    <div id="fail" data-bind="visible:!fail()">
-                        <div class="row" data-bind="visible:!updateWrapper()">
+                        <div class="row">
 
                             <div class="col-md-6 col-md-offset-3">
                                 <div data-bind="click:exChange" id="questionCard" class=" background questionCard img-rounded text-center">
@@ -63,9 +63,10 @@
                         </div>
                     </div>
 
-                    @Html.Partial("ModulPartial/SubLevelSuccess", nextLevel)
                     @Html.Partial("ModulPartial/FailPartial")
                     @Html.Partial("ModulPartial/EndPartial", nextLevel)
+
+                    @Html.Partial("ModulPartial/SubLevelSuccess", nextLevel)
                 </div>
             </div>
         </div>

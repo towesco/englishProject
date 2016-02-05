@@ -88,6 +88,10 @@ namespace englishProject.Controllers
                     ViewBag.exam = operations.GetPictureWordModul(sub, levelId).Item1;
 
                     break;
+
+                case Modul.SynonymWordModul:
+                    ViewBag.exam = operations.GetSynonymWordModul(sub, levelId).Item1;
+                    break;
             }
 
             return View();
@@ -156,6 +160,11 @@ namespace englishProject.Controllers
 
             ViewBag.chart = operations.GetScoreChart();
 
+            return View();
+        }
+
+        public ActionResult deneme2()
+        {
             return View();
         }
 
@@ -273,6 +282,11 @@ namespace englishProject.Controllers
 
         #region ajax
 
+        public JsonResult GetMessage(int key)
+        {
+            return Json(HelperMethod.GetMessage(key), JsonRequestBehavior.AllowGet);
+        }
+
         [HttpGet]
         public ActionResult ChartAjax()
         {
@@ -285,7 +299,7 @@ namespace englishProject.Controllers
             return PartialView("Templates/ExamStart", operations.GetExamLevelStart(levelId));
         }
 
-        public JsonResult MessageHide(string key)
+        public JsonResult GetMessageHide(string key)
         {
             return Json(HelperMethod.GetMessageHide(key), JsonRequestBehavior.AllowGet);
         }

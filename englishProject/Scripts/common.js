@@ -1,5 +1,17 @@
-﻿$(document).ready(function () {
+﻿function messageShow(info, key) {
+    $.getJSON("/User/GetMessage", { key: key }, function (data) {
+        if (data) {
+            $(".body").html(info);
+            $(".alertMessage button:first").attr("data-key", key);
+
+            $(".alertMessage").removeClass("zoomOutRight").show().addClass("animated zoomInRight");
+        }
+    });
+}
+
+$(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="popover"]').popover();
     $(".carousel").carousel({
         interval: false
     });
@@ -14,16 +26,14 @@
         $(".boxMenuWrapper li:eq('" + index + "')").addClass("current");
     });
     ///////////////user/index sayfasındaki box menu///////////////////////////
-    $("button.close").click(function () {
+    $(".alertMessage button:first").click(function () {
         var key = $(this).attr("data-key");
-        $.getJSON("/User/MessageHide", { key: key }, function () {
-            console.log("oldu");
+
+        $(".alertMessage").addClass("animated zoomOutRight");
+
+        $.getJSON("/User/GetMessageHide", { key: key }, function () {
         });
     });
-
-    //$(".subLevelSelect").hover(function() {
-    //},function() {
-    //})
 
     $(".subLevelSelect,#quizBtn").click(function (e) {
         e.preventDefault();

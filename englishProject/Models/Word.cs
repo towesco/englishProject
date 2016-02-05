@@ -22,6 +22,8 @@ namespace englishProject.Models
         public string info { get; set; }
         public string wordRemender { get; set; }
         public string wordRemenderInfo { get; set; }
+        public string wordDefinition { get; set; }
+        public string wordExample { get; set; }
     
         public virtual Level Level { get; set; }
     }

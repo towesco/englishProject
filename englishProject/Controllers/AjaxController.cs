@@ -134,6 +134,22 @@ namespace englishProject.Controllers
             }
         }
 
+        [System.Web.Http.ActionName("SynonymModulSubLevelQuestions")]
+        public IHttpActionResult GetSynonymModulSubLevelQuestions(int subLevel, int levelId)
+        {
+            ModulSubLevel s = (ModulSubLevel)Enum.Parse(typeof(ModulSubLevel), subLevel.ToString());
+
+            try
+            {
+                return Content(HttpStatusCode.OK, new Operations().GetSynonymWordModul(s, levelId).Item1);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("WordModulSubLevelQuestions", ex);
+                return NotFound();
+            }
+        }
+
         [System.Web.Http.ActionName("PictureWordModulSubLevelQuestions")]
         public IHttpActionResult GetPictureWordModulSubLevelQuestions(int subLevel, int levelId)
         {

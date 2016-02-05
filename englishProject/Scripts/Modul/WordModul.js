@@ -4,18 +4,19 @@
 
 var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
     var self = this;
-    self.toogle = true;
-    var card = 1;
+    self.toogle = true; //kartı  ters mi düz mü olduğunu anlamak için
+    var card = 1; //kartı çevirdiğinde puanı yarıya düşürmek için  ilk başta 0 kart çevrilirse card=0.5 puan olmaktadır.
     var targetScore = 0; //kullanıcının günlük hedefi tesbit etmek için her alt seviyede  sıfırlanan puan
     var okTextArray = new Array("Temel seviye tamamlandı.", "İleri seviye tamamlandı.", "Mükemmel seviye tamamlandı.");
     var questionTextArray = new Array("Türkçe çevirisi nedir ?", "İngilizce çevirisi nedir ?", "Kelimenin ingilizce karşılığını yazınız.");
     self.subLevelCount = levelSubLevel;
-    self.warningAppear = ko.observable(false); //sorun yanlış cevap verildiğinde doğru cevabın ortay çıkmasını sağlar
+
     self.index = ko.observable(0); //0 indexli kayıtı getirir
     self.exams = ko.observable(exams); //datanın tamamını çeker;
     self.dataQuestions = ko.observableArray(self.exams().Questions);//şıklar
     self.okText = ko.observable();//seviye tamamlandığında yazan yazı
     self.questionText = ko.observable(questionTextArray[self.exams().SubLevel - 1]); //  sub level ait soru cumlesi
+
     self.puan = self.exams().Puan;//sabit level puanı
     self.subLevelNumber = ko.observable(self.exams().SubLevel);//değişken sub level numarası
     self.totalPuan = ko.observable(self.exams().TotalPuan);//toplan puan
@@ -23,17 +24,56 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
     self.totapInCorrect = ko.observable(0);// hata sayısı
     self.rate = ko.observable((1 / self.totalQuestions()) * 100);
     self.star = ko.observable(self.exams().Star);//yıldız sayısı
-    self.updateWrapper = ko.observable(false);//updateWrapper
     self.loading = ko.observable(false);//loading
     self.textValue = ko.observable("");//level 3'deki textboxdegeri
-    self.fail = ko.observable(false); //başarısızlık durumu
-    self.end = ko.observable(false);  //level tamamen bittiğinde güzükecek
-    self.totalQuestions.subscribe(function (newValue) {
-        self.rate((1 / self.totalQuestions()) * 100);
-    });
-    self.totalRate = ko.pureComputed(function () {
-        return "% " + Math.ceil(((self.index()) / self.totalQuestions()) * 100);
-    });
+
+    //self.totalQuestions.subscribe(function (newValue) {
+    //    self.rate((1 / self.totalQuestions()) * 100);
+    //});
+    //self.totalRate = ko.pureComputed(function () {
+    //    return "% " + Math.ceil(((self.index()) / self.totalQuestions()) * 100);
+    //});
+
+    self.info1 = function () {
+        var veri = "Kelime kartının sağ alt kısmında göreceğiniz <i class='fa fa-exchange'></i> işareti kelimenin  hatırlatma resimi olduğu anlamına gelir.  Karta tıklayarak hatırlatma resmini görebilirsiniz. Her tıklamada kelimeden kazanacağımız puanın<strong>yarısını</strong> kaybedersiniz.";
+        messageShow(veri, 1);
+    }
+    self.info1();
+
+    self.warningShow = ko.observable(false); //sorun yanlış cevap verildiğinde doğru cevabın ortay çıkmasını sağlar
+    self.failShow = ko.observable(false); //başarısızlık durumu
+    self.endShow = ko.observable(false);  //level tamamen bittiğinde güzükecek
+    self.subLevelSuccessShow = ko.observable(false);//subLevelSuccessShow
+    self.normalShow = ko.observable(true);
+
+    self.normalAppear = function () {
+        self.failShow(false);
+        self.endShow(false);
+        self.subLevelSuccessShow(false);
+        self.warningShow(false);
+        self.normalShow(true);
+    }
+    self.subLevelSuccessAppear = function () {
+        self.failShow(false);
+        self.endShow(false);
+        self.normalShow(false);
+        self.warningShow(false);
+        self.subLevelSuccessShow(true);
+    }
+    self.endAppear = function () {
+        self.subLevelSuccessShow(false);
+        self.failShow(false);
+        self.warningShow(false);
+        self.normalShow(false);
+        self.endShow(true);
+    }
+    self.failAppear = function () {
+        self.normalShow(false);
+        self.subLevelSuccessShow(false);
+        self.endShow(false);
+        self.warningShow(false);
+        self.failShow(true);
+    }
 
     //AltLevel tamamlandığında veritabanı güncelelme işlemi
     self.updateUserProggress = function () {
@@ -58,6 +98,24 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
     self.textValueCount = ko.pureComputed(function () {
         return self.textValue().length;
     });
+    //kelimenin ingilice açıklaması olduğunu anlamak için
+    self.definitionValueCount = ko.pureComputed(function () {
+        if (self.Questions.Definition() != null) {
+            return self.Questions.Definition().length;
+        } else {
+            return 0;
+        }
+    });
+    //kelimenin ingilizce örnek cümlesi olduğunu anlamak için
+    self.exampleValueCount = ko.pureComputed(function () {
+        if (self.Questions.Example() != null) {
+            return self.Questions.Example().length;
+        } else {
+            return 0;
+        }
+    });
+
+    //kartıın bir hatırlatma kartı olduğunu anlama  anlamak için
     self.exChangeVisible = ko.pureComputed(function () {
         if (self.Questions.Remender() != null) {
             return self.Questions.Remender().length;
@@ -65,18 +123,29 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
             return 0;
         }
     });
-    ///////////////////////////////////////////soru dizisi/////////////////////////////////////////
+
     self.Questions = {
         Question: ko.observable(),
         Remender: ko.observable(""),
+        Definition: ko.observable(""),
+        Example: ko.observable(""),
         QuestionCorrect: ko.observable(),
         QestionList: ko.observableArray()
     };
 
-    self.Questions.Question(self.dataQuestions()[self.index()].Question);
-    self.Questions.Remender(self.dataQuestions()[self.index()].QuestionRemender);
-    self.Questions.QuestionCorrect(self.dataQuestions()[self.index()].QuestionCorrect);
-    self.Questions.QestionList(self.dataQuestions()[self.index()].QestionsOptions);
+    //dataları doldurmak için
+    self.fill = function () {
+        self.Questions.Question(self.dataQuestions()[self.index()].Question);
+        self.Questions.Remender(self.dataQuestions()[self.index()].QuestionRemender);
+        self.Questions.QuestionCorrect(self.dataQuestions()[self.index()].QuestionCorrect);
+        self.Questions.QestionList(self.dataQuestions()[self.index()].QestionsOptions);
+        self.Questions.Definition(self.dataQuestions()[self.index()].Definition);
+        self.Questions.Example(self.dataQuestions()[self.index()].Example);
+    }
+    ///////////////////////////////////////////soru dizisi/////////////////////////////////////////
+
+    self.fill();
+
     ///////////////////////////////////////////soru dizisi/////////////////////////////////////////
 
     self.Reset = function () {
@@ -149,9 +218,10 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
         $("#warningWrapper").empty().append(veri);
         $(".btnsWrapper button,#txtEnglish").prop("disabled", true);
 
-        self.warningAppear(true);
+        self.warningShow(true);
         $("#btnContinous").focus();
     }
+
     //Bir sonraki alt level soruları
     self.updateBtn = function () {
         self.Reset();
@@ -164,20 +234,7 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
             data: jsonData,
             contentType: "application/json",
             success: function (data) {
-                self.exams(data);
-                self.subLevelNumber(self.exams().SubLevel);
-                self.dataQuestions(self.exams().Questions);
-                self.index(0);
-
-                self.totalQuestions(self.dataQuestions().length);
-
-                self.Questions.Question(self.dataQuestions()[self.index()].Question);
-                self.Questions.Remender(self.dataQuestions()[self.index()].QuestionRemender);
-                self.Questions.QuestionCorrect(self.dataQuestions()[self.index()].QuestionCorrect);
-                self.Questions.QestionList(self.dataQuestions()[self.index()].QestionsOptions);
-                self.updateWrapper(false);
-                $(".progress").empty();
-                self.loading(false);
+                self.repeatData(data);
             },
             error: function () {
                 alert("Diğer seviyenin yüklenmesinde hata meydana geldi. :( Sayfayı yenileyerek tekrar başlayınız...");
@@ -194,15 +251,32 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
             self.star(self.star() + 1);
         }
 
-        self.updateWrapper(true);
         self.updateUserProggress();
 
-        if (self.subLevelNumber() > 2) {
-            self.end(true);
+        if (self.subLevelNumber() < self.subLevelCount) {
+            self.subLevelSuccessAppear();
+        } else {
+            self.endAppear();
         }
     };
 
     //Kullanıcı 3 hakkınıda bitirdiğinde soruları tekrar yükleme işlemi
+
+    self.repeatData = function (data) {
+        self.exams(data);
+        self.subLevelNumber(self.exams().SubLevel);
+        self.dataQuestions(self.exams().Questions);
+        self.index(0);
+        self.totalQuestions(self.dataQuestions().length);
+
+        self.fill();
+        $(".progress").empty();
+        self.loading(false);
+
+        $(".btnsWrapper button").prop("disabled", false);
+        self.normalAppear();
+    }
+
     self.failBtn = function () {
         self.loading(true);
         self.Reset();
@@ -213,28 +287,9 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
             data: jsonData,
             contentType: "application/json",
             success: function (data) {
-                self.exams(data);
-                self.subLevelNumber(self.exams().SubLevel);
-                self.dataQuestions(self.exams().Questions);
-                self.index(0);
-                self.totalQuestions(self.dataQuestions().length);
-
-                self.Questions.Question(self.dataQuestions()[self.index()].Question);
-                self.Questions.Remender(self.dataQuestions()[self.index()].QuestionRemender);
-                self.Questions.QuestionCorrect(self.dataQuestions()[self.index()].QuestionCorrect);
-                self.Questions.QestionList(self.dataQuestions()[self.index()].QestionsOptions);
-
-                self.updateWrapper(false);
-                self.warningAppear(false);
-                $(".progress").empty();
-
-                self.loading(false);
-
-                self.fail(false);
-
+                self.repeatData(data);
                 self.totapInCorrect(0);
                 self.totalPuan(self.exams().TotalPuan);//toplan puan
-                $(".btnsWrapper button").prop("disabled", false);
             },
             error: function () {
                 alert("Diğer seviyenin yüklenmesinde hata meydana geldi. :( Sayfayı yenileyerek tekrar başlayınız...");
@@ -245,7 +300,7 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
     //kullanıcı hata yaptıktan sonra  bir sonraki soruya geçme
     self.nextBtn = function () {
         self.next();
-        self.warningAppear(false);
+        self.warningShow(false);
         $(".btnsWrapper button,#txtEnglish").prop("disabled", false);
     }
 
@@ -260,13 +315,12 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
             $("#txtEnglish").focus();
         }
         self.index(self.index() + 1);
+
+        ////////////////////////////////////////////////////////////////////////////////////////////çabuk bitirme//////////////////////////////////////////////
         if (self.index() < self.totalQuestions()) {
             self.textValue("");
 
-            self.Questions.Question(self.dataQuestions()[self.index()].Question);
-            self.Questions.Remender(self.dataQuestions()[self.index()].QuestionRemender);
-            self.Questions.QuestionCorrect(self.dataQuestions()[self.index()].QuestionCorrect);
-            self.Questions.QestionList(self.dataQuestions()[self.index()].QestionsOptions);
+            self.fill();
         } else {
             if (self.totapInCorrect() <= 3) {
                 self.lavelUpdate();
@@ -277,6 +331,8 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
     //Şıklardaki herhangi bir butona bastığında çalışır
     self.nextQuestion = function (data, event) {
         if ((data == self.Questions.QuestionCorrect()) || (self.textValue() == self.Questions.QuestionCorrect())) {
+            $("#successAudi").trigger("play");
+
             if (self.subLevelNumber() < 3) {
                 $(event.currentTarget).prepend("<i style='color:#3C5B2E' class='fa fa-check-circle'></i>&nbsp;");
                 $(event.currentTarget).addClass("btn-update");
@@ -307,20 +363,24 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
             self.totalPuan(increasePuan);
             setTimeout(function () { self.next(); }, 2000);
         } else {
+            $("#wrongAudi").trigger("play");
+
             $("#questionCard h1").text("Yanlış");
             $("#questionCard").css("background-image", '');
             $("#questionCard").removeClass("background").addClass("warningQuestioCard").removeClass("questionCardReverse");
             //kalp sayısını arttır
             self.totapInCorrect(self.totapInCorrect() + 1);
-            if (self.totapInCorrect() >= 3) {
-                self.fail(true);
-            }
+
             var decrease = Math.round(self.totalPuan() - self.subLevelNumber() * self.puan * 1);
             targetScore -= self.subLevelNumber() * self.puan * 1;
             self.totalPuan(decrease);
 
             self.errorProgress(self.rate());
             self.warning(self.Questions.QuestionCorrect());
+            if (self.totapInCorrect() >= 3) {
+                console.log("girdi");
+                self.failAppear();
+            }
         }
     }
 }

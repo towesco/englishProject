@@ -265,11 +265,22 @@
                                 @Html.ActionLink("Kordinat alma", "GetCoordinates", "Home")
                             </li>
                             <li>
-                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Word&PictureModul<span class="fa arrow"></span></a>
+                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>Normal ve resimli kelimeler<span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
 
                                     <li>
                                         @Html.ActionLink("Kelimeler", "Words", "Word")
+                                    </li>
+                                </ul>
+                                <!-- /.nav-second-level -->
+                            </li>
+
+                            <li>
+                                <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Eş anlamlı kelimeler<span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+
+                                    <li>
+                                        @Html.ActionLink("Eş anlamlı kelimeler", "SynonymWords", "SynonymWord")
                                     </li>
                                 </ul>
                                 <!-- /.nav-second-level -->

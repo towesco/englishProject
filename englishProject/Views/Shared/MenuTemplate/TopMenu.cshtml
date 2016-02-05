@@ -5,6 +5,7 @@
 @{
     string actionName = Request.RequestContext.RouteData.Values["Action"].ToString();
 }
+
 <nav id="customNavbar" class="navbar navbar-default " role="navigation">
     <div class="container" style="position: relative;">
 
@@ -13,7 +14,7 @@
                 <span class="sr-only">Toggle navigation</span>
                 <i style="color: white;" class="fa fa-bars"></i>
             </button>
-            <a style=" border-bottom: 3px solid white; height: 45px;margin-right: 10px;margin-left: 0px; " href="#" class="navbar-brand"><i class="fa fa-cubes"></i><span style="font-family: verdana;"> Kelime kutusu</span></a>
+            <a href="@Url.Action("Index","User")" style=" border-bottom: 3px solid white; height: 45px;margin-right: 10px;margin-left: 0px; " class="navbar-brand"><i class="fa fa-cubes"></i><span style="font-family: verdana;"> Wordboxes.net</span></a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -45,3 +46,5 @@
         <!-- Brand and toggle get grouped for better mobile display -->
     </div><!-- /.container-fluid -->
 </nav>
+
+@Html.Partial("Templates/LayoutExtensions")

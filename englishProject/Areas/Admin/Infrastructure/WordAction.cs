@@ -22,19 +22,22 @@ namespace englishProject.Areas.Admin.Infrastructure
 
         public bool AddWord(Word word)
         {
-            entities.Entry(word).State = EntityState.Added;
-            entities.SaveChanges();
-            return true;
+            if (entities.Word.Any(a => a.wordTurkish.Trim() == word.wordTurkish.Trim()))
+            {
+                return false;
+            }
+            else
+            {
+                entities.Entry(word).State = EntityState.Added;
+                entities.SaveChanges();
+                return true;
+            }
         }
 
         public IEnumerable<Word> Words(int levelId)
         {
             try
             {
-                //return entities.Level
-                //          .First(a => a.levelNumber == levelNumber && a.kind == kind && a.boxNumber == boxNumber)
-                //          .Word.OrderByDescending(a => a.wordId).ToList();
-
                 return entities.Word.Where(a => a.levelId == levelId).OrderByDescending(a => a.wordId).ToList();
             }
             catch (Exception)

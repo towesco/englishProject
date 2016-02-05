@@ -1,9 +1,14 @@
 ﻿@model englishProject.Models.Level
-<div class=" alert alert-success alert-update" role="alert" data-bind="visible:end()" style="display: none;">
+<div class=" alert alert-success alert-update" role="alert" data-bind="visible:endShow()" style="display: none;">
     <div class="row">
 
-        <div id="warning" class="col-md-9  text-center">
-            <h3 style="color: black;margin-top: 0px;"><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i> BRAVO !!!</h3>
+        <div id="warning" class="col-md-12  text-center" style="color: white; margin-bottom: 30px;">
+
+            <i class="fa fa-star-o fa-5x"></i><i class="fa fa-star-o fa-5x"></i><i class="fa fa-star-o fa-5x"></i>
+            <h1>
+
+                <span>BRAVOOOOOOO !!!</span>
+            </h1>
 
             <p>
                 @if (Model != null)
@@ -16,7 +21,8 @@
                 }
             </p>
         </div>
-        <div class="col-md-3 text-center">
+
+        <div class="col-md-12 text-right">
 
             @if (Model != null)
             {
@@ -24,7 +30,7 @@
             }
             else
             {
-                <a href="@Url.Action("Index","User")" class=" btn btn-update"><strong>Diğer kutuları gör</strong> <i class="fa fa-arrow-right"></i></a>
+                <a href="@Url.Action("Index","User")" class=" btn btn-update btn-lg"><strong>Diğer kutuları gör</strong> <i class="fa fa-arrow-right"></i></a>
             }
         </div>
     </div>

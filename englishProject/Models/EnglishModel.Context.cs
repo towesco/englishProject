@@ -30,13 +30,14 @@ namespace englishProject.Models
         public virtual DbSet<Box> Box { get; set; }
         public virtual DbSet<IrregularVerb> IrregularVerb { get; set; }
         public virtual DbSet<Level> Level { get; set; }
-        public virtual DbSet<Word> Word { get; set; }
         public virtual DbSet<levelUserProgress> levelUserProgress { get; set; }
         public virtual DbSet<City> City { get; set; }
         public virtual DbSet<UserDetail> UserDetail { get; set; }
         public virtual DbSet<Score> Score { get; set; }
         public virtual DbSet<comment> comment { get; set; }
         public virtual DbSet<log> log { get; set; }
+        public virtual DbSet<Word> Word { get; set; }
+        public virtual DbSet<SynonymWord> SynonymWord { get; set; }
     
         public virtual ObjectResult<userProggress_Result> userProggress(string userId)
         {

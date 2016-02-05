@@ -1,6 +1,8 @@
 ﻿@using englishProject.Infrastructure
 @model IEnumerable<englishProject.Models.Word>
-
+@{
+    int i = 1;
+}
 @{
     ViewBag.Title = "Words";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -21,10 +23,17 @@
 }
 
 <p class="text-right">
-    @Html.ActionLink("Yeni kelime oluştur", "AddWord", "Word", new { @class = "btn btn-success" })
+    @Html.ActionLink("Yeni kelime oluştur(tek resimli)", "AddWord", "Word", new { id = 1 }, new { @class = "btn btn-success" })
 </p>
+<p class="text-right">
+    @Html.ActionLink("Yeni kelime oluştur(çift resimli)", "AddWord", "Word", new { id = 2 }, new { @class = "btn btn-success" })
+</p>
+
 <table class="table table-bordered table-striped table-hover">
     <tr>
+        <th>
+            Sıra
+        </th>
         <th>
             @Html.DisplayNameFor(model => model.Level.Box.boxName)
         </th>
@@ -52,6 +61,9 @@
     @foreach (var item in Model)
     {
         <tr>
+            <th>
+                @(i++)
+            </th>
             <th>
                 @Html.DisplayFor(modelItem => item.Level.Box.boxName)
             </th>

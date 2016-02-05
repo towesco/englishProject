@@ -17,6 +17,7 @@ namespace englishProject.Areas.Admin.Infrastructure
             _kernel = kernel;
             _kernel.Bind<ILevel>().To<LevelAction>().InRequestScope();
             _kernel.Bind<IWord>().To<WordAction>().InRequestScope();
+            _kernel.Bind<ISynonym>().To<SynonymAction>().InRequestScope();
         }
 
         public NinjectLanguageResolver()

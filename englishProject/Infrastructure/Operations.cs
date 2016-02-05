@@ -192,8 +192,10 @@ namespace englishProject.Infrastructure
         /// <param name="levelId"></param>
 
         /// <returns></returns>
-        public Tuple<Level, levelUserProgress, levelUserProgress, List<Word>> GetExamLevelStart(int levelId)
+        public Tuple<Level, levelUserProgress, levelUserProgress, List<ExamStartWord>> GetExamLevelStart(int levelId)
         {
+            List<ExamStartWord> wordList = null;
+
             //Günce seviye bilgileri
             Level l = entities.Level.Find(levelId);
             //Güncel LevelUser bilgileri
@@ -210,7 +212,26 @@ namespace englishProject.Infrastructure
                 previousLevelUserProgress = entities.levelUserProgress.FirstOrDefault(a => a.levelId == previousLevel.levelId && a.userId == GetUserId);
             }
 
-            return Tuple.Create(l, progress, previousLevelUserProgress, l.Word.ToList());
+            if (l.levelModul == (int)Modul.WordModul)
+            {
+                wordList =
+                    l.Word.ToList()
+                        .Select(a => new ExamStartWord { Turkish = a.wordTurkish, English = a.wordTranslate })
+                        .ToList();
+            }
+            else if (l.levelModul == (int)Modul.SynonymWordModul)
+            {
+                wordList =
+                    l.SynonymWord.Select(
+                        a =>
+                            new ExamStartWord
+                            {
+                                Turkish = a.synonymTurkish,
+                                English = string.Join(",", new string[] { a.synonym1, a.synonym2 })
+                            }).ToList();
+            }
+
+            return Tuple.Create(l, progress, previousLevelUserProgress, wordList);
         }
 
         public Level GetLevel(int levelId)
@@ -245,6 +266,67 @@ namespace englishProject.Infrastructure
 
         #endregion Levels
 
+        #region SynonymWordsModul
+
+        private CommonModul<SynonymQuestions> GetSynonymWordModulQuestionShuffle(IEnumerable<SynonymWord> words, ModulSubLevel subLevel)
+        {
+            Random rnd = new Random();
+            List<SynonymQuestions> List = new List<SynonymQuestions>();
+
+            CommonModul<SynonymQuestions> questions = null;
+            switch (subLevel)
+            {
+                case ModulSubLevel.Temel:
+                    //Kısa sürede bitirmek için
+                    List.AddRange(words.OrderBy(a => rnd.Next()).ToList().Take(10).Select(item => new SynonymQuestions
+                    {
+                        Key = Guid.NewGuid().ToString().Substring(0, 6),
+                        Synonym1 = item.synonym1,
+                        Synonym2 = item.synonym2,
+                        Turkish = item.synonymTurkish
+                    }));
+
+                    break;
+
+                case ModulSubLevel.İleri:
+                    //Kısa sürede bitirmek için
+                    List.AddRange(words.OrderBy(a => rnd.Next()).ToList().Take(10).Select(item => new SynonymQuestions
+                    {
+                        Key = Guid.NewGuid().ToString().Substring(0, 6),
+                        Synonym1 = item.synonym1,
+                        Synonym2 = item.synonym2,
+                        Turkish = item.synonymTurkish
+                    }));
+
+                    break;
+            }
+
+            questions = new CommonModul<SynonymQuestions>() { Questions = List };
+            return questions;
+        }
+
+        public Tuple<CommonModul<SynonymQuestions>, Level> GetSynonymWordModul(ModulSubLevel subLevel, int levelId)
+        {
+            Level level = entities.Level.Find(levelId);
+            levelUserProgress progress =
+
+                entities.levelUserProgress.FirstOrDefault(
+                  a => a.userId == GetUserId && a.levelId == level.levelId);
+
+            List<SynonymWord> words = level.SynonymWord.ToList();
+
+            //WordModul exam = GetWordModuleQuestionshuffle(words, subLevel, words);
+            CommonModul<SynonymQuestions> exam = GetSynonymWordModulQuestionShuffle(words, subLevel);
+
+            exam.Puan = level.levelPuan;
+            exam.SubLevel = subLevel;
+            exam.Star = progress == null ? 0 : progress.star;
+            exam.TotalPuan = progress == null ? 0 : progress.puan;
+            return Tuple.Create(exam, level);
+        }
+
+        #endregion SynonymWordsModul
+
         #region WordModulPictureModul
 
         /// <summary>
@@ -264,7 +346,7 @@ namespace englishProject.Infrastructure
             {
                 case ModulSubLevel.Temel:
 
-                    foreach (var item in words)
+                    foreach (var item in words.Take(2))
                     {
                         //1 tane doğru cevap liste
                         List<Word> correctListOne = new List<Word> { item };
@@ -278,7 +360,9 @@ namespace englishProject.Infrastructure
                             Question = item.wordTranslate,
                             QuestionCorrect = item.wordTurkish,
                             QestionsOptions = siklar.OrderBy(a => rnd.Next()).ToList(),
-                            QuestionRemender = item.wordRemender
+                            QuestionRemender = item.wordRemender,
+                            Definition = item.wordDefinition,
+                            Example = item.wordExample
                         };
 
                         List.Add(q);
@@ -288,7 +372,7 @@ namespace englishProject.Infrastructure
 
                 case ModulSubLevel.İleri:
 
-                    foreach (var item in words)
+                    foreach (var item in words.Take(2))
                     {
                         //1 tane doğru cevap liste
                         List<Word> correctListOne = new List<Word> { item };
@@ -311,7 +395,7 @@ namespace englishProject.Infrastructure
 
                 case ModulSubLevel.Mükemmel:
 
-                    List.AddRange(words.Select(item => new Questions { Question = item.wordTurkish, QuestionCorrect = item.wordTranslate }));
+                    List.AddRange(words.Take(2).Select(item => new Questions { Question = item.wordTurkish, QuestionCorrect = item.wordTranslate }));
 
                     break;
             }

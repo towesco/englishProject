@@ -7,7 +7,9 @@
         levelId: ko.observable(),
         info: ko.observable(),
         wordRemender: ko.observable(""),
-        wordRemenderInfo: ko.observable("")
+        wordRemenderInfo: ko.observable(""),
+        wordDefinition: ko.observable(""),
+        wordExample: ko.observable("")
     }
     self.loading = ko.observable(false);
     self.words = ko.observableArray([]);
@@ -74,10 +76,25 @@
             data: jsonData,
             contentType: "application/json",
             success: function (data) {
-                self.words.push({ id: data, turkish: self.Word.wordTurkish(), translate: self.Word.wordTranslate(), number: self.Word.levelId(), info: self.Word.info(), remender: self.Word.wordRemender(), remenderInfo: self.Word.wordRemenderInfo() });
-                self.Word.wordTurkish("");
-                self.Word.wordTranslate("");
+                console.log(data);
+                var json = data.split("-");
 
+                if (json[0] == "True") {
+                    self.words.push({ id: json[1], turkish: self.Word.wordTurkish(), translate: self.Word.wordTranslate(), number: self.Word.levelId(), info: self.Word.info(), remender: self.Word.wordRemender(), remenderInfo: self.Word.wordRemenderInfo(), definition: self.Word.wordDefinition(), example: self.Word.wordExample() });
+                    self.Word.wordTurkish("");
+                    self.Word.wordTranslate("");
+                    self.Word.info("");
+                    self.Word.wordRemender("");
+                    self.Word.wordRemenderInfo("");
+                    self.Word.wordDefinition("");
+                    self.Word.wordExample("");
+
+                    $("#images img").remove();
+                } else {
+                    alert("Bu kelimeyi daha önce girdin");
+                }
+            },
+            complete: function () {
                 self.loading(false);
             }
         });

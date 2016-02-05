@@ -28,6 +28,10 @@ namespace englishProject.Infrastructure
 
         public string QuestionRemender { get; set; }
 
+        public string Definition { get; set; }
+
+        public string Example { get; set; }
+
         public List<string> QestionsOptions { get; set; }
     }
 }

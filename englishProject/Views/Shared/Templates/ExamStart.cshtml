@@ -1,8 +1,9 @@
 ﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.HelperClass
 @using Ninject
 @using WebGrease.Css.Extensions
 @using englishProject.Models
-@model Tuple<Level, levelUserProgress, levelUserProgress, List<Word>>
+@model Tuple<Level, levelUserProgress, levelUserProgress, List<englishProject.Infrastructure.HelperClass.ExamStartWord>>
 @helper  subLevelButton(string btnName, bool lockk, bool disabled, int subLevel, bool success = false)
 {
 
@@ -140,14 +141,14 @@
         </div>
     }
 
-    <div class="col-sm-12" style="background-color: #f5f8fa ; padding: 10px;">
+    <div class="col-sm-12 scroll" style="background-color: #f5f8fa ; padding: 10px; height: 300px;   overflow-y: scroll; ">
         <div class="col-sm-6">
             <ul class="list-group">
-                @foreach (Word item in Model.Item4.Take((Model.Item4.Count / 2)))
+                @foreach (ExamStartWord item in Model.Item4.Take((Model.Item4.Count / 2)))
                 {
 
                     <li class="list-group-item">
-                        @item.wordTranslate <i class="fa fa-arrows-h"></i> @item.wordTurkish
+                        <span class="text-danger">@item.English</span> <i class="fa fa-arrows-h"></i> @item.Turkish
                     </li>
 
                 }
@@ -155,11 +156,11 @@
         </div>
         <div class="col-sm-6">
             <ul class="list-group">
-                @foreach (Word item in Model.Item4.Skip(Model.Item4.Count / 2).Take(20))
+                @foreach (ExamStartWord item in Model.Item4.Skip(Model.Item4.Count / 2).Take(20))
                 {
 
                     <li class="list-group-item">
-                        @item.wordTranslate <i class="fa fa-arrows-h"></i> @item.wordTurkish
+                        <span class="text-danger">@item.English</span> <i class="fa fa-arrows-h"></i> @item.Turkish
                     </li>
 
                 }

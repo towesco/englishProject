@@ -41,6 +41,7 @@ namespace englishProject
                       "~/Content/navbar.css",
                       "~/Content/font-awesome-4.5.0/css/font-awesome.min.css",
                       "~/Content/style.css",
+                      "~/Content/animate.css",
                          "~/Scripts/star-rating/star-rating.css"
                       ));
 

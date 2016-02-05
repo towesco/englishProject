@@ -43,19 +43,24 @@ namespace englishProject.Infrastructure
         /// Level tablosundan  levelName ve levelın ait olduğu boxName çeker
         /// </summary>
         /// <returns></returns>
-        public List<SelectListItem> GetLevelSelectListItems()
+        public List<SelectListItem> GetLevelSelectListItems(Modul modul)
         {
-            return
-                 entities.Level.OrderBy(a => a.levelId).ToList()
-                     .Select(
-                         a =>
-                             new SelectListItem
-                             {
-                                 Text = String.Format("{0}({2})---->{1} kutusu", a.levelName, a.Box.boxName, Enum.GetName(typeof(Modul), a.levelModul) ?? ""),
-                                 Value = a.levelId.ToString(CultureInfo.InvariantCulture),
-                                 Selected = false
-                             })
-                     .ToList();
+            List<SelectListItem> _list = new List<SelectListItem>();
+
+            int levelModul = (int)modul;
+
+            _list = entities.Level.Where(a => a.levelModul == levelModul).OrderBy(a => a.levelId).ToList()
+           .Select(
+               a =>
+                   new SelectListItem
+                   {
+                       Text = String.Format("{0}({2})---->{1} kutusu", a.levelName, a.Box.boxName, Enum.GetName(typeof(Modul), a.levelModul) ?? ""),
+                       Value = a.levelId.ToString(CultureInfo.InvariantCulture),
+                       Selected = false
+                   })
+           .ToList();
+
+            return _list;
         }
 
         /// <summary>
@@ -101,6 +106,18 @@ namespace englishProject.Infrastructure
             return entities.City.Select(a => new SelectListItem() { Text = a.Name, Value = a.Id.ToString() }).ToList();
         }
 
+        public static string GetCutString(string item, int length)
+        {
+            if (item.Length > length)
+            {
+                return item.Substring(0, length) + "..";
+            }
+            else
+            {
+                return item;
+            }
+        }
+
         public static string getGooglePicture(string key)
         {
             WebClient web = new WebClient();
@@ -120,40 +137,36 @@ namespace englishProject.Infrastructure
         /// <summary>
         /// Sitede gösterilen mesajlar
         /// </summary>
-        /// <param name="info">bilgilendirme yazısı</param>
-        /// <param name="alert"></param>
+
         /// <param name="key">Numarası dikkatli olmak lazım daha önceki verdiğimiz numaralar olmamalı</param>
         /// <returns></returns>
-        public static MvcHtmlString GetMessage(IHtmlString info, Alert alert, int key)
+        public static bool GetMessage(int key)
         {
             HttpCookie h = HttpContext.Current.Request.Cookies["alert"];
-
-            string data = String.Empty;
 
             if (h != null)
             {
                 if (h[key.ToString(CultureInfo.InvariantCulture)] == null || h[key.ToString(CultureInfo.InvariantCulture)] == true.ToString())
                 {
                     h[key.ToString(CultureInfo.InvariantCulture)] = true.ToString();
-                    h.Expires = DateTime.Now.AddDays(60);
-                    HttpContext.Current.Response.Cookies.Add(h);
-                    data = String.Format(
-                        "<div class='alert alert-{0} alert-dismissible notRadius' role='alert'><button data-key='{2}' type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>{1}</div>",
-                        alert.ToString(), info.ToHtmlString(), key);
+                    h.Expires = DateTime.Now.AddDays(600);
+                    HttpContext.Current.Response.Cookies.Set(h);
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
             }
             else
             {
                 h = new HttpCookie("alert");
                 h[key.ToString(CultureInfo.InvariantCulture)] = true.ToString();
-                h.Expires = DateTime.Now.AddDays(60);
-                HttpContext.Current.Response.Cookies.Add(h);
-                data = String.Format(
-                    "<div class='alert alert-{0} alert-dismissible notRadius' role='alert'><button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>{1}</div>",
-                    alert.ToString(), info.ToHtmlString());
-            }
+                h.Expires = DateTime.Now.AddDays(600);
 
-            return new MvcHtmlString(data);
+                HttpContext.Current.Response.Cookies.Add(h);
+                return true;
+            }
         }
 
         /// <summary>
@@ -167,7 +180,7 @@ namespace englishProject.Infrastructure
             if (h != null)
             {
                 h[key] = h[key].Replace(true.ToString(), false.ToString());
-
+                h.Expires = DateTime.Now.AddDays(600);
                 HttpContext.Current.Response.Cookies.Set(h);
             }
             return true;
