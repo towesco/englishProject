@@ -1,0 +1,73 @@
+﻿#leftWrapper .active {
+    background: #FF4E50; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #FF4E50, #F9D423); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #FF4E50, #F9D423); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#dragWrapper .btn > i {
+    position: absolute;
+    top: 5px;
+    left: -23px;
+    display: none;
+    z-index: 1;
+}
+
+#dragWrapper .btn a {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 5px;
+}
+
+.dragWrapper {
+    background-color: white;
+}
+
+#rightWrapper {
+    background-color: #E8EEF2;
+    padding: 20px;
+    border-left: 2px solid #D0DAE0;
+}
+
+#leftWrapper .btn-right {
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+#dragWrapper .btn {
+    border-width: 3px;
+}
+
+#dragWrapper .btn-info {
+    /*border: 3px solid #46b8da;*/
+    width: 200px;
+}
+
+#dragWrapper .btn-info {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+#leftWrapper {
+    padding: 20px;
+    background-color: white;
+}
+
+    #leftWrapper .btn-group {
+        margin-bottom: 20px;
+        min-width: 599px;
+        background-color: #E8EEF2;
+        border-radius: 7px;
+    }
+
+    #leftWrapper .btn {
+        min-width: 300px;
+    }
+
+    #leftWrapper .btn-primary:hover {
+        z-index: 0;
+    }
+
+    #leftWrapper .group div {
+        margin-bottom: 0px;
+    }

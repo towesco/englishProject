@@ -1,0 +1,27 @@
+﻿@using englishProject.Infrastructure
+
+@{
+    ViewBag.Title = "SpeedWord";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Soru cevap kontrol</h2>
+
+<h1>@Model.SubLevel.ToString()</h1>
+<table class="table table-bordered table-hover table-striped">
+    <tr>
+        <th>soru</th>
+        <th>dogru cevap</th>
+        <th>şıklar</th>
+    </tr>
+
+    @foreach (var item in Model.Questions)
+    {
+        <tr>
+            <td>@item.Question</td>
+            <td>@item.QuestionCorrect</td>
+            <td>@string.Join(",", item.QestionsOptions)</td>
+        </tr>
+
+    }
+</table>

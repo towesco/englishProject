@@ -252,56 +252,65 @@
     <Compile Include="Infrastructure\ViewModel\UserSignInVM.cs" />
     <Compile Include="Infrastructure\ViewModel\UserViewModel.cs" />
     <Compile Include="Models\Box.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\City.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\comment.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\EnglishModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EnglishModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\EnglishModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EnglishModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\EnglishModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EnglishModel.edmx</DependentUpon>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IrregularVerb.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Level.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\levelUserProgress.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\log.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ModelHelper.cs" />
     <Compile Include="Models\Score.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SynonymWord.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\UserDetail.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\userProggress_Result.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Word.cs">
-      <DependentUpon>EnglishModel.tt</DependentUpon>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WordBoxesModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WordBoxesModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WordBoxesModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WordBoxesModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\WordBoxesModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>WordBoxesModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -374,23 +383,6 @@
     <Content Include="Areas\Admin\Views\Level\AddLevel.cshtml" />
     <Content Include="Areas\Admin\Views\Level\Levels.cshtml" />
     <Content Include="Areas\Admin\Views\Level\UpdateLevel.cshtml" />
-    <EntityDeploy Include="Models\EnglishModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EnglishModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\EnglishModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EnglishModel.edmx</DependentUpon>
-      <LastGenOutput>EnglishModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\EnglishModel.edmx.diagram">
-      <DependentUpon>EnglishModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\EnglishModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EnglishModel.edmx</DependentUpon>
-      <LastGenOutput>EnglishModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Areas\Admin\Views\Word\Words.cshtml" />
     <Content Include="Areas\Admin\Views\Word\AddWord.cshtml" />
     <Content Include="Areas\Admin\Views\Word\UpdateWord.cshtml" />
@@ -412,6 +404,24 @@
     <Content Include="Areas\Admin\Views\SynonymWord\AddSynonymWord.cshtml" />
     <Content Include="Areas\Admin\Views\SynonymWord\SynonymWords.cshtml" />
     <Content Include="Areas\Admin\Views\SynonymWord\UpdateSynonymWord.cshtml" />
+    <EntityDeploy Include="Models\WordBoxesModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>WordBoxesModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\WordBoxesModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WordBoxesModel.edmx</DependentUpon>
+      <LastGenOutput>WordBoxesModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\WordBoxesModel.edmx.diagram">
+      <DependentUpon>WordBoxesModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\WordBoxesModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>WordBoxesModel.edmx</DependentUpon>
+      <LastGenOutput>WordBoxesModel.cs</LastGenOutput>
+    </Content>
+    <None Include="Properties\PublishProfiles\web.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\chart.js" />
     <Content Include="Scripts\common.js" />
@@ -447,18 +457,14 @@
     <Content Include="Scripts\star-rating\star-rating.css" />
     <Content Include="Scripts\star-rating\star-rating.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\css\agency.css" />
+    <Content Include="Content\agency.css" />
     <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\about\beta.jpg" />
     <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\about\startups.jpg" />
     <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\about\web.jpg" />
-    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\background.jpg" />
-    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\team\fatih.jpg" />
-    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\img\team\seyda.jpg" />
-    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\index.html" />
-    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\js\agency.js" />
-    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\js\cbpAnimatedHeader.js" />
-    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\js\cbpAnimatedHeader.min.js" />
-    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\js\classie.js" />
+    <Content Include="Content\images\background.jpg" />
+    <Content Include="Content\team\fatih.jpg" />
+    <Content Include="Content\team\seyda.jpg" />
+    <Content Include="Scripts\agency.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -510,8 +516,6 @@
     <Content Include="Views\Shared\Templates\CommentSavePartial.cshtml" />
     <Content Include="Views\User\comments.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\LICENSE" />
-    <Content Include="startbootstrap-agency\startbootstrap-agency-1.0.6\README.md" />
     <Content Include="Views\Shared\Templates\ContactPartial.cshtml" />
     <Content Include="Views\Shared\Templates\UserScoreChartPartial.cshtml" />
     <Content Include="Views\Shared\Templates\SettingsChartPartial.cshtml" />
@@ -524,6 +528,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\font-awesome\" />
     <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Content\homePage\" />
     <Folder Include="Pictures\UserPicture\" />
     <Folder Include="Pictures\WordModul\" />
     <Folder Include="Scripts\notification\" />

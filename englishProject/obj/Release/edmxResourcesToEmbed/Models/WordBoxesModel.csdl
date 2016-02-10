@@ -1,0 +1,286 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="wordboxe_englishModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Box">
+    <Key>
+      <PropertyRef Name="boxId" />
+    </Key>
+    <Property Name="boxId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="boxName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="boxNumber" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Level" Relationship="Self.FK_Level_Box" FromRole="Box" ToRole="Level" />
+  </EntityType>
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Byte" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+  </EntityType>
+  <EntityType Name="comment">
+    <Key>
+      <PropertyRef Name="commentId" />
+    </Key>
+    <Property Name="commentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="commentNote" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="commentDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="commentExceptId" Type="Int32" Nullable="false" />
+    <Property Name="commentReplyId" Type="Int32" />
+    <Property Name="commentKind" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="comment1" Relationship="Self.FK_comment_comment" FromRole="comment" ToRole="comment1" />
+    <NavigationProperty Name="comment2" Relationship="Self.FK_comment_comment" FromRole="comment1" ToRole="comment" />
+  </EntityType>
+  <EntityType Name="IrregularVerb">
+    <Key>
+      <PropertyRef Name="IrregularId" />
+    </Key>
+    <Property Name="IrregularId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="levelId" Type="Int32" Nullable="false" />
+    <Property Name="werbTurkish" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="verbOne" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="verbTwo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="verbThree" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Level" Relationship="Self.FK_IrregularVerb_Level" FromRole="IrregularVerb" ToRole="Level" />
+  </EntityType>
+  <EntityType Name="Level">
+    <Key>
+      <PropertyRef Name="levelId" />
+    </Key>
+    <Property Name="levelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="levelNumber" Type="Int32" Nullable="false" />
+    <Property Name="levelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="boxId" Type="Int32" Nullable="false" />
+    <Property Name="levelPicture" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="levelPuan" Type="Int32" Nullable="false" />
+    <Property Name="levelModul" Type="Int32" Nullable="false" />
+    <Property Name="levelSubLevel" Type="Int32" Nullable="false" />
+    <Property Name="levelRememderCard" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Box" Relationship="Self.FK_Level_Box" FromRole="Level" ToRole="Box" />
+    <NavigationProperty Name="IrregularVerb" Relationship="Self.FK_IrregularVerb_Level" FromRole="Level" ToRole="IrregularVerb" />
+    <NavigationProperty Name="SynonymWord" Relationship="Self.FK_SynonymWord_Level" FromRole="Level" ToRole="SynonymWord" />
+    <NavigationProperty Name="Word" Relationship="Self.FK_Word_Level" FromRole="Level" ToRole="Word" />
+  </EntityType>
+  <EntityType Name="levelUserProgress">
+    <Key>
+      <PropertyRef Name="progressId" />
+    </Key>
+    <Property Name="progressId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="levelId" Type="Int32" Nullable="false" />
+    <Property Name="puan" Type="Int32" Nullable="false" />
+    <Property Name="star" Type="Int32" Nullable="false" />
+    <Property Name="boxId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="log">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Thread" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Level" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Logger" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Message" Type="String" MaxLength="4000" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Exception" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Score">
+    <Key>
+      <PropertyRef Name="targetId" />
+    </Key>
+    <Property Name="targetId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="userId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="targetDate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="targetScore" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SynonymWord">
+    <Key>
+      <PropertyRef Name="synonymId" />
+    </Key>
+    <Property Name="synonymId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="levelId" Type="Int32" Nullable="false" />
+    <Property Name="synonymTurkish" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="synonym1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="synonym2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="synonym3" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Level" Relationship="Self.FK_SynonymWord_Level" FromRole="SynonymWord" ToRole="Level" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="UserDetail">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="DailyTargetScore" Type="Int32" Nullable="false" />
+    <Property Name="SoundEffect" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Word">
+    <Key>
+      <PropertyRef Name="wordId" />
+    </Key>
+    <Property Name="wordId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="levelId" Type="Int32" Nullable="false" />
+    <Property Name="wordTurkish" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="wordTranslate" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="picture" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="info" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+    <Property Name="wordRemender" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+    <Property Name="wordRemenderInfo" Type="String" MaxLength="3000" FixedLength="false" Unicode="true" />
+    <Property Name="wordDefinition" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="wordExample" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Level" Relationship="Self.FK_Word_Level" FromRole="Word" ToRole="Level" />
+  </EntityType>
+  <Association Name="FK_Level_Box">
+    <End Role="Box" Type="Self.Box" Multiplicity="1" />
+    <End Role="Level" Type="Self.Level" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Box">
+        <PropertyRef Name="boxId" />
+      </Principal>
+      <Dependent Role="Level">
+        <PropertyRef Name="boxId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_comment_comment">
+    <End Role="comment" Type="Self.comment" Multiplicity="0..1" />
+    <End Role="comment1" Type="Self.comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="comment">
+        <PropertyRef Name="commentId" />
+      </Principal>
+      <Dependent Role="comment1">
+        <PropertyRef Name="commentReplyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IrregularVerb_Level">
+    <End Role="Level" Type="Self.Level" Multiplicity="1" />
+    <End Role="IrregularVerb" Type="Self.IrregularVerb" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Level">
+        <PropertyRef Name="levelId" />
+      </Principal>
+      <Dependent Role="IrregularVerb">
+        <PropertyRef Name="levelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SynonymWord_Level">
+    <End Role="Level" Type="Self.Level" Multiplicity="1" />
+    <End Role="SynonymWord" Type="Self.SynonymWord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Level">
+        <PropertyRef Name="levelId" />
+      </Principal>
+      <Dependent Role="SynonymWord">
+        <PropertyRef Name="levelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Word_Level">
+    <End Role="Level" Type="Self.Level" Multiplicity="1" />
+    <End Role="Word" Type="Self.Word" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Level">
+        <PropertyRef Name="levelId" />
+      </Principal>
+      <Dependent Role="Word">
+        <PropertyRef Name="levelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="wordboxe_englishEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Box" EntityType="Self.Box" />
+    <EntitySet Name="City" EntityType="Self.City" />
+    <EntitySet Name="comment" EntityType="Self.comment" />
+    <EntitySet Name="IrregularVerb" EntityType="Self.IrregularVerb" />
+    <EntitySet Name="Level" EntityType="Self.Level" />
+    <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" />
+    <EntitySet Name="log" EntityType="Self.log" />
+    <EntitySet Name="Score" EntityType="Self.Score" />
+    <EntitySet Name="SynonymWord" EntityType="Self.SynonymWord" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="UserDetail" EntityType="Self.UserDetail" />
+    <EntitySet Name="Word" EntityType="Self.Word" />
+    <AssociationSet Name="FK_Level_Box" Association="Self.FK_Level_Box">
+      <End Role="Box" EntitySet="Box" />
+      <End Role="Level" EntitySet="Level" />
+    </AssociationSet>
+    <AssociationSet Name="FK_comment_comment" Association="Self.FK_comment_comment">
+      <End Role="comment" EntitySet="comment" />
+      <End Role="comment1" EntitySet="comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IrregularVerb_Level" Association="Self.FK_IrregularVerb_Level">
+      <End Role="Level" EntitySet="Level" />
+      <End Role="IrregularVerb" EntitySet="IrregularVerb" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SynonymWord_Level" Association="Self.FK_SynonymWord_Level">
+      <End Role="Level" EntitySet="Level" />
+      <End Role="SynonymWord" EntitySet="SynonymWord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Word_Level" Association="Self.FK_Word_Level">
+      <End Role="Level" EntitySet="Level" />
+      <End Role="Word" EntitySet="Word" />
+    </AssociationSet>
+    <FunctionImport Name="sp_alterdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_creatediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="version" Mode="In" Type="Int32" />
+      <Parameter Name="definition" Mode="In" Type="Binary" />
+    </FunctionImport>
+    <FunctionImport Name="sp_dropdiagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(wordboxe_englishModel.sp_helpdiagramdefinition_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(wordboxe_englishModel.sp_helpdiagrams_Result)">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="sp_renamediagram">
+      <Parameter Name="diagramname" Mode="In" Type="String" />
+      <Parameter Name="owner_id" Mode="In" Type="Int32" />
+      <Parameter Name="new_diagramname" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="sp_upgraddiagrams" />
+    <FunctionImport Name="userProggress" ReturnType="Collection(wordboxe_englishModel.userProggress_Result)">
+      <Parameter Name="userId" Mode="In" Type="String" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="sp_helpdiagramdefinition_Result">
+    <Property Type="Int32" Name="version" Nullable="true" />
+    <Property Type="Binary" Name="definition" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="sp_helpdiagrams_Result">
+    <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+    <Property Type="Int32" Name="ID" Nullable="false" />
+    <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+    <Property Type="Int32" Name="OwnerID" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="userProggress_Result">
+    <Property Type="Int32" Name="boxId" Nullable="false" />
+    <Property Type="String" Name="boxName" Nullable="false" MaxLength="50" />
+    <Property Type="Int32" Name="Progress" Nullable="true" />
+    <Property Type="Int32" Name="CurrentProgress" Nullable="true" />
+    <Property Type="Int32" Name="CurrentLevel" Nullable="true" />
+  </ComplexType>
+</Schema>

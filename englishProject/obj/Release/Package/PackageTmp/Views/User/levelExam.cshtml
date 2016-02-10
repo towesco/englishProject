@@ -1,0 +1,138 @@
+﻿@using System.Globalization
+@using System.ServiceModel
+@using englishProject.Infrastructure
+@using englishProject.Infrastructure.ViewModel
+@using englishProject.Models
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "levelExam";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+
+    Level level = ViewBag.level;
+    Modul m = ViewBag.modul;
+    HtmlString exam = null;
+    UserDetail userDetail = ViewBag.UserDetail;
+    switch (m)
+    {
+        case Modul.WordModul:
+            exam = Html.HtmlConvertToJson((WordModul)ViewBag.exam);
+            break;
+        case Modul.PictureWordModul:
+            exam = Html.HtmlConvertToJson((PictureWordModul)ViewBag.exam);
+            break;
+        case Modul.SynonymWordModul:
+
+            exam = Html.HtmlConvertToJson((CommonModul<SynonymQuestions>)ViewBag.exam);
+            break;
+
+    }
+
+}
+@section scripts
+{
+    <link href="@Url.Content("~/Content/"+m.ToString()+".css")" rel="stylesheet" />
+    <script src="@Url.Content("~/Scripts/Modul/commonModul.js")"></script>
+    <script src="@Url.Content("~/Scripts/Modul/" + m.ToString() + ".js")"></script>
+
+    <script type="text/javascript">
+
+        var commentIssueViewModel=function() {
+            var self = this;
+            self.loading = ko.observable(false);
+            self.resultText =ko.observable("Mesajınız gönderilmiştir.");
+
+            self.viewModel= {
+                CommentIssue:ko.observable(),
+                ExceptId:parseInt("@level.levelId"),
+                Kind:ko.observable("1"),
+                UserId:"@Operations.GetUserId"
+            }
+
+            self.viewModel.Kind.subscribe(function(newValue) {
+
+                console.log(newValue);
+                if (newValue == "1") {
+                    self.resultText("Mesajınız gönderilmiştir.");
+                }
+                if(newValue=="2") {
+                    self.resultText("Sorununuz bildirilmiştir.");
+                }
+
+            });
+
+            self.send=function() {
+
+                if ($("#commentIssueForm").valid()) {
+                    self.loading(true);
+                    var jsonData = ko.toJSON(self.viewModel);
+                    console.log(jsonData);
+
+                    $.ajax("/api/ajax/CommentIssueSave", {
+                        type: "POST",
+                        data: jsonData,
+                        contentType: "application/json",
+                        success: function (data) {
+
+                            if (data) {
+
+                                setTimeout(function() {
+                                    $("#commentIssueModal").modal("hide");
+                                }, 2000);
+
+                            } else {
+                                self.resultText("@HelperMethod.GetErrorMessage");
+                            }
+                        },
+                        complete:function() {
+                            self.loading(false);
+                            $("#result").show();
+                        }
+                    });
+
+                }
+
+                return false;
+            }
+
+        }
+
+        $(document).ready(function () {
+
+            var commentVM = new commentIssueViewModel();
+
+            ko.applyBindings(commentVM,document.getElementById("commentIssueModal"));
+
+            var  vm = new viewmodel(@exam, @level.levelId,@level.levelSubLevel,@level.boxId);
+            ko.applyBindings(vm, document.getElementById("examWrapper"));
+
+        });
+    </script>
+}
+
+@Html.Partial("Templates/LoadingPartial")
+
+<div id="levelExamWrapper" style="display: none">
+    @Html.Partial("Modul/" + m.ToString())
+
+    @Html.Partial("ModulPartial/CommentIssue", new CommentIssueVM() { ExceptId = level.levelId })
+</div>
+
+@if ((bool)userDetail.SoundEffect)
+{
+    <div id="audiWrapper">
+        <audio controls id="successAudi" preload="auto">
+
+            <source src="@Url.Content("~/Content/audi/success.wav")" />
+        </audio>
+
+        <audio controls id="wrongAudi" preload="auto">
+
+            <source src="@Url.Content("~/Content/audi/wrong.wav")" />
+        </audio>
+        <audio controls id="updateAudi" preload="auto">
+
+            <source src="@Url.Content("~/Content/audi/levelUpdate.wav")" />
+        </audio>
+    </div>
+
+}

@@ -1,0 +1,98 @@
+﻿@using englishProject.Infrastructure
+@model IEnumerable<englishProject.Models.SynonymWord>
+@{
+    int i = 1;
+}
+@{
+    ViewBag.Title = "Words";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Words</h2>
+
+@using (Html.BeginForm("SynonymWords", "SynonymWord", FormMethod.Get, new { @class = "form-inline" }))
+{
+
+    <div class="form-group">
+        <label for="levelId">Level seç:</label>
+        @Html.DropDownList("levelId", null, new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Seç</button>
+
+}
+
+<p class="text-right">
+    @Html.ActionLink("Eş anlamlı kelime oluştur", "AddSynonymWord", "SynonymWord", null, new { @class = "btn btn-success" })
+</p>
+
+<table class="table table-bordered table-striped table-hover">
+    <tr>
+        <th>
+            Sıra
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.Box.boxName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.levelNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.levelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.synonymTurkish)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.synonym1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.synonym2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.synonym3)
+        </th>
+        <th>İşlemler</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>
+                @(i++)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Level.Box.boxName)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Level.levelNumber)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Level.levelName)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.synonymTurkish)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.synonym1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.synonym2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.synonym3)
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-md-3"><a class="btn btn-primary btn-xs " href="@Url.Action("UpdateSynonymWord","SynonymWord",new{item.synonymId})">güncelle</a></div>
+                    <div class="col-md-3">
+                        @using (Html.BeginForm("DeleteSynonymWord2", "SynonymWord", new { item.synonymId }, FormMethod.Post))
+                        {
+                            <input class="btn btn-danger btn-xs" type="submit" value="sil" />
+                        }
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+</table>

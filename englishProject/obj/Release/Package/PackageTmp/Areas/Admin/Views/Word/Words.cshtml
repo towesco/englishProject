@@ -1,0 +1,117 @@
+﻿@using englishProject.Infrastructure
+@model IEnumerable<englishProject.Models.Word>
+@{
+    int i = 1;
+}
+@{
+    ViewBag.Title = "Words";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Words</h2>
+
+@using (Html.BeginForm("Words", "Word", FormMethod.Get, new { @class = "form-inline" }))
+{
+
+    <div class="form-group">
+        <label for="levelId">Level seç:</label>
+        @Html.DropDownList("levelId", null, new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Seç</button>
+
+}
+
+<p class="text-right">
+    @Html.ActionLink("Yeni kelime oluştur(tek resimli)", "AddWord", "Word", new { id = 1 }, new { @class = "btn btn-success" })
+</p>
+<p class="text-right">
+    @Html.ActionLink("Yeni kelime oluştur(çift resimli)", "AddWord", "Word", new { id = 2 }, new { @class = "btn btn-success" })
+</p>
+
+<table class="table table-bordered table-striped table-hover">
+    <tr>
+        <th>
+            Sıra
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.Box.boxName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.levelNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level.levelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.wordTurkish)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.wordTranslate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.wordRemender)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.wordRemenderInfo)
+        </th>
+        <th>İşlemler</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>
+                @(i++)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Level.Box.boxName)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Level.levelNumber)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Level.levelName)
+            </th>
+            <td>
+                @Html.DisplayFor(modelItem => item.wordTurkish)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.wordTranslate)
+            </td>
+            <td>
+                @if (string.IsNullOrEmpty(item.wordRemender))
+                {
+                    <span>resim yok</span>
+                }
+                else
+                {
+                    <a class="btn btn-primary btn-xs" target="_blank" href="@item.wordRemender">resmi gör</a>
+
+                }
+            </td>
+            <td>
+                @if (string.IsNullOrEmpty(item.wordRemenderInfo))
+                {
+                    <span>resim yok</span>
+                }
+                else
+                {
+                    <a class="btn btn-primary btn-xs" target="_blank" href="@item.wordRemenderInfo">resmi gör</a>
+
+                }
+            </td>
+            <td>
+                <div class="row">
+                    <div class="col-md-3"><a class="btn btn-primary btn-xs " href="@Url.Action("UpdateWord","Word",new{item.wordId})">güncelle</a></div>
+                    <div class="col-md-3">
+                        @using (Html.BeginForm("DeleteWord2", "Word", new { item.wordId }, FormMethod.Post))
+                        {
+                            <input class="btn btn-danger btn-xs" type="submit" value="sil" />
+                        }
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+</table>

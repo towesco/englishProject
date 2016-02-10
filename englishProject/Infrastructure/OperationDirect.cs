@@ -38,11 +38,11 @@ namespace englishProject.Infrastructure
             get { return HttpContext.Current.GetOwinContext().Authentication; }
         }
 
-        private static EnglishProjectDBEntities entities;
+        private static wordboxe_englishEntities entities;
 
         static OperationDirect()
         {
-            entities = new EnglishProjectDBEntities();
+            entities = new wordboxe_englishEntities();
         }
 
         /// <summary>

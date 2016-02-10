@@ -1,0 +1,74 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Models
+@using Newtonsoft.Json
+@{
+    ViewBag.Title = "levelExam";
+    Level level = ViewBag.level;
+    Level nextLevel = ViewBag.nextLevel;
+
+}
+
+<div id="examWrapper">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            @Html.Partial("ModulPartial/HeaderPartial", level)
+
+            <div class="panel examPanel">
+                <div id="SubLvelWrapper">
+                    @Html.Partial("ModulPartial/ProgressPartial", level.levelSubLevel)
+
+                    <div id="fail" data-bind="visible:normalShow()" style="position: relative;">
+
+                        <div class="btn-group-vertical definitionWrapper" role="group">
+                            @*<h1 data-bind="text:definitionValueCount"></h1>*@
+
+                            <button data-placement="right" data-bind="visible:definitionValueCount()>0, attr: { 'data-content': Questions.Definition }" data-trigger="focus" type="button" class="btn btn-default btn-sm" data-toggle="popover" title="Açıklama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">Açıklama</button>
+
+                            <button data-placement="right" data-bind="visible:exampleValueCount()>0, attr: { 'data-content': Questions.Example }" data-trigger="focus" type="button" class="btn btn-default btn-sm" data-toggle="popover" title="Örnek&nbsp;cümle&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">Örnek cümle</button>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6 col-md-offset-3">
+                                <div data-bind="click:exChange" id="questionCard" class=" background questionCard img-rounded text-center">
+                                    <i data-bind="visible:exChangeVisible()>0" class="fa fa-exchange" style="position: absolute;right: 10px;bottom: 4px; color: white;font-size: 1.5em;"></i>
+                                    <h1 style="color:white;padding-top: 80px;;" data-bind="text:Questions.Question"></h1>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 text-center text-danger">
+
+                                <h4 data-bind="text:questionText"></h4>
+                            </div>
+
+                            @Html.Partial("ModulPartial/WarningPartial")
+
+                            <div data-bind="visible:subLevelNumber()<3" class="col-md-12 text-center">
+
+                                <div class="btnsWrapper form-inline" data-bind="foreach:Questions.QestionList">
+
+                                    <button data-bind="click:$parent.nextQuestion,attr:{id:$data}" type="button" class="btn btn-lg btn-ques"><span data-bind="text:$data"></span></button>
+                                </div>
+                            </div>
+
+                            <div data-bind="visible:subLevelNumber()>2" class="col-md-12 text-center" style="display: none">
+
+                                <div class="btnsWrapper form-inline">
+
+                                    <input id="txtEnglish" data-bind="textInput: textValue,valueUpdate: 'input', executeOnEnter: nextQuestion" class=" form-control input-lg" style="margin-top: 5px;" type="text">
+
+                                    <button id="btnControl" data-bind="click:nextQuestion,disable:textValueCount()==0" class="btn btn-lg  btn-ques" type="button">Kontrol et</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @Html.Partial("ModulPartial/FailPartial")
+                    @Html.Partial("ModulPartial/EndPartial", nextLevel)
+
+                    @Html.Partial("ModulPartial/SubLevelSuccess", nextLevel)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

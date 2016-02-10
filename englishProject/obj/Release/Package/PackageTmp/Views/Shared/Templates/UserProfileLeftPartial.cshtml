@@ -1,0 +1,51 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.Users
+@using Microsoft.Ajax.Utilities
+@model englishProject.Infrastructure.ViewModel.UserProfilView
+@{
+
+}
+<div class="panel userProfileBackground">
+    <a data-toggle="tooltip" data-placement="left" title="üyelik bilgilerim" href="@Url.Action("settings","user",new{id=1})"><i class="fa fa-cog"></i></a>
+
+    <div class="text-center">
+        <img src="@Model.picture" class="img-circle img-thumbnail userProfiPicture" />
+    </div>
+    <div class="text-center" style="margin-top: -25px;">
+        <strong class="badge" style=" padding: 5px 15px;border-radius: 32px; color: #283048;background-color: white;font-size: 15px;"> @Model.TotalPuan puan</strong>
+    </div>
+
+    <div class="text-center" style="margin-top: 5px;">
+        <strong> @HelperMethod.getUserName(Model.userName)</strong>
+    </div>
+
+    @if (Model.UserProfilBoxs.Any())
+    {
+        foreach (var item in Model.UserProfilBoxs)
+        {
+            double deger = Math.Round(((double)item.CurrentProgress / (double)item.Progress), 2) * 100;
+
+            <div style="padding: 10px;">
+                <div>
+                    <strong class="pull-left"><i class="fa fa-cube"></i> @item.boxName</strong>
+                    <span class="pull-right">
+                        <strong>
+                            @item.CurrentLevel
+                        </strong>.seviye
+                    </span>
+                    <i class="clearfix"></i>
+                </div>
+                <div class="progress" style="margin-top: 3px;margin-bottom: 0px; height: 10px; background-color: #C4E3F2;">
+                    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:@(deger)%; box-shadow: none; background-color: #283048">
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    }
+    else
+    {
+
+    }
+</div>

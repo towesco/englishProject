@@ -10,6 +10,7 @@
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
     <WebStackScaffolding_AreaDialogWidth>600</WebStackScaffolding_AreaDialogWidth>
     <WebStackScaffolding_DbContextTypeFullName>englishProject.Models.EnglishProjectDBEntities</WebStackScaffolding_DbContextTypeFullName>
+    <NameOfLastUsedPublishProfile>web</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

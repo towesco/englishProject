@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="wordboxe_englishModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Box">
+    <Key>
+      <PropertyRef Name="boxId" />
+    </Key>
+    <Property Name="boxId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="boxName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="boxNumber" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="City">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="tinyint" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="comment">
+    <Key>
+      <PropertyRef Name="commentId" />
+    </Key>
+    <Property Name="commentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="commentNote" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="commentDate" Type="datetime" Nullable="false" />
+    <Property Name="commentExceptId" Type="int" Nullable="false" />
+    <Property Name="commentReplyId" Type="int" />
+    <Property Name="commentKind" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="IrregularVerb">
+    <Key>
+      <PropertyRef Name="IrregularId" />
+    </Key>
+    <Property Name="IrregularId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="levelId" Type="int" Nullable="false" />
+    <Property Name="werbTurkish" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="verbOne" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="verbTwo" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="verbThree" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Level">
+    <Key>
+      <PropertyRef Name="levelId" />
+    </Key>
+    <Property Name="levelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="levelNumber" Type="int" Nullable="false" />
+    <Property Name="levelName" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="boxId" Type="int" Nullable="false" />
+    <Property Name="levelPicture" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="levelPuan" Type="int" Nullable="false" />
+    <Property Name="levelModul" Type="int" Nullable="false" />
+    <Property Name="levelSubLevel" Type="int" Nullable="false" />
+    <Property Name="levelRememderCard" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="levelUserProgress">
+    <Key>
+      <PropertyRef Name="progressId" />
+    </Key>
+    <Property Name="progressId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="levelId" Type="int" Nullable="false" />
+    <Property Name="puan" Type="int" Nullable="false" />
+    <Property Name="star" Type="int" Nullable="false" />
+    <Property Name="boxId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="log">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="Thread" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Level" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Logger" Type="varchar" MaxLength="255" Nullable="false" />
+    <Property Name="Message" Type="varchar" MaxLength="4000" Nullable="false" />
+    <Property Name="Exception" Type="varchar" MaxLength="2000" />
+  </EntityType>
+  <EntityType Name="Score">
+    <Key>
+      <PropertyRef Name="targetId" />
+    </Key>
+    <Property Name="targetId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="targetDate" Type="date" Nullable="false" />
+    <Property Name="targetScore" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="SynonymWord">
+    <Key>
+      <PropertyRef Name="synonymId" />
+    </Key>
+    <Property Name="synonymId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="levelId" Type="int" Nullable="false" />
+    <Property Name="synonymTurkish" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="synonym1" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="synonym2" Type="nvarchar" MaxLength="100" />
+    <Property Name="synonym3" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="UserDetail">
+    <Key>
+      <PropertyRef Name="userId" />
+    </Key>
+    <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="DailyTargetScore" Type="int" Nullable="false" />
+    <Property Name="SoundEffect" Type="bit" />
+  </EntityType>
+  <EntityType Name="Word">
+    <Key>
+      <PropertyRef Name="wordId" />
+    </Key>
+    <Property Name="wordId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="levelId" Type="int" Nullable="false" />
+    <Property Name="wordTurkish" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="wordTranslate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="picture" Type="nvarchar" MaxLength="500" />
+    <Property Name="info" Type="nvarchar" MaxLength="500" />
+    <Property Name="wordRemender" Type="nvarchar" MaxLength="3000" />
+    <Property Name="wordRemenderInfo" Type="nvarchar" MaxLength="3000" />
+    <Property Name="wordDefinition" Type="nvarchar" MaxLength="1000" />
+    <Property Name="wordExample" Type="nvarchar" MaxLength="1000" />
+  </EntityType>
+  <Association Name="FK_comment_comment">
+    <End Role="comment" Type="Self.comment" Multiplicity="0..1" />
+    <End Role="comment1" Type="Self.comment" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="comment">
+        <PropertyRef Name="commentId" />
+      </Principal>
+      <Dependent Role="comment1">
+        <PropertyRef Name="commentReplyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_IrregularVerb_Level">
+    <End Role="Level" Type="Self.Level" Multiplicity="1" />
+    <End Role="IrregularVerb" Type="Self.IrregularVerb" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Level">
+        <PropertyRef Name="levelId" />
+      </Principal>
+      <Dependent Role="IrregularVerb">
+        <PropertyRef Name="levelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Level_Box">
+    <End Role="Box" Type="Self.Box" Multiplicity="1" />
+    <End Role="Level" Type="Self.Level" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Box">
+        <PropertyRef Name="boxId" />
+      </Principal>
+      <Dependent Role="Level">
+        <PropertyRef Name="boxId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SynonymWord_Level">
+    <End Role="Level" Type="Self.Level" Multiplicity="1" />
+    <End Role="SynonymWord" Type="Self.SynonymWord" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Level">
+        <PropertyRef Name="levelId" />
+      </Principal>
+      <Dependent Role="SynonymWord">
+        <PropertyRef Name="levelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Word_Level">
+    <End Role="Level" Type="Self.Level" Multiplicity="1" />
+    <End Role="Word" Type="Self.Word" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Level">
+        <PropertyRef Name="levelId" />
+      </Principal>
+      <Dependent Role="Word">
+        <PropertyRef Name="levelId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+  <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="version" Type="int" Mode="In" />
+    <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+  </Function>
+  <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+  </Function>
+  <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+    <Parameter Name="owner_id" Type="int" Mode="In" />
+    <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="userProggress" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="userId" Type="nvarchar" Mode="In" />
+  </Function>
+  <EntityContainer Name="wordboxe_englishModelStoreContainer">
+    <EntitySet Name="Box" EntityType="Self.Box" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="comment" EntityType="Self.comment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="IrregularVerb" EntityType="Self.IrregularVerb" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Level" EntityType="Self.Level" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="levelUserProgress" EntityType="Self.levelUserProgress" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="log" EntityType="Self.log" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Score" EntityType="Self.Score" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SynonymWord" EntityType="Self.SynonymWord" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserDetail" EntityType="Self.UserDetail" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Word" EntityType="Self.Word" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_comment_comment" Association="Self.FK_comment_comment">
+      <End Role="comment" EntitySet="comment" />
+      <End Role="comment1" EntitySet="comment" />
+    </AssociationSet>
+    <AssociationSet Name="FK_IrregularVerb_Level" Association="Self.FK_IrregularVerb_Level">
+      <End Role="Level" EntitySet="Level" />
+      <End Role="IrregularVerb" EntitySet="IrregularVerb" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Level_Box" Association="Self.FK_Level_Box">
+      <End Role="Box" EntitySet="Box" />
+      <End Role="Level" EntitySet="Level" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SynonymWord_Level" Association="Self.FK_SynonymWord_Level">
+      <End Role="Level" EntitySet="Level" />
+      <End Role="SynonymWord" EntitySet="SynonymWord" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Word_Level" Association="Self.FK_Word_Level">
+      <End Role="Level" EntitySet="Level" />
+      <End Role="Word" EntitySet="Word" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

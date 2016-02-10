@@ -21,7 +21,7 @@ namespace englishProject.Infrastructure
         private readonly log4net.ILog logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
-        private EnglishProjectDBEntities entities;
+        private wordboxe_englishEntities entities;
 
         public static UserAppManager usermanager
         {
@@ -55,7 +55,7 @@ namespace englishProject.Infrastructure
 
         public Operations()
         {
-            entities = new EnglishProjectDBEntities();
+            entities = new wordboxe_englishEntities();
         }
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace englishProject.Infrastructure
             {
                 case ModulSubLevel.Temel:
 
-                    foreach (var item in words.Take(2))
+                    foreach (var item in words)
                     {
                         //1 tane doğru cevap liste
                         List<Word> correctListOne = new List<Word> { item };
@@ -372,7 +372,7 @@ namespace englishProject.Infrastructure
 
                 case ModulSubLevel.İleri:
 
-                    foreach (var item in words.Take(2))
+                    foreach (var item in words)
                     {
                         //1 tane doğru cevap liste
                         List<Word> correctListOne = new List<Word> { item };
@@ -395,7 +395,7 @@ namespace englishProject.Infrastructure
 
                 case ModulSubLevel.Mükemmel:
 
-                    List.AddRange(words.Take(2).Select(item => new Questions { Question = item.wordTurkish, QuestionCorrect = item.wordTranslate }));
+                    List.AddRange(words.Select(item => new Questions { Question = item.wordTurkish, QuestionCorrect = item.wordTranslate }));
 
                     break;
             }

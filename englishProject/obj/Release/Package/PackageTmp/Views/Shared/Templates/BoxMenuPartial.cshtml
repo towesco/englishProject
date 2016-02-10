@@ -1,0 +1,21 @@
+﻿@using englishProject.Infrastructure
+@model  Dictionary<string, int>
+@{
+    int count = 0;
+}
+
+<div class="boxMenuWrapper  panel panel-default">
+    <ul>
+        @foreach (var item in Model)
+        {
+
+            <li>
+                <a href='#' data-target="#box-carausel" data-slide-to="@(count++)">
+                    <i class='fa fa-cube fa-2x'></i>
+                    <div><strong>@item.Key.ToUpper()</strong></div>
+                </a>
+            </li>
+
+        }
+    </ul>
+</div>

@@ -18,8 +18,8 @@ namespace englishProject.Models
         public Level()
         {
             this.IrregularVerb = new HashSet<IrregularVerb>();
-            this.Word = new HashSet<Word>();
             this.SynonymWord = new HashSet<SynonymWord>();
+            this.Word = new HashSet<Word>();
         }
     
         public int levelId { get; set; }
@@ -36,8 +36,8 @@ namespace englishProject.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<IrregularVerb> IrregularVerb { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Word> Word { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SynonymWord> SynonymWord { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Word> Word { get; set; }
     }
 }

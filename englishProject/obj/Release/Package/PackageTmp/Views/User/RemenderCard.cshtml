@@ -1,0 +1,112 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.ViewModel
+@using englishProject.Models
+@{
+    ViewBag.Title = "RemenderCard";
+
+    int count = 0;
+}
+@model  Level
+@section scripts
+           {
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#remederCardCarausel').on('slid.bs.carousel', function (a) {
+
+                var index = $('#remederCardCarausel .active').index('#remederCardCarausel .item');
+
+                $("#wordList a").removeClass("active");
+
+                $("#wordList a:eq('" + index + "')").addClass("active");
+
+            });
+            $(".item:first").addClass("active");
+            $("#wordList a:first").addClass("active");
+
+        });
+    </script>
+    <style type="text/css">
+        .list-group-item:first-child {
+            border-top-right-radius: 0px;
+        }
+
+        .list-group-item:last-child {
+            border-bottom-right-radius: 0px;
+        }
+
+        .item img {
+            width: 600px;
+            height: 320px;
+            max-width: 600px;
+            max-height: 320px;
+        }
+    </style>
+}
+
+@section Left
+{
+
+    @Html.Partial("Templates/LeftLevelMenu", Tuple.Create(Model, 2))
+
+    @Html.Partial("Templates/UserProfileLeftPartial", (UserProfilView)ViewBag.userProfilView)
+    @Html.Partial("Templates/ScoreLeftPartial", HelperMethod.GetTotalLevelPuan(Model))
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="page-header">
+            <h2>Kelimeler <small class="text-muted">@Model.Word.Count adet</small></h2>
+        </div>
+    </div>
+</div>
+
+<div class="panel" style="border-width: 0px;position: relative;">
+
+    <div style="position: absolute; right: 15px; top: 15px;z-index: 10">
+
+        <a href="#remederCardCarausel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a href="#remederCardCarausel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+    <div class="row">
+        <div class="col-md-3  hidden-xs hidden-sm scroll" style="height: 367px; overflow: auto;padding-right: 0px;">
+
+            <div id="wordList" class="list-group" style="margin-bottom: 0px;">
+                @foreach (var item in Model.Word)
+                {
+
+                    <a class="list-group-item" data-target="#remederCardCarausel" href="#" data-slide-to="@(count++)">@item.wordTranslate</a>
+
+                }
+            </div>
+        </div>
+        <div class="col-md-9">
+
+            <div id="remederCardCarausel" class="carousel slide" style="margin: 10px;">
+
+                <!-- Wrapper for slides -->
+                <div class="carousel-inner" role="listbox">
+
+                    @foreach (Word item in Model.Word)
+                    {
+
+                        <div class="item">
+                            <h3 style="margin-top: 0px;color: #286090;">@item.wordTurkish</h3>
+                            <hr />
+                            <img class=" img-rounded" src="@item.wordRemenderInfo" />
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

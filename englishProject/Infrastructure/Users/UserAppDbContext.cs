@@ -11,7 +11,7 @@ namespace englishProject.Infrastructure.Users
     public class UserAppDbContext : IdentityDbContext<UserApp>
     {
         public UserAppDbContext()
-            : base("EnglishProjectUserDB")
+            : base("wordboxe_englishEntities2")
         {
         }
 

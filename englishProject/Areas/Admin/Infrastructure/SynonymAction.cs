@@ -10,11 +10,11 @@ namespace englishProject.Areas.Admin.Infrastructure
     public class SynonymAction : ISynonym
     {
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
-        private EnglishProjectDBEntities entities;
+        private wordboxe_englishEntities entities;
 
         public SynonymAction()
         {
-            entities = new EnglishProjectDBEntities();
+            entities = new wordboxe_englishEntities();
         }
 
         public bool AddWord(SynonymWord word)

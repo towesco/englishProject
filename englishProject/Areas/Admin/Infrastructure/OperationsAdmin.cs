@@ -8,7 +8,7 @@ namespace englishProject.Areas.Admin.Infrastructure
 {
     public static class OperationsAdmin
     {
-        private static readonly EnglishProjectDBEntities entities = new EnglishProjectDBEntities();
+        private static readonly wordboxe_englishEntities entities = new wordboxe_englishEntities();
 
         public static List<log> GetLogs()
         {

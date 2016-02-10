@@ -15,11 +15,11 @@ namespace englishProject.Areas.Admin.Infrastructure
         /// Change entities
         /// </summary>
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
-        private EnglishProjectDBEntities entities;
+        private wordboxe_englishEntities entities;
 
         public LevelAction()
         {
-            entities = new EnglishProjectDBEntities();
+            entities = new wordboxe_englishEntities();
         }
 
         public IEnumerable<Level> Levels(int boxId)

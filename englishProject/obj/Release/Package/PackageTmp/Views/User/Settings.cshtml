@@ -1,0 +1,372 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.HelperClass
+@using englishProject.Infrastructure.Users
+@using englishProject.Infrastructure.ViewModel
+@using englishProject.Models
+@{
+    ViewBag.Title = "Settings";
+
+    UserViewModel user = ViewBag.user;
+    var index = ViewBag.index;
+
+    int DailyTargetScore = ViewBag.DailyTargetScore;
+    UserProfilView userProfilView = ViewBag.userProfilView;
+    List<ScoreChart> chart = ViewBag.chart;
+    UserDetail userDetail = ViewBag.UserDetail;
+}
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.ui.widget.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.fileupload.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.iframe-transport.js")"></script>
+    <script src="@Url.Content("~/Scripts/progressbar/progressbar.js")"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+    <script src="@Url.Content("~/Scripts/chart.js")"></script>
+    <script src="@Url.Content("~/Scripts/site/Settings.js")"></script>
+    <style type="text/css">
+        .settingsProfilBackground {
+        }
+
+            .settingsProfilBackground .img-circle {
+                height: 150px;
+                width: 150px;
+            }
+
+        .list-group-score a.active {
+            background: #FF512F; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left, #FF512F, #F09819); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left, #FF512F, #F09819); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            border: 1px solid #D84B2F;
+        }
+
+            .list-group-score a.active .badge {
+                color: #FF512F; /* fallback for old browsers */
+            }
+
+        .list-group-settings a.active {
+            border-left: 5px solid #234F72 !important;
+        }
+
+        .list-group-settings .list-group-item {
+            border-style: none !important;
+        }
+
+        .list-group-settings {
+            margin-bottom: 10px;
+        }
+
+            .list-group-settings .list-group-item {
+                border-top: 1px solid #ddd;
+                border-bottom: 1px solid #ddd;
+                border-right: none;
+                border-left: none;
+            }
+
+                .list-group-settings .list-group-item:last-child {
+                    border-bottom: none;
+                }
+
+        .panel {
+            border-width: 0px;
+            background-color: #f5f5f5;
+        }
+
+        .bg-primary {
+            padding: 10px;
+        }
+
+        .alert {
+            margin-bottom: 0px;
+            padding: 12px;
+            margin-left: 5px;
+        }
+
+        small {
+            color: white !important;
+            font-family: verdana;
+        }
+    </style>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $(window).load(function () {
+
+                $("#loadingWrapper").hide();
+                $("#panel").show();
+            });
+
+            var profilView = new userProfilView(@Html.HtmlConvertToJson(userProfilView));
+            ko.applyBindings(profilView, document.getElementById("profilWrapper"));
+
+            var siteSettingView = new siteSettingsView(@Html.HtmlConvertToJson(userDetail));
+            ko.applyBindings(siteSettingView, document.getElementById("siteSettingsWrapper"));
+
+            var index = parseInt("@index");
+            var score = "@DailyTargetScore";
+            $("#" + score).parent().addClass("active");
+
+            $(".list-group-score a").click(function (e) {
+                e.preventDefault();
+                var a = $(this);
+                var dailyScore = $(this).children("strong").text();
+
+                $.getJSON("/api/ajax/UpdateDailyTargetScore", { score: dailyScore }, function (data) {
+
+                    if (data) {
+                        $(".list-group-score a").removeClass("active");
+                        $(a).addClass("active");
+
+                        SuccessMessageShow(data);
+                    }
+                });
+
+            });
+
+            $(".list-group-settings .list-group-item:eq(" + index + ")").addClass("active");
+            $("#carousel-settings .item:eq(" + index + ")").addClass("active");
+
+            $('#carousel-settings').on('slid.bs.carousel', function (a) {
+
+                var index2 = $('#carousel-settings .active').index('#carousel-settings .item');
+
+                $(".list-group-settings a").removeClass("active");
+
+                $(".list-group-settings a:eq('" + index2 + "')").addClass("active");
+
+            });
+
+            $('#fileUpload').fileupload({
+
+                url: '/User/UploadUserPicture',
+                singleFileUploads: false,
+                add: function (e, data) {
+                    console.log(data.originalFiles[0]['size']);
+                    var uploadErrors = [];
+                    var acceptFileTypes = /^image\/(gif|jpe?g|png)$/i;
+                    if (data.originalFiles[0]['type'].length && !acceptFileTypes.test(data.originalFiles[0]['type'])) {
+                        uploadErrors.push('yüklemek istediğiniz resim formatı uygun degil');
+                    }
+
+                    if (data.originalFiles[0]['size'] > 2097152) {
+
+                        uploadErrors.push('Resim boyutu 2 Mb büyük olamaz');
+                    }
+                    if (uploadErrors.length > 0) {
+                        alert(uploadErrors.join("\n"));
+                    }
+                    else {
+
+                        data.submit().success(function (result) {
+                            $(".PicturePath").attr("src", result);
+                            SuccessMessageShow(true);
+
+                        });
+
+                    }
+                },
+
+                fail: function (e, data) {
+                    alert("@HelperMethod.GetErrorMessage");
+                },
+                progressall: function (e, data) {
+
+                    console.log(data);
+                    //console.log(data.total);
+                    //console.log(data.loaded);
+                    //console.log(progress);
+                    var progress = parseInt(data.loaded / data.total * 100, 10);
+
+                    $(".fileUpload strong").html('% ' + progress);
+
+                },
+
+                done: function (e, data) {
+                    $(".fileUpload strong").html('');
+                }
+
+            });
+
+            var userPassword = function () {
+
+                this.currentPassword = $("#CurrentPassword").val();
+                this.newPassword = $("#NewPassword").val();
+                this.confirmPassword = $("#ConfirmPassword").val();
+            }
+            userPassword.prototype.convertJson = function () {
+
+                return JSON.stringify(new userPassword());
+            }
+
+            $("#btnUserPasswordUpdate").click(function () {
+
+                if ($("#UserPasswordForm").valid()) {
+                    $(".fa-spin").removeClass("hidden");
+                    $(this).attr("disabled", true);
+                    var jsonData = new userPassword().convertJson();
+                    console.log(jsonData);
+                    $.ajax("/api/ajax/UpdateUserPassword", {
+                        type: "POST",
+                        data: jsonData,
+                        contentType: "application/json",
+                        success: function (data) {
+
+                            if (data == "true") {
+                                SuccessMessageShow(true);
+                            } else {
+                                WarningMessageShow(data);
+                            }
+
+                        },
+                        error: function () {
+                            SuccessMessageShow(false);
+
+                        },
+                        complete: function () {
+                            $(".fa-spin").addClass("hidden");
+                            $("#btnUserPasswordUpdate").prop("disabled", false);
+                        }
+                    });
+                };
+                return false;
+
+            });
+
+            var user = function () {
+                this.Name = $("#Name").val();
+                this.SurName = $("#SurName").val();
+                this.BirthDay = $("#BirthDay").val();
+                this.PhoneNumber = $("#PhoneNumber").val();
+                this.City = $("#City").val();
+                this.Gender = parseInt($('input[name=Gender]:checked').val());
+                this.UserName = $("#UserName").val();
+                this.Email = $("#Email").val();
+                this.PicturePath = $("#PicturePath").attr("src");
+                this.password = $("#Password").val();
+
+            }
+            user.prototype.convertJson = function () {
+
+                return JSON.stringify(new user());
+            }
+
+            $("#btnUserInfoUpdate").click(function () {
+
+                if ($("#UserInfoForm").valid()) {
+                    $(".fa-spin").removeClass("hidden");
+                    $(this).attr("disabled", true);
+                    var jsonData = new user().convertJson();
+                    $.ajax("/api/ajax/UpdateUser", {
+                        type: "POST",
+                        data: jsonData,
+                        contentType: "application/json",
+                        success: function (data) {
+                            //console.log(data);
+
+                            SuccessMessageShow(data);
+
+                        },
+                        complete: function () {
+                            $(".fa-spin").addClass("hidden");
+                            $("#btnUserInfoUpdate").prop("disabled", false);
+                        },
+                        error: function () {
+                            SuccessMessageShow(false);
+
+                        }
+
+                    });
+                };
+                return false;
+            });
+
+        });
+    </script>
+}
+@section Left
+{
+
+    <div class="list-group list-group-settings">
+        <a href="#" data-target="#carousel-settings" data-slide-to="0" class="list-group-item">
+            <span class="pull-left">Profilim</span>
+            <span class="pull-right"><i class="fa fa-user"></i></span>
+            <i class="clearfix"></i>
+        </a>
+        <a href="#" data-target="#carousel-settings" data-slide-to="1" class="list-group-item">
+            <span class="pull-left">Üyelik bilgilerim</span>
+            <span class="pull-right"><i class="fa fa-cog"></i></span>
+            <i class="clearfix"></i>
+        </a>
+
+        <a href="#" data-target="#carousel-settings" data-slide-to="2" class="list-group-item">
+            <span class="pull-left">Parola ayarlarım</span>
+            <span class="pull-right"><i class="fa fa-key"></i></span>
+            <i class="clearfix"></i>
+        </a>
+        <a href="#" data-target="#carousel-settings" data-slide-to="3" class="list-group-item">
+            <span class="pull-left">Günlük hedef belirle</span>
+            <span class="pull-right"><i class="fa fa-dot-circle-o"></i></span>
+            <i class="clearfix"></i>
+        </a>
+        <a href="#" data-target="#carousel-settings" data-slide-to="4" class="list-group-item">
+            <span class="pull-left">Çalışma performansım</span>
+            <span class="pull-right"><i class="fa fa-area-chart"></i></span>
+            <i class="clearfix"></i>
+        </a>
+        <a href="#" data-target="#carousel-settings" data-slide-to="5" class="list-group-item">
+            <span class="pull-left">Site ayarlarım</span>
+            <span class="pull-right"><i class="fa fa-cog"></i></span>
+            <i class="clearfix"></i>
+        </a>
+    </div>
+
+}
+
+@Html.Partial("Templates/LoadingPartial")
+
+<div class="panel" id="panel" style="display: none">
+
+    <div id="carousel-settings" class="carousel slide" data-ride="carousel">
+
+        <!-- Wrapper for slides -->
+        <div class="carousel-inner" role="listbox">
+            <div class="item">
+
+                @Html.Partial("Templates/SettingsProfilPartial", userProfilView)
+            </div>
+
+            <div class="item">
+                @Html.Partial("Templates/SettingsUserInfoPartial", user)
+            </div>
+            <div class="item">
+                @Html.Partial("Templates/SettingsPasswordPartial", new UserPasswordViewModel())
+            </div>
+
+            <div class="item">
+                @Html.Partial("Templates/SettingsTargetScorePartial")
+            </div>
+            <div class="item">
+                <div>
+                    <h4 class="bg-primary">10 günlük çalışma performansım</h4>
+
+                    <div class="panel-body" style="width: 800px;">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="chart_div" style="margin-top: -25px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="item">
+                @Html.Partial("Templates/SettingsSitePartial")
+            </div>
+        </div>
+
+        <!-- Controls -->
+    </div>
+</div>

@@ -1,0 +1,127 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.ViewModel
+@using englishProject.Models
+@{
+    ViewBag.Title = "comments";
+
+    Level level = ViewBag.level;
+}
+@section scripts
+{
+    <link href="@Url.Content("~/Content/comment.css")" rel="stylesheet" />
+    <script type="text/javascript">
+
+        var commentViewModel = function () {
+            var self = this;
+
+            self.replyName = ko.observable();
+            self.replyShow = ko.observable(false);
+            self.btnText = ko.observable("Gönder");
+            self.loading = ko.observable(false);
+            self.resultText = ko.observable();
+            self.ph = ko.observable("Bu seviye için yorumunuz...");
+            self.viewModel = {
+                CommentIssue: ko.observable(),
+                ExceptId: parseInt("@level.levelId"),
+                Kind: 1,
+                UserId: "@Operations.GetUserId",
+                ReplyId: ko.observable()
+            }
+            self.replyCancel = function () {
+                self.ph("Bu seviye için yorumunuz...");
+                self.replyShow(false);
+                self.viewModel.ReplyId(null);
+                self.btnText("Gönder");
+                self.viewModel.CommentIssue("");
+                self.loading(false);
+
+            }
+            self.reply = function (data, obj) {
+
+                console.log(obj);
+                var id = $(obj.currentTarget).attr("data-id");
+                var userName = $(obj.currentTarget).attr("data-username");
+                self.viewModel.ReplyId(id);
+                self.replyName(userName);
+                self.btnText("Cevap gönder");
+                self.ph("Cevabınız...");
+                self.replyShow(true);
+                var body = $("html, body");
+                body.stop().animate({ scrollTop: 0 }, '500', 'swing', function () {
+
+                });
+
+            }
+            self.send = function () {
+
+                if ($("#commentSaveForm").valid()) {
+                    self.loading(true);
+                    var jsonData = ko.toJSON(self.viewModel);
+                    console.log(jsonData);
+
+                    $.ajax("/api/ajax/CommentIssueSave", {
+                        type: "POST",
+                        data: jsonData,
+                        contentType: "application/json",
+                        success: function (data) {
+                            self.viewModel.ReplyId(null);
+
+                            if (data) {
+
+                                if (self.replyShow()) {
+                                    self.resultText("Cevabınız gönderilmiştir");
+                                } else {
+                                    self.resultText("Yorumunuz gönderilmiştir.");
+                                }
+
+                            } else {
+                                self.resultText("@HelperMethod.GetErrorMessage");
+                            }
+
+                        },
+                        error: function () {
+                            self.resultText("@HelperMethod.GetErrorMessage");
+
+                        },
+                        complete: function () {
+
+                            self.replyCancel();
+                            $("#result").fadeIn().delay(2000).fadeOut();
+
+                        }
+                    });
+
+                }
+
+                return false;
+            }
+
+        }
+
+        $(document).ready(function () {
+            var commentVM = new commentViewModel();
+            ko.applyBindings(commentVM, document.getElementById("commentsWrapper"));
+
+        })
+    </script>
+}
+@section Left
+{
+
+    @Html.Partial("Templates/LeftLevelMenu", Tuple.Create(level, 1))
+    @Html.Partial("Templates/UserProfileLeftPartial", (UserProfilView)ViewBag.userProfilView)
+    @Html.Partial("Templates/ScoreLeftPartial", HelperMethod.GetTotalLevelPuan(level))
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h2>Yorumlar</h2>
+        </div>
+    </div>
+</div>
+<div id="commentsWrapper">
+    @Html.Partial("Templates/CommentSavePartial", new CommentIssueVM())
+    @Html.Partial("Templates/CommentListPartial", (List<comment>)ViewBag.comments)
+</div>

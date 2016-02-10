@@ -1,0 +1,89 @@
+﻿@using englishProject.Models
+@model englishProject.Models.Word
+
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Update</h2>
+
+@using (Html.BeginForm("UpdateWord", "Word", FormMethod.Post))
+{
+
+    <div class="form-horizontal">
+        <h4>Word</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.wordId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.wordTurkish, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.wordTurkish, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.wordTurkish, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.wordTranslate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.wordTranslate, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.wordTranslate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.info, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.info, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.info, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.wordDefinition, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.wordDefinition, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.wordDefinition, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.wordExample, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.wordExample, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.wordExample, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.wordRemender, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.wordRemender, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.wordRemender, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.wordRemenderInfo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.wordRemenderInfo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.wordRemenderInfo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Level.levelId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("levelId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Level.levelId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

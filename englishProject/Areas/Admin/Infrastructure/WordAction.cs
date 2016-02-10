@@ -13,11 +13,11 @@ namespace englishProject.Areas.Admin.Infrastructure
     public class WordAction : IWord
     {
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
-        private EnglishProjectDBEntities entities;
+        private wordboxe_englishEntities entities;
 
         public WordAction()
         {
-            entities = new EnglishProjectDBEntities();
+            entities = new wordboxe_englishEntities();
         }
 
         public bool AddWord(Word word)

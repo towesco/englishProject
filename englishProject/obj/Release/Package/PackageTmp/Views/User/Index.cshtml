@@ -1,0 +1,59 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.ViewModel
+@using englishProject.Models
+@{
+    ViewBag.Title = "Home Page";
+    List<BoxLevelUser> boxs = ViewBag.boxs;
+    ViewBag.Title = "Index";
+    double userTargetPercent = ViewBag.userTargetPercent;
+}
+
+@section Left
+{
+    @Html.Partial("Templates/UserProfileLeftPartial", (UserProfilView)ViewBag.userProfilView)
+
+    @Html.Partial("Templates/TargetScoreLeftPartial", (UserDetail)ViewBag.userDetails)
+
+}
+@section scripts
+{
+
+    <script src="@Url.Content("~/Scripts/progressbar/progressbar.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var userTargetPercent = parseInt("@userTargetPercent");
+
+            if (userTargetPercent == 0) {
+                $("#scoreInfo").text("Bugün hiç çalışmamışsın");
+            }
+
+            var circle = new ProgressBar.Circle('#progressContainer', {
+                color: '#602515',
+                strokeWidth: 15,
+                trailWidth: 10,
+                trailColor: '#EFC792',
+                duration: 1500,
+                text: {
+                    value: '%0'
+                },
+                step: function (state, bar) {
+
+                    bar.setText("%" + Math.abs((bar.value() * 100).toFixed(0)));
+
+                }
+            });
+
+            circle.animate(userTargetPercent / 100, function () {
+
+                if (userTargetPercent == "0") {
+                    circle.setText("?");
+                }
+            });
+
+        });
+    </script>
+
+}
+
+@Html.Partial("Templates/BoxsPartial", boxs)

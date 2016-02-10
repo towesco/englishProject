@@ -1,0 +1,59 @@
+﻿@model int
+<div class="row " style=" padding: 10px; ">
+
+    <div class=" col-md-12">
+
+        <div class="progress" style="margin-bottom: 0px;">
+        </div>
+    </div>
+    @*<div class=" col-md-1 text-left hidden-xs hidden-sm">
+
+            <strong class="badge" data-bind="text:totalRate"></strong>
+        </div>*@
+</div>
+<div class="row" style="margin: 0px;background-color: #f5f5f5;">
+
+    <div class="pull-left  bg-primary" style="padding: 7px;">
+        <i class="fa fa-tachometer"></i>  Puan: <span style="background-color: white;color: blue;" data-bind="text:totalPuan" class="badge"></span>
+    </div>
+
+    <div class="pull-left bg-success" style="padding: 7px;">
+        <i class="fa fa-star" style="font-size: 1.3em" data-bind="css:{starColor:star()>0}"></i>
+
+        <i class="fa fa-star" style="font-size: 1.3em" data-bind="css:{starColor:star()>1}"></i>
+
+        @if (Model > 2)
+        {
+            <i class="fa fa-star" style="font-size: 1.3em" data-bind="css:{starColor:star()>2}"></i>
+        }
+    </div>
+
+    <div class="pull-right" style="margin: 6px 15px 0px;">
+
+        @*data-bind="css: { subLevelActive:subLevelNumber()==1}"*@
+
+        <span><i data-bind="css:{heartDisabled:totapInCorrect()>=1}" class="fa fa-heart fa-2x heart-color"></i></span>
+        <span><i data-bind="css:{heartDisabled:totapInCorrect()>=2}" class="fa fa-heart fa-2x heart-color"></i></span>
+        <span><i data-bind="css:{heartDisabled:totapInCorrect()>=3}" class="fa fa-heart fa-2x heart-color"></i></span>
+    </div>
+
+    <i class="clearfix"></i>
+</div>
+
+<div id="stopQuizModal" class="modal fade quizModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Uyarı</h4>
+            </div>
+            <div class="modal-body">
+                <p>Testten çıkış yaparsanız kazanmış olduğunuz puanları kaybedeceksiniz.<strong>Biraz daha sabredip bitirmelisin bence :)</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+                <a href="@Url.Action("index","user")" class="btn btn-danger">Testten çık</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

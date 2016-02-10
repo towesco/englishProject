@@ -1,0 +1,96 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.HelperClass
+@using englishProject.Infrastructure.Users
+@using englishProject.Infrastructure.ViewModel
+@using englishProject.Models
+
+@{
+    ViewBag.Title = "comments";
+    List<CommentCustom> comments = ViewBag.comments;
+    Operations operations = new Operations();
+}
+
+@section Left
+{
+
+    @Html.Partial("Templates/UserProfileLeftPartial", (UserProfilView)ViewBag.userProfilView)
+
+}
+@section scripts
+{
+    <link href="@Url.Content("~/Content/comment.css")" rel="stylesheet" />
+}
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="page-header">
+            <h2>Yorumlar</h2>
+        </div>
+    </div>
+</div>
+
+<ul class="list-unstyled commentList" style=" border-bottom: 2px solid #c7cacb;">
+    @foreach (var item in comments)
+    {
+        UserApp user = operations.getProfil(item.Comment.userId);
+        <li>
+
+            <div class="row">
+                <div class="col-sm-2 text-right" style="padding-right: 0px;">
+
+                    <img class="img-thumbnail img-circle hidden-xs" style="width: 80px; height: 80px" src="@user.PicturePath">
+                </div><!-- /col-sm-1 -->
+
+                <div class="col-sm-10" style="margin-top: 12px;">
+
+                    <div class="panel panel-default panel-comment">
+                        <div class="panel-heading">
+
+                            <strong>@HelperMethod.getUserName(user.UserName)</strong> <small class="text-muted">@item.Comment.commentDate.ToLongDateString()</small>
+
+                            <span class="badge pull-right" style="background-color: #337ab7">@(item.Level.levelNumber). Seviye</span>
+                            <span style="margin-right: 6px; background-color: #2A4F6D" class="badge pull-right">@item.Level.Box.boxName </span>
+                            <i class="clearfix"></i>
+                        </div>
+                        <div class="panel-body">
+                            @item.Comment.commentNote
+                        </div><!-- /panel-body -->
+                    </div><!-- /panel panel-default -->
+                </div><!-- /col-sm-5 -->
+            </div>
+            @if (item.Comment.comment1.Any())
+            {
+
+                foreach (var item2 in item.Comment.comment1)
+                {
+                    UserApp user2 = operations.getProfil(item2.userId);
+                    <ul class="list-unstyled commentList replyList">
+                        <li>
+
+                            <div class="row">
+                                <div class="col-sm-2 text-right" style="padding-right: 0px;">
+
+                                    <img class="img-thumbnail img-circle hidden-xs" style="width: 60px; height: 60px;" src="@user.PicturePath">
+                                </div><!-- /col-sm-1 -->
+
+                                <div class="col-sm-10" style="margin-top: 6px;">
+
+                                    <div class="panel panel-default panel-comment">
+                                        <div class="panel-heading">
+                                            <strong>Fatih Ç</strong> <small class="text-muted">@item2.commentDate.ToLongDateString()</small>
+                                        </div>
+                                        <div class="panel-body">
+                                            @item2.commentNote
+                                        </div><!-- /panel-body -->
+                                    </div><!-- /panel panel-default -->
+                                </div><!-- /col-sm-5 -->
+                            </div>
+                        </li>
+                    </ul>
+                }
+
+            }
+        </li>
+    }
+</ul>

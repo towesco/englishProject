@@ -1,0 +1,44 @@
+﻿<!-- Contenedor Principal -->
+@using englishProject.Infrastructure
+@using englishProject.Infrastructure.Users
+@model  List<englishProject.Models.comment>
+
+@if (Model.Any())
+{
+    <ul class="list-unstyled commentList" style=" border-bottom: 2px solid #c7cacb;">
+
+        @foreach (var item in Model)
+        {
+
+            UserApp user = OperationDirect.GetUser(item.userId);
+            <li>
+
+                @CommentLine.Row(user.PicturePath, user.UserName, item.commentDate, item.commentId, item.commentNote, 1)
+
+                @if (item.comment1.Any())
+                {
+                    foreach (var item2 in item.comment1)
+                    {
+                        UserApp user2 = OperationDirect.GetUser(item2.userId);
+                        <ul class="list-unstyled commentList replyList ">
+                            <li>
+                                @CommentLine.Row(user2.PicturePath, user2.UserName, item2.commentDate, item2.commentId, item2.commentNote, 2)
+                            </li>
+                        </ul>
+                    }
+
+                }
+            </li>
+
+        }
+    </ul>
+
+}
+else
+{
+    <br />
+    <div class="alert alert-info">
+        Bu seviye için yorum bulunmamaktadır.
+    </div>
+
+}

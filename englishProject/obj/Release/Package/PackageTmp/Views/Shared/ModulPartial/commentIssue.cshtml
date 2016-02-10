@@ -1,0 +1,38 @@
+﻿@model englishProject.Infrastructure.ViewModel.CommentIssueVM
+<button id="btnCommentIssue" type="button" class="btn btn-info  hidden-xs hidden-sm" data-toggle="tooltip" data-placement="left" title="Bu seviye için yorum yap / sorun bildir"><i class="fa fa-plus-circle fa-2x"></i></button>
+
+<div id="commentIssueModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+
+        <form id="commentIssueForm" data-bind="submit:send">
+            <div class="modal-content commentIssue-background">
+
+                <div class="modal-body">
+                    <div class="pull-left">
+
+                        <label class="radio-inline"><input type="radio" name="options" id="1" value="1" autocomplete="off" data-bind="checked:viewModel.Kind"> yorum yap</label>
+
+                        <label class="radio-inline"><input type="radio" name="options" id="2" value="2" autocomplete="off" data-bind="checked:viewModel.Kind"> sorun bildir</label>
+                    </div>
+                    <div id="result" style="margin-bottom: 0px;padding: 6px;margin-right: 5px;display: none;" data-bind="text:resultText" class="alert alert-warning pull-right"></div>
+
+                    <i class="clearfix"></i>
+                    <br />
+                    <div class="form-group">
+                        @Html.TextAreaFor(x => x.CommentIssue, new { @class = "form-control", @data_bind = "value:viewModel.CommentIssue" })
+                        @Html.ValidationMessageFor(x => x.CommentIssue)
+                    </div>
+                    <div>
+                        <a target="_blank" href="@Url.Action("commentsLevel", "user", new { id = Model.ExceptId })">Bu seviye için yorumları gör </a>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: none;">
+
+                    <i class="clearfix"></i>
+                    <button type="submit" data-bind="disable:loading" class="btn btn-primary"><i data-bind="visible:loading" class="fa fa-refresh fa-spin"></i> Gönder</button>
+                    <button type="button" class="btn btn-default " data-dismiss="modal">İptal</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </form>
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

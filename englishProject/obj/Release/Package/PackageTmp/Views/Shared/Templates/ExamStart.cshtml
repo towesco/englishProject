@@ -1,0 +1,170 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.HelperClass
+@using Ninject
+@using WebGrease.Css.Extensions
+@using englishProject.Models
+@model Tuple<Level, levelUserProgress, levelUserProgress, List<englishProject.Infrastructure.HelperClass.ExamStartWord>>
+@helper  subLevelButton(string btnName, bool lockk, bool disabled, int subLevel, bool success = false)
+{
+
+    <a href="@Url.Action("levelExam", "user", new {Model.Item1.levelId, subLevel = subLevel })" class="btn btn-select @(@disabled ? "disabled" : "bos") ">
+
+        <span>
+            @if (lockk)
+            {
+                <i class="fa fa-lock"></i>
+            }
+            @if (success)
+            {
+                <i class="fa fa-check"></i>
+            }
+
+            @if (lockk == false && success == false)
+            {
+                <i class="fa fa-arrow-right"></i>
+            }
+        </span>
+
+        @Enum.GetName(typeof(ModulSubLevel), subLevel).ToString() Seviye
+
+        <span class="badge" style="background-color:#116A9E ">@btnName</span>
+    </a>
+
+}
+
+<div class="ExamStartBackground">
+
+    <div class="row" style="padding:10px 10px 2px">
+        <div class="col-md-2 hidden-xs hidden-sm">
+            <div style="width: 80px;height: 80px; background-color: #116A9E;border: 5px solid #116A9E;" class="img-circle">
+                <i class="fa fa-star fa-3x" style="margin: 14px 16px; color: white;"></i>
+            </div>
+        </div>
+        <div class="col-md-10" style="color: white;">
+
+            <div style="border-bottom: 3px solid white; padding-bottom: 4px;">
+
+                <h3 class="marginReset pull-left" style="padding-top: 10px;">@(Model.Item1.levelNumber).Seviye</h3>
+
+                @if (Model.Item1.levelRememderCard)
+                {
+
+                    <a class="btn btn-sm  btn-select pull-right" href="@Url.Action("remendercard", "user", new { id = Model.Item1.levelId })"> hatırlatma kartları</a>
+
+                }
+
+                <a style="margin-right: 5px;" class="btn btn-sm  btn-select pull-right" href="@Url.Action("commentsLevel", "user", new { id = Model.Item1.levelId })">yorumlar</a>
+
+                <i class="clearfix"></i>
+            </div>
+            <div>
+                <h4>@Model.Item1.levelName</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin: 0px;padding: 5px 0px;">
+        <div class="col-md-12">
+
+            <div class="text-center">
+                @if (Model.Item2 == null)
+                {
+
+                    if (Model.Item1.levelNumber == 1 || (Model.Item3 != null && Model.Item3.star >= 1))
+                    {
+
+                        for (int i = 1; i <= Model.Item1.levelSubLevel; i++)
+                        {
+                            @(i < 2 ? subLevelButton("başla", false, false, i) : subLevelButton("kilitli", true, true, i))
+                        }
+                    }
+                    @*else
+                        {
+                            for (int i = 1; i <= Model.Item1.levelSubLevel; i++)
+                            {
+                                @subLevelButton("kilitli", true, true, i)
+                            }
+
+                        }*@
+
+                }
+                else
+                {
+
+                    if (Model.Item2.star == 1)
+                    {
+
+                        @subLevelButton("çalış", false, false, 1, true)
+                        @subLevelButton("başla", false, false, 2)
+
+                        if (Model.Item1.levelSubLevel == 3)
+                        {
+                            @subLevelButton("kilitli", true, true, 3)
+                        }
+
+                    }
+                    else if (Model.Item2.star == 2)
+                    {
+
+                        @subLevelButton("çalış", false, false, 1, true)
+                        @subLevelButton("çalış", false, false, 2, true)
+
+                        if (Model.Item1.levelSubLevel == 3)
+                        {
+                            @subLevelButton("başla", false, false, 3)
+                        }
+
+                    }
+                    else if (Model.Item2.star == 3)
+                    {
+                        @subLevelButton("çalış", false, false, 1, true)
+                        @subLevelButton("çalış", false, false, 2, true)
+                        @subLevelButton("çalış", false, false, 3, true)
+
+                    }
+
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row marginReset">
+    <div class="col-md-12 bg-primary">
+
+        <h4 style="padding: 10px; margin: 0px;">ÖGRENİLECEK KELİMELER</h4>
+    </div>
+    @if (Model.Item1.levelRememderCard)
+    {
+        <div class="col-md-12 bg-info">
+            <small>Teste başlamadan önce bu seviye için hatırlatma kartlarıyla çalışarak seviyeyi daha kolay bitirebilirsin.</small>
+        </div>
+    }
+
+    <div class="col-sm-12 scroll" style="background-color: #f5f8fa ; padding: 10px; height: 300px;   overflow-y: scroll; ">
+        <div class="col-sm-6">
+            <ul class="list-group">
+                @foreach (ExamStartWord item in Model.Item4.Take((Model.Item4.Count / 2)))
+                {
+
+                    <li class="list-group-item">
+                        <span class="text-danger">@item.English</span> <i class="fa fa-arrows-h"></i> @item.Turkish
+                    </li>
+
+                }
+            </ul>
+        </div>
+        <div class="col-sm-6">
+            <ul class="list-group">
+                @foreach (ExamStartWord item in Model.Item4.Skip(Model.Item4.Count / 2).Take(20))
+                {
+
+                    <li class="list-group-item">
+                        <span class="text-danger">@item.English</span> <i class="fa fa-arrows-h"></i> @item.Turkish
+                    </li>
+
+                }
+            </ul>
+        </div>
+    </div>
+</div>

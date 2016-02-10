@@ -27,11 +27,11 @@ namespace englishProject.Infrastructure
         }
 
         // ReSharper disable once FieldCanBeMadeReadOnly.Local
-        private EnglishProjectDBEntities entities;
+        private wordboxe_englishEntities entities;
 
         public HelperMethod()
         {
-            entities = new EnglishProjectDBEntities();
+            entities = new wordboxe_englishEntities();
         }
 
         /// <summary>

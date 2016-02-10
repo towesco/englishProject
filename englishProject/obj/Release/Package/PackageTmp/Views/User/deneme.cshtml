@@ -1,0 +1,263 @@
+﻿@using System.Security.Claims
+@using englishProject.Infrastructure
+@using englishProject.Infrastructure.HelperClass
+@model  List<Claim>
+@{
+    ViewBag.Title = "deneme";
+    List<ScoreChart> chart = ViewBag.chart;
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+
+}
+@section scripts
+{
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#dragWrapper .btn-info a").click(function () {
+
+                //var id = $(this).parent().parent().attr("id").split("-")[1];
+                var id = $(this).parent().parent().attr("data-key");
+                $("#group-" + id).removeClass("active");
+
+                var btn = $(this).parent("div");
+                btn.children("i").hide();
+                btn.children("a").hide();
+                $("#rightWrapper").append(btn);
+
+            });
+
+            //alert(Modernizr.draganddrop);
+            var btns = document.querySelectorAll(".btn-info");
+
+            for (var i = 0; i < btns.length; i++) {
+                var bt = btns[i];
+                bt.addEventListener("dragstart", dragstart, false);
+                //bt.addEventListener("drag", drag, false);
+            }
+
+            var btns2 = document.querySelectorAll(".btn-group");
+
+            for (var i = 0; i < btns2.length; i++) {
+                var bt2 = btns2[i];
+                bt2.addEventListener("dragover", dragover, false);
+                bt2.addEventListener("dragleave", dragleave, false);
+                bt2.addEventListener("drop", drop, false);
+                bt2.addEventListener("dragenter", dragenter, false);
+            }
+
+            document.getElementById("rightWrapper").addEventListener("drop", drop, false);
+            document.getElementById("rightWrapper").addEventListener("dragover", dragover, false);
+
+            function dragover(e) {
+                e.preventDefault();
+
+                e.dataTransfer.dropEffect = "copy";
+
+            }
+
+            function dragleave(e) {
+
+                var id;
+                //if ($(e.target).parent().is(".group")) {
+                //    id = $(e.target).parent().attr("id").split("-")[1];
+
+                //} else {
+                //    id = e.target.id.split("-")[1];
+                //}
+
+                if ($(e.target).parent().is(".group")) {
+                    id = $(e.target).parent().attr("data-key");
+
+                } else {
+                    id = $(e.target).attr("data-key");
+                }
+                console.log(e.target);
+                console.log(id);
+                $("#group-" + id).removeClass("active");
+
+            }
+
+            function dragenter(e) {
+
+                var id;
+                //if ($(e.target).parent().is(".group")) {
+
+                //    id = $(e.target).parent().attr("id").split("-")[1];
+
+                //} else {
+                //    id = e.target.id.split("-")[1];
+                //}
+
+                console.log($(e.target).parent().is(".group"));
+                if ($(e.target).parent().is(".group")) {
+                    id = $(e.target).parent().attr("data-key");
+
+                } else {
+                    id = $(e.target).attr("data-key");
+                }
+
+                $("#group-" + id).addClass("active");
+
+            }
+
+            function drop(e) {
+                e.preventDefault();
+
+                var droppedID = e.dataTransfer.getData("text");
+
+                var btn = $("#" + droppedID);
+
+                if (e.target.id == "rightWrapper" || $(e.target).parent("#rightWrapper").is("div")) {
+
+                    btn.children("i").hide();
+                    btn.children("a").hide();
+
+                    //$("#group-" + btn.parent().attr("id").split("-")[1]).removeClass("active");
+
+                    $("#group-" + btn.parent().attr("data-key")).removeClass("active");
+                    $("#rightWrapper").append(btn);
+
+                } else {
+
+                    var id;
+
+                    if ($(e.target).parent(".group").is("div")) {
+                        //id = $(e.target).parent(".group").attr("id").split("-")[1];
+                        id = $(e.target).parent(".group").attr("data-key");
+                        if ($(e.target).parent(".group").children("div").length == 1) {
+
+                            var previousBtn = $(e.target);
+
+                            btn.parent().append(previousBtn);
+
+                            if (btn.parent().attr("id") == "rightWrapper") {
+                                previousBtn.children("i").hide();
+                                previousBtn.children("a").hide();
+                            }
+
+                            //$("#rightWrapper").append(previousBtn);
+                        }
+
+                    } else {
+                        id = e.target.id.split("-")[1];
+                    }
+
+                    btn.children("i").addClass("animated zoomIn").show();
+                    btn.children("a").show();
+                    $("#group-" + id).append(btn);
+                    btn.addClass("animated bounceIn");
+                }
+
+            }
+
+            function dragstart(e) {
+
+                e.dataTransfer.effectAllowed = "copy";
+                e.dataTransfer.setData("text", e.target.id);
+
+            }
+
+        });
+        function noDrop(e) {
+
+            e.stopPropagation();
+        }
+    </script>
+    <style type="text/css">
+        #leftWrapper .active {
+            background: #FF4E50; /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left, #FF4E50, #F9D423); /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left, #FF4E50, #F9D423); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+        }
+
+        #dragWrapper .btn-info > i {
+            position: absolute;
+            top: 5px;
+            left: -18px;
+            display: none;
+            z-index: 1;
+        }
+
+        #dragWrapper .btn-info a {
+            display: none;
+            position: absolute;
+            top: 10px;
+            right: 5px;
+        }
+
+        #rightWrapper {
+            background-color: #E8EEF2;
+            padding: 20px;
+            border-left: 2px solid #D0DAE0;
+        }
+
+            #rightWrapper .btn-info {
+                margin-bottom: 20px;
+                /*border-top-left-radius: 0px;
+                border-bottom-left-radius: 0px;*/
+                position: relative;
+            }
+
+        #leftWrapper {
+            padding: 20px;
+        }
+
+            #leftWrapper .btn-group {
+                margin-bottom: 20px;
+                width: 499px;
+                background-color: #E8EEF2;
+                border-radius: 7px;
+            }
+
+            #leftWrapper .btn {
+                width: 250px;
+            }
+
+            #leftWrapper .btn-primary:hover {
+                z-index: 0;
+            }
+    </style>
+}
+<div class="row" id="dragWrapper">
+    <div class="col-md-10 col-md-offset-1" style="background-color: white;">
+        <div class="row ">
+            <div id="leftWrapper" class="col-md-9 text-left">
+
+                <div data-key="1" id="group-1" class="btn-group btn-group-lg group" role="group" aria-label="...">
+
+                    <button ondrop="noDrop(event)" id="synonym-1" draggable="false" class="btn btn-primary  ">Adventage </button>
+                </div>
+                <div data-key="2" id="group-2" class="btn-group btn-group-lg group" role="group" aria-label="...">
+
+                    <button ondrop="noDrop(event)" id="synonym-2" draggable="false" class="btn btn-primary  ">Adventage2 </button>
+                </div>
+
+                <div data-key="3" id="group-3" class="btn-group btn-group-lg group" role="group" aria-label="...">
+
+                    <button ondrop="noDrop(event)" id="synonym-3" draggable="false" class="btn btn-primary  ">Adventage3 </button>
+                </div>
+            </div>
+            <div data-right="1" id="rightWrapper" class="col-md-3 text-center" draggable="false">
+                <div data-key="1" id="btn-1" draggable="true" class=" btn  btn-info  btn-lg btn-block ">
+                    Apportunity1
+                    <i ondrop="noDrop(event)" class="fa fa-arrows-h fa-2x"></i>
+                    <a ondrop="noDrop(event)" href="#"><i class="fa fa-times-circle"></i></a>
+                </div>
+                <div data-key="2" id="btn-2" draggable="true" class=" btn  btn-info  btn-lg btn-block ">
+
+                    Apportunity2<i ondrop="noDrop(event)" class="fa fa-arrows-h fa-2x"></i>
+                    <a ondrop="noDrop(event)" href="#"><i class="fa fa-times-circle"></i></a>
+                </div>
+                <div data-key="3" id="btn-3" draggable="true" class=" btn  btn-info  btn-lg btn-block ">
+                    Apportunity3 <i class="fa fa-arrows-h fa-2x"></i><a href="#"><i class="fa fa-times-circle"></i></a>
+                </div>
+                <div data-key="4" id="btn-4" draggable="true" class=" btn  btn-info  btn-lg btn-block ">
+                    Apportunity4<i class="fa fa-arrows-h fa-2x"></i> <a href="#"><i class="fa fa-times-circle"></i></a>
+                </div>
+                <div data-key="5" id="btn-5" draggable="true" class=" btn  btn-info  btn-lg btn-block ">
+                    Apportunity5 <i class="fa fa-arrows-h fa-2x"></i><a href="#"><i class="fa fa-times-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
