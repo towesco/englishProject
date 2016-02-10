@@ -130,6 +130,7 @@
     </Key>
     <Property Name="userId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
     <Property Name="DailyTargetScore" Type="Int32" Nullable="false" />
+    <Property Name="SoundEffect" Type="Boolean" />
   </EntityType>
   <EntityType Name="Score">
     <Key>

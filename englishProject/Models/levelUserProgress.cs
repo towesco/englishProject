@@ -20,7 +20,5 @@ namespace englishProject.Models
         public int puan { get; set; }
         public int star { get; set; }
         public int boxId { get; set; }
-        
     }
-
 }

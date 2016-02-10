@@ -317,6 +317,7 @@
     <Content Include="Areas\Admin\js\metisMenu.js" />
     <Content Include="Areas\Admin\js\sb-admin-2.js" />
     <Content Include="Content\animate.css" />
+    <Content Include="Content\audi\levelUpdate.wav" />
     <Content Include="Content\audi\success.wav" />
     <Content Include="Content\audi\wrong.wav" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -442,6 +443,7 @@
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\site\Settings.js" />
     <Content Include="Scripts\star-rating\star-rating.css" />
     <Content Include="Scripts\star-rating\star-rating.js" />
     <Content Include="Scripts\_references.js" />
@@ -516,6 +518,7 @@
     <Content Include="Views\Shared\Templates\LayoutExtensions.cshtml" />
     <Content Include="Views\Shared\Modul\SynonymWordModul.cshtml" />
     <Content Include="Views\User\deneme2.cshtml" />
+    <Content Include="Views\Shared\Templates\SettingsSitePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

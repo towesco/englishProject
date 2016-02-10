@@ -106,6 +106,7 @@
           </Key>
           <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="DailyTargetScore" Type="int" Nullable="false" />
+          <Property Name="SoundEffect" Type="bit" />
         </EntityType>
         <EntityType Name="Word">
           <Key>
@@ -352,6 +353,7 @@
           </Key>
           <Property Name="userId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="DailyTargetScore" Type="Int32" Nullable="false" />
+          <Property Name="SoundEffect" Type="Boolean" />
         </EntityType>
         <EntityType Name="Score">
           <Key>
@@ -528,6 +530,7 @@
           <EntitySetMapping Name="UserDetail">
             <EntityTypeMapping TypeName="EnglishProjectDBModel.UserDetail">
               <MappingFragment StoreEntitySet="UserDetail">
+                <ScalarProperty Name="SoundEffect" ColumnName="SoundEffect" />
                 <ScalarProperty Name="DailyTargetScore" ColumnName="DailyTargetScore" />
                 <ScalarProperty Name="userId" ColumnName="userId" />
               </MappingFragment>

@@ -101,6 +101,7 @@
     </Key>
     <Property Name="userId" Type="nvarchar" MaxLength="128" Nullable="false" />
     <Property Name="DailyTargetScore" Type="int" Nullable="false" />
+    <Property Name="SoundEffect" Type="bit" />
   </EntityType>
   <EntityType Name="Word">
     <Key>

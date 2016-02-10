@@ -71,6 +71,7 @@
     <EntitySetMapping Name="UserDetail">
       <EntityTypeMapping TypeName="EnglishProjectDBModel.UserDetail">
         <MappingFragment StoreEntitySet="UserDetail">
+          <ScalarProperty Name="SoundEffect" ColumnName="SoundEffect" />
           <ScalarProperty Name="DailyTargetScore" ColumnName="DailyTargetScore" />
           <ScalarProperty Name="userId" ColumnName="userId" />
         </MappingFragment>

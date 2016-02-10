@@ -14,6 +14,10 @@
     margin: 100px;
 }
 
+#audiWrapper audio {
+    display: none;
+}
+
 .examPanel {
     border-width: 0px;
     border-top-left-radius: 0px;
@@ -624,6 +628,7 @@ hr {
     }
 /*//////////////////////////////////////////////////////////////////////////////////////////////////////////SCROLL/////////////////////////////////////*/
 
+/*kullanıcıya hatırlatma mesajının gösterilmesi*/
 .alertMessage {
     width: 400px;
     padding: 0px;
@@ -632,26 +637,46 @@ hr {
     bottom: -10px;
     z-index: 1;
 }
+/*ajax methodları başarılı olduğunda gösterilecek mesaj*/
+.alertSuccessErrorMessage {
+    width: 130px;
+    padding: 0px;
+    position: fixed;
+    left: 50%;
+    z-index: 1;
+    top: 20px;
+    display: none;
+}
 
-    .alertMessage .header {
-        background-color: #bce8f1;
-        border-bottom: 2px solid #B5DDE5;
-        padding: 10px;
-    }
+.alertWarningErrorMessage {
+    width: 400px;
+    padding: 0px;
+    position: fixed;
+    right: 10px;
+    top: 5px;
+    z-index: 1;
+    display: none;
+}
 
-    .alertMessage > div strong {
-        font-size: 14px;
-        margin-left: 6px;
-    }
+.alertMessage .header {
+    background-color: #bce8f1;
+    border-bottom: 2px solid #B5DDE5;
+    padding: 10px;
+}
 
-    .alertMessage > div .fa {
-        font-size: 1.5em;
-    }
+.alertMessage > div strong {
+    font-size: 14px;
+    margin-left: 6px;
+}
 
-    .alertMessage .body {
-        padding: 10px;
-        text-align: justify;
-    }
+.alertMessage > div .fa {
+    font-size: 1.5em;
+}
+
+.alertMessage .body {
+    padding: 10px;
+    text-align: justify;
+}
 
 /*//////////////////////////////////////index box menu/////////////////////////////////////////////////////*/
 .boxMenuWrapper ul {

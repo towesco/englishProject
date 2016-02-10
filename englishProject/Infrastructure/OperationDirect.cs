@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -61,12 +62,13 @@ namespace englishProject.Infrastructure
                     if (update)
                     {
                         userDetail.DailyTargetScore = score;
+                        userDetail.SoundEffect = true;
                         entities.SaveChanges();
                     }
                 }
                 else
                 {
-                    UserDetail u = new UserDetail() { DailyTargetScore = score, userId = UserId };
+                    UserDetail u = new UserDetail() { DailyTargetScore = score, userId = UserId, SoundEffect = true };
                     entities.UserDetail.Add(u);
                     entities.SaveChanges();
                 }
@@ -75,6 +77,23 @@ namespace englishProject.Infrastructure
             catch (Exception ex)
             {
                 logger.Error("UpdateTargetDailyTargetScore", ex);
+                return false;
+            }
+        }
+
+        public static bool UpdateUserDetail(UserDetail userDetail)
+        {
+            try
+            {
+                UserDetail user = entities.UserDetail.Find(userDetail.userId);
+                user.SoundEffect = userDetail.SoundEffect;
+                entities.SaveChanges();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                logger.Error("UpdateUserDetail", ex);
                 return false;
             }
         }
@@ -165,7 +184,5 @@ namespace englishProject.Infrastructure
         {
             return usermanager.FindById(userId);
         }
-
-     
     }
 }

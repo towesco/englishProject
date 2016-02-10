@@ -9,6 +9,55 @@
     });
 }
 
+function SuccessMessageShow(result) {
+    console.log(result);
+    if (result) {
+        $("#successMessage").show().removeClass("animated bounceOut").addClass("animated bounceIn").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+            $(this).removeClass("animated bounceIn");
+        });
+
+        var timeout = setTimeout(function () {
+            $("#successMessage").addClass("animated bounceOut").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                $(this).hide();
+
+                clearTimeout(timeout);
+            });
+        }, 2000);
+    } else {
+        $("#errorMessage").show().removeClass("animated bounceOut").addClass("animated bounceIn").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+            $(this).removeClass("animated bounceIn");
+        });
+
+        var timeout2 = setTimeout(function () {
+            $("#errorMessage").addClass("animated bounceOut").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                $(this).hide();
+
+                clearTimeout(timeout2);
+            });
+        }, 2000);
+    }
+}
+
+function WarningMessageShow(data) {
+    $("#warningMessage strong").html(data);
+
+    $("#warningMessage").show().removeClass("animated bounceOut").addClass("animated bounceIn").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+        $(this).removeClass("animated bounceIn");
+    });
+
+    var timeout = setTimeout(function () {
+        $("#warningMessage").addClass("animated bounceOut").one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+            $(this).hide();
+
+            clearTimeout(timeout);
+        });
+    }, 2000);
+}
+
+function GetErrorMessage() {
+    return "Hata meydana geldi. Lütfen daha sonra tekrar deneyiniz.";
+}
+
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
     $('[data-toggle="popover"]').popover();

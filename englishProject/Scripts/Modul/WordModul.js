@@ -244,6 +244,8 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
 
     //SubLevellarda gösterilecek ekran
     self.lavelUpdate = function () {
+        console.log("geldi");
+        $("#updateAudi").trigger("play");
         self.questionText(questionTextArray[self.subLevelNumber()]);
         self.okText(okTextArray[self.subLevelNumber() - 1]);
 

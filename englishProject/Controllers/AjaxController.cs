@@ -169,15 +169,7 @@ namespace englishProject.Controllers
         [System.Web.Http.ActionName("UpdateUserProgress")]
         public IHttpActionResult POSTUpdateUserProgress(levelUserProgress userProgress)
         {
-            try
-            {
-                return Content(HttpStatusCode.OK, new Operations().UpdateUserProggress(userProgress));
-            }
-            catch (Exception ex)
-            {
-                logger.Error("UpdateUserProgress", ex);
-                return BadRequest();
-            }
+            return Content(HttpStatusCode.OK, new Operations().UpdateUserProggress(userProgress));
         }
 
         [System.Web.Http.ActionName("UpdateUser")]
@@ -196,6 +188,12 @@ namespace englishProject.Controllers
         public IHttpActionResult GETUpdateDailyTargetScore(int score = 100)
         {
             return Content(HttpStatusCode.OK, OperationDirect.UpdateTargetDailyTargetScore(score, Operations.GetUserId));
+        }
+
+        [System.Web.Http.ActionName("UpdateUserDetail")]
+        public IHttpActionResult POSTUpdateUserDetail(UserDetail user)
+        {
+            return Content(HttpStatusCode.OK, OperationDirect.UpdateUserDetail(user));
         }
 
         [System.Web.Http.ActionName("CommentIssueSave")]

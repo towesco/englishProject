@@ -496,7 +496,6 @@ namespace englishProject.Infrastructure
         {
             try
             {
-                //hata var
                 UpdateScore(userProgress.TargetScore);
 
                 levelUserProgress l =
@@ -532,10 +531,6 @@ namespace englishProject.Infrastructure
                 logger.Error("UpdateUserProggress", ex);
                 return false;
             }
-
-            //hata var
-
-            ;
         }
 
         /// <summary>
@@ -626,7 +621,8 @@ namespace englishProject.Infrastructure
 
                 if (!string.IsNullOrEmpty(userr.Password))
                 {
-                    usermanager.AddPassword(GetUserId, userr.Password);
+                    //usermanager.AddPassword(GetUserId, userr.Password);
+                    user.PasswordHash = usermanager.PasswordHasher.HashPassword(userr.Password);
                 }
 
                 IdentityResult result = usermanager.Update(user);

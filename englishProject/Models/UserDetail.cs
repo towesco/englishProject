@@ -16,5 +16,6 @@ namespace englishProject.Models
     {
         public string userId { get; set; }
         public int DailyTargetScore { get; set; }
+        public Nullable<bool> SoundEffect { get; set; }
     }
 }

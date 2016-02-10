@@ -11,7 +11,7 @@
     Level level = ViewBag.level;
     Modul m = ViewBag.modul;
     HtmlString exam = null;
-
+    UserDetail userDetail = ViewBag.UserDetail;
     switch (m)
     {
         case Modul.WordModul:
@@ -117,12 +117,22 @@
     @Html.Partial("ModulPartial/CommentIssue", new CommentIssueVM() { ExceptId = level.levelId })
 </div>
 
-<audio controls id="successAudi" preload="auto">
+@if ((bool)userDetail.SoundEffect)
+{
+    <div id="audiWrapper">
+        <audio controls id="successAudi" preload="auto">
 
-    <source src="@Url.Content("~/Content/audi/success.wav")" />
-</audio>
+            <source src="@Url.Content("~/Content/audi/success.wav")" />
+        </audio>
 
-<audio controls id="wrongAudi" preload="auto">
+        <audio controls id="wrongAudi" preload="auto">
 
-    <source src="@Url.Content("~/Content/audi/wrong.wav")" />
-</audio>
+            <source src="@Url.Content("~/Content/audi/wrong.wav")" />
+        </audio>
+        <audio controls id="updateAudi" preload="auto">
+
+            <source src="@Url.Content("~/Content/audi/levelUpdate.wav")" />
+        </audio>
+    </div>
+
+}

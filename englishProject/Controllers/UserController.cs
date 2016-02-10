@@ -75,6 +75,7 @@ namespace englishProject.Controllers
             ViewBag.level = level;
             ViewBag.nextLevel = operations.GetNextLevel(level);
             ViewBag.modul = m;
+            ViewBag.UserDetail = operations.GetUserDetail();
             switch (m)
             {
                 case Modul.WordModul:
@@ -133,6 +134,7 @@ namespace englishProject.Controllers
             ViewBag.userApp = operations.getProfil();
             ViewBag.index = id;
             ViewBag.chart = operations.GetScoreChart();
+            ViewBag.UserDetail = operations.GetUserDetail();
             return View();
         }
 
