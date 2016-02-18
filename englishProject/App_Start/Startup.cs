@@ -5,6 +5,7 @@ using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Owin;
+using System;
 using System.Threading.Tasks;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
@@ -24,6 +25,8 @@ namespace englishProject
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Home/Index"),
                 LogoutPath = new PathString("/Home/Index"),
+                CookieName = "wordboxes",
+                ExpireTimeSpan = TimeSpan.FromDays(120),
             });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 

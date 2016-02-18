@@ -230,7 +230,7 @@ namespace englishProject.Controllers
 
             ClaimsIdentity identity = await usermanager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
             identity.AddClaims(info.ExternalIdentity.Claims);
-            HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = true }, identity);
+            HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTime.Now.AddDays(120) }, identity);
 
             return Redirect(ReturnUrl ?? "/User/Index");
         }
@@ -275,7 +275,7 @@ namespace englishProject.Controllers
 
             identity.AddClaims(info.ExternalIdentity.Claims);
 
-            HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = true }, identity);
+            HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTime.Now.AddDays(120) }, identity);
 
             return Redirect(ReturnUrl ?? "/User/Index");
         }
