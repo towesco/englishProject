@@ -75,6 +75,7 @@ namespace englishProject.Infrastructure
                 var userLevels = (from u in entities.levelUserProgress
                                   join l in entities.Level on u.levelId equals l.levelId
                                   where u.userId == GetUserId && u.boxId == itemBox.boxId
+                                  orderby l.levelNumber
                                   select new CustomLevel { Level = l, Star = u.star }).ToList();
 
                 BoxLevelUser b = new BoxLevelUser { Box = itemBox };

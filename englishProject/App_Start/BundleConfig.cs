@@ -11,7 +11,7 @@ namespace englishProject
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                      "~/Scripts/jquery-{version}.js",
                 "~/Scripts/knockout-{version}.js",
-                 "~/Scripts/knockout-3.4.0.debug.js",
+                //"~/Scripts/knockout-3.4.0.debug.js",
                 "~/Scripts/jquery.validation.bootstrap.js",
                   "~/Scripts/star-rating/star-rating.js",
  "~/Scripts/login.js",
@@ -36,6 +36,8 @@ namespace englishProject
             bundles.Add(new ScriptBundle("~/bundles/agency").Include(
                     "~/Scripts/agency.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/progressbar").Include(
+             "~/Scripts/progressbar/progressbar.js"));
             /////////////////////////////////////JAVASCRIPT///////////////////////////////////////////////////
 
             ////////////////////////////CSS//////////////////////////////////////////////////////////////

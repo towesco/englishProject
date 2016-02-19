@@ -29,11 +29,11 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
     self.normalShow = ko.observable(true);
     self.loading = ko.observable(false);
     //////////////////////////////////////////////////golabal  değişkenler////////////////////////////////////////////////
-    self.info1 = function () {
-        var veri = "Kelime kartının sağ alt kısmında göreceğiniz <i class='fa fa-exchange'></i> işareti kelimenin  hatırlatma resimi olduğu anlamına gelir.  Karta tıklayarak hatırlatma resmini görebilirsiniz. Her tıklamada kelimeden kazanacağımız puanın<strong>yarısını</strong> kaybedersiniz.";
-        messageShow(veri, 2);
-    }
-    self.info1();
+    //self.info1 = function () {
+    //    var veri = "Kelime kartının sağ alt kısmında göreceğiniz <i class='fa fa-exchange'></i> işareti kelimenin  hatırlatma resimi olduğu anlamına gelir.  Karta tıklayarak hatırlatma resmini görebilirsiniz. Her tıklamada kelimeden kazanacağımız puanın<strong>yarısını</strong> kaybedersiniz.";
+    //    messageShow(veri, 2);
+    //}
+    //self.info1();
 
     //////////////////////////////ozel değişken///////////////////////////
     a = self.subLevelNumber(); //a değeri golabal değişken
@@ -187,6 +187,8 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
         self.turkishVisible(false);
         self.controlShow(true);
         self.continousShow(false);
+        $("#leftWrapper").removeClass("col-md-12").addClass("col-md-8");
+        $("#rightWrapper").show();
     }
 
     self.backBtn = function (data, e) {
@@ -282,6 +284,8 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
                 });
             });
         } else {
+            $("#rightWrapper").hide();
+            $("#leftWrapper").removeClass("col-md-8").addClass("col-md-12");
             self.continousShow(true);
             self.controlShow(false);
             self.turkishVisible(true);
@@ -357,9 +361,8 @@ function dragenter(e) {
         id = $(e.target).parent().attr("data-key");
     } else {
         id = $(e.target).attr("data-key");
+        $("#group-" + id).addClass("active");
     }
-
-    $("#group-" + id).addClass("active");
 }
 
 function drop(e) {
@@ -397,6 +400,7 @@ function drop(e) {
         btn.children("i").addClass("animated zoomIn").show();
         btn.children("a").show();
         $("#group-" + id).append(btn);
+        $("#group-" + id).removeClass("active");
         btn.addClass("animated bounceIn");
     }
 }

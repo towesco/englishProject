@@ -3,7 +3,6 @@ using englishProject.Infrastructure.HelperClass;
 using englishProject.Infrastructure.Users;
 using englishProject.Infrastructure.ViewModel;
 using englishProject.Models;
-using log4net.Repository.Hierarchy;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -15,7 +14,6 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Results;
-using System.Web.Mvc;
 
 namespace englishProject.Controllers
 {

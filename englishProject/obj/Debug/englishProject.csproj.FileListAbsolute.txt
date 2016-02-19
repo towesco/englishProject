@@ -76,7 +76,6 @@ C:\Users\fatih\Desktop\englishProject\englishProject\bin\Microsoft.Web.Infrastru
 C:\Users\fatih\Desktop\englishProject\englishProject\bin\Newtonsoft.Json.dll
 C:\Users\fatih\Desktop\englishProject\englishProject\bin\Ninject.dll
 C:\Users\fatih\Desktop\englishProject\englishProject\bin\Ninject.Web.Common.dll
-C:\Users\fatih\Desktop\englishProject\englishProject\bin\Ninject.Web.Mvc.dll
 C:\Users\fatih\Desktop\englishProject\englishProject\bin\Owin.dll
 C:\Users\fatih\Desktop\englishProject\englishProject\bin\System.Net.Http.Formatting.dll
 C:\Users\fatih\Desktop\englishProject\englishProject\bin\System.Web.Helpers.dll
@@ -103,7 +102,6 @@ C:\Users\fatih\Desktop\englishProject\englishProject\bin\Microsoft.Owin.Security
 C:\Users\fatih\Desktop\englishProject\englishProject\bin\Newtonsoft.Json.xml
 C:\Users\fatih\Desktop\englishProject\englishProject\bin\Ninject.xml
 C:\Users\fatih\Desktop\englishProject\englishProject\bin\Ninject.Web.Common.xml
-C:\Users\fatih\Desktop\englishProject\englishProject\bin\Ninject.Web.Mvc.xml
 C:\Users\fatih\Desktop\englishProject\englishProject\bin\System.Web.Helpers.xml
 C:\Users\fatih\Desktop\englishProject\englishProject\bin\System.Web.Mvc.xml
 C:\Users\fatih\Desktop\englishProject\englishProject\bin\System.Web.Optimization.xml

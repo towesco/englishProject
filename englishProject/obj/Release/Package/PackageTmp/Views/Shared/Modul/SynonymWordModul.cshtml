@@ -20,7 +20,7 @@
                     <div data-bind="visible:normalShow()">
                         <div id="dragWrapper">
 
-                            <div id="leftWrapper" class="col-md-9 text-left" data-bind="foreach:QuestionsList">
+                            <div id="leftWrapper" class="col-md-8 text-left" data-bind="foreach:QuestionsList">
 
                                 <div ondrop="drop(event)" ondragenter="dragenter(event)" ondragleave="dragleave(event)" ondragover="dragover(event)" id="group-1" data-bind="    attr: { id: 'group-' + Key, 'data-key': Key }" class="btn-group btn-group-lg  group" role="group" aria-label="...">
 
@@ -30,9 +30,9 @@
                                 </div>
                             </div>
 
-                            <div id="rightWrapper" ondrop="drop(event)" ondragover="dragover(event)" class="col-md-3 text-center" draggable="false" data-bind="foreach:QuestionsList">
+                            <div id="rightWrapper" ondrop="drop(event)" ondragover="dragover(event)" class="col-md-4 text-center" draggable="false" data-bind="foreach:QuestionsList">
 
-                                <div data-toggle="tooltip" data-placement="top" ondragstart="dragstart(event)" data-bind="attr: {id:'btn-' + Key, 'data-key': Key,title:Turkish }" draggable="true" class="btn  btn-info  btn-lg ">
+                                <div data-toggle="tooltip" data-placement="top" ondragstart="dragstart(event)" data-bind="attr: {id:'btn-' + Key, 'data-key': Key,title:Turkish }" draggable="true" class="btn  btn-info  btn-lg  btn-block ">
 
                                     <i ondrop="noDrop(event)" class="fa fa-arrows-h fa-2x"></i>
                                     <span data-bind="text:Synonym2"></span>

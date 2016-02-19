@@ -1,7 +1,6 @@
 ﻿@using englishProject.Infrastructure
 @using englishProject.Infrastructure.HelperClass
 @using Ninject
-@using WebGrease.Css.Extensions
 @using englishProject.Models
 @model Tuple<Level, levelUserProgress, levelUserProgress, List<englishProject.Infrastructure.HelperClass.ExamStartWord>>
 @helper  subLevelButton(string btnName, bool lockk, bool disabled, int subLevel, bool success = false)
@@ -75,7 +74,7 @@
 
                         for (int i = 1; i <= Model.Item1.levelSubLevel; i++)
                         {
-                            @(i < 2 ? subLevelButton("başla", false, false, i) : subLevelButton("kilitli", true, true, i))
+                    @(i < 2 ? subLevelButton("başla", false, false, i) : subLevelButton("kilitli", true, true, i))
                         }
                     }
                     @*else
@@ -94,32 +93,32 @@
                     if (Model.Item2.star == 1)
                     {
 
-                        @subLevelButton("çalış", false, false, 1, true)
-                        @subLevelButton("başla", false, false, 2)
+                    @subLevelButton("çalış", false, false, 1, true)
+                    @subLevelButton("başla", false, false, 2)
 
                         if (Model.Item1.levelSubLevel == 3)
                         {
-                            @subLevelButton("kilitli", true, true, 3)
+                    @subLevelButton("kilitli", true, true, 3)
                         }
 
                     }
                     else if (Model.Item2.star == 2)
                     {
 
-                        @subLevelButton("çalış", false, false, 1, true)
-                        @subLevelButton("çalış", false, false, 2, true)
+                    @subLevelButton("çalış", false, false, 1, true)
+                    @subLevelButton("çalış", false, false, 2, true)
 
                         if (Model.Item1.levelSubLevel == 3)
                         {
-                            @subLevelButton("başla", false, false, 3)
+                    @subLevelButton("başla", false, false, 3)
                         }
 
                     }
                     else if (Model.Item2.star == 3)
                     {
-                        @subLevelButton("çalış", false, false, 1, true)
-                        @subLevelButton("çalış", false, false, 2, true)
-                        @subLevelButton("çalış", false, false, 3, true)
+                    @subLevelButton("çalış", false, false, 1, true)
+                    @subLevelButton("çalış", false, false, 2, true)
+                    @subLevelButton("çalış", false, false, 3, true)
 
                     }
 

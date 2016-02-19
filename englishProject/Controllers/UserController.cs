@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using AutoMapper.Internal;
 using englishProject.Infrastructure;
 using englishProject.Infrastructure.Users;
 using englishProject.Infrastructure.ViewModel;
@@ -9,16 +8,10 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
-using System.ComponentModel.Design;
-using System.Data;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
-using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace englishProject.Controllers
@@ -173,7 +166,7 @@ namespace englishProject.Controllers
         public ActionResult SignOut()
         {
             Authen.SignOut();
-            Session.Abandon();
+
             return RedirectToAction("Index", "Home");
         }
 
