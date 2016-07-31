@@ -1,0 +1,71 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.Users
+@{
+    UserApp user = ViewBag.userApp;
+}
+@model  englishProject.Infrastructure.ViewModel.UserProfilView
+
+<div id="profilWrapper" class="settingsProfilBackground" style="margin-top: 10px; position: relative;">
+
+    <h4 class="bg-primary" style="margin-bottom: 0px;margin-top: 40px;   border-bottom: 5px solid #234f72 ;color:white;">
+        <span class="pull-left">
+
+            @if (!string.IsNullOrEmpty(user.Name))
+            {
+                <small>@user.Name</small>
+            }
+            @if (!string.IsNullOrEmpty(user.SurName))
+            {
+                <small> @user.SurName</small>
+            }
+        </span>
+
+        <span class="pull-right">
+
+            @if (user.City != null)
+            {
+                <small><i class="fa fa-map-marker"></i> @OperationDirect.GetCityName((int)user.City)</small>
+            }
+            else
+            {
+                <small><i class="fa fa-map-marker"></i> Belirtilmemiş</small>
+            }
+        </span>
+        <i class="clearfix"></i>
+    </h4>
+    <div class="panel-body" style="padding-top: 0px;">
+        <div class="row">
+            <div class="col-md-12" style="padding: 10px;">
+                <div class="col-md-4 text-center col-md-offset-4" style="margin-top: -92px;">
+                    <div style="position: relative;">
+                        <div style="z-index: 1;">
+                            <img src="@user.PicturePath" class="img-circle img-thumbnail" />
+                        </div>
+
+                        <div class="text-center" style="margin-top: -25px;">
+                            <strong class="badge" style=" padding: 5px 15px;border-radius: 32px; color: #283048;background-color: white;font-size: 22px;"> @Model.TotalPuan puan</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 text-center col-md-offset-3 text-center">
+                    <div>
+                        <h2>@HelperMethod.getUserName(user.UserName)</h2>
+                        <h4 class="text-muted">@user.Email</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @if (Model.UserProfilBoxs.Any())
+        {
+            <div class="row">
+                <div class="col-md-12" style="background-color: #E5E3E3;">
+                    <h4>Seviyeler</h4>
+                </div>
+                <div id="circleLevel" class="col-md-12 text-center">
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -6,11 +6,11 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <title>İngilizce Projesi BETA GİRİŞ</title>
+    <meta name="description" content="Ücretsiz olarak kolay ve zevkli yoldan ingilizce kelime öğrenin">
+    <meta name="keywords" content="ingilizce kelime,kelime öğrenme,öğrenme,ingilizce dil,kelime">
+    <title>wordboxes.net | kelime öğrenmenin kolay yolu</title>
 
     @Styles.Render("~/Content/css")
 </head>
@@ -27,7 +27,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand page-scroll" href="#page-top">
-                    <i class="fa fa-cubes"></i><span> Wordboxes.net</span>
+                    <i class="fa fa-cubes"></i><span> Wordboxes.net(BETA)</span>
                 </a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -38,19 +38,12 @@
                         <a href="#page-top"></a>
                     </li>
 
-                    @*<li>
-                                <a class="page-scroll" href="#services">Nedir ?</a>
-                            </li>
-                          <li>
-                                    <a class="page-scroll" href="#portfolio">Portfolio</a>
-                                </li>
-                        <li>
-                            <a class="page-scroll" href="#about">Hakkımda</a>
-                        </li>
-                        <li>
-                            <a class="page-scroll" href="#team">Ekip</a>
-                        </li>*@
-
+                    <li>
+                        <a class="page-scroll" href="#portfolio">Nedir ?</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">Hakkımızda</a>
+                    </li>
                     <li>
                         <a class="page-scroll" href="#contact">İletişim</a>
                     </li>
@@ -80,70 +73,98 @@
             <div class="intro-text">
                 <div class="intro-lead-in">Hoşgeldin !</div>
                 <div class="intro-heading">ÜCRETSİZ KELİME ÖĞRENMEK Mİ İSTİYORSUN ?</div>
-                <a href="#" class=" btn btn-primary btn-lg" style="font-size: 45px;border-radius: 32px;    border: 4px solid white;">BAŞLA</a>
+                <a id="learnModalBtn" href="#" data-toggle="modal" data-target="#learnModal" class=" btn btn-primary btn-lg" style="font-size: 45px;border-radius: 32px;    border: 4px solid white;">BAŞLA</a>
             </div>
         </div>
     </header>
     <!-- Services Section -->
-    <!-- About Section -->
-    <!-- Team Section -->
-    @*<section id="team" class="bg-light-gray">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 text-center">
-                        <h2 class="section-heading">Proje Ekibi</h2>
-                        <h3 class="section-subheading text-muted"></h3>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="team-member">
-
-                            <img class="img-responsive img-circle" style="width: 225px; height: 225px" src="@Url.Content("~/Content/team/fatih.jpg")" />
-
-                            <h4>Fatih Çakıroğlu</h4>
-                            <p class="text-muted">Ekip lideri</p>
-                            <ul class="list-inline social-buttons">
-                                <li>
-                                    <a href="https://www.facebook.com/towesco"><i class="fa fa-twitter"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-linkedin"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="col-sm-4">
-                        <div class="team-member">
-                            <img class="img-responsive img-circle" style="width: 225px; height: 225px" src="@Url.Content("~/Content/team/seyda.jpg")" />
-
-                            <h4>Şeyda Çakıroğlu</h4>
-                            <p class="text-muted">Katkıda bulunan</p>
-                            <ul class="list-inline social-buttons">
-                                <li>
-                                    <a href="https://www.facebook.com/seyda.sunbul"><i class="fa fa-twitter"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                </li>
-                                <li>
-                                    <a href="#"><i class="fa fa-linkedin"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-8 col-lg-offset-2 text-center">
-                        <p class="large text-muted">Projemiz aktif alarak 1 kişi tarafından geliştirilmeye devam etmektedir. Projemize katkıda bulunmak isterseniz lütfen bizimle iletişime geçin.</p>
-                    </div>
+    <section id="portfolio" class="bg-light-gray">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Nedir ?</h2>
+                    <h3 class="section-subheading text-muted">İngilizce kelime ezberlemeyi kolay ve zevkli hale getiren bir sitedir.</h3>
                 </div>
             </div>
-        </section>*@
+
+            <div class="row">
+                <div class="col-md-6 text-center">
+
+                    <img id="macbook" src="~/Content/images/macbook.png" />
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-unstyled" style="margin-top: 20px;font-size: 16px; line-height: 2.5em">
+                        <li><i class="fa fa-arrow-right"></i><strong> SİTEMİZDE İNGİLİZCE KELİME ÖĞRENMEK TAMAMEN ÜCRETSİZDİR.</strong></li>
+                        <li><i class="fa fa-arrow-right"></i> Sitemize üye olarak kolay bir şeklide ingilizce kelime ezberleyebilirsiniz.</li>
+                        <li><i class="fa fa-arrow-right"></i> Kutu seçimi sayesinde istediğiniz kutudan başlayarak seviyeleri geçebilirsiniz.(bildiğiniz kelimeleri tekrar çalışmak zorunda kalmazsınız)</li>
+                        <li><i class="fa fa-arrow-right"></i> Hatırlatma kartları sayesinde ezberlemiş olduğunuz kelimeleri bir daha unutmazsınız. </li>
+                        <li><i class="fa fa-arrow-right"></i> Her seviye geçtiğinizde puanlar kazanarak esktra özellikler kazanabilirsiniz.</li>
+                        <li><i class="fa fa-arrow-right"></i> Günlük puan hedefi sayesinde bir gün içerisinde ne kadar çalışmanız gerektiğini bilirsiniz.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2 class="section-heading">Hakkımızda</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="timeline">
+                        <li>
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="@Url.Content("~/Content/images/home/idea.png")" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>2015 Ekim</h4>
+                                    <h4 class="subheading">www.wordboxes.net projesi ortaya çıktı.</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">
+                                        İngilizce kelime öğrenmeyi hatırlatma kartları kullanarak ve çeşitli oyunlarla daha zevkli hale getirmek için  geliştirmeye başladık. Aynı zamanda www.duolingo.com gibi sitelerin kelime ezberletirken eksik kaldığı noktaları sitemizde geliştirmeye çalışıyoruz.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="@Url.Content("~/Content/images/home/beta.png")" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>2016 Şubat</h4>
+                                    <h4 class="subheading">Beta sürüm </h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Yaklaşık olarak 4 aylık süren tasarım ve kodlama sonunda sitemizin beta sürümünü yayınlamayı başardık. Bu süre içerisinde  eksiklikleri ve hataları tesbit ederek yeni sürüme geçmeyi planlıyoruz.</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-image">
+                                <img class="img-circle img-responsive" src="@Url.Content("~/Content/images/home/finish.png")" alt="">
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <h4>Eylül 2016</h4>
+                                    <h4 class="subheading">Sitenin tüm kullanıcılara açılması</h4>
+                                </div>
+                                <div class="timeline-body">
+                                    <p class="text-muted">Zamanı gelince yazılacaktir.</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Contact Section -->
     <section id="contact">
@@ -157,39 +178,7 @@
             @Html.Partial("Templates/ContactPartial")
         </div>
     </section>
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <span class="copyright">Copyright &copy; Your Website 2016</span>
-                </div>
-                <div class="col-md-4">
-                    <ul class="list-inline social-buttons">
-                        <li>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li>
-                            <a href="#"><i class="fa fa-linkedin"></i></a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <ul class="list-inline quicklinks">
-                        <li>
-                            <a href="#">Privacy Policy</a>
-                        </li>
-                        <li>
-                            <a href="#">Terms of Use</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </footer>
-
+    @Html.Partial("Templates/FooterPartial")
     <!-- jQuery -->
     <!-- Bootstrap Core JavaScript -->
     <!-- Plugin JavaScript -->
@@ -197,6 +186,58 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/agency")
+
+    <div class="modal fade" id="learnModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Başlarken</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div id="carousel-learn" class="carousel slide" data-ride="carousel">
+                        <!-- Indicators -->
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-learn" data-slide-to="0" class="active"></li>
+                            <li data-target="#carousel-learn" data-slide-to="1"></li>
+                            <li data-target="#carousel-learn" data-slide-to="2"></li>
+                            <li data-target="#carousel-learn" data-slide-to="3"></li>
+                            <li data-target="#carousel-learn" data-slide-to="4"></li>
+                        </ol>
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item active">
+
+                                <img src="@Url.Content("~/Content/images/learnHome/01.jpg")" />
+                            </div>
+                            <div class="item">
+                                <img src="@Url.Content("~/Content/images/learnHome/02.jpg")" />
+                            </div>
+                            <div class="item">
+                                <img src="@Url.Content("~/Content/images/learnHome/03.jpg")" />
+                            </div>
+                            <div class="item">
+                                <img src="@Url.Content("~/Content/images/learnHome/04.jpg")" />
+                            </div>
+                            <div class="item">
+                                <img src="@Url.Content("~/Content/images/learnHome/05.jpg")" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+
+                    <a href="#carousel-learn" role="button" data-slide="prev" class=" btn btn-primary">geri</a>
+                    <a href="#carousel-learn" role="button" data-slide="next" class=" btn btn-primary">ileri</a>
+
+                    <button style="display: none;" class="btn btn-success">Bitir</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -204,7 +245,7 @@
             $("#btnContact").click(function () {
 
                 if ($("#ContactFormum").valid()) {
-                    alert("Mesajınız gönderildi");
+                    alert("bir hata meydana geldi");
                 }
 
             });

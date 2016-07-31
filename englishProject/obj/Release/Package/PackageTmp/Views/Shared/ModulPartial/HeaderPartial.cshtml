@@ -1,5 +1,10 @@
 ﻿@using englishProject.Models
+@using log4net.Appender
 @model englishProject.Models.Level
+
+<div class="text-center img-rounded" style="background-color:#457fca; padding: 5px; color: white;">
+    <span><i class="fa fa-cube"></i> @Model.Box.boxName <i class="fa fa-hand-o-right"></i> <strong> @(Model.levelNumber)</strong>.seviye</span>
+</div>
 
 <div style="border-bottom: 4px solid #57b3e5;padding: 5px 0px;">
     <div class="pull-left">
@@ -24,11 +29,21 @@
 
     <i class="clearfix"></i>
 </div>
-@*<div class="row">
-        <div class="col-md-6 col-md-offset-3 text-center" style="margin-top: -10px;">
 
-            <strong class="text-muted">
-                @(Model.levelNumber).Seviye
-            </strong>
-        </div>
-    </div>*@
+<div id="stopQuizModal" class="modal fade quizModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Uyarı</h4>
+            </div>
+            <div class="modal-body">
+                <p>Testten çıkış yaparsanız kazanmış olduğunuz puanları kaybedeceksiniz.<strong>Biraz daha sabredip bitirmelisin bence :)</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">İptal</button>
+                <a href="@Url.Action("index","user")" class="btn btn-danger">Testten çık</a>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "deneme";
+}
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#tık").click(function () {
+
+                $("#box").css("transform", "rotateY(180deg)");
+
+            });
+        })
+    </script>
+
+}
+<button type="button" id="tık">Çalış</button>
+<div id="box">
+</div>

@@ -184,5 +184,10 @@ namespace englishProject.Infrastructure
         {
             return usermanager.FindById(userId);
         }
+
+        public static void PageError(string url)
+        {
+            logger.Info(url);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿body {
     background-color: #f5f8fa !important;
 }
+
 /*carausel kontrolunun sag ve sol buttonlarının arkaplan resimlerinin kaldırılması*/
 .carousel-control.right, .carousel-control.left {
     background-image: none;
@@ -738,3 +739,59 @@ hr {
 .boxMenuWrapper ul li div {
     margin-top: 4px;
 }
+
+/** {
+    margin: 0px;
+}*/
+
+.errorPage {
+    min-height: 100%;
+    height: 100%;
+    background: #2980b9; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #2980b9, #2c3e50); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #2980b9, #2c3e50); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    color: white;
+}
+/*//////////////////////////////////////////////////////////////footer///////////////////////////////////////////////////////////////*/
+html, body {
+    height: 100% !important;
+}
+
+.page-wrap {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -110px;
+}
+
+.footer, .push {
+    height: 110px;
+}
+
+footer {
+    background: #4B79A1; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #4B79A1, #283E51); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #4B79A1, #283E51); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    padding: 20px 100px !important;
+    width: 100%;
+}
+
+    footer ul li a, footer ul li span {
+        color: white !important;
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    footer p {
+        color: white;
+    }
+
+    footer i {
+        color: #ffffff;
+        font-size: 20px !important;
+        height: 38px;
+        vertical-align: middle;
+        width: 30px;
+        padding-top: 9px;
+    }
+/*//////////////////////////////////////////////////////////////footer///////////////////////////////////////////////////////////////*/

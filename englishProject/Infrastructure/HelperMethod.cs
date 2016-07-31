@@ -118,12 +118,12 @@ namespace englishProject.Infrastructure
             }
         }
 
-        public static string getGooglePicture(string key)
+        public static string getGooglePicture(string key, int id)
         {
             WebClient web = new WebClient();
 
             string json = web.DownloadString(
-                      "https://www.googleapis.com/plus/v1/people/117697405997139435772?fields=image&key=" + key);
+                      "https://www.googleapis.com/plus/v1/people/" + id + "?fields=image&key=" + key);
 
             JObject j = JObject.Parse(json);
 

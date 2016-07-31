@@ -4,6 +4,7 @@ using englishProject.Infrastructure.Users;
 using englishProject.Infrastructure.ViewModel;
 using englishProject.Models;
 using Facebook;
+using log4net.Repository.Hierarchy;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -51,6 +52,7 @@ namespace englishProject.Controllers
         // GET: User
         public ActionResult Index()
         {
+            ViewBag.Title = "Anasayfa";
             ViewBag.boxs = operations.GetBoxs();
             ViewBag.userProfilView = operations.GetUserProfilViewMenu();
             ViewBag.boxMenu = operations.GetBoxMenu();
@@ -62,6 +64,7 @@ namespace englishProject.Controllers
         public ActionResult levelExam(int levelId, int? subLevel = 1)
         {
             Level level = operations.GetLevel(levelId);
+            ViewBag.Title = level.levelNumber + ".Seviye sınavı";
             Modul m = (Modul)Enum.Parse(typeof(Modul), level.levelModul.ToString(CultureInfo.InvariantCulture));
             ModulSubLevel sub = (ModulSubLevel)Enum.Parse(typeof(ModulSubLevel), subLevel.ToString());
 
@@ -95,12 +98,17 @@ namespace englishProject.Controllers
         {
             ViewBag.userProfilView = operations.GetUserProfilViewMenu();
             ViewBag.comments = operations.GetComment(id);
-            ViewBag.level = operations.GetLevel(id);
+
+            Level l = operations.GetLevel(id);
+            ViewBag.level = l;
+            ViewBag.Title = l.levelNumber + ". seviye yorumları";
+
             return View();
         }
 
         public ActionResult comments()
         {
+            ViewBag.Title = "Yorumlar";
             ViewBag.userProfilView = operations.GetUserProfilViewMenu();
             ViewBag.comments = operations.GetComment();
             return View();
@@ -111,12 +119,13 @@ namespace englishProject.Controllers
             ViewBag.userProfilView = operations.GetUserProfilViewMenu();
 
             Level level = operations.GetLevel(1);
-
+            ViewBag.Title = level.levelNumber + ". seviye hatırlatma kartları";
             return View(level);
         }
 
         public ActionResult Settings(int id = 0)
         {
+            ViewBag.Title = "Ayarlar";
             UserApp userApp = operations.getProfil();
 
             ViewBag.user = Mapper.Map<UserViewModel>(userApp);
@@ -133,6 +142,7 @@ namespace englishProject.Controllers
 
         public ActionResult Profil()
         {
+            ViewBag.Title = "Profil";
             return View();
         }
 
@@ -145,6 +155,20 @@ namespace englishProject.Controllers
 
         public ActionResult Contact()
         {
+            return View();
+        }
+
+        public ActionResult PageFound(string aspxerrorpath)
+        {
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType).Error(aspxerrorpath);
+            return View();
+        }
+
+        public ActionResult PageError(string aspxerrorpath)
+        {
+            log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType)
+                .Error(aspxerrorpath);
+
             return View();
         }
 
@@ -207,7 +231,7 @@ namespace englishProject.Controllers
 
                 string profilImage = "http://graph.facebook.com/" + userId + "/picture?type=large";
 
-                user = new UserApp { Email = infoEmail.email, UserName = info.DefaultUserName, PicturePath = profilImage };
+                user = new UserApp { Email = infoEmail.email, UserName = info.DefaultUserName, PicturePath = profilImage, createTime = DateTime.Now };
 
                 var result = await usermanager.CreateAsync(user);
                 if (result.Succeeded)
@@ -225,7 +249,8 @@ namespace englishProject.Controllers
             identity.AddClaims(info.ExternalIdentity.Claims);
             HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTime.Now.AddDays(120) }, identity);
 
-            return Redirect(ReturnUrl ?? "/User/Index");
+            //return Redirect(ReturnUrl ?? "/User/Index");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -250,7 +275,7 @@ namespace englishProject.Controllers
 
             if (user == null)
             {
-                user = new UserApp { Email = info.Email, UserName = info.DefaultUserName, PicturePath = HelperMethod.getGooglePicture("AIzaSyCVD7qMU1-coXSlDi7zAx5LQpVcxcSAfe0") };
+                user = new UserApp { Email = info.Email, UserName = info.DefaultUserName, PicturePath = "/Content/images/user.png", createTime = DateTime.Now };
 
                 IdentityResult result = await usermanager.CreateAsync(user);
                 if (result.Succeeded)
@@ -270,7 +295,9 @@ namespace englishProject.Controllers
 
             HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = true, ExpiresUtc = DateTime.Now.AddDays(120) }, identity);
 
-            return Redirect(ReturnUrl ?? "/User/Index");
+            //return Redirect(ReturnUrl ?? "/User/Index");
+
+            return RedirectToAction("Index");
         }
 
         #endregion Social Login

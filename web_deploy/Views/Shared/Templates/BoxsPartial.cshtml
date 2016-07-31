@@ -1,0 +1,117 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Models
+@model List<englishProject.Infrastructure.BoxLevelUser>
+@{
+    int count = 0;
+}
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            //subLevelSelect click common.js dosyasındadır.
+            //$("#input-6e").rating();
+
+        });
+    </script>
+
+}
+
+@helper LevelBox(int levelId, int levelNumber, string levelName, bool locked, int star, int subLevelCount)
+{
+
+    <li>
+        <a data-front="1" data-locked="@locked" data-levelid="@levelId" href="#" class="btn  btn-lg  subLevelSelect @(@locked ? "btn-primary" : "btn-success")">
+
+            <div class="front">
+                <div>
+
+                    <span class="badge badge-level"><strong> @levelNumber</strong></span>
+                    <br />
+                    <small>Seviye</small>
+
+                    @if (locked)
+                    {
+                    <i class="fa fa-lock"></i>
+                    }
+                    else
+                    {
+                    <i class="fa fa-unlock"></i>
+                    }
+                </div>
+
+                @if (!locked)
+                {
+                <div style="border-top: 2px solid #0870A8;  margin: 3px 0px -4px 0px">
+                    <small>@HelperMethod.GetCutString(levelName, 13)</small>
+                </div>
+                }
+                else
+                {
+                <div style="border-top: 2px solid #962D18;  margin: 3px 0px -4px 0px">
+                    <small>@HelperMethod.GetCutString(levelName, 13)</small>
+                </div>
+                }
+
+                <div>
+
+                    <input id="@levelId-@levelNumber" value="@star" class="rating" data-min="0" data-max="@subLevelCount" data-step="1" data-stars="@subLevelCount" data-show-caption="false" data-disabled="true" data-size="xs" data-show-clear="false">
+                </div>
+            </div>
+            <div class="back" style="display: none">
+                <div>  <i class="fa fa-lock fa-5x"></i></div>
+            </div>
+        </a>
+    </li>
+
+}
+@Html.Partial("Templates/BoxMenuPartial", (Dictionary<string, int>)ViewBag.boxMenu)
+
+<div class="panel panel-default" style="position: relative;">
+
+    <div style="position: absolute; right: 3px; top: 1px;z-index: 10">
+
+        <a href="#box-carausel" role="button" data-slide="prev">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a href="#box-carausel" role="button" data-slide="next">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+
+    <div class="panel-body">
+
+        <div id="box-carausel" class="carousel slide">
+
+            <!-- Wrapper for slides -->
+            <div class="carousel-inner" role="listbox">
+
+                @foreach (BoxLevelUser item in Model)
+                {
+
+                    <div class="item @(item.Box.boxNumber==1 ? "active" : null)">
+                        @*<h3 style="margin-top: 0px;color: #286090;"> @item.Box.boxName kutusu</h3>
+                        *@
+
+                        <ul class="list-unstyled list-inline" style="margin-top: 5px;">
+
+                            @foreach (CustomLevel levelOne in item.UserLevels)
+                            {
+                                @LevelBox(levelOne.Level.levelId, levelOne.Level.levelNumber, levelOne.Level.levelName, false, levelOne.Star, levelOne.Level.levelSubLevel)
+                            }
+
+                            @foreach (Level level2 in item.OtherLevels)
+                            {
+
+                                @LevelBox(level2.levelId, level2.levelNumber, level2.levelName, true, 0, level2.levelSubLevel)
+
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

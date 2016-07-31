@@ -65,32 +65,33 @@ var SignUpViewModel = function () {
         if ($(form).valid()) {
             self.signupLoading(true);
             var jsonData = ko.toJSON(self.UserSignUpVM);
-            if ($(form).validate()) {
-                $.ajax("/api/ajax/SignUp", {
-                    type: "POST",
-                    data: jsonData,
-                    contentType: "application/json",
-                    success: function (data) {
-                        if (data == 0) {
-                            $("#signUpErrorText").html("Hata meydana geldi. Lütfen daha sonra tekrar deneyiniz..");
-                            self.signupLoading(false);
-                            self.signUpError(true);
-                        }
-                        else if (data == 1) {
-                            location.href = "/User/Index";
-                        } else if (data == 2) {
-                            $("#signUpErrorText").html("Email adresi kayıtlı.");
-                            self.signupLoading(false);
-                            self.signUpError(true);
-                        }
-                    },
-                    error: function () {
+
+            //if ($(form).validate()) {
+            $.ajax("/api/ajax/SignUp", {
+                type: "POST",
+                data: jsonData,
+                contentType: "application/json",
+                success: function (data) {
+                    if (data == 0) {
                         $("#signUpErrorText").html("Hata meydana geldi. Lütfen daha sonra tekrar deneyiniz..");
                         self.signupLoading(false);
                         self.signUpError(true);
                     }
-                });
-            }
+                    else if (data == 1) {
+                        location.href = "/User/Index";
+                    } else if (data == 2) {
+                        $("#signUpErrorText").html("Email adresi kayıtlı.");
+                        self.signupLoading(false);
+                        self.signUpError(true);
+                    }
+                },
+                error: function () {
+                    $("#signUpErrorText").html("Hata meydana geldi. Lütfen daha sonra tekrar deneyiniz..");
+                    self.signupLoading(false);
+                    self.signUpError(true);
+                }
+            });
+            //}
         }
 
         return false;

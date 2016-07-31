@@ -13,6 +13,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
+using System.Web.Caching;
 
 namespace englishProject.Infrastructure
 {
@@ -66,7 +67,18 @@ namespace englishProject.Infrastructure
         public List<BoxLevelUser> GetBoxs()
         {
             //tüm kutular çekiliyor
-            List<Box> boxs = entities.Box.OrderBy(a => a.boxNumber).ToList();
+            List<Box> boxs = null;
+
+            if (HttpRuntime.Cache["box"] == null)
+            {
+                List<Box> box2 = entities.Box.Include("Level").OrderBy(a => a.boxNumber).ToList();
+                HttpRuntime.Cache.Insert("box", box2, null, DateTime.Now.AddDays(1), Cache.NoSlidingExpiration);
+                boxs = box2;
+            }
+            else
+            {
+                boxs = HttpRuntime.Cache["box"] as List<Box>;
+            }
 
             List<BoxLevelUser> boxLevelUsers = new List<BoxLevelUser>();
 
@@ -171,7 +183,18 @@ namespace englishProject.Infrastructure
         /// <returns></returns>
         public Dictionary<string, int> GetBoxMenu()
         {
-            Dictionary<string, int> result = entities.Box.ToDictionary(box => box.boxName, box => box.Level.Count);
+            Dictionary<string, int> result = null;
+
+            if (HttpRuntime.Cache["boxMenu"] == null)
+            {
+                Dictionary<string, int> result2 = entities.Box.ToDictionary(box => box.boxName, box => box.Level.Count);
+                HttpRuntime.Cache.Insert("boxMenu", result2, null, DateTime.Now.AddDays(1), Cache.NoSlidingExpiration);
+                result = result2;
+            }
+            else
+            {
+                result = HttpRuntime.Cache["boxMenu"] as Dictionary<string, int>;
+            }
 
             return result;
         }
@@ -215,21 +238,39 @@ namespace englishProject.Infrastructure
 
             if (l.levelModul == (int)Modul.WordModul)
             {
-                wordList =
-                    l.Word.ToList()
-                        .Select(a => new ExamStartWord { Turkish = a.wordTurkish, English = a.wordTranslate })
-                        .ToList();
+                //HttpRuntime.Cache.Insert("box", box2, null, DateTime.Now.AddDays(1), Cache.NoSlidingExpiration);
+                if (HttpRuntime.Cache[l.levelId.ToString()] == null)
+                {
+                    wordList =
+           l.Word.ToList()
+               .Select(a => new ExamStartWord { Turkish = a.wordTurkish, English = a.wordTranslate })
+               .ToList();
+                    HttpRuntime.Cache.Insert(l.levelId.ToString(), wordList, null, DateTime.Now.AddDays(5), Cache.NoSlidingExpiration);
+                }
+                else
+                {
+                    wordList = HttpRuntime.Cache[l.levelId.ToString()] as List<ExamStartWord>;
+                }
             }
             else if (l.levelModul == (int)Modul.SynonymWordModul)
             {
-                wordList =
-                    l.SynonymWord.Select(
-                        a =>
-                            new ExamStartWord
-                            {
-                                Turkish = a.synonymTurkish,
-                                English = string.Join(",", new string[] { a.synonym1, a.synonym2 })
-                            }).ToList();
+                if (HttpRuntime.Cache[l.levelId.ToString()] == null)
+                {
+                    wordList =
+                   l.SynonymWord.Select(
+                       a =>
+                           new ExamStartWord
+                           {
+                               Turkish = a.synonymTurkish,
+                               English = string.Join(",", new string[] { a.synonym1, a.synonym2 })
+                           }).ToList();
+
+                    HttpRuntime.Cache.Insert(l.levelId.ToString(), wordList, null, DateTime.Now.AddDays(5), Cache.NoSlidingExpiration);
+                }
+                else
+                {
+                    wordList = HttpRuntime.Cache[l.levelId.ToString()] as List<ExamStartWord>;
+                }
             }
 
             return Tuple.Create(l, progress, previousLevelUserProgress, wordList);
@@ -279,7 +320,7 @@ namespace englishProject.Infrastructure
             {
                 case ModulSubLevel.Temel:
                     //Kısa sürede bitirmek için
-                    List.AddRange(words.OrderBy(a => rnd.Next()).ToList().Take(10).Select(item => new SynonymQuestions
+                    List.AddRange(words.OrderBy(a => rnd.Next()).ToList().Select(item => new SynonymQuestions
                     {
                         Key = Guid.NewGuid().ToString().Substring(0, 6),
                         Synonym1 = item.synonym1,
@@ -291,7 +332,7 @@ namespace englishProject.Infrastructure
 
                 case ModulSubLevel.İleri:
                     //Kısa sürede bitirmek için
-                    List.AddRange(words.OrderBy(a => rnd.Next()).ToList().Take(10).Select(item => new SynonymQuestions
+                    List.AddRange(words.OrderBy(a => rnd.Next()).ToList().Select(item => new SynonymQuestions
                     {
                         Key = Guid.NewGuid().ToString().Substring(0, 6),
                         Synonym1 = item.synonym1,

@@ -74,7 +74,34 @@ $(document).ready(function () {
 
         $(".boxMenuWrapper li:eq('" + index + "')").addClass("current");
     });
+
     ///////////////user/index sayfasındaki box menu///////////////////////////
+
+    ///////////////home/index sayfasındaki box menu///////////////////////////
+    $('#carousel-learn').on('slid.bs.carousel', function (a) {
+        var index = $('#carousel-learn .carousel-inner div.active').index();
+
+        if (index == 4) {
+            $("#learnModal .modal-footer a").hide();
+            $("#learnModal .modal-footer button").show();
+        } else {
+            $("#learnModal .modal-footer a").show();
+            $("#learnModal .modal-footer button").hide();
+        }
+    });
+    $("#learnModalBtn").click(function () {
+        $("#learnModal li,#learnModal div").removeClass("active");
+        $("#learnModal ol li:first").addClass("active");
+        $("#learnModal .carousel-inner div:first").addClass("active");
+        $("#learnModal .modal-footer a").show();
+        $("#learnModal .modal-footer button").hide();
+    });
+    $(".modal-footer button").click(function () {
+        $("#learnModal").modal("hide");
+        $(".btn-login").trigger("click");
+    });
+    ///////////////home/index sayfasındaki box menu///////////////////////////
+
     $(".alertMessage button:first").click(function () {
         var key = $(this).attr("data-key");
 
@@ -86,9 +113,11 @@ $(document).ready(function () {
 
     $(".subLevelSelect,#quizBtn").click(function (e) {
         e.preventDefault();
+
         var locked = $(this).attr("data-locked");
         var front = $(this).attr("data-front");
         if (locked == "False") {
+            $("#commonModal .modal-body").html("<h2 class='text-center'><i class='fa fa-spinner fa-pulse'></i> yükleniyor....</h2>");
             $("#commonModal").modal();
             var levelId = $(this).attr("data-levelId");
 

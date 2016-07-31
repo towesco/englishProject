@@ -1,0 +1,54 @@
+﻿@using englishProject.Infrastructure
+@using englishProject.Infrastructure.ViewModel
+@using englishProject.Models
+
+@{
+    ViewBag.Title = "ScoreTable";
+
+    List<ScoreTableBox> boxs = ViewBag.ScoreTableBox;
+}
+@section Left
+{
+    @Html.Partial("Templates/UserProfileLeftPartial", (UserProfilView)ViewBag.userProfilView)
+
+}
+
+<div class="page-header">
+    <h2>Puanlama tablosu</h2>
+</div>
+<div class="panel">
+    <div class="panel-body">
+
+        @foreach (var item in boxs)
+        {
+
+            <h4 class="bg-primary" style="padding: 5px;">
+                <span class="pull-left">@item.BoxName</span>
+                <span class="pull-right">Toplam puan: @item.boxTotalScore</span>
+                <i class="clearfix"></i>
+            </h4>
+
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>Seviye</th>
+                        <th>İsim</th>
+                        <th>Puan</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item2 in item.ScoreTableLevels)
+                    {
+                        <tr>
+                            <td>@item2.LevelNumber</td>
+                            <td>@item2.LevelName</td>
+                            <th>@item2.Score PUAN</th>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+        }
+    </div>
+</div>

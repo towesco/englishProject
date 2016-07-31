@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Error";
+    Layout = "~/Views/Shared/_LayoutExam.cshtml";
+}
+<div class="row errorPage">
+    <div class="col-md-12 text-center">
+        <h1><i class="fa fa-exclamation-triangle fa-4x"></i></h1>
+        <h1>Sayfa BULUNAMADI :((</h1>
+        <div>
+            <a class="btn btn-info btn-lg" href="@Url.Action("Index","User")">Anasayfaya dön</a>
+        </div>
+        <br />
+    </div>
+</div>

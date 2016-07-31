@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Log";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@model  List<englishProject.Models.log>
+
+<h1>Site Hata Logları</h1>
+<hr />
+<table class="table table-bordered table-hover table-striped">
+    <thead>
+        <tr>
+            <th>Seviye</th>
+            <th>Tarih</th>
+            <th>mesaj</th>
+            <th>Hata</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Level</td>
+                <th>@item.Date</th>
+                <th>@item.Message</th>
+                <th>@item.Exception</th>
+            </tr>
+
+        }
+    </tbody>
+</table>

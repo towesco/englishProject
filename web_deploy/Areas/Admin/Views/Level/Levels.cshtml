@@ -1,0 +1,113 @@
+﻿@using englishProject.Areas.Admin.Infrastructure
+@using englishProject.Infrastructure
+@model IEnumerable<englishProject.Models.Level>
+
+@{
+    ViewBag.Title = "Levels";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Levels</h2>
+
+@using (Html.BeginForm("Levels", "Level", FormMethod.Get, new { @class = "form-inline" }))
+{
+    <div class="form-group">
+        <label for="boxNumber">Kutu ismi:</label>
+        @Html.DropDownList("boxId", null, new { @class = "form-control" })
+    </div>
+
+    <button type="submit" class="btn btn-primary">Seç</button>
+
+}
+
+<p class="text-right">
+    @Html.ActionLink("Yeni seviye oluştur", "AddLevel", "Level", new { @class = "btn btn-success" })
+</p>
+
+<table class="table table-bordered table-striped table-hover">
+    <tr>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Box.boxName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.levelId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.levelNumber)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.levelName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.levelPicture)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.levelPuan)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.levelModul)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.levelSubLevel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.levelRememderCard)
+        </th>
+        <th>İşlemler</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+
+        <tr>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Box.boxName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.levelId)
+            </td>
+            <td>
+
+                @Html.DisplayFor(modelItem => item.levelNumber)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.levelName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.levelPicture)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.levelPuan)
+            </td>
+
+            <td>
+
+                @Enum.GetName(typeof(Modul), item.levelModul)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.levelSubLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.levelRememderCard)
+            </td>
+            <td>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        @Html.ActionLink("Güncelle", "UpdateLevel", new { item.levelId }, new { @class = "btn btn-primary btn-xs" })
+                    </div>
+                    <div class="col-md-6">
+                        @using (Html.BeginForm("DeleteLevel", "Level", new { item.levelId }, FormMethod.Post, new { @style = "" }))
+                        {
+                            <input type="submit" value="Sil" class="btn btn-danger btn-xs" />
+                        }
+                    </div>
+                </div>
+            </td>
+        </tr>
+    }
+</table>

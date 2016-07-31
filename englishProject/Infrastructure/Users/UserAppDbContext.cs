@@ -15,14 +15,14 @@ namespace englishProject.Infrastructure.Users
         {
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            Database.SetInitializer(new SetInitializerDbContext());
-            base.OnModelCreating(modelBuilder);
-        }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    Database.SetInitializer(new SetInitializerDbContext());
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 
-    public class SetInitializerDbContext : DropCreateDatabaseIfModelChanges<UserAppDbContext>
-    {
-    }
+    //public class SetInitializerDbContext : DropCreateDatabaseIfModelChanges<UserAppDbContext>
+    //{
+    //}
 }

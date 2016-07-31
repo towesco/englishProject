@@ -1,0 +1,41 @@
+﻿@model englishProject.Models.Level
+@*<h1 data-bind="text:subLevelSuccessShow()"></h1>*@
+@*<h1 data-bind="text:subLevelCount"></h1>*@
+<div class=" alert  alert-update" role="alert" data-bind="visible:subLevelSuccessShow()" style="display: none">
+    <div class=" row">
+        <div class="col-md-12  text-center" style="color: white;">
+
+            <div id="warning" class="col-md-12">
+
+                <i class="fa fa-star-o fa-5x"></i>
+                <i class="fa fa-star-o fa-5x" data-bind="visible:subLevelNumber()>1"></i>
+
+                <h1>
+
+                    <span data-bind="text:okText"></span>
+                </h1>
+
+                <p>
+                    <strong>
+                        Bu seviyede kendini geliştirmeye devam edebilirsin.
+                        @if (Model != null)
+                        {
+                            <text>Eğer basit geldiyse veya sıkıldıysan bir sonraki seviyeye geçebilirsin.</text>
+                        }
+                    </strong>
+                </p>
+
+                @if (Model != null)
+                {
+                    <a href="@Url.Action("levelExam", "User", new {Model.levelId,subLevel=1})" class="btn btn-default">
+                        <i class="fa fa-unlock"></i><strong> @Model.levelNumber . seviye açıldı.</strong>
+                    </a>
+                }
+            </div>
+            <div class="col-md-12 text-right">
+
+                <button style="margin-top: 12px;" data-bind="click:updateBtn,disable:loading" class=" btn btn-update btn-lg"><i data-bind="visible:loading" class="fa fa-refresh fa-spin"></i> Devam <i class="fa fa-arrow-right"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

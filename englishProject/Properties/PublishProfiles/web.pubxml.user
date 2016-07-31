@@ -9,6 +9,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <_PublishTargetUrl>C:\Users\fatih\Desktop\web_deploy</_PublishTargetUrl>
   </PropertyGroup>
   <ItemGroup>
+    <File Include=".htaccess">
+      <publishTime>02/27/2016 06:04:02</publishTime>
+    </File>
     <File Include="App_Code/CommentLine.cshtml">
       <publishTime>02/18/2016 17:51:52</publishTime>
     </File>
@@ -61,7 +64,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/18/2015 04:04:55</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/Index.cshtml">
-      <publishTime>12/09/2015 01:25:36</publishTime>
+      <publishTime>03/08/2016 02:48:55</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Home/Log.cshtml">
       <publishTime>01/13/2016 20:16:31</publishTime>
@@ -71,6 +74,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Areas/Admin/Views/Home/SpeedWord.cshtml">
       <publishTime>12/10/2015 21:52:20</publishTime>
+    </File>
+    <File Include="Areas/Admin/Views/Home/Users.cshtml">
+      <publishTime>03/08/2016 03:03:11</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Level/AddLevel.cshtml">
       <publishTime>02/18/2016 17:51:52</publishTime>
@@ -82,7 +88,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/27/2016 02:44:49</publishTime>
     </File>
     <File Include="Areas/Admin/Views/Shared/_Layout.cshtml">
-      <publishTime>01/28/2016 06:19:18</publishTime>
+      <publishTime>03/08/2016 02:49:42</publishTime>
     </File>
     <File Include="Areas/Admin/Views/SynonymWord/AddSynonymWord.cshtml">
       <publishTime>02/03/2016 06:26:24</publishTime>
@@ -115,7 +121,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/05/2015 10:05:08</publishTime>
     </File>
     <File Include="bin/englishProject.dll">
-      <publishTime>02/19/2016 02:05:42</publishTime>
+      <publishTime>03/08/2016 05:11:33</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>12/05/2015 04:53:08</publishTime>
@@ -214,7 +220,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/05/2015 04:53:10</publishTime>
     </File>
     <File Include="Content/agency.css">
-      <publishTime>02/10/2016 16:49:31</publishTime>
+      <publishTime>02/27/2016 06:11:42</publishTime>
     </File>
     <File Include="Content/animate.css">
       <publishTime>01/22/2016 23:45:44</publishTime>
@@ -306,11 +312,38 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Content/images/flag/United-kingdom-icon.png">
       <publishTime>12/13/2015 23:43:14</publishTime>
     </File>
+    <File Include="Content/images/home/beta.png">
+      <publishTime>02/26/2016 05:45:29</publishTime>
+    </File>
+    <File Include="Content/images/home/finish.png">
+      <publishTime>02/26/2016 05:46:26</publishTime>
+    </File>
+    <File Include="Content/images/home/idea.png">
+      <publishTime>02/26/2016 05:45:28</publishTime>
+    </File>
+    <File Include="Content/images/learnHome/01.jpg">
+      <publishTime>03/07/2016 22:54:57</publishTime>
+    </File>
+    <File Include="Content/images/learnHome/02.jpg">
+      <publishTime>03/07/2016 22:51:07</publishTime>
+    </File>
+    <File Include="Content/images/learnHome/03.jpg">
+      <publishTime>03/07/2016 22:51:07</publishTime>
+    </File>
+    <File Include="Content/images/learnHome/04.jpg">
+      <publishTime>03/07/2016 22:51:07</publishTime>
+    </File>
+    <File Include="Content/images/learnHome/05.jpg">
+      <publishTime>03/07/2016 23:27:31</publishTime>
+    </File>
     <File Include="Content/images/level-update-background.png">
       <publishTime>01/22/2016 00:49:58</publishTime>
     </File>
     <File Include="Content/images/level/body.png">
       <publishTime>12/20/2015 05:07:52</publishTime>
+    </File>
+    <File Include="Content/images/macbook.png">
+      <publishTime>02/26/2016 02:23:19</publishTime>
     </File>
     <File Include="Content/images/success.png">
       <publishTime>01/13/2016 22:03:14</publishTime>
@@ -328,7 +361,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/13/2016 20:31:14</publishTime>
     </File>
     <File Include="Content/style.css">
-      <publishTime>02/10/2016 15:15:55</publishTime>
+      <publishTime>02/29/2016 03:08:48</publishTime>
     </File>
     <File Include="Content/SynonymWordModul.css">
       <publishTime>02/19/2016 01:42:39</publishTime>
@@ -406,7 +439,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/19/2016 17:17:52</publishTime>
     </File>
     <File Include="Scripts/common.js">
-      <publishTime>02/06/2016 09:19:50</publishTime>
+      <publishTime>03/08/2016 02:24:08</publishTime>
     </File>
     <File Include="Scripts/jquery-2.1.4.js">
       <publishTime>12/05/2015 04:53:16</publishTime>
@@ -457,7 +490,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/05/2015 04:28:39</publishTime>
     </File>
     <File Include="Scripts/login.js">
-      <publishTime>01/11/2016 01:18:46</publishTime>
+      <publishTime>02/29/2016 00:39:31</publishTime>
     </File>
     <File Include="Scripts/modernizr-2.8.3.js">
       <publishTime>12/05/2015 04:53:21</publishTime>
@@ -469,7 +502,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/15/2016 02:59:34</publishTime>
     </File>
     <File Include="Scripts/Modul/SynonymWordModul.js">
-      <publishTime>02/19/2016 01:31:36</publishTime>
+      <publishTime>03/08/2016 02:13:20</publishTime>
     </File>
     <File Include="Scripts/Modul/WordModul.js">
       <publishTime>02/05/2016 21:14:46</publishTime>
@@ -514,7 +547,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/10/2016 17:31:03</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>02/10/2016 16:46:32</publishTime>
+      <publishTime>03/08/2016 02:24:09</publishTime>
     </File>
     <File Include="Views/Shared/Error.cshtml">
       <publishTime>12/05/2015 04:01:37</publishTime>
@@ -529,13 +562,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/10/2016 15:37:39</publishTime>
     </File>
     <File Include="Views/Shared/MenuTemplate/TopMenu.cshtml">
-      <publishTime>02/18/2016 17:51:51</publishTime>
+      <publishTime>03/08/2016 01:43:50</publishTime>
     </File>
     <File Include="Views/Shared/Modul/PictureWordModul.cshtml">
       <publishTime>02/01/2016 02:14:26</publishTime>
     </File>
     <File Include="Views/Shared/Modul/SynonymWordModul.cshtml">
-      <publishTime>02/19/2016 00:54:04</publishTime>
+      <publishTime>03/08/2016 01:15:12</publishTime>
     </File>
     <File Include="Views/Shared/Modul/WordModul.cshtml">
       <publishTime>02/02/2016 01:26:35</publishTime>
@@ -550,10 +583,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>02/02/2016 02:27:26</publishTime>
     </File>
     <File Include="Views/Shared/ModulPartial/HeaderPartial.cshtml">
-      <publishTime>01/15/2016 02:53:58</publishTime>
+      <publishTime>02/27/2016 05:30:49</publishTime>
     </File>
     <File Include="Views/Shared/ModulPartial/ProgressPartial.cshtml">
-      <publishTime>01/21/2016 04:37:53</publishTime>
+      <publishTime>02/27/2016 04:49:08</publishTime>
     </File>
     <File Include="Views/Shared/ModulPartial/SubLevelSuccess.cshtml">
       <publishTime>02/02/2016 02:17:18</publishTime>
@@ -578,6 +611,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="Views/Shared/Templates/ExamStart.cshtml">
       <publishTime>02/18/2016 17:51:51</publishTime>
+    </File>
+    <File Include="Views/Shared/Templates/FooterPartial.cshtml">
+      <publishTime>02/26/2016 03:49:44</publishTime>
     </File>
     <File Include="Views/Shared/Templates/LayoutExtensions.cshtml">
       <publishTime>02/06/2016 09:18:02</publishTime>
@@ -619,37 +655,43 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/19/2016 01:30:28</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>01/23/2016 01:37:03</publishTime>
+      <publishTime>02/26/2016 05:05:22</publishTime>
     </File>
     <File Include="Views/Shared/_LayoutExam.cshtml">
-      <publishTime>01/23/2016 01:50:08</publishTime>
+      <publishTime>03/08/2016 01:42:54</publishTime>
     </File>
     <File Include="Views/User/comments.cshtml">
-      <publishTime>01/19/2016 17:49:07</publishTime>
+      <publishTime>02/26/2016 05:09:20</publishTime>
     </File>
     <File Include="Views/User/commentsLevel.cshtml">
-      <publishTime>01/18/2016 23:46:26</publishTime>
+      <publishTime>02/26/2016 05:09:19</publishTime>
     </File>
     <File Include="Views/User/deneme.cshtml">
       <publishTime>01/31/2016 07:06:44</publishTime>
     </File>
     <File Include="Views/User/deneme2.cshtml">
-      <publishTime>02/05/2016 09:04:28</publishTime>
+      <publishTime>02/25/2016 03:03:50</publishTime>
     </File>
     <File Include="Views/User/Index.cshtml">
-      <publishTime>02/18/2016 21:27:50</publishTime>
+      <publishTime>02/26/2016 05:10:06</publishTime>
     </File>
     <File Include="Views/User/levelExam.cshtml">
-      <publishTime>02/18/2016 17:51:50</publishTime>
+      <publishTime>02/27/2016 05:26:57</publishTime>
+    </File>
+    <File Include="Views/User/PageError.cshtml">
+      <publishTime>02/29/2016 03:46:54</publishTime>
+    </File>
+    <File Include="Views/User/PageFound.cshtml">
+      <publishTime>02/29/2016 03:47:21</publishTime>
     </File>
     <File Include="Views/User/RemenderCard.cshtml">
-      <publishTime>01/18/2016 23:49:35</publishTime>
+      <publishTime>02/26/2016 05:09:18</publishTime>
     </File>
     <File Include="Views/User/ScoreTable.cshtml">
       <publishTime>01/18/2016 23:45:25</publishTime>
     </File>
     <File Include="Views/User/Settings.cshtml">
-      <publishTime>02/06/2016 10:24:54</publishTime>
+      <publishTime>03/09/2016 13:17:23</publishTime>
     </File>
     <File Include="Views/Web.config">
       <publishTime>12/05/2015 04:01:37</publishTime>
@@ -658,7 +700,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/05/2015 04:01:37</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>02/19/2016 02:08:01</publishTime>
+      <publishTime>03/08/2016 03:42:42</publishTime>
     </File>
   </ItemGroup>
 </Project>

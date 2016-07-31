@@ -350,7 +350,17 @@ section {
         margin-bottom: 0;
     }
 
+@media (max-width:768px) {
+    #macbook {
+        width: 250px;
+    }
+}
+
 @media (min-width:768px) {
+    #macbook {
+        width: 400px;
+    }
+
     .timeline:before {
         left: 50%;
     }
@@ -388,6 +398,10 @@ section {
 }
 
 @media (min-width:992px) {
+    #macbook {
+        width: 500px;
+    }
+
     .timeline > li {
         min-height: 150px;
     }
@@ -414,8 +428,12 @@ section {
 }
 
 @media (min-width:1200px) {
+    #macbook {
+        width: 570px;
+    }
+
     .timeline > li {
-        min-height: 170px;
+        min-height: 156px;
     }
 
         .timeline > li .timeline-panel {
@@ -423,8 +441,8 @@ section {
         }
 
         .timeline > li .timeline-image {
-            width: 170px;
-            height: 170px;
+            width: 156px;
+            height: 156px;
             margin-left: -85px;
         }
 
@@ -462,9 +480,9 @@ aside.clients img {
 }
 
 section#contact {
-    background: #FF4E50; /* fallback for old browsers */
-    background: -webkit-linear-gradient(to left, #FF4E50, #F9D423); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to left, #FF4E50, #F9D423); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #00d2ff; /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #00d2ff, #3a7bd5); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #00d2ff, #3a7bd5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
     section#contact .section-heading {

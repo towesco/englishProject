@@ -24,5 +24,7 @@ namespace englishProject.Infrastructure.Users
         public string SurName { get; set; }
 
         public int? City { get; set; }
+
+        public DateTime createTime { get; set; }
     }
 }

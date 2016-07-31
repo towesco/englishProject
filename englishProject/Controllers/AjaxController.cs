@@ -36,85 +36,6 @@ namespace englishProject.Controllers
         /// </summary>
         /// <param name="UserSignInVM"></param>
         /// <returns></returns>
-        [System.Web.Http.ActionName("SignIn")]
-        public async Task<IHttpActionResult> POSTUserLogin(UserSignInVM UserSignInVM)
-        {
-            bool result = false;
-            UserApp user = await usermanager.FindByEmailAsync(UserSignInVM.Email);
-
-            try
-            {
-                if (user != null)
-                {
-                    var isUser = await usermanager.FindAsync(user.UserName, UserSignInVM.Password);
-
-                    if (isUser != null)
-                    {
-                        ClaimsIdentity identity = await usermanager.CreateIdentityAsync(user,
-                            DefaultAuthenticationTypes.ApplicationCookie);
-
-                        Authen.SignOut();
-                        Authen.SignIn(new AuthenticationProperties() { IsPersistent = UserSignInVM.MeRemember }, identity);
-                        result = true;
-                    }
-                }
-
-                return Content(HttpStatusCode.OK, result);
-            }
-            catch (Exception ex)
-            {
-                logger.Error("SignIn", ex);
-                return BadRequest();
-            }
-        }
-
-        /// <summary>
-        /// SignUp metodu geriye 0: dönerse başarısız :1 dönerse başarılı 2: dönerse email adresi kayıtlı
-        /// </summary>
-        /// <param name="UserSignUpVM"></param>
-        /// <returns></returns>
-        [System.Web.Http.ActionName("SignUp")]
-        public async Task<IHttpActionResult> POSTUserSignUp(UserSignUpVM UserSignUpVM)
-        {
-            int result = 0;
-
-            var userEmail = await usermanager.FindByEmailAsync(UserSignUpVM.Email);
-            if (userEmail == null)
-            {
-                try
-                {
-                    UserApp user = new UserApp() { UserName = UserSignUpVM.Email, Email = UserSignUpVM.Email, PicturePath = "/Content/images/user.png" };
-
-                    IdentityResult identResult = await usermanager.CreateAsync(user, UserSignUpVM.Password);
-                    if (identResult.Succeeded)
-                    {
-                        result = 1;
-
-                        ClaimsIdentity identity = await usermanager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-
-                        Authen.SignOut();
-                        Authen.SignIn(new AuthenticationProperties { IsPersistent = true }, identity);
-
-                        OperationDirect.UpdateTargetDailyTargetScore(100, user.Id, false);
-                    }
-                    else
-                    {
-                        result = 0;
-                    }
-                }
-                catch (Exception ex)
-                {
-                    result = 0;
-                    logger.Error("SignUp", ex);
-                }
-            }
-            else
-            {
-                result = 2;
-            }
-
-            return Content(HttpStatusCode.OK, result);
-        }
 
         [System.Web.Http.ActionName("WordModulSubLevelQuestions")]
         public IHttpActionResult GetWordModulSubLevelQuestions(int subLevel, int levelId)
@@ -204,6 +125,81 @@ namespace englishProject.Controllers
         public JsonResult<List<ScoreChart>> GETGetChart()
         {
             return Json(new Operations().GetScoreChart());
+        }
+
+        [System.Web.Http.ActionName("SignIn")]
+        public async Task<IHttpActionResult> POSTUserLogin(UserSignInVM UserSignInVM)
+        {
+            bool result = false;
+            UserApp user = await usermanager.FindByEmailAsync(UserSignInVM.Email);
+
+            try
+            {
+                if (user != null)
+                {
+                    var isUser = await usermanager.FindAsync(user.UserName, UserSignInVM.Password);
+
+                    if (isUser != null)
+                    {
+                        ClaimsIdentity identity = await usermanager.CreateIdentityAsync(user,
+                            DefaultAuthenticationTypes.ApplicationCookie);
+
+                        Authen.SignOut();
+                        Authen.SignIn(new AuthenticationProperties() { IsPersistent = UserSignInVM.MeRemember }, identity);
+                        result = true;
+                    }
+                }
+
+                return Content(HttpStatusCode.OK, result);
+            }
+            catch (Exception ex)
+            {
+                logger.Error("SignIn", ex);
+                return BadRequest();
+            }
+        }
+
+        [System.Web.Http.ActionName("SignUp")]
+        public async Task<IHttpActionResult> POSTUserSignUp(UserSignUpVM UserSignUpVM)
+        {
+            int result = 0;
+
+            var userEmail = await usermanager.FindByEmailAsync(UserSignUpVM.Email);
+            if (userEmail == null)
+            {
+                try
+                {
+                    UserApp user = new UserApp() { UserName = UserSignUpVM.Email, Email = UserSignUpVM.Email, PicturePath = "/Content/images/user.png", createTime = DateTime.Now };
+
+                    IdentityResult identResult = await usermanager.CreateAsync(user, UserSignUpVM.Password);
+                    if (identResult.Succeeded)
+                    {
+                        result = 1;
+
+                        ClaimsIdentity identity = await usermanager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+
+                        Authen.SignOut();
+                        Authen.SignIn(new AuthenticationProperties { IsPersistent = true }, identity);
+
+                        OperationDirect.UpdateTargetDailyTargetScore(100, user.Id, false);
+                    }
+                    else
+                    {
+                        result = 0;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    result = 0;
+                    logger.Error("SignUp", ex);
+                }
+            }
+            else
+            {
+                result = 2;
+            }
+
+            return Content(HttpStatusCode.OK, result);
         }
     }
 }

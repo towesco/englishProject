@@ -6,6 +6,7 @@ using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 [assembly: log4net.Config.XmlConfigurator(ConfigFile = "Web.config", Watch = true)]
@@ -37,7 +38,8 @@ namespace englishProject
                 ClientId = "40850217574-jucv506k8kd4kqaopigi68p0umurr9mi.apps.googleusercontent.com",
                 ClientSecret = "aYx3KnsZM_m_voAUtJFaypsy",
                 CallbackPath = new PathString("/User/GoogleLogin"),
-                SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie
+
+                SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie,
             };
             app.UseGoogleAuthentication(g);
 
@@ -47,8 +49,8 @@ namespace englishProject
 
             FacebookAuthenticationOptions f = new FacebookAuthenticationOptions
             {
-                AppId = "993327790719858",
-                AppSecret = "5fcbffb2735cb7b6a87b193f11285633",
+                AppId = "1548784555450367",
+                AppSecret = "8882f3a05815afd5cfd5ac2ce09c9aa9",
                 Provider = new FacebookAuthenticationProvider()
                 {
                     OnAuthenticated = context =>
@@ -58,8 +60,9 @@ namespace englishProject
                         return Task.FromResult(true);
                     }
                 },
-                SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie
+                SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie,
             };
+            f.Scope.Add("email");
             // f.Scope.Add("email");
             app.UseFacebookAuthentication(f);
 

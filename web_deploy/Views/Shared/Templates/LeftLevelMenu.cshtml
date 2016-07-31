@@ -1,0 +1,34 @@
+﻿@model Tuple<englishProject.Models.Level, int>
+<div class="panel panelLevelMenu">
+    <i class="fa fa-cube" data-toggle="tooltip" data-placement="left" title="@Model.Item1.Box.boxName kutusu"></i>
+
+    <div class="panel-body">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="img-circle  center-block text-center">
+                    <h3 style="margin-bottom: 0px; margin-top: 25px;">@(Model.Item1.levelNumber).</h3>
+                    <h4 style="margin-top: 0; margin-bottom: 5px;">Seviye</h4>
+                    <h5 style="margin-top: 0px;">(@Model.Item1.levelName)</h5>
+                </div>
+            </div>
+            <div class="col-md-12 text-center">
+
+                <a style="margin-top: 10px;" data-locked="False" data-levelid="@Model.Item1.levelId" id="quizBtn" href="#" class="btn btn-border btn-sm"><i class="fa fa-arrow-circle-right"></i> Teste giriş</a>
+
+                @if (Model.Item2 == 1 && Model.Item1.levelRememderCard)
+                {
+
+                    <a style="margin-top: 10px;" class="btn btn-border btn-sm" href="@Url.Action("remendercard", "user", new { id = Model.Item1.levelId })"><i class="fa fa-paper-plane-o"></i>  hatırlatma kartları</a>
+
+                }
+                else if (Model.Item2 == 2)
+                {
+
+                    <a style="margin-top: 10px;" class="btn btn-border btn-sm" href="@Url.Action("CommentsLevel", "user", new { id = Model.Item1.levelId })"><i class="fa fa-comment"></i>  Yorumlar</a>
+
+                }
+            </div>
+        </div>
+    </div>
+</div>

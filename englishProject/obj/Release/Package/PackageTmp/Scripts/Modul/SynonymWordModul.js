@@ -203,10 +203,27 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
         $("#rightWrapper").append(btn);
     }
 
+    self.shuffle = function (array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
+
     self.fill = function () {
         $("#rightWrapper .btn").tooltip('hide');
 
-        console.log(self.index() + "<" + self.dataQuestions().length);
         if (self.index() < self.dataQuestions().length) {
             do {
                 self.QuestionsList.push(self.dataQuestions()[self.index()]);
@@ -214,14 +231,28 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
                 self.index(self.index() + 1);
             } while (self.index() < self.dataQuestions().length && self.index() % 5 != 0)
         } else {
-            alert("bitti");
+            //alert("bitti");
         }
 
+        var arr = [0, 1, 2, 3, 4];
+        self.shuffle(arr);
+
+        $.each(arr, function (index, value) {
+            self.RandomQuestionsList.push(self.QuestionsList()[value]);
+        });
+
         if (self.subLevelNumber() == 1) {
+            $.each($("#rightWrapper .btn"), function (index, value) {
+                var title = $(value).attr("title");
+                $(value).attr("data-original-title", title);
+            });
+            $('[data-toggle="tooltip"]').tooltip();
         }
     }
 
-    self.fill();
+    $(window).load(function () {
+        self.fill();
+    });
 
     self.contionous = function () {
         self.reset();
@@ -237,7 +268,7 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
     self.levelUpdate = function () {
         //self.questionText(questionTextArray[self.subLevelNumber()]);
         self.okText(okTextArray[self.subLevelNumber() - 1]);
-
+        $("#updateAudi").trigger("play");
         if (self.star() < self.subLevelNumber()) {
             self.star(self.star() + 1);
         }
@@ -310,24 +341,22 @@ var viewmodel = function (exams, levelId, levelSubLevel, boxId) {
             });
 
             if (totalSuccess == 5) {
+                $("#successAudi").trigger("play");
                 self.successProgress(self.rate());
                 self.increase();
             } else {
+                $("#wrongAudi").trigger("play");
                 self.errorProgress(self.rate());
                 self.decrease();
                 self.failStatus();
             }
+
             $('[data-toggle="tooltip"]').tooltip();
         }
     }
 }
 ////////////////////////////////////////////////////////// drag end drop/////////////////////////////////////////////
 $(document).ready(function () {
-    $(window).load(function () {
-        if (a == 1) {
-            $('[data-toggle="tooltip"]').tooltip();
-        }
-    });
 });
 
 function noDrop(e) {

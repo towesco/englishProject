@@ -1,0 +1,151 @@
+﻿@using AutoMapper.Internal
+@using englishProject.Infrastructure
+@model englishProject.Models.Word
+
+@{
+    ViewBag.Title = "AddWord";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section Scripts
+{
+    <script src="@Url.Content("~/Areas/Admin/js/AddWord.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.ui.widget.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.fileupload.js")"></script>
+    <script src="@Url.Content("~/Scripts/jquery-file-upload/jquery.iframe-transport.js")"></script>
+
+    <style type="text/css">
+        #addWordWrapper img {
+            width: 300px;
+            height: 200px;
+        }
+
+        #tablo img {
+            width: 100px;
+            height: 75px;
+        }
+    </style>
+
+}
+<div id="addWordWrapper">
+    @using (Html.BeginForm("Upload", "Word", FormMethod.Get, new { @data_bind = "submit:createWord,with:Word" }))
+    {
+
+        <div class="form-horizontal">
+            <h4>Word</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.levelId, "levelId", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("levelId", new HelperMethod().GetLevelSelectListItems(Modul.WordModul), htmlAttributes: new { @class = "form-control", @data_bind = "value:levelId" })
+                    @Html.ValidationMessageFor(model => model.levelId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.wordTurkish, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.wordTurkish, new { htmlAttributes = new { @class = "form-control", @data_bind = "value:wordTurkish" } })
+                    @Html.ValidationMessageFor(model => model.wordTurkish, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.wordTranslate, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.wordTranslate, new { htmlAttributes = new { @class = "form-control", @data_bind = "value:wordTranslate" } })
+                    @Html.ValidationMessageFor(model => model.wordTranslate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.info, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.info, new { htmlAttributes = new { @class = "form-control", @data_bind = "value:info" } })
+                    @Html.ValidationMessageFor(model => model.info, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.wordDefinition, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.wordDefinition, new { htmlAttributes = new { @class = "form-control", @data_bind = "value:wordDefinition" } })
+                    @Html.ValidationMessageFor(model => model.wordDefinition, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.wordExample, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.wordExample, new { htmlAttributes = new { @class = "form-control", @data_bind = "value:wordExample" } })
+                    @Html.ValidationMessageFor(model => model.wordExample, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" id="images">
+                <div class="row">
+
+                    <div class="col-md-5 col-md-offset-2">
+                        @Html.Label("hatırlatıcı resim ekle")
+                        <input name="fileUpload" id="wordRemender" type="file" />
+                    </div>
+
+                    @if (ViewBag.id == 2)
+                    {
+                        <div class="col-md-5">
+                            @Html.Label("hatırlatıcı açıklayıcı resim ekle")
+                            <input name="fileUpload" id="wordRemenderInfo" type="file" />
+                        </div>
+
+                    }
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <hr />
+                    <button id="btnUpload" data-bind="disable:$root.loading()" id="btnCreateWord" type="submit" class="btn btn-primary "><i data-bind="visible:$root.loading()" class="fa fa-refresh fa-spin"></i> Create</button>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<h3>Listeye Eklenenler(<span data-bind="text:total()"></span>)</h3>
+
+<hr />
+
+<table id="tablo" class="table table-striped table-bordered table-responsive">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Türkçe</th>
+            <th>Çeviri Kelime</th>
+            <th>Seviye</th>
+            <th>ek bilgi</th>
+            <th>Açıklama</th>
+            <th>Örnek</th>
+            <th>Hatırlatıcı resim</th>
+            <th>Hatırlatıcı resim açıklamalı</th>
+            <th>Sil</th>
+        </tr>
+    </thead>
+    <tbody data-bind="foreach: wordsReverse">
+        <tr>
+            <td data-bind="text: id"></td>
+            <td data-bind="text: turkish"></td>
+            <td data-bind="text: translate"></td>
+            <td data-bind="text:number"></td>
+
+            <td data-bind="text: info"></td>
+            <td data-bind="text: definition"></td>
+            <td data-bind="text: example"></td>
+            <th>
+                <img data-bind="attr:{src:remender}" />
+            </th>
+            <th>
+                <img data-bind="attr:{src:remenderInfo}" />
+            </th>
+            <td><a href="#" data-bind="click:$root.deleteWord">sil</a></td>
+        </tr>
+    </tbody>
+</table>

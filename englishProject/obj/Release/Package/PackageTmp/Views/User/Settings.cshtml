@@ -4,7 +4,6 @@
 @using englishProject.Infrastructure.ViewModel
 @using englishProject.Models
 @{
-    ViewBag.Title = "Settings";
 
     UserViewModel user = ViewBag.user;
     var index = ViewBag.index;
@@ -127,16 +126,16 @@
             });
 
             $(".list-group-settings .list-group-item:eq(" + index + ")").addClass("active");
+
             $("#carousel-settings .item:eq(" + index + ")").addClass("active");
 
-            $('#carousel-settings').on('slid.bs.carousel', function (a) {
+            $(".list-group-settings a").click(function () {
 
-                var index2 = $('#carousel-settings .active').index('#carousel-settings .item');
-
+                console.log($(this).index());
+                var index2 = $(this).index();
                 $(".list-group-settings a").removeClass("active");
 
                 $(".list-group-settings a:eq('" + index2 + "')").addClass("active");
-
             });
 
             $('#fileUpload').fileupload({
@@ -306,16 +305,19 @@
             <span class="pull-right"><i class="fa fa-key"></i></span>
             <i class="clearfix"></i>
         </a>
+
         <a href="#" data-target="#carousel-settings" data-slide-to="3" class="list-group-item">
             <span class="pull-left">Günlük hedef belirle</span>
             <span class="pull-right"><i class="fa fa-dot-circle-o"></i></span>
             <i class="clearfix"></i>
         </a>
+
         <a href="#" data-target="#carousel-settings" data-slide-to="4" class="list-group-item">
             <span class="pull-left">Çalışma performansım</span>
             <span class="pull-right"><i class="fa fa-area-chart"></i></span>
             <i class="clearfix"></i>
         </a>
+
         <a href="#" data-target="#carousel-settings" data-slide-to="5" class="list-group-item">
             <span class="pull-left">Site ayarlarım</span>
             <span class="pull-right"><i class="fa fa-cog"></i></span>

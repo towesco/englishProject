@@ -30,7 +30,14 @@ namespace englishProject.Areas.Admin.Controllers
         // GET: Admin/Home
         public ActionResult Index()
         {
+            ViewBag.LevelCount = OperationsAdmin.getLevelCount();
+
             return View();
+        }
+
+        public ActionResult Users()
+        {
+            return View(OperationsAdmin.GetUsers());
         }
 
         public ActionResult SpeedWord(int subLevel = 1, int levelId = 1)

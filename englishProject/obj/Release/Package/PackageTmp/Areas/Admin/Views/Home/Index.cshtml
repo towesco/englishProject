@@ -1,6 +1,32 @@
-﻿@{
+﻿@using englishProject.Areas.Admin.Infrastructure
+@using englishProject.Infrastructure.ViewModel
+@{
     ViewBag.Title = "Index";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    List<boxLevelCount> boxLevelCounts = ViewBag.LevelCount;
+
+    List<UserProfilView> users = ViewBag.users;
+
 }
 
 <h2>Yönetim paneline hoş geldiniz.</h2>
+
+<div class="row">
+    <div class="col-md-12">
+
+        @foreach (var item in boxLevelCounts)
+        {
+            <div class="pull-left" style="margin:20px;">
+
+                <h4>@item.BoxName</h4>
+                <ul class="list-group">
+                    @foreach (var item2 in item.Levels)
+                    {
+                        <li class="list-group-item list-group-item-warning">@Html.Raw(item2.Value)</li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+</div>

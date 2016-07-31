@@ -4,7 +4,7 @@
 @using englishProject.Models
 @using Newtonsoft.Json
 @{
-    ViewBag.Title = "levelExam";
+
     Layout = "~/Views/Shared/_LayoutExam.cshtml";
 
     Level level = ViewBag.level;
@@ -29,22 +29,22 @@
 }
 @section scripts
 {
-    <link href="@Url.Content("~/Content/"+m.ToString()+".css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/" + m.ToString() + ".css")" rel="stylesheet" />
     <script src="@Url.Content("~/Scripts/Modul/commonModul.js")"></script>
     <script src="@Url.Content("~/Scripts/Modul/" + m.ToString() + ".js")"></script>
 
     <script type="text/javascript">
 
-        var commentIssueViewModel=function() {
+        var commentIssueViewModel = function() {
             var self = this;
             self.loading = ko.observable(false);
-            self.resultText =ko.observable("Mesajınız gönderilmiştir.");
+            self.resultText = ko.observable("Mesajınız gönderilmiştir.");
 
-            self.viewModel= {
-                CommentIssue:ko.observable(),
-                ExceptId:parseInt("@level.levelId"),
-                Kind:ko.observable("1"),
-                UserId:"@Operations.GetUserId"
+            self.viewModel = {
+                CommentIssue: ko.observable(),
+                ExceptId: parseInt("@level.levelId"),
+                Kind: ko.observable("1"),
+                UserId: "@Operations.GetUserId"
             }
 
             self.viewModel.Kind.subscribe(function(newValue) {
@@ -53,13 +53,13 @@
                 if (newValue == "1") {
                     self.resultText("Mesajınız gönderilmiştir.");
                 }
-                if(newValue=="2") {
+                if (newValue == "2") {
                     self.resultText("Sorununuz bildirilmiştir.");
                 }
 
             });
 
-            self.send=function() {
+            self.send = function() {
 
                 if ($("#commentIssueForm").valid()) {
                     self.loading(true);
@@ -70,7 +70,7 @@
                         type: "POST",
                         data: jsonData,
                         contentType: "application/json",
-                        success: function (data) {
+                        success: function(data) {
 
                             if (data) {
 
@@ -82,7 +82,7 @@
                                 self.resultText("@HelperMethod.GetErrorMessage");
                             }
                         },
-                        complete:function() {
+                        complete: function() {
                             self.loading(false);
                             $("#result").show();
                         }
@@ -95,15 +95,24 @@
 
         }
 
-        $(document).ready(function () {
+        $(document).ready(function() {
 
             var commentVM = new commentIssueViewModel();
 
-            ko.applyBindings(commentVM,document.getElementById("commentIssueModal"));
+            ko.applyBindings(commentVM, document.getElementById("commentIssueModal"));
 
-            var  vm = new viewmodel(@exam, @level.levelId,@level.levelSubLevel,@level.boxId);
+            var vm = new viewmodel(@exam, @level.levelId, @level.levelSubLevel, @level.boxId);
             ko.applyBindings(vm, document.getElementById("examWrapper"));
+            $("#topMenuLink a").click(function() {
 
+                if (confirm('Testten çıkış yaparsanız kazanmış olduğunuz puanları kaybedeceksiniz. Çıkmak istiyormusunuz ?')) {
+                    return true;
+                } else {
+
+                    return false;
+
+                }
+            });
         });
     </script>
 }

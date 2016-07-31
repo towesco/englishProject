@@ -115,6 +115,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
     <Reference Include="System.Web.Routing" />
@@ -169,6 +170,7 @@
     <Compile Include="Areas\Admin\Controllers\LevelController.cs" />
     <Compile Include="Areas\Admin\Controllers\SynonymWordController.cs" />
     <Compile Include="Areas\Admin\Controllers\WordController.cs" />
+    <Compile Include="Areas\Admin\Infrastructure\HelperClass.cs" />
     <Compile Include="Areas\Admin\Infrastructure\ISynonym.cs" />
     <Compile Include="Areas\Admin\Infrastructure\OperationsAdmin.cs" />
     <Compile Include="Areas\Admin\Infrastructure\SynonymAction.cs" />
@@ -209,6 +211,15 @@
     <Compile Include="Infrastructure\ViewModel\UserSignUpVM.cs" />
     <Compile Include="Infrastructure\ViewModel\UserSignInVM.cs" />
     <Compile Include="Infrastructure\ViewModel\UserViewModel.cs" />
+    <Compile Include="Migrations\201602101335429_InitialCreate.cs" />
+    <Compile Include="Migrations\201602101335429_InitialCreate.Designer.cs">
+      <DependentUpon>201602101335429_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201603080130551_createTimeProperty.cs" />
+    <Compile Include="Migrations\201603080130551_createTimeProperty.Designer.cs">
+      <DependentUpon>201603080130551_createTimeProperty.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Box.cs">
       <DependentUpon>WordBoxesModel.tt</DependentUpon>
     </Compile>
@@ -300,12 +311,21 @@
     <Content Include="Content\images\comment.png" />
     <Content Include="Content\images\flag\Turkey-icon.png" />
     <Content Include="Content\images\flag\United-kingdom-icon.png" />
+    <Content Include="Content\images\home\beta.png" />
+    <Content Include="Content\images\home\finish.png" />
+    <Content Include="Content\images\home\idea.png" />
+    <Content Include="Content\images\learnHome\01.jpg" />
+    <Content Include="Content\images\learnHome\02.jpg" />
+    <Content Include="Content\images\learnHome\03.jpg" />
+    <Content Include="Content\images\learnHome\04.jpg" />
+    <Content Include="Content\images\learnHome\05.jpg" />
     <Content Include="Content\images\level-update-background.png" />
     <Content Include="Content\images\level\body.png" />
     <Content Include="Content\images\success.png" />
     <Content Include="Content\images\target.png" />
     <Content Include="Content\images\user.png" />
     <Content Include="Content\images\userbackground.png" />
+    <Content Include="Content\images\macbook.png" />
     <Content Include="Content\navbar.css" />
     <Content Include="Content\style.css" />
     <Content Include="Content\SynonymWordModul.css" />
@@ -379,6 +399,8 @@
       <DependentUpon>WordBoxesModel.edmx</DependentUpon>
       <LastGenOutput>WordBoxesModel.cs</LastGenOutput>
     </Content>
+    <Content Include=".htaccess" />
+    <Content Include="Areas\Admin\Views\Home\Users.cshtml" />
     <None Include="Properties\PublishProfiles\web.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\chart.js" />
@@ -434,7 +456,6 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\TopMenu.cshtml" />
     <Content Include="Views\Shared\MenuTemplate\SignInPartial.cshtml" />
@@ -481,6 +502,9 @@
     <Content Include="Views\Shared\Modul\SynonymWordModul.cshtml" />
     <Content Include="Views\User\deneme2.cshtml" />
     <Content Include="Views\Shared\Templates\SettingsSitePartial.cshtml" />
+    <Content Include="Views\Shared\Templates\FooterPartial.cshtml" />
+    <Content Include="Views\User\PageFound.cshtml" />
+    <Content Include="Views\User\PageError.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -500,6 +524,14 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201602101335429_InitialCreate.resx">
+      <DependentUpon>201602101335429_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201603080130551_createTimeProperty.resx">
+      <DependentUpon>201603080130551_createTimeProperty.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

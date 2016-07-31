@@ -1,0 +1,17 @@
+﻿@{
+    ViewBag.Title = "Users";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@model List<englishProject.Infrastructure.ViewModel.UserProfilView>
+
+<div class="row">
+    <div class="col-md-12">
+        <h3 class="page-header">Üyeler <small>(@Model.Count)</small></h3>
+        @foreach (var item in Model)
+        {
+            <div style="width: 150px;margin: 10px;" class="pull-left">
+                @Html.Partial("Templates/UserProfileLeftPartial", item)
+            </div>
+        }
+    </div>
+</div>

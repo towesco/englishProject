@@ -6,28 +6,27 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - wordboxes.net</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    @Html.Partial("MenuTemplate/TopMenu")
-    <div class="container">
-        <div class="row">
-            <div class="col-md-3" id="leftMenu">
-                @RenderSection("Left", false)
-            </div>
-            <div class="col-md-9">
-                @RenderBody()
+    <div class="page-wrap">
+        @Html.Partial("MenuTemplate/TopMenu")
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" id="leftMenu">
+                    @RenderSection("Left", false)
+                </div>
+                <div class="col-md-9">
+                    @RenderBody()
+                </div>
             </div>
         </div>
-
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+        <div class="push"></div>
     </div>
-
+    @Html.Partial("Templates/FooterPartial")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")

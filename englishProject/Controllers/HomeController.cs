@@ -1,12 +1,23 @@
 ﻿using englishProject.Infrastructure;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Mvc.Filters;
 
 namespace englishProject.Controllers
 {
     public class HomeController : Controller
     {
         private Operations operations;
+
+        protected override void OnAuthentication(AuthenticationContext filterContext)
+        {
+            if (filterContext.Principal.Identity.IsAuthenticated)
+            {
+                Response.Redirect("/User/index");
+            }
+
+            base.OnAuthentication(filterContext);
+        }
 
         public HomeController()
         {
@@ -15,14 +26,7 @@ namespace englishProject.Controllers
 
         public ActionResult Index()
         {
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "User");
-            }
-            else
-            {
-                return View();
-            }
+            return View();
         }
 
         public ActionResult deneme()

@@ -1,0 +1,39 @@
+﻿@using englishProject.Infrastructure
+@helper Row(string PicturePath, string UserName, DateTime commentDate, int commentId, string comment, int kind = 1)
+{
+
+    string name = HelperMethod.getUserName(UserName);
+    <div class="row ">
+        <div class="col-sm-2 text-right" style="padding-right: 0px;">
+
+            @if (kind == 1)
+            {
+                <img class="img-thumbnail img-circle hidden-xs" style="width: 80px; height: 80px" src="@PicturePath">
+            }
+            else
+            {
+                <img class="img-thumbnail img-circle hidden-xs" style="width: 60px; height: 60px" src="@PicturePath">
+            }
+        </div><!-- /col-sm-1 -->
+
+        <div class="col-sm-10" style="margin-top: @(kind==1 ? "12px" : "6px");">
+
+            <div class="panel panel-default panel-comment">
+                <div class="panel-heading">
+
+                    <strong>@name</strong> <small class="text-muted">@commentDate.ToLongDateString()</small>
+
+                    @if (kind == 1)
+                    {
+                        <button data-username="@name" data-bind="click:reply" data-toggle="tooltip" data-placement="top" title="cevapla" style="margin: -4px;" data-id="@commentId" type="button" class="btn btn-default btn-sm   text-right pull-right">
+                            <i class="fa fa-reply"></i>
+                        </button>
+                    }
+                </div>
+                <div class="panel-body">
+                    @comment
+                </div><!-- /panel-body -->
+            </div><!-- /panel panel-default -->
+        </div><!-- /col-sm-5 -->
+    </div>
+}

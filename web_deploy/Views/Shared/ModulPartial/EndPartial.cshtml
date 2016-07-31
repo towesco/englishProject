@@ -1,0 +1,37 @@
+﻿@model englishProject.Models.Level
+<div class=" alert alert-success alert-update" role="alert" data-bind="visible:endShow()" style="display: none;">
+    <div class="row">
+
+        <div id="warning" class="col-md-12  text-center" style="color: white; margin-bottom: 30px;">
+
+            <i class="fa fa-star-o fa-5x"></i><i class="fa fa-star-o fa-5x"></i><i class="fa fa-star-o fa-5x"></i>
+            <h1>
+
+                <span>BRAVOOOOOOO !!!</span>
+            </h1>
+
+            <p>
+                @if (Model != null)
+                {
+                    <strong>Bu seviyenin sonuna kadar geldin. Artık bir sonraki seviyeye geçmeye tam anlamıyla hazırsın.</strong>
+                }
+                else
+                {
+                    <strong>Bu kutudaki tüm seviyeleri başarıyla bitirdin.</strong>
+                }
+            </p>
+        </div>
+
+        <div class="col-md-12 text-right">
+
+            @if (Model != null)
+            {
+                <a href="@Url.Action("LevelExam","User",new{Model.levelId,subLevel=1})" class=" btn btn-update btn-lg"><strong> @Model.levelNumber . seviyeye geç</strong> <i class="fa fa-arrow-right"></i></a>
+            }
+            else
+            {
+                <a href="@Url.Action("Index","User")" class=" btn btn-update btn-lg"><strong>Diğer kutuları gör</strong> <i class="fa fa-arrow-right"></i></a>
+            }
+        </div>
+    </div>
+</div>
